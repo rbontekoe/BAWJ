@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Chapter 2 - Overview Julia · BAWJ</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link href="../assets/documenter.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><a href="../"><img class="logo" src="../assets/logo.png" alt="BAWJ logo"/></a><h1>BAWJ</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../">Index</a></li><li><a class="toctext" href="../chapter1/">Chapter 1 - Intro Notebook</a></li><li class="current"><a class="toctext" href>Chapter 2 - Overview Julia</a><ul class="internal"><li><a class="toctext" href="#Concatenation-1">Concatenation</a></li><li><a class="toctext" href="#Iteration-1">Iteration</a></li><li><a class="toctext" href="#Help-1">Help</a></li><li><a class="toctext" href="#User-defined-functions-1">User defined functions</a></li><li><a class="toctext" href="#User-defined-data-structures-1">User defined data structures</a></li><li><a class="toctext" href="#Plotting-data-1">Plotting data</a></li><li><a class="toctext" href="#Docker-1">Docker</a></li><li><a class="toctext" href="#Summary-1">Summary</a></li></ul></li><li><a class="toctext" href="../appendix/">Appendix</a></li><li><a class="toctext" href="../references/">References</a></li></ul></nav><article id="docs"><header><nav><ul><li><a href>Chapter 2 - Overview Julia</a></li></ul></nav><hr/><div id="topbar"><span>Chapter 2 - Overview Julia</span><a class="fa fa-bars" href="#"></a></div></header><h1><a class="nav-anchor" id="Overview-Julia-1" href="#Overview-Julia-1">Overview Julia</a></h1><ul><li><a href="#Overview-Julia-1">Overview Julia</a></li><ul><li><a href="#Concatenation-1">Concatenation</a></li><li><a href="#Iteration-1">Iteration</a></li><li><a href="#Help-1">Help</a></li><li><a href="#User-defined-functions-1">User defined functions</a></li><li><a href="#User-defined-data-structures-1">User defined data structures</a></li><li><a href="#Plotting-data-1">Plotting data</a></li><li><a href="#Docker-1">Docker</a></li><li><a href="#Summary-1">Summary</a></li></ul></ul><p>There are many excellent courses on <a href="https://julialang.org/learning/">Julia</a>. We suppose that the reader has some basic knowledge of Julia, as in <a href="https://benlauwens.github.io/ThinkJulia.jl/latest/book.html">Think Julia</a>. We recapitulate the most important differences with other languages.</p><h2><a class="nav-anchor" id="Concatenation-1" href="#Concatenation-1">Concatenation</a></h2><p>In Julia is the asterisk (*) used as a concatenation symbol instead of the plus-sign (+) in other languages.</p><pre><code class="language-">julia&gt; a = &quot;Hello &quot;
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Chapter 2 - Overview Julia · BAWJ</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link href="../assets/documenter.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><a href="../"><img class="logo" src="../assets/logo.png" alt="BAWJ logo"/></a><h1>BAWJ</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../">Index</a></li><li><a class="toctext" href="../chapter1/">Chapter 1 - Intro Notebook</a></li><li class="current"><a class="toctext" href>Chapter 2 - Overview Julia</a><ul class="internal"><li><a class="toctext" href="#Concatenation-1">Concatenation</a></li><li><a class="toctext" href="#Iteration-1">Iteration</a></li><li><a class="toctext" href="#Help-1">Help</a></li><li><a class="toctext" href="#User-defined-functions-1">User defined functions</a></li><li><a class="toctext" href="#User-defined-data-structures-1">User defined data structures</a></li><li><a class="toctext" href="#Plotting-data-1">Plotting data</a></li><li><a class="toctext" href="#Useful-to-know-Version-1.1.1-(2019-05-16)-1">Useful to know - Version 1.1.1 (2019-05-16)</a></li><li><a class="toctext" href="#Summary-1">Summary</a></li></ul></li><li><a class="toctext" href="../appendix/">Appendix</a></li><li><a class="toctext" href="../references/">References</a></li></ul></nav><article id="docs"><header><nav><ul><li><a href>Chapter 2 - Overview Julia</a></li></ul><a class="edit-page" href="https://github.com/rbontekoe/BAWJ/blob/master/docs/src/chapter2.md"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>Chapter 2 - Overview Julia</span><a class="fa fa-bars" href="#"></a></div></header><h1><a class="nav-anchor" id="Overview-Julia-1" href="#Overview-Julia-1">Overview Julia</a></h1><ul><li><a href="#Overview-Julia-1">Overview Julia</a></li><ul><li><a href="#Concatenation-1">Concatenation</a></li><li><a href="#Iteration-1">Iteration</a></li><li><a href="#Help-1">Help</a></li><li><a href="#User-defined-functions-1">User defined functions</a></li><li><a href="#User-defined-data-structures-1">User defined data structures</a></li><li><a href="#Plotting-data-1">Plotting data</a></li><li><a href="#Useful-to-know-Version-1.1.1-(2019-05-16)-1">Useful to know - Version 1.1.1 (2019-05-16)</a></li><li><a href="#Summary-1">Summary</a></li></ul></ul><p>There are many excellent courses on <a href="https://julialang.org/learning/">Julia</a>. We suppose that the reader has some basic knowledge of Julia, as in <a href="https://benlauwens.github.io/ThinkJulia.jl/latest/book.html">Think Julia</a>. We recapitulate the most important differences with other languages.</p><h2><a class="nav-anchor" id="Concatenation-1" href="#Concatenation-1">Concatenation</a></h2><p>In Julia is the asterisk (*) used as a concatenation symbol instead of the plus-sign (+) in other languages.</p><pre><code class="language-">julia&gt; a = &quot;Hello &quot;
 &quot;Hello&quot;
 
 julia&gt; b = &quot;World!&quot;
@@ -123,8 +123,102 @@ julia&gt; daisy.name
 julia&gt;</code></pre><h3><a class="nav-anchor" id="Using-Plots-1" href="#Using-Plots-1">Using Plots</a></h3><pre><code class="language-">
 julia&gt; using Plots; gr()
 
+julia&gt; plot(x -&gt; sin(x/180 * π), 0:01:360, xlabel=&quot;Degrees&quot;, title=&quot;Plot sin&quot;, label=&quot;No phase shift&quot;)
+
 julia&gt; ψ = 30 # degrees
 30
 
 julia&gt; plot!( x -&gt; sin( (x - ψ)/180 * π ), 0:01:360, label=&quot;$(ψ)° phase shift&quot;)
-</code></pre><p><a href="#Overview-Julia-1">Top</a></p><h2><a class="nav-anchor" id="Docker-1" href="#Docker-1">Docker</a></h2><p><a href="#Overview-Julia-1">Top</a></p><h2><a class="nav-anchor" id="Summary-1" href="#Summary-1">Summary</a></h2><p><a href="#Overview-Julia-1">Top</a></p><footer><hr/><a class="previous" href="../chapter1/"><span class="direction">Previous</span><span class="title">Chapter 1 - Intro Notebook</span></a><a class="next" href="../appendix/"><span class="direction">Next</span><span class="title">Appendix</span></a></footer></article></body></html>
+</code></pre><p><a href="#Overview-Julia-1">Top</a></p><h2><a class="nav-anchor" id="Useful-to-know-Version-1.1.1-(2019-05-16)-1" href="#Useful-to-know-Version-1.1.1-(2019-05-16)-1">Useful to know - Version 1.1.1 (2019-05-16)</a></h2><p>Testing conditions</p><pre><code class="language-">julia&gt; x = 5
+5
+
+julia&gt; 0 &lt; x &lt; 6
+true
+
+julia&gt; 0 ≤ x ≤ 5 # ≤  is \le&lt;Tab&gt;
+true
+
+julia&gt; 0 ≤ x ≤ 4
+false
+
+julia&gt; 5 ≥ x ≥ 0 # ≥ is \ge&lt;Tab&gt;
+true
+
+julia&gt; x ≠ 4 # ≠ is \ne&lt;Tab&gt;
+true
+</code></pre><p>Sets, symbolsπ</p><pre><code class="language-">julia&gt; a = [1, 2, 3]
+3-element Array{Int64,1}:
+ 1
+ 2
+ 3
+
+julia&gt; b = [3, 4, 5]
+3-element Array{Int64,1}:
+ 3
+ 4
+ 5
+
+julia&gt; a ∩ b # ∩ is \cap&lt;Tab&gt;, also intersect(a, b)
+1-element Array{Int64,1}:
+ 3
+
+julia&gt; a ∪ b # ∩ is \cup&lt;Tab&gt;, also union(a, b)
+5-element Array{Int64,1}:
+ 1
+ 2
+ 3
+ 4
+ 5
+
+julia&gt; symdiff(a, b) # forgot the symbol
+4-element Array{Int64,1}:
+ 1
+ 2
+ 4
+ 5
+
+julia&gt; 3 ∈ a # 3 element of a, \in&lt;Tab&gt;
+true
+
+julia&gt; 3 ∉ a # 3 not an element of a, \notin&lt;Tab&gt;
+false
+
+julia&gt; a ⊆ b # a subset of b, ⊆ is \subseteq&lt;Tab&gt;
+false
+
+julia&gt; b ⊇ [3, 4] # b is superset of [3, 4], ⊆ = \supseteq&lt;Tab&gt;
+true</code></pre><p>Natural constant ℯ and π</p><pre><code class="language-">
+julia&gt; ℯ # \euler&lt;Tab&gt;
+ℯ = 2.7182818284590...
+
+julia&gt; π # \pi&lt;Tab&gt;
+π = 3.1415926535897...
+
+julia&gt; factorial(4)
+24
+
+julia&gt; 1*2*3*4
+24</code></pre><p>Functional programming</p><pre><code class="language-">
+julia&gt; a = [2, 3, 4]
+3-element Array{Int64,1}:
+ 2
+ 3
+ 4
+
+julia&gt; map(x -&gt; x^2, a)
+3-element Array{Int64,1}:
+ 4
+ 9
+16
+
+julia&gt; reduce( (x, y) -&gt; x + y, a)
+9
+
+julia&gt; sum(a)
+9
+
+julia&gt; reduce( (x, y) -&gt; x^2 + y^2, a)
+185
+
+julia&gt; (2^2 + 3^2)^2 + 4^2
+185</code></pre><p><a href="#Overview-Julia-1">Top</a></p><h2><a class="nav-anchor" id="Summary-1" href="#Summary-1">Summary</a></h2><p><a href="#Overview-Julia-1">Top</a></p><footer><hr/><a class="previous" href="../chapter1/"><span class="direction">Previous</span><span class="title">Chapter 1 - Intro Notebook</span></a><a class="next" href="../appendix/"><span class="direction">Next</span><span class="title">Appendix</span></a></footer></article></body></html>

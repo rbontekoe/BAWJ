@@ -205,7 +205,119 @@ julia> plot!( x -> sin( (x - ψ)/180 * π ), 0:01:360, label="$(ψ)° phase shif
 
 [Top](#Overview-Julia-1)
 
-## Docker
+## Useful to know - Version 1.1.1 (2019-05-16)
+
+Testing conditions
+```@docstr
+julia> x = 5
+5
+
+julia> 0 < x < 6
+true
+
+julia> 0 ≤ x ≤ 5 # ≤  is \le<Tab>
+true
+
+julia> 0 ≤ x ≤ 4
+false
+
+julia> 5 ≥ x ≥ 0 # ≥ is \ge<Tab>
+true
+
+julia> x ≠ 4 # ≠ is \ne<Tab>
+true
+
+```
+
+Sets, symbolsπ
+```@docstr
+julia> a = [1, 2, 3]
+3-element Array{Int64,1}:
+ 1
+ 2
+ 3
+
+julia> b = [3, 4, 5]
+3-element Array{Int64,1}:
+ 3
+ 4
+ 5
+
+julia> a ∩ b # ∩ is \cap<Tab>, also intersect(a, b)
+1-element Array{Int64,1}:
+ 3
+
+julia> a ∪ b # ∩ is \cup<Tab>, also union(a, b)
+5-element Array{Int64,1}:
+ 1
+ 2
+ 3
+ 4
+ 5
+
+julia> symdiff(a, b) # forgot the symbol
+4-element Array{Int64,1}:
+ 1
+ 2
+ 4
+ 5
+
+julia> 3 ∈ a # 3 element of a, \in<Tab>
+true
+
+julia> 3 ∉ a # 3 not an element of a, \notin<Tab>
+false
+
+julia> a ⊆ b # a subset of b, ⊆ is \subseteq<Tab>
+false
+
+julia> b ⊇ [3, 4] # b is superset of [3, 4], ⊆ = \supseteq<Tab>
+true
+```
+
+Natural constant ℯ and π
+```@docstr
+
+julia> ℯ # \euler<Tab>
+ℯ = 2.7182818284590...
+
+julia> π # \pi<Tab>
+π = 3.1415926535897...
+
+julia> factorial(4)
+24
+
+julia> 1*2*3*4
+24
+```
+
+Functional programming
+```@docstr
+
+julia> a = [2, 3, 4]
+3-element Array{Int64,1}:
+ 2
+ 3
+ 4
+
+julia> map(x -> x^2, a)
+3-element Array{Int64,1}:
+ 4
+ 9
+16
+
+julia> reduce( (x, y) -> x + y, a)
+9
+
+julia> sum(a)
+9
+
+julia> reduce( (x, y) -> x^2 + y^2, a)
+185
+
+julia> (2^2 + 3^2)^2 + 4^2
+185
+```
 
 [Top](#Overview-Julia-1)
 
