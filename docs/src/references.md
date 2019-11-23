@@ -7,6 +7,7 @@
 - [Parallel Computing](https://github.com/crstnbr/JuliaWorkshop19/blob/master/3_Three/1_parallel_computing.ipynb)
 
 ## Julia Wikibooks
+- [Index](https://en.wikibooks.org/wiki/Introducing_Julia)
 - [Introducing Julia/Types](https://en.wikibooks.org/wiki/Introducing_Julia/Types)
 
 ## Julia Machine Learning
