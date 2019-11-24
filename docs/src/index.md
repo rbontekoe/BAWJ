@@ -16,7 +16,7 @@ At the beginning of 2019, a recruiter told me that the interest in Scala in the 
 
 I decided to stop with Scala and picked up my Julia observer trial project again. From the code, I created a Julia package, RbO.jl.
 
-It turned out that I could create beautiful documentation, using the package Documenter.jl. You write it in the markdown language and can insert examples of how to use your code. During the creation of the HTML code, you can have the cases tested, which is useful if you later expand the module and generate the documentation again. The documentation can be seen at the [GitHub Pages](https://www.appligate.nl/RbO.jl/).
+It turned out that you can create effective documentation, using the package Documenter.jl. You write it in the markdown language and can insert examples of how to use your code. During the creation of the HTML code, you can have the cases tested, which is useful if you later expand the module and generate the documentation again. The documentation can be seen at the [GitHub Pages](https://www.appligate.nl/RbO.jl/).
 
 I had already a GitHub Pages profile, and thought: "Why not set up the AppliGate website in this way and link it to my profile." I did it: [https://www,appligate.nl](https://www.appligate.nl/).
 
