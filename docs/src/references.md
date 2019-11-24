@@ -1,4 +1,4 @@
-# references
+# References
 
 ## Julia
 - [The Emergent Features of JuliaLang: Part I](https://invenia.github.io/blog/2019/10/30/julialang-features-part-1/)
