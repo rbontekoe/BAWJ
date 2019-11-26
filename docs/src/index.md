@@ -2,6 +2,8 @@
 
 # Building Business Applications with Julia
 
+*In this course, you learn to create Julia modules. The software you write makes use of these modules and runs in Docker containers.*
+
 ## Preface
 
 In July 2018, I read an article about a new programming language that was rapidly gaining in popularity, [Julia](https://julialang.org/). It appealed to me how you could define a function. Almost exactly as I learned it during my bachelor study Electronics: f(x) = 2x² + 3x + 1, in Julia written as 2x^2 + 3x + 1. Then I set up a project to learn how to implement the observer pattern. It was easy, but I left it out because I was working on Scala at that moment.
@@ -32,5 +34,10 @@ Rob Bontekoe
 ## Index (Course is under development)
 
 ```@contents
-Pages = ["index.md", "chapter1.md", "chapter2.md", "appendix.md", "references.md"]
+Pages = ["index.md",
+"chapter1.md",
+"chapter2.md",
+"chapter3.md",
+"appendix.md",
+"references.md"]
 ```

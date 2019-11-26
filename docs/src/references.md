@@ -5,17 +5,21 @@
 - [The Emergent Features of JuliaLang: Part II - Traits](https://invenia.github.io/blog/2019/11/06/julialang-features-part-2/)
 - [Think Julia](https://benlauwens.github.io/ThinkJulia.jl/latest/book.html)
 - [Parallel Computing](https://github.com/crstnbr/JuliaWorkshop19/blob/master/3_Three/1_parallel_computing.ipynb)
+- [Multiple Computer Example](https://discourse.julialang.org/t/multiple-computer-example/10518)
 
 ## Julia Wikibooks
 - [Index](https://en.wikibooks.org/wiki/Introducing_Julia)
 - [Introducing Julia/Types](https://en.wikibooks.org/wiki/Introducing_Julia/Types)
 
 ## Julia Machine Learning
--
+- [Data science for managers: Programming languages](https://www.datasciencecentral.com/profiles/blogs/data-science-for-managers-programming-languages)
 
 ## Julia Package Manger
 - [A Brief Introduction to Package Management with Julia 1.0](https://www.simonwenkel.com/2018/10/06/a-brief-introduction-to-package-management-with-julia.html)
 - [Pkg + BinaryBuilder -- The Next Generation](https://julialang.org/blog/2019/11/artifacts)
+
+## IJulia
+- [Running a notebook server](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html)
 
 ## Atom/Juno Documentation
 - [Juno Documentation](http://docs.junolab.org/latest/man/installation/)

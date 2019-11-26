@@ -1,4 +1,4 @@
-# Introduction Notebook
+# 1. Introduction Notebook
 
 ```@contents
 Pages = ["chapter1.md"]
