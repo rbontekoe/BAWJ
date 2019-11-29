@@ -1,2 +1,105 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>4 - Implementing the design · BAWJ</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link href="../assets/documenter.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><a href="../"><img class="logo" src="../assets/logo.png" alt="BAWJ logo"/></a><h1>BAWJ</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../">Business Applications with Julia</a></li><li><a class="toctext" href="../chapter1/">1 - Intro Notebook</a></li><li><a class="toctext" href="../chapter2/">2 - Overview Julia</a></li><li><a class="toctext" href="../chapter3/">3 - Set up the design</a></li><li class="current"><a class="toctext" href>4 - Implementing the design</a><ul class="internal"><li><a class="toctext" href="#Stucts-1">Stucts</a></li><li><a class="toctext" href="#Course-1">Course</a></li><li><a class="toctext" href="#Storage-1">Storage</a></li></ul></li><li><a class="toctext" href="../chapter5/">5 - Writing test software</a></li><li><a class="toctext" href="../chapter6/">6 - Creating the modules</a></li><li><a class="toctext" href="../chapter7/">7 - Documenting the modules</a></li><li><a class="toctext" href="../chapter8/">8 - Creating our microservices</a></li><li><a class="toctext" href="../chapter9/">9 - Running the containers</a></li><li><a class="toctext" href="../appendix/">Appendix</a></li><li><a class="toctext" href="../references/">References</a></li></ul></nav><article id="docs"><header><nav><ul><li><a href>4 - Implementing the design</a></li></ul><a class="edit-page" href="https://github.com/rbontekoe/BAWJ/blob/master/docs/src/chapter4.md"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>4 - Implementing the design</span><a class="fa fa-bars" href="#"></a></div></header><h1><a class="nav-anchor" id=".-Implementing-the-design-1" href="#.-Implementing-the-design-1">4. Implementing the design</a></h1><h2><a class="nav-anchor" id="Stucts-1" href="#Stucts-1">Stucts</a></h2><h2><a class="nav-anchor" id="Course-1" href="#Course-1">Course</a></h2><h3><a class="nav-anchor" id="Domain-1" href="#Domain-1">Domain</a></h3><h3><a class="nav-anchor" id="API-1" href="#API-1">API</a></h3><h2><a class="nav-anchor" id="Storage-1" href="#Storage-1">Storage</a></h2><h3><a class="nav-anchor" id="Infrastructure-1" href="#Infrastructure-1">Infrastructure</a></h3><h3><a class="nav-anchor" id="Registration-1" href="#Registration-1">Registration</a></h3><h3><a class="nav-anchor" id="Domain-2" href="#Domain-2">Domain</a></h3><h3><a class="nav-anchor" id="API-2" href="#API-2">API</a></h3><h3><a class="nav-anchor" id="Infrastructure-2" href="#Infrastructure-2">Infrastructure</a></h3><footer><hr/><a class="previous" href="../chapter3/"><span class="direction">Previous</span><span class="title">3 - Set up the design</span></a><a class="next" href="../chapter5/"><span class="direction">Next</span><span class="title">5 - Writing test software</span></a></footer></article></body></html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>4 - Implementing the design · BAWJ</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link href="../assets/documenter.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><a href="../"><img class="logo" src="../assets/logo.png" alt="BAWJ logo"/></a><h1>BAWJ</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../">Business Applications with Julia</a></li><li><a class="toctext" href="../chapter1/">1 - Intro Notebook</a></li><li><a class="toctext" href="../chapter2/">2 - Overview Julia</a></li><li><a class="toctext" href="../chapter3/">3 - Set-up the design</a></li><li class="current"><a class="toctext" href>4 - Implementing the design</a><ul class="internal"><li><a class="toctext" href="#Set-up-development-environment-1">Set-up development environment</a></li><li><a class="toctext" href="#Domain-1">Domain</a></li><li><a class="toctext" href="#Creating-the-invoice-items-1">Creating the invoice items</a></li><li><a class="toctext" href="#Adding-constructors-1">Adding constructors</a></li><li><a class="toctext" href="#Testing-the-invoice-1">Testing the invoice</a></li><li><a class="toctext" href="#API-1">API</a></li><li><a class="toctext" href="#Storage-1">Storage</a></li><li><a class="toctext" href="#Infrastructure-1">Infrastructure</a></li></ul></li><li><a class="toctext" href="../chapter5/">5 - Writing test software</a></li><li><a class="toctext" href="../chapter6/">6 - Creating the modules</a></li><li><a class="toctext" href="../chapter7/">7 - Documenting the modules</a></li><li><a class="toctext" href="../chapter8/">8 - Creating our microservices</a></li><li><a class="toctext" href="../chapter9/">9 - Running the containers</a></li><li><a class="toctext" href="../appendix/">Appendix</a></li><li><a class="toctext" href="../references/">References</a></li></ul></nav><article id="docs"><header><nav><ul><li><a href>4 - Implementing the design</a></li></ul><a class="edit-page" href="https://github.com/rbontekoe/BAWJ/blob/master/docs/src/chapter4.md"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>4 - Implementing the design</span><a class="fa fa-bars" href="#"></a></div></header><h1><a class="nav-anchor" id=".-Implementing-the-design-1" href="#.-Implementing-the-design-1">4. Implementing the design</a></h1><h2><a class="nav-anchor" id="Set-up-development-environment-1" href="#Set-up-development-environment-1">Set-up development environment</a></h2><h3><a class="nav-anchor" id="Application-folder-and-file-structure-1" href="#Application-folder-and-file-structure-1">Application folder and file structure</a></h3><p>The final folder structure and files for our Julia application.</p><pre><code class="language-none">tci.jl
+- src
+  - api
+    - api.jl
+  - domain
+    - domain.jl
+  - infrastructure
+    - inftrastructure.jl
+    - db.jl
+  - main.jl
+  - tcl.jl
+- test
+  - runtests.jl</code></pre><p><em>Figure 1</em></p><h3><a class="nav-anchor" id="Activity:-Create-the-minimum-folder-structure-and-file-domain.jl-1" href="#Activity:-Create-the-minimum-folder-structure-and-file-domain.jl-1">Activity: Create the minimum folder structure and file domain.jl</a></h3><p>In this activity you will create the folder structure for our <code>invoicing</code> process. You partial tet-up the folder structure according to figure 1:</p><ul><li>Create the base folder tci.jl.</li><li>Create the subfolders <code>src</code> and <code>domain</code>.</li><li>Create the file domain.jl.</li></ul><table><tr><th style="text-align: left">Step</th><th style="text-align: left">Action</th><th style="text-align: left">Comment</th></tr><tr><td style="text-align: left">1</td><td style="text-align: left">$ mkdir tcj.jl</td><td style="text-align: left">mkdir is the linux command to create a folder.</td></tr><tr><td style="text-align: left">2</td><td style="text-align: left">$ cd tcl.jl</td><td style="text-align: left">Change to the new created folder.</td></tr><tr><td style="text-align: left">3</td><td style="text-align: left">$ atom .</td><td style="text-align: left">Start Atom in the current directory tcl.jl. <strong>Don&#39;t forget the point (.)</strong>. Here are the instructions to install <a href="http://docs.junolab.org/latest/man/installation/">Atom/Juno</a> if you haven&#39;t done it already.</td></tr><tr><td style="text-align: left">4</td><td style="text-align: left">Remove all Taps in the right pane.</td><td style="text-align: left">The Tabs are: Telemerty Consent, Welcome, and Welcom Guide. A tab will be remove by clicking on the x-symbol.</td></tr><tr><td style="text-align: left">5</td><td style="text-align: left">Right click on: tci.jl</td><td style="text-align: left">tci.jl is the base folder. It will also be the name of our future module.</td></tr><tr><td style="text-align: left">6</td><td style="text-align: left">Select: <code>New folder</code></td><td style="text-align: left">Dialog box <code>+ Enter the path for the new folder.</code> appears.</td></tr><tr><td style="text-align: left">7</td><td style="text-align: left">Type: <code>src</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">8</td><td style="text-align: left">Press: &lt;Enter&gt;</td><td style="text-align: left">The new folder appears under the folder tci.jl</td></tr><tr><td style="text-align: left">9</td><td style="text-align: left">Right click on: <code>src</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">10</td><td style="text-align: left">Select: <code>New folder</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">11</td><td style="text-align: left">Type: <code>domain</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">12</td><td style="text-align: left">Press: &lt;Enter&gt;</td><td style="text-align: left">The new folder <code>domain</code> appears under the folder <code>src</code>.</td></tr><tr><td style="text-align: left">13</td><td style="text-align: left">Select the folder: <code>src</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">14</td><td style="text-align: left">RightS click on: <code>domain</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">15</td><td style="text-align: left">Select: <code>New file</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">16</td><td style="text-align: left">Type: <code>domain.jl</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">17</td><td style="text-align: left">Press: &lt;Enter&gt;</td><td style="text-align: left">A new document appears in the pane next to the navigation pane.</td></tr></table><p>In the navigation pane you see the next folders and files:</p><pre><code class="language-none">- tci.jl
+  - src
+    - domain
+      - domain.jl</code></pre><h2><a class="nav-anchor" id="Domain-1" href="#Domain-1">Domain</a></h2><p>For the domain object we will use <code>strut</code>s. With the strut you can define a data type. There are abstract types and concrete types. We start with the concrete type.</p><h3><a class="nav-anchor" id="Concrete-data-types-1" href="#Concrete-data-types-1">Concrete data types</a></h3><p>In the previous <a href="#The-design-1">chapter</a> we found the next resources for which we will create <code>struct</code>s:</p><ul><li>Invoice.</li><li>InvoiceStatus: UNPAID, PAID.</li><li>JournalRecord.</li><li>Message.</li></ul><p>The invoice structure.</p><h2><a class="nav-anchor" id="Creating-the-invoice-items-1" href="#Creating-the-invoice-items-1">Creating the invoice items</a></h2><p>Let&#39;s say that the invoice has a header and a body. We also have to do some calculations, e.g, the VAT. SAnd, we want to refer to the training and the orders, which are most likely stored at another entities, e.g. Marketing, and Sales.</p><p>To keep things clear we create the following objects:</p><ul><li>HeaderInvoice.</li><li>BodyInvoice.</li><li>MetaInvoice.</li></ul><p>Next, we combine these objects in blocks into the InvouceTraining.</p><h3><a class="nav-anchor" id="HeaderInvoice-1" href="#HeaderInvoice-1">HeaderInvoice</a></h3><p>We use the keyword <code>struct</code> to define a data structure. You give it a name and on the next line you mention the fields and their data types.</p><pre><code class="language-julia">struct HeaderInvoice
+    invoiceNbr::String
+    nameOrganization::String
+    cityOrganization::String
+    orderRefOrganization::String
+    nameContact::String
+    emailContact::String
+end # defined HeaderInvoice</code></pre><h3><a class="nav-anchor" id="BodyInvoice-1" href="#BodyInvoice-1">BodyInvoice</a></h3><pre><code class="language-julia">struct BodyInvoice
+    nameTraining::String
+    pricePerStudent::Float64
+    students::Array{String, 1}
+end # defined BodyInvoice</code></pre><h3><a class="nav-anchor" id="MetaInvoice-1" href="#MetaInvoice-1">MetaInvoice</a></h3><pre><code class="language-julia">struct MetaInvoice
+    orderId::String
+    trainingId::String
+    date::DateTime
+    vatPercentage::Float64
+    currency::String
+    currencyRatio::Float64 #  against the euro
+end # defined MetaInvoice</code></pre><h3><a class="nav-anchor" id="Enumerators-1" href="#Enumerators-1">Enumerators</a></h3><pre><code class="language-julia">@enum InvoiceStatus begin
+    UNPAID
+    PAID
+end # defined enumerator for InvoiceStatus</code></pre><h3><a class="nav-anchor" id="InvoiceTraining-1" href="#InvoiceTraining-1">InvoiceTraining</a></h3><pre><code class="language-julia">struct InvoiceTraining
+    id::String
+    date::DateTime
+    meta::MetaInvoice
+    header::HeaderInvoice
+    body::BodyInvoice
+    status::InvoiceStatus
+end # defined InvoiceTraining</code></pre><h2><a class="nav-anchor" id="Adding-constructors-1" href="#Adding-constructors-1">Adding constructors</a></h2><h3><a class="nav-anchor" id="MetaInvoice-2" href="#MetaInvoice-2">MetaInvoice</a></h3><pre><code class="language-julia">using DateTime
+
+struct MetaInvoice
+    ...
+    # Constructores
+    MetaInvoice() = new(&quot;&quot;, &quot;&quot;, now(), 0.21, &quot;€&quot;, 1)
+    #MetaInvoice(orderId, trainingId) = new(orderId, trainingId, now(), date, 0.21, &quot;€&quot;, 1)
+    MetaInvoice(orderId, trainingId, date, vatPercentage, currency, currencyRatio) =
+        new(orderId, trainingId, date, vatPercentage, currency, currencyRatio)
+end # defined MetaInvoice</code></pre><h4><a class="nav-anchor" id="InvoiceTraining-2" href="#InvoiceTraining-2">InvoiceTraining</a></h4><pre><code class="language-julia">using DateTime
+
+struct InvoiceTraining
+    ...
+    # Constructors
+    InvoiceTraining(headerInvoice, bodyInvoice ) =
+        new( &quot;&quot;, now(), MetaInvoice(), headerInvoice, bodyInvoice, UNPAID )
+    InvoiceTraining(id, date, meta, headerInvoice, bodyInvoice, status) =
+        new( id, date, meta, date, headerInvoice, bodyInvoice,  status )
+end # defined InvoiceTraining</code></pre><h2><a class="nav-anchor" id="Testing-the-invoice-1" href="#Testing-the-invoice-1">Testing the invoice</a></h2><pre><code class="language-julia"># main.jl
+
+include(&quot;domain/domain.jl&quot;)
+
+headerInvoice = HeaderInvoice(&quot;1001&quot;, &quot;AppliGate&quot;, &quot;Landweg 74\n3833 VM Leusden,\nNetherlands&quot;, &quot;PO123&quot;, &quot;Rob Bontekoe&quot;, &quot;r@b.nl&quot;)
+bodyInvoice = BodyInvoice(&quot;Learn Smiling, Aug 30, 31 2019 &quot;, 1000.0, [&quot;Jan&quot;, &quot;Piet&quot;])
+inv = InvoiceTraining(headerInvoice, bodyInvoice)
+
+# print header
+println(inv.header.nameOrganization)
+println(&quot;Attn. $(inv.header.nameContact)&quot;)
+println(&quot;$(inv.header.cityOrganization)&quot;)
+println()
+print(&quot;INVOICE&quot;)
+println(&quot;Date: $(Date(inv.date))&quot;)
+println(&quot;Invoice number: $(inv.header.invoiceNbr)&quot;)
+println(&quot;=&quot;^40)
+println(&quot;Reference: $(inv.header.orderRefOrganization)&quot;)
+println()
+println(&quot;Training: $(inv.body.nameTraining)&quot;)
+println()
+nbrStudents = length(inv.body.students)
+unitprice = round(inv.body.pricePerStudent * inv.meta.currencyRatio; digits=2)
+price = round(nbrStudents * unitprice; digits=2)
+vat = round(price*inv.meta.vatPercentage; digits=2)
+totalprice = round(price + vat; digits=2)
+symbol = inv.meta.currency
+
+using Printf # package for formatting numbers
+
+println(&quot;#     Price                        Total&quot;)
+println(&quot;=&quot;^40)
+println(&quot;$nbrStudents     $(@sprintf(&quot;%.2f&quot;, unitprice))                   $symbol$(@sprintf(&quot;%.2f&quot;, price))&quot;)
+println()
+println(&quot;STUDENT(S)&quot;)
+println(&quot;-&quot;^20)
+for name in inv.body.students
+    println(name)
+end
+println()
+println(&quot;VAT                              $symbol$(@sprintf(&quot;%.2f&quot;, vat))&quot;)
+println(&quot;=&quot;^40)
+println(&quot;Total price                     $symbol$(@sprintf(&quot;%.2f&quot;, totalprice))&quot;)</code></pre><h2><a class="nav-anchor" id="API-1" href="#API-1">API</a></h2><h2><a class="nav-anchor" id="Storage-1" href="#Storage-1">Storage</a></h2><h2><a class="nav-anchor" id="Infrastructure-1" href="#Infrastructure-1">Infrastructure</a></h2><footer><hr/><a class="previous" href="../chapter3/"><span class="direction">Previous</span><span class="title">3 - Set-up the design</span></a><a class="next" href="../chapter5/"><span class="direction">Next</span><span class="title">5 - Writing test software</span></a></footer></article></body></html>
