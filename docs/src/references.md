@@ -1,11 +1,13 @@
 # References
 
 ## Julia
+- [Think Julia](https://benlauwens.github.io/ThinkJulia.jl/latest/book.html)
 - [The Emergent Features of JuliaLang: Part I](https://invenia.github.io/blog/2019/10/30/julialang-features-part-1/)
 - [The Emergent Features of JuliaLang: Part II - Traits](https://invenia.github.io/blog/2019/11/06/julialang-features-part-2/)
-- [Think Julia](https://benlauwens.github.io/ThinkJulia.jl/latest/book.html)
 - [Parallel Computing](https://github.com/crstnbr/JuliaWorkshop19/blob/master/3_Three/1_parallel_computing.ipynb)
-- [Multiple Computer Example](https://discourse.julialang.org/t/multiple-computer-example/10518)
+
+## Julia Unicode
+- [Unicode Input](https://docs.julialang.org/en/v1/manual/unicode-input/)
 
 ## Julia Wikibooks
 - [Index](https://en.wikibooks.org/wiki/Introducing_Julia)
@@ -25,6 +27,8 @@
 - [Juno Documentation](http://docs.junolab.org/latest/man/installation/)
 
 ## Docker
+- [Dockerize an SSH service](https://docs.docker.com/engine/examples/running_ssh_service/)
+- [Multiple Computer Example](https://discourse.julialang.org/t/multiple-computer-example/10518)
 - [Running the "Real Time Voice Cloning" project in Docker](https://sean.lane.sh/posts/2019/07/Running-the-Real-Time-Voice-Cloning-project-in-Docker/)
 
 ## Miscellaneous
