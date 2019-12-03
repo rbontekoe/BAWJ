@@ -5,6 +5,7 @@
 - [The Emergent Features of JuliaLang: Part I](https://invenia.github.io/blog/2019/10/30/julialang-features-part-1/)
 - [The Emergent Features of JuliaLang: Part II - Traits](https://invenia.github.io/blog/2019/11/06/julialang-features-part-2/)
 - [Parallel Computing](https://github.com/crstnbr/JuliaWorkshop19/blob/master/3_Three/1_parallel_computing.ipynb)
+- [NaelsonDouglas/DistributedMachineLearningThesis](https://github.com/NaelsonDouglas/DistributedMachineLearningThesis)
 
 ## Julia Unicode
 - [Unicode Input](https://docs.julialang.org/en/v1/manual/unicode-input/)
