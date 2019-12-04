@@ -20,6 +20,7 @@
 ## Julia Package Manger
 - [A Brief Introduction to Package Management with Julia 1.0](https://www.simonwenkel.com/2018/10/06/a-brief-introduction-to-package-management-with-julia.html)
 - [Pkg + BinaryBuilder -- The Next Generation](https://julialang.org/blog/2019/11/artifacts)
+- [Overview popular Julia packages](https://juliaobserver.com/packages)
 
 ## IJulia
 - [Running a notebook server](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html)
@@ -29,6 +30,7 @@
 
 ## Docker
 - [Dockerize an SSH service](https://docs.docker.com/engine/examples/running_ssh_service/)
+- [ssh key generation using dockerfile](https://stackoverflow.com/questions/27504187/ssh-key-generation-using-dockerfile)
 - [Multiple Computer Example](https://discourse.julialang.org/t/multiple-computer-example/10518)
 - [Running the "Real Time Voice Cloning" project in Docker](https://sean.lane.sh/posts/2019/07/Running-the-Real-Time-Voice-Cloning-project-in-Docker/)
 
