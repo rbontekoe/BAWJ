@@ -94,3 +94,11 @@ What I tried three weeks before 12/01/2019: **machine -> machine** connection.
 | 7 | $ ssh pi@192.168.XXX.XXX | Connect to raspberry pi |
 | 8 | $ chmod 700 ~/.ssh | Change right the folder .ssh on Raspberry Pi |
 | 9 | $ chmod 600 ~/.ssh/authorized_keys | Change right of the file autorized_keys on Raspberry Pi|
+
+
+TODO: Lookup first what I did in the past! Want to use volumes in case container crashes, security, etc.
+
+| Step | Action | Comment
+| :--- | :--- | :--- |
+| 8 | $ chmod 700 ~/.ssh | Change right the folder .ssh on Raspberry Pi |
+| 9 | $ chmod 600 ~/.ssh/authorized_keys | Change right of the file authorized_keys on Raspberry Pi|

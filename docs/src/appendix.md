@@ -10,7 +10,19 @@ In the course setup I use my machine as IJulia Notebook server.
 
 Ideas are from [Andre Ferrari](https://github.com/andferrari/julia_notebook)
 
+
+## Install Julia
+
+Prerequisites
+- Your computer OS is Ubuntu 18.04.
+
+|Step        | Action      | Comment |
+|:---------- | :---------- |:---------- |
+
 ## Install Docker
+
+Prerequisites
+- Your computer OS is Ubuntu 18.04.
 
 See: [How To Install Docker On Ubuntu 18.04 Bionic Beaver](https://phoenixnap.com/kb/how-to-install-docker-on-ubuntu-18-04)
 
@@ -25,7 +37,11 @@ See: [How To Install Docker On Ubuntu 18.04 Bionic Beaver](https://phoenixnap.co
 
 ## Dockerfile
 
-If you have installed Docker, you can create a Docker `Image` from a Dockerfile. From this image you can create [Docker containers](https://www.docker.com/resources/what-container).
+Prerequisites
+- Your computer OS is Ubuntu 18.04.
+- You have installed Dockerversion version 0.18.0 or higher.
+
+If you have installed Docker, you can create a Docker `Image` from a Dockerfile. From an image you can create [Docker containers](https://www.docker.com/resources/what-container).
 
 ```docker
 FROM "jupyter/minimal-notebook"
@@ -57,6 +73,10 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
 ```
 
 ## Install IJulia
+
+Prerequisites
+- Your computer OS is Ubuntu 18.04.
+- You have installed Dockerversion version 0.18.0 or higher.
 
 !!! note
 

@@ -20,7 +20,7 @@ makedocs(
         ],
         "Section 4 - SSH enabled containers" => [
             "8 - Introduction" => "chapter8.md",
-            "9 - Ubuntu 18.04" => "chapter9.md",
+            "9 - Create the Container" => "chapter9.md",
             "10 - Raspberry Pi" => "chapter10.md"
         ],
         "Section 5 Up and running" => [
