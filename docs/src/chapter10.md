@@ -1,4 +1,4 @@
-# 9. Creating containers on Raspberry Pi
+# 9. Creating containers on the Raspberry Pi
 
 **UNDER DEVELOPMENT!**
 

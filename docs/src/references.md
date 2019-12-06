@@ -37,3 +37,4 @@
 ## Miscellaneous
 - [Auto Cue](https://www.cueprompter.com/nl/)
 - [This AI Clones Your Voice After Listening for 5 Seconds](https://www.youtube.com/watch?v=0sR1rU3gLzQ&t=148s)
+- [Julia Computing and NVIDIA Bring Julia GPU Computing to Arm](https://juliacomputing.com/blog/2019/12/03/nvidia-ngc-arm.html)

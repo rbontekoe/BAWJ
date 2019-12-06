@@ -1,4 +1,4 @@
-# Create the Container
+# Creating SSH enabled Containers
 
 ## Index
 ```@contents
@@ -68,7 +68,7 @@ You have created the keys before, no further action is required. The file id_rsa
 | 6 | $ chmod 700 ~/.ssh | Change right the folder .ssh |
 | 7 | $ chmod 600 ~/.ssh/authorized_keys | Change right of the file authorized_keys |
 
-## Activity 2 \- Create a SSH enabled container
+## Activity 2 \- Create the Container
 
 Prerequisites:
 - Your system has Ubuntu 18.04 that runs on an Intel x86 processor.
@@ -168,7 +168,7 @@ Is the information correct? [Y/n] Y
 | 6 | Ctrl-D | Leave the container. |
 
 
-## Activity 3 - Install Julia in the container
+## Activity 3 - Install Julia
 
 Prerequisites:
 - Your system has Ubuntu 18.04 running on the Intel x86 processor.
@@ -234,7 +234,7 @@ julia>
 | 14 | $ sudo ln -s /home/rob/julia/julia-1.3.0/bin/julia /usr/local/bin/julia | Create link. |
 | 15 | $ julia | Start Julia. |
 
-## Activity 4 \- Test the SSH enabled container.
+## Activity 4 \- Test the container.
 
 Prerequisites:
 - You have an SSH enabled container.
