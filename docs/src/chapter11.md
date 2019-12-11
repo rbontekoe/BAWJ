@@ -30,7 +30,98 @@ $ ssh 192.168.xxx.xxx -p 32768
 
 Install RbO in both containers, [Example of adding the module](https://www.appligate.nl/RbO.jl/module_a/#Example-of-adding-the-module-1)
 
-## Example 1
+
+## The Example
+
+New approach. Process continuously running on test_sshd2.
+
+### main.jl
+
+```
+using Distributed
+
+# body remote application. funct except only one argument.
+
+function remote_body(pid::Int, funct)
+    tx = RemoteChannel(() -> Channel(32)) # transmit channel
+    rx = RemoteChannel(() -> Channel(32)) # receive channel
+    @async @spawnat pid begin
+        while true
+            if isready(tx)
+                value = take!(tx)
+                result = funct(value) # function is passed as argument
+                #@show result
+                put!(rx, result)
+            else
+                sleep(0.1)
+            end
+        end
+    end
+    tx, rx # return  transmit and receive channel
+end # defined remote_body
+
+d = Dict([]) # empty directory for container -> pids
+```
+
+
+### CODE EXAMPLE
+
+```
+julia> include("main.jl")
+Dict{Any,Any} with 0 entries
+
+julia> addprocs([("rob@172.17.0.3", 1)])
+1-element Array{Int64,1}:
+ 2
+
+julia> d["test_sshd2"] = last(workers())
+2
+
+julia> @everywhere using RbO
+
+julia> tx1, rx1 = remote_body(d["test_sshd2"], createSubscriber)
+(RemoteChannel{Channel{Any}}(1, 1, 7), RemoteChannel{Channel{Any}}(1, 1, 8))
+
+julia> tx2, rx2 = remote_body(d["test_sshd2"], createPublisher)
+(RemoteChannel{Channel{Any}}(1, 1, 10), RemoteChannel{Channel{Any}}(1, 1, 11))
+
+julia> put!(tx1, "Donald Duck") # transmit value "Donald Duck" to container
+RemoteChannel{Channel{Any}}(1, 1, 7)
+
+julia> put!(tx2, "The New York Times")
+RemoteChannel{Channel{Any}}(1, 1, 10)
+
+julia> isready(rx1) ? take!(rx1) : "" # receive result
+Subscriber("1687381951631187484", "Donald Duck", "", MEAN_CALCULATOR)
+
+julia> isready(rx2) ? take!(rx2) : ""
+Publisher("18206665133840381206", "The New York Times", NEWSPAPER, Subscriber[])
+
+```
+
+
+### Test the connection (temporally)
+
+```
+julia> p = is_container_running(d["test_sshd2"])
+false
+
+julia> if p
+           donald = createSubscriber(" donald duck")
+           rx = test(donald)
+           sleep(1)
+           result =  isready(rx) ? take!(rx) : ""
+           println("Test: $result")
+       else
+           addprocs([("rob@172.17.0.3", 1)])
+           d["test_sshd2"] = last(workers())
+           @everywhere using RbO
+           println("Not connected, please restart.")
+       end
+Not connected, please restart.
+```
+
+## Example the old idea
 
 The code to run:
 
@@ -91,147 +182,4 @@ julia> try
            d["test_sshd2"] = last(workers())
        end
 RemoteChannel{Channel{Any}}(1, 1, 23)
-```
-
-## Example 2
-
-New approach. Process continuously running on test_sshd2. Even better? What if... container crashes? Then the in first example gives an error on r = test(donald) which we can test. E.g.
-
-```
-julia> using Distributed
-
-julia> d = Dict([]) # Dictionary for our containers
-Dict{Any,Any} with 0 entries
-
-julia> addprocs(["rob@172.17.0.3"]) # connect to test_sshd2 # process id is 2
-1-element Array{Int64,1}:
- 2
-
-julia> d["test_sshd2"] = workers()[1]
-2
-
-julia> @everywhere using RbO
-
-julia> function test()
-          tx = RemoteChannel( () -> Channel(32) )
-          rx = RemoteChannel( () -> Channel(32) )
-          @async @spawnat d["test_sshd2"] begin # get process id from dictionary
-               while true
-                  if isready(tx)
-                      v = take!(tx)
-                      # @show v
-                      result = updateSubscriber(v, titlecase(strip(v.name)) * " from process " * string(myid()), v.email, v.subscribertype)
-                      put!(rx, result)
-                   end
-               end
-          end
-         tx, rx
-       end
-test (generic function with 1 method)
-
-julia> tx_test_sshd2, rx_test_sshd2 = test()
-(RemoteChannel{Channel{Any}}(1, 1, 7), RemoteChannel{Channel{Any}}(1, 1, 8))
-
-julia> donald = createSubscriber(" donald duck")
-Subscriber("14258536779090193685", " donald duck", "", MEAN_CALCULATOR)
-
-julia> put!(tx_test_sshd2, donald)
-RemoteChannel{Channel{Any}}(1, 1, 7)
-
-julia> isready(rx_test_sshd2)
-true
-
-julia> take!(rx_test_sshd2)
-Subscriber("14258536779090193685", "Donald Duck from process 2", "", MEAN_CALCULATOR)
-```
-
-Test id:
-
-```
-julia> d
-Dict{Any,Any} with 1 entry:
-  "test_sshd2" => 7
-
-julia> d["test_sshd2"]
-7
-
-julia> function check_container(pid)
-           try
-               procs(pid)
-           catch e
-               -1
-           end
-       end
-check_container (generic function with 1 method)
-
-julia> p = check_container(d["test_sshd2"])
--1
-```
-
-
-## Example 3
-
-I prefer example 1, and testing whether container is still running.
-
-```
-julia> using Distributed
-
-julia> addprocs([("rob@172.17.0.3", 1)])
-1-element Array{Int64,1}:
- 2
-
-julia> d = Dict([])
-Dict{Any,Any} with 0 entries
-
-julia> d["test_sshd2"] = last(workers())
-2
-
-julia> @everywhere using RbO
-
-julia> function test(v::Subscriber)
-           rx = RemoteChannel( () -> Channel(32) )
-           @spawnat d["test_sshd2"] begin # get process id from dictionary
-               result = updateSubscriber(v, titlecase(strip(v.name)) * " from process " * string(myid()), v.email, v.subscribertype)
-               put!(rx, result)
-           end
-           rx
-       end
-test (generic function with 1 method)
-
-julia> function is_container_running(pid)
-           try
-               procs(pid)
-               true
-           catch e
-               false
-           end
-       end
-is_container_running (generic function with 1 method)
-
-julia> function test(v)
-           rx = RemoteChannel( () -> Channel(32) )
-           @spawnat d["test_sshd2"] begin # get process id from dictionary
-               result = updateSubscriber(v, titlecase(strip(v.name)) * " from process " * string(myid()), v.email, v.subscribertype)
-               put!(rx, result)
-           end
-           rx
-       end
-test (generic function with 2 methods)
-
-julia> p = is_container_running(d["test_sshd2"])
-false
-
-julia> if p
-           donald = createSubscriber(" donald duck")
-           rx = test(donald)
-           sleep(1)
-           result =  isready(rx) ? take!(rx) : ""
-           println("Test: $result")
-       else
-           addprocs([("rob@172.17.0.3", 1)])
-           d["test_sshd2"] = last(workers())
-           @everywhere using RbO
-           println("Not connected, please restart.")
-       end
-Not connected, please restart.
 ```
