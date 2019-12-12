@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>11 - Conatiner-container communication · BAWJ</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link href="../assets/documenter.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><a href="../"><img class="logo" src="../assets/logo.png" alt="BAWJ logo"/></a><h1>BAWJ</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../">Business Applications with Julia</a></li><li><span class="toctext">Section 1</span><ul><li><a class="toctext" href="../chapter1/">1 - Intro Notebook</a></li><li><a class="toctext" href="../chapter2/">2 - Overview Julia</a></li></ul></li><li><span class="toctext">Section 2 - Building the application</span><ul><li><a class="toctext" href="../chapter3/">3 - Set-up the design</a></li><li><a class="toctext" href="../chapter4/">4 - Implementing the design</a></li><li><a class="toctext" href="../chapter5/">5 - Writing test software</a></li></ul></li><li><span class="toctext">Section 3 - Modules</span><ul><li><a class="toctext" href="../chapter6/">6 - Creating modules</a></li><li><a class="toctext" href="../chapter7/">7 - Documenting the modules</a></li></ul></li><li><span class="toctext">Section 4 - SSH enabled containers</span><ul><li><a class="toctext" href="../chapter8/">8 - Introduction</a></li><li><a class="toctext" href="../chapter9/">9 - Create the Container</a></li><li><a class="toctext" href="../chapter10/">10 - Raspberry Pi</a></li></ul></li><li><span class="toctext">Section 5 Up and running</span><ul><li class="current"><a class="toctext" href>11 - Conatiner-container communication</a><ul class="internal"><li><a class="toctext" href="#Test-with-Julia-1.3.0-containers-1">Test with Julia 1.3.0 containers</a></li><li><a class="toctext" href="#The-Example-1">The Example</a></li><li><a class="toctext" href="#Example-the-old-idea-1">Example the old idea</a></li></ul></li><li><a class="toctext" href="../chapter12/">12 - Running the containers</a></li></ul></li><li><a class="toctext" href="../appendix/">Appendix</a></li><li><a class="toctext" href="../references/">References</a></li></ul></nav><article id="docs"><header><nav><ul><li>Section 5 Up and running</li><li><a href>11 - Conatiner-container communication</a></li></ul><a class="edit-page" href="https://github.com/rbontekoe/BAWJ/blob/master/docs/src/chapter11.md"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>11 - Conatiner-container communication</span><a class="fa fa-bars" href="#"></a></div></header><p>Setup container-container connection (test<em>shd -&gt; test</em>sshd2)</p><ul><li>sudo apt-get install openssh-client</li><li>ssh-keygen -t rsa -b 4096 -C &quot;rbontekoe@appligate.nl&quot;</li><li>ssh rob@192.168.xxx.xxx -p 32769 # got connected</li><li>Ctrl-D</li><li>Ctrl-D</li></ul><h2><a class="nav-anchor" id="Test-with-Julia-1.3.0-containers-1" href="#Test-with-Julia-1.3.0-containers-1">Test with Julia 1.3.0 containers</a></h2><ul><li>Start containers.</li><li>inspect internal ip-address</li></ul><pre><code class="language-none">$ docker start test_sshd
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>11 - Container-container communication · BAWJ</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link href="../assets/documenter.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><a href="../"><img class="logo" src="../assets/logo.png" alt="BAWJ logo"/></a><h1>BAWJ</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../">Business Applications with Julia</a></li><li><span class="toctext">Section 1</span><ul><li><a class="toctext" href="../chapter1/">1 - Intro Notebook</a></li><li><a class="toctext" href="../chapter2/">2 - Overview Julia</a></li></ul></li><li><span class="toctext">Section 2 - Building the application</span><ul><li><a class="toctext" href="../chapter3/">3 - Set-up the design</a></li><li><a class="toctext" href="../chapter4/">4 - Implementing the design</a></li><li><a class="toctext" href="../chapter5/">5 - Writing test software</a></li></ul></li><li><span class="toctext">Section 3 - Modules</span><ul><li><a class="toctext" href="../chapter6/">6 - Creating modules</a></li><li><a class="toctext" href="../chapter7/">7 - Documenting the modules</a></li></ul></li><li><span class="toctext">Section 4 - SSH enabled containers</span><ul><li><a class="toctext" href="../chapter8/">8 - Introduction</a></li><li><a class="toctext" href="../chapter9/">9 - Create the Container</a></li><li><a class="toctext" href="../chapter10/">10 - Raspberry Pi</a></li></ul></li><li><span class="toctext">Section 5 Up and running</span><ul><li class="current"><a class="toctext" href>11 - Container-container communication</a><ul class="internal"><li><a class="toctext" href="#Test-with-Julia-1.3.0-containers-1">Test with Julia 1.3.0 containers</a></li><li><a class="toctext" href="#main.jl-1">main.jl</a></li><li><a class="toctext" href="#Activity-1:-Start-the-two-containers-1">Activity 1: Start the two containers</a></li><li><a class="toctext" href="#Test-code-example-1">Test code example</a></li><li><a class="toctext" href="#Activity-2:-Test-the-code-1">Activity 2: Test the code</a></li><li><a class="toctext" href="#Play-around-with-subscribers-1">Play around with subscribers</a></li></ul></li><li><a class="toctext" href="../chapter12/">12 - Running the containers</a></li></ul></li><li><a class="toctext" href="../appendix/">Appendix</a></li><li><a class="toctext" href="../references/">References</a></li></ul></nav><article id="docs"><header><nav><ul><li>Section 5 Up and running</li><li><a href>11 - Container-container communication</a></li></ul><a class="edit-page" href="https://github.com/rbontekoe/BAWJ/blob/master/docs/src/chapter11.md"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>11 - Container-container communication</span><a class="fa fa-bars" href="#"></a></div></header><h1><a class="nav-anchor" id=".-Container-container-communication-1" href="#.-Container-container-communication-1">11. Container-container communication</a></h1><h3><a class="nav-anchor" id="What-you-will-learn-1" href="#What-you-will-learn-1">What you will learn</a></h3><ul><li><a href="#.-Container-container-communication-1">11. Container-container communication</a></li><ul><li><a href="#Test-with-Julia-1.3.0-containers-1">Test with Julia 1.3.0 containers</a></li><li><a href="#main.jl-1">main.jl</a></li><li><a href="#Activity-1:-Start-the-two-containers-1">Activity 1: Start the two containers</a></li><li><a href="#Test-code-example-1">Test code example</a></li><li><a href="#Activity-2:-Test-the-code-1">Activity 2: Test the code</a></li><li><a href="#Play-around-with-subscribers-1">Play around with subscribers</a></li></ul></ul><p>Activity 1:  You start the two Docker containers, test<em>sshd, and test</em>sshd2. We need to know their Docker IP-address for communicating with the remote container test<em>sshd2. With the command ssh rob@&lt;ip-address&gt;, we enter the test</em>sshd. We create the file <code>main.jl,</code> which contains the base code for container-container communication.</p><p>Activity 2: Next, we use the example code to create a subscriber based on a name. We prefer first to do the test with the AppliGate&#39;s module RbO.jl. In chapter 12, you will use your modules.</p><p>Activity 2: You learn to write a function that can run remotely, and that saves a subscriber in an SQLite database on the container test_sshd2.</p><p>Setup container-container connection (test<em>shd -&gt; test</em>sshd2). Maybe I need this somewhere else.</p><ul><li>sudo apt-get install openssh-client</li><li>ssh-keygen -t rsa -b 4096 -C &quot;rbontekoe@appligate.nl&quot;</li><li>ssh rob@192.168.xxx.xxx -p 32769 # got connected</li></ul><h2><a class="nav-anchor" id="Test-with-Julia-1.3.0-containers-1" href="#Test-with-Julia-1.3.0-containers-1">Test with Julia 1.3.0 containers</a></h2><ul><li>Start containers.</li><li>inspect internal ip-address</li></ul><pre><code class="language-none">$ docker start test_sshd
 $ docker start test_sshd2
 $ docker inspect -f &quot;{{ .NetworkSettings.IPAddress }}&quot; test_sshd
 172.17.0.2
@@ -10,10 +10,7 @@ $ ssh rob@172.17.0.2
 # or
 
 $ docker ps
-$ ssh 192.168.xxx.xxx -p 32768</code></pre><p>Install RbO in both containers, <a href="https://www.appligate.nl/RbO.jl/module_a/#Example-of-adding-the-module-1">Example of adding the module</a></p><h2><a class="nav-anchor" id="The-Example-1" href="#The-Example-1">The Example</a></h2><p>New approach. Process continuously running on test_sshd2.</p><h3><a class="nav-anchor" id="main.jl-1" href="#main.jl-1">main.jl</a></h3><pre><code class="language-none">using Distributed
-
-# body remote application. funct except only one argument.
-
+$ ssh 192.168.xxx.xxx -p 32768</code></pre><p>Install RbO in both containers, <a href="https://www.appligate.nl/RbO.jl/module_a/#Example-of-adding-the-module-1">Example of adding the module</a></p><h2><a class="nav-anchor" id="main.jl-1" href="#main.jl-1">main.jl</a></h2><pre><code class="language-none"># body remote application. funct accept only one argument.
 function remote_body(pid::Int, funct)
     tx = RemoteChannel(() -&gt; Channel(32)) # transmit channel
     rx = RemoteChannel(() -&gt; Channel(32)) # receive channel
@@ -25,14 +22,15 @@ function remote_body(pid::Int, funct)
                 #@show result
                 put!(rx, result)
             else
-                sleep(0.1)
+		#@show &quot;waiting&quot;
+                wait(tx)
             end
         end
     end
     tx, rx # return  transmit and receive channel
 end # defined remote_body
 
-d = Dict([]) # empty directory for container -&gt; pids</code></pre><h3><a class="nav-anchor" id="CODE-EXAMPLE-1" href="#CODE-EXAMPLE-1">CODE EXAMPLE</a></h3><pre><code class="language-none">julia&gt; include(&quot;main.jl&quot;)
+d = Dict([]) # empty directory for pids</code></pre><h2><a class="nav-anchor" id="Activity-1:-Start-the-two-containers-1" href="#Activity-1:-Start-the-two-containers-1">Activity 1: Start the two containers</a></h2><table><tr><th style="text-align: left">Step</th><th style="text-align: left">Action</th><th style="text-align: left">Comment</th></tr><tr><td style="text-align: left">1</td><td style="text-align: left">$ docker start test_sshd</td><td style="text-align: left">Start the first container.</td></tr><tr><td style="text-align: left">2</td><td style="text-align: left">$ docker inspect -f &quot;{{ .NetworkSettings.IPAddress }}&quot; test_sshd</td><td style="text-align: left">Displays docker address, eg, 172.17.0.2.</td></tr><tr><td style="text-align: left">3</td><td style="text-align: left">Take a note of the ip-address of test_sshd</td><td style="text-align: left"></td></tr><tr><td style="text-align: left">4</td><td style="text-align: left">$ docker start test_sshd2</td><td style="text-align: left">Start the second container.</td></tr><tr><td style="text-align: left">5</td><td style="text-align: left">Take a note of the ip-address of test_sshd2</td><td style="text-align: left"></td></tr><tr><td style="text-align: left">6</td><td style="text-align: left">$ ssh rob@172.17.0.2</td><td style="text-align: left">Use the ip-address step 2.</td></tr><tr><td style="text-align: left">7</td><td style="text-align: left">Copy the <a href="#main.jl-1">main.jl</a> code to the clipboard.</td><td style="text-align: left"></td></tr><tr><td style="text-align: left">8</td><td style="text-align: left">$ nano main.jl</td><td style="text-align: left">Open a new file.</td></tr><tr><td style="text-align: left">9</td><td style="text-align: left">Ctrl-Shift-V</td><td style="text-align: left">Paste the code form the clipboard.</td></tr><tr><td style="text-align: left">10</td><td style="text-align: left">Ctrl-O</td><td style="text-align: left">Save the file.</td></tr><tr><td style="text-align: left">11</td><td style="text-align: left">Ctrl-X</td><td style="text-align: left">Exit the editor.</td></tr><tr><td style="text-align: left">12</td><td style="text-align: left">$ julia</td><td style="text-align: left">Start Julia, and continue at step 13 of <a href="#Test-the-code-1">Activity 2: Test the code</a></td></tr></table><h2><a class="nav-anchor" id="Test-code-example-1" href="#Test-code-example-1">Test code example</a></h2><pre><code class="language-none">julia&gt; include(&quot;main.jl&quot;)
 Dict{Any,Any} with 0 entries
 
 julia&gt; addprocs([(&quot;rob@172.17.0.3&quot;, 1)])
@@ -61,65 +59,60 @@ Subscriber(&quot;1687381951631187484&quot;, &quot;Donald Duck&quot;, &quot;&quot
 
 julia&gt; isready(rx2) ? take!(rx2) : &quot;&quot;
 Publisher(&quot;18206665133840381206&quot;, &quot;The New York Times&quot;, NEWSPAPER, Subscriber[])
-</code></pre><h3><a class="nav-anchor" id="Test-the-connection-(temporally)-1" href="#Test-the-connection-(temporally)-1">Test the connection (temporally)</a></h3><pre><code class="language-none">julia&gt; p = is_container_running(d[&quot;test_sshd2&quot;])
-false
 
-julia&gt; if p
-           donald = createSubscriber(&quot; donald duck&quot;)
-           rx = test(donald)
-           sleep(1)
-           result =  isready(rx) ? take!(rx) : &quot;&quot;
-           println(&quot;Test: $result&quot;)
-       else
-           addprocs([(&quot;rob@172.17.0.3&quot;, 1)])
-           d[&quot;test_sshd2&quot;] = last(workers())
-           @everywhere using RbO
-           println(&quot;Not connected, please restart.&quot;)
+julia&gt; @async while true
+           if isready(rx1)
+               @show take!(rx1)
+           else
+               wait(rx1)
+           end
        end
-Not connected, please restart.</code></pre><h2><a class="nav-anchor" id="Example-the-old-idea-1" href="#Example-the-old-idea-1">Example the old idea</a></h2><p>The code to run:</p><pre><code class="language-none">julia&gt; using Distributed
+Task (runnable) @0x00007fbf925c5ae0
 
-julia&gt; t = @async addprocs([(&quot;rob@172.17.0.3&quot;, 1)]) # connect to test_sshd2 # process id is 2
-1-element Array{Int64,1}:
- 2
-
-julia&gt; N = nworkers()
-
-julia&gt; workers()
-1-element Array{Int64,1}:
- 2
-
-julia&gt; d = Dict([]) # Dictionary for our containers
-Dict{Any,Any} with 0 entries
-
-julia&gt; d[&quot;test_sshd2&quot;] = last(workers())
-2
-
-julia&gt; @everywhere using RbO
-
-julia&gt; function test(v)
-          rx = RemoteChannel( () -&gt; Channel(32) )
-          @spawnat d[&quot;test_sshd2&quot;] begin # get process id from dictionary
-              result = updateSubscriber(v, titlecase(strip(v.name)) * &quot; from process &quot; * string(myid()), v.email, v.subscribertype)
-              put!(rx, result)
-          end
-         rx
+julia&gt; @async while true
+           if isready(rx2)
+               @show take!(rx2)
+           else
+               wait(rx2)
+           end
        end
-test (generic function with 1 method)
+Task (runnable) @0x00007fbf92f59ae0
 
-julia&gt; donald = createSubscriber(&quot; donald duck&quot;)
-Subscriber(&quot;1223446592574910648&quot;, &quot; donald duck&quot;, &quot;&quot;, MEAN_CALCULATOR)
-
-julia&gt; r =  test(donald)
+julia&gt; put!(tx1, &quot;Daisy Duck&quot;)
 RemoteChannel{Channel{Any}}(1, 1, 7)
+</code></pre><h2><a class="nav-anchor" id="Activity-2:-Test-the-code-1" href="#Activity-2:-Test-the-code-1">Activity 2: Test the code</a></h2><table><tr><th style="text-align: left">Step</th><th style="text-align: left">Action</th><th style="text-align: left">Comment</th></tr><tr><td style="text-align: left">13</td><td style="text-align: left">Copy all the <a href="#Test-code-example-1">Test code example</a> code to the clipboard, including the julia prompt and the response</td><td style="text-align: left"></td></tr><tr><td style="text-align: left">14</td><td style="text-align: left">Return to the container</td><td style="text-align: left"></td></tr><tr><td style="text-align: left">15</td><td style="text-align: left">Ctrl-Shfi-V</td><td style="text-align: left">Paste the text on the clipboard in the Julia REPL.</td></tr></table><p>The result should look like the next example:</p><pre><code class="language-none">julia&gt; take!(rx1) = Subscriber(&quot;15498821131237366424&quot;, &quot;Donald Duck&quot;, &quot;&quot;, MEAN_CALCULATOR)
+take!(rx2) = Publisher(&quot;8593928998820612462&quot;, &quot;The New York Times&quot;, NEWSPAPER, Subscriber[])
+take!(rx1) = Subscriber(&quot;17785241625571045887&quot;, &quot;Daisy Duck&quot;, &quot;&quot;, MEAN_CALCULATOR)</code></pre><h2><a class="nav-anchor" id="Play-around-with-subscribers-1" href="#Play-around-with-subscribers-1">Play around with subscribers</a></h2><p>Create and save a subscriber in the container test_sshd2. Then display all saved subscribers From a table. See also  <a href="https://www.appligate.nl/RbO.jl/">RbO.jl</a>.</p><pre><code class="language-none"># activate remote_body for the new function
+tx1, rx1 = remote_body(d[&quot;test_sshd2&quot;], f)
 
-julia&gt; while isready(r)
-          println(take!(r)) # or @show take!(r)
-       end
-take!(r) = Subscriber(&quot;1223446592574910648&quot;, &quot;Donald Duck from process 2&quot;, &quot;&quot;, MEAN_CALCULATOR)</code></pre><p>Learned today (12/9/2019) container-container communication:</p><ul><li>Internal Docker ip-address works. You don&#39;t have to use the port number.</li><li>Call the container test_sshd2 with @spawnat within the function test(v).</li><li>RemoteChannel is defined within the function.</li></ul><pre><code class="language-none">julia&gt; try
-           global r = test(daisy)
-       catch e
-           addprocs([(&quot;rob@172.17.0.3&quot;, 1)])
-           @everywhere using RbO
-           d[&quot;test_sshd2&quot;] = last(workers())
-       end
-RemoteChannel{Channel{Any}}(1, 1, 23)</code></pre><footer><hr/><a class="previous" href="../chapter10/"><span class="direction">Previous</span><span class="title">10 - Raspberry Pi</span></a><a class="next" href="../chapter12/"><span class="direction">Next</span><span class="title">12 - Running the containers</span></a></footer></article></body></html>
+# define a new function
+@everywhere f(x) = begin
+  s = createSubscriber(x) # create a subscriber
+	db = connect(&quot;./rbo.sqlite&quot;) # connect to database
+  create(db, &quot;subscribers&quot;, [s]) # save subscriber in database
+end
+
+# create and save the subscriber Donald Duck
+put!(tx1, &quot;Donald Duck&quot;)
+
+# the display routine
+@async while true
+	if isready(rx1)
+  	@show take!(rx1)
+  else
+    wait(rx1)
+  end
+end
+
+# define a new function for displaying all subscribers
+@everywhere f(x) = begin
+	db = connect(&quot;./rbo.sqlite&quot;) # connect to database
+	gather(db, x) # list all items in table x
+end
+
+# activate remote_body for the new function
+tx1, rx1 = remote_body(d[&quot;test_sshd2&quot;], f)
+
+# All subscribers in the table subscribers
+put!(tx1, &quot;subscribers&quot;)
+</code></pre><footer><hr/><a class="previous" href="../chapter10/"><span class="direction">Previous</span><span class="title">10 - Raspberry Pi</span></a><a class="next" href="../chapter12/"><span class="direction">Next</span><span class="title">12 - Running the containers</span></a></footer></article></body></html>

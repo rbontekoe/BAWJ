@@ -24,7 +24,7 @@ makedocs(
             "10 - Raspberry Pi" => "chapter10.md"
         ],
         "Section 5 Up and running" => [
-            "11 - Conatiner-container communication" => "chapter11.md",
+            "11 - Container-container communication" => "chapter11.md",
             "12 - Running the containers" => "chapter12.md"
         ],
         "Appendix" => "appendix.md",
