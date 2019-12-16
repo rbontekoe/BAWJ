@@ -6,7 +6,7 @@
 
 ## Preface
 
-In July 2018, I read an article about a new programming language that was rapidly gaining in popularity, [Julia](https://julialang.org/). It appealed to me how you could define a function. Almost exactly as I learned it during my bachelor study Electronics: f(x) = 2x² + 3x + 1, in Julia written as 2x^2 + 3x + 1. Then I set up a project to learn how to implement the observer pattern. It was easy, but I left it out because I was working on Scala at that moment.
+In July 2018, I read an article about a new programming language that was rapidly gaining in popularity, [Julia](https://julialang.org/). It appealed to me how you could define a function. Almost exactly as I learned it during my bachelor study electronics: `f(x) = 2x² + 3x + 1`, in Julia written as `f(x) = 2x^2 + 3x + 1`. Then I set up a project to learn how to implement the observer pattern. It was easy, but I left it out because I was working on Scala at that moment.
 
 While working with Scala, I came in touch with the Onion Architecture, after watching Wade Waldron's presentation, [Domain-Driven Design, and Onion Architecture](https://youtu.be/MnNeDXg3Qao). Since then, I use it.
 
@@ -22,7 +22,7 @@ It turned out that you can create effective documentation, using the package Doc
 
 I had already a GitHub Pages profile, and thought: "Why not set up the AppliGate website in this way and link it to my profile." I did it: [https://www,appligate.nl](https://www.appligate.nl/).
 
-With trying out so many things with Julia, the problem arose at a certain point that I could not find specific trials back in my notes. After the success of the website, I thought: "Why not set up a course where I can register all the interesting things?".
+With trying out so many things with Julia, the problem arose that I could not find specific trials back in my notes. After the success of the website, I thought: "Why not set up a course where I can register all the interesting things?".
 
 ### Developing Business Applications with Julia
 
@@ -40,6 +40,7 @@ Pages = ["index.md",
 "chapter3.md",
 "chapter4.md",
 "chapter9.md",
+"chapter11.md",
 "appendix.md",
 "references.md"]
 ```

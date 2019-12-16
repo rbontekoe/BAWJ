@@ -20,11 +20,11 @@ makedocs(
         ],
         "Section 4 - SSH enabled containers" => [
             "8 - Introduction" => "chapter8.md",
-            "9 - Create the Container" => "chapter9.md",
+            "9 - Create SSH enabled Containers" => "chapter9.md",
             "10 - Raspberry Pi" => "chapter10.md"
         ],
         "Section 5 Up and running" => [
-            "11 - Container-container communication" => "chapter11.md",
+            "11 - Using Remote Channels" => "chapter11.md",
             "12 - Running the containers" => "chapter12.md"
         ],
         "Appendix" => "appendix.md",

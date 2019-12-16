@@ -1,70 +1,157 @@
-# 11. Container-container communication
+# 11. Using Remote Channels
 
 ### What you will learn
 
 ```@contents
 Pages = ["chapter11.md"]
 ```
-Activity 1:  You start the two Docker containers, test_sshd, and test_sshd2. We need to know their Docker IP-address for communicating with the remote container test_sshd2. With the command ssh rob@<ip-address>, we enter the test_sshd. We create the file `main.jl,` which contains the base code for container-container communication.
 
-Activity 2: Next, we use the example code to create a subscriber based on a name. We prefer first to do the test with the AppliGate's module RbO.jl. In chapter 12, you will use your modules.
+In lesson 9, Creating SSH enabled Containers, we created two containers: `test_sshd` and `test_sshd2`. In this chapter, we learn how to run a function in a remote container `test_sshd2`. Before we use the model we created in earlier lessons, you will test the containers with the package `RbO.jl`.
 
-Activity 2: You learn to write a function that can run remotely, and that saves a subscriber in an SQLite database on the container test_sshd2.
+##### Activity 1:
 
-Setup container-container connection (test_shd -> test_sshd2). Maybe I need this somewhere else.
-- sudo apt-get install openssh-client
-- ssh-keygen -t rsa -b 4096 -C "rbontekoe@appligate.nl"
-- ssh rob@192.168.xxx.xxx -p 32769 # got connected
+You start the two Docker containers, `test_sshd,` and `test_sshd2`. We need to know their Docker IP-addresses. With the command `ssh rob@<ip-address>`, we enter the `test_sshd` container. Within this container, we generate a process id bound to the IP-address of `test_ssh2`.
 
-## Test with Julia 1.3.0 containers
-- Start containers.
-- inspect internal ip-address
 
-```
-$ docker start test_sshd
-$ docker start test_sshd2
-$ docker inspect -f "{{ .NetworkSettings.IPAddress }}" test_sshd
-172.17.0.2
-$ docker inspect -f "{{ .NetworkSettings.IPAddress }}" test_sshd2
-172.17.0.3
-$ ssh rob@172.17.0.2
+We create the file `main.jl`, which contains the base code for container-container communication.
 
-# or
+##### Activities 2a and 2b:
 
-$ docker ps
-$ ssh 192.168.xxx.xxx -p 32768
-```
+Next, we use the example code to create a subscriber based on a name. We prefer to do the test with AppliGate's module `RbO.jl`. In chapter 12, you will use your modules.
+
+##### Activity 3:
+
+You learn to write a function that can run remotely, and that saves a subscriber in an SQLite database on the container `test_sshd2`.
+
+---
+
+## Activity 1: Start the Julia 1.3.0 containers
+
+Prerequisites:
+- Docker is installed on your computer.
+- You have the two containers `test_sshd` and `test_sshd2` created in chapter 9, [Create the Container](/chapter9/index.html#.-Creating-SSH-enabled-Containers-1).
+- Both containers are SSH enabled.
+- You have a Internet connection to download the RbO.jl module.
+
+Steps:
+1. Start both containers and check their Docker internal IP-address.
+2. Use SSH to connect from test_sshd to test_sshd2 and install RbO.jl in both containers.
+
+---
+
+###### Step 1 \- Start both containers and check their Docker internal IP-address
+
+| Step | Action | Comment |
+| :--- | :--- | :---
+| 1 | $ docker start test\_sshd |
+| 2 | $ docker start test\_sshd2 |
+| 3 | $ docker inspect \-f "{{ .NetworkSettings.IPAddress }}" test_sshd | e.g. 172.17.0.2 |
+| 3 | $ docker inspect \-f "{{ .NetworkSettings.IPAddress }}" test_sshd2 | e.g. 172.17.0.3 |
+
+---
+
+###### Step 2 \- Use SSH to connect from test\_sshd to test\_sshd2 and install RbO.jl
 
 Install RbO in both containers, [Example of adding the module](https://www.appligate.nl/RbO.jl/module_a/#Example-of-adding-the-module-1)
 
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 1 | $ ssh rob@172.17.0.2 | Enter the container test_sshd. |
+| 2 | $ ssh rob@172.17.0.3 | Enter the container test_sshd3. |
+| 3 | $ julia | Start Julia. |
+| 4 | julia> ] | Go to the package manager. |
+| 5 | pkg> add https://github.com/rbontekoe/RbO.jl | Install RbO.jl. |
+| 6 | Ctrl-C | Return to REPL prompt. |
+| 7 | Ctrl-D | Leave Julia. |
+| 8 | Ctrl-D | Leave the container test_sshd2. |
+
+!!! note
+    If your container is running on a remote machine, you have to use the ip-address of the remote machine and the exported port of the container to connect to.
+
+    $ docker start test\_sshd # start the container test\_sshd
+
+    $ docker port test\_sshd # display the port, e.g. 22/tcp -> 0.0.0.0:32768
+
+    $ ssh 192.168.xxx.xxx -p 32768 # connect to the container on remote machine
+
+---
 
 ## main.jl
 
+We use a function to run code in another container. The function will be called in a while loop. Because we use this construction more often, we pass the function as argument to a function called remote\_body. Through the channel you transport the data for the function. We store he code of the remote\_body function in the file main.jl.
+
 ```
-# body remote application. funct accept only one argument.
+# Enable distibuted processing
+using Distibuted
+You learn to write a function that can run remotely, and that saves a subscriber in an SQLite database on the container `test_sshd2`.
+#=
+The container that wants to run code on another container initiate this function.
+
+The function remote_body has two arguments:
+- pid, the process id created with the addprocs function.
+- funct, a function to run on the called container.
+
+funct is a function that accepts only one argument.
+=#
 function remote_body(pid::Int, funct)
-    tx = RemoteChannel(() -> Channel(32)) # transmit channel
-    rx = RemoteChannel(() -> Channel(32)) # receive channel
+    tx = RemoteChannel(() -> Channel(32)) # local transmit channel
+    rx = RemoteChannel(() -> Channel(32)) # local receive channel
+
+    # run the code on the process id that has been passed
     @async @spawnat pid begin
         while true
-            if isready(tx)
+
+            if isready(tx) # channel has data
+
+                # get the data from the tx-channel
                 value = take!(tx)
-                result = funct(value) # function is passed as argument
+
+                # execute the code of the function that was passed as argument
+                result = funct(value)
+
+                # for test purposes
                 #@show result
+
+                # put the result of the function on the rx-channel
                 put!(rx, result)
             else
-		#@show "waiting"
+
+                # for test purposes
+                #which_funct = string(funct) * " on process " * string(myid()) * " is waiting for data."
+                #@show which_funct
+
+                # the code wait until there is data on the tx-channel
                 wait(tx)
             end
+
         end
     end
-    tx, rx # return  transmit and receive channel
+
+    # return transmit and receive channel, so the calling container can communicate with the called container.
+    tx, rx
+
 end # defined remote_body
 
-d = Dict([]) # empty directory for pids
+d = Dict([]) # empty directory for pids, used by the calling container
 ```
 
-## Activity 1: Start the two containers
+---
+
+## Activity 2a: Start the two containers and create main.jl
+
+Prerequisites:
+- Docker is installed on your computer.
+- You have the two containers test_sshd and test_sshd2 created in `Chapter 9, Create the Container`.
+- Both containers are SSH-enabled.
+- Julia is installed in the directory `julia` on the containers.
+- The RbO.jl package is installed in both containers.
+
+Steps
+1. Start the container `test_sshd` and create main.jl with nano.
+
+---
+
+###### 1. Start the container test\_sshd and create main.jl with nano.
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -81,8 +168,9 @@ d = Dict([]) # empty directory for pids
 | 11 | Ctrl-X | Exit the editor. |
 | 12 | $ julia | Start Julia, and continue at step 13 of [Activity 2: Test the code](#Test-the-code-1) |
 
+---
 
-## Test code example
+## Example test code
 
 ```
 julia> include("main.jl")
@@ -138,7 +226,14 @@ RemoteChannel{Channel{Any}}(1, 1, 7)
 
 ```
 
-## Activity 2: Test the code
+---
+
+## Activity 2b: Test the code
+
+Prerequisites:
+- Actitvity 2a
+
+---
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -154,9 +249,39 @@ take!(rx2) = Publisher("8593928998820612462", "The New York Times", NEWSPAPER, S
 take!(rx1) = Subscriber("17785241625571045887", "Daisy Duck", "", MEAN_CALCULATOR)
 ```
 
-## Play around with subscribers
+---
+
+## Activity 3: Run a function in the remote container
 
 Create and save a subscriber in the container test_sshd2. Then display all saved subscribers From a table. See also  [RbO.jl](https://www.appligate.nl/RbO.jl/).
+
+Prerequisites:
+- Activity 1
+- Activity 2a & 2b
+- The package SQLite.jl is installed.
+
+
+Steps:
+
+1. Install SQLite.jl
+2. Try the example code
+3. Use the RbO.jl documentation
+
+---
+
+###### 1. Install SQLite.jl
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 1 | Enter test_sshd and start Julia |  |
+| 2 | Go to the package manager |  |
+| 3 | pkg > add SQLite | |
+
+---
+
+###### 2. Try the example code
+
+Try the code below.
 
 ```
 # activate remote_body for the new function
@@ -194,3 +319,14 @@ tx1, rx1 = remote_body(d["test_sshd2"], f)
 put!(tx1, "subscribers")
 
 ```
+
+---
+
+###### 3. Use the RbO.jl documentation
+
+Use the documentation to do the next steps.
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 1 | Use the command `connect` to create a link to the on-disk database rbo.sqlite | |
+| 2 | Use the command 'gather' to retieve data from the SQL table `subscribers` | |

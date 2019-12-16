@@ -1,4 +1,4 @@
-# Creating SSH enabled Containers
+# 9. Creating SSH enabled Containers
 
 ## Index
 ```@contents
@@ -61,7 +61,7 @@ You have created the keys before, no further action is required. The file id_rsa
 | 4 | $ ssh-keygen -t rsa -b 4096 -C "your_email@domain.com" | Generate the key. |
 | 5 | $ ls ~/.ssh/id_* | View your new keys. |
 
-### We need to do this in the ssh container?
+### Do we need to do this in the ssh container?
 
 | Step | Action | Comment
 | :--- | :--- | :--- |
