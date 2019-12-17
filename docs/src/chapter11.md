@@ -76,67 +76,6 @@ Install RbO in both containers, [Example of adding the module](https://www.appli
 
 ---
 
-## main.jl
-
-We use a function to run code in another container. The function will be called in a while loop. Because we use this construction more often, we pass the function as argument to a function called remote\_body. Through the channel you transport the data for the function. We store he code of the remote\_body function in the file main.jl.
-
-```
-# Enable distibuted processing
-using Distibuted
-You learn to write a function that can run remotely, and that saves a subscriber in an SQLite database on the container `test_sshd2`.
-#=
-The container that wants to run code on another container initiate this function.
-
-The function remote_body has two arguments:
-- pid, the process id created with the addprocs function.
-- funct, a function to run on the called container.
-
-funct is a function that accepts only one argument.
-=#
-function remote_body(pid::Int, funct)
-    tx = RemoteChannel(() -> Channel(32)) # local transmit channel
-    rx = RemoteChannel(() -> Channel(32)) # local receive channel
-
-    # run the code on the process id that has been passed
-    @async @spawnat pid begin
-        while true
-
-            if isready(tx) # channel has data
-
-                # get the data from the tx-channel
-                value = take!(tx)
-
-                # execute the code of the function that was passed as argument
-                result = funct(value)
-
-                # for test purposes
-                #@show result
-
-                # put the result of the function on the rx-channel
-                put!(rx, result)
-            else
-
-                # for test purposes
-                #which_funct = string(funct) * " on process " * string(myid()) * " is waiting for data."
-                #@show which_funct
-
-                # the code wait until there is data on the tx-channel
-                wait(tx)
-            end
-
-        end
-    end
-
-    # return transmit and receive channel, so the calling container can communicate with the called container.
-    tx, rx
-
-end # defined remote_body
-
-d = Dict([]) # empty directory for pids, used by the calling container
-```
-
----
-
 ## Activity 2a: Start the two containers and create main.jl
 
 Prerequisites:
@@ -151,7 +90,7 @@ Steps
 
 ---
 
-###### 1. Start the container test\_sshd and create main.jl with nano.
+###### 1. Start the container test\_sshd and test\_sshd2
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -161,68 +100,27 @@ Steps
 | 4 | $ docker start test_sshd2 | Start the second container. |
 | 5 | Take a note of the ip-address of test_sshd2 | |
 | 6 | $ ssh rob@172.17.0.2 | Use the ip-address step 2. |
-| 7 | Copy the [main.jl](#main.jl-1) code to the clipboard. | |
-| 8 | $ nano main.jl | Open a new file. |
-| 9 | Ctrl-Shift-V | Paste the code form the clipboard. |
-| 10 | Ctrl-O | Save the file. |
-| 11 | Ctrl-X | Exit the editor. |
-| 12 | $ julia | Start Julia, and continue at step 13 of [Activity 2: Test the code](#Test-the-code-1) |
+| 7 | $ julia | Start Julia, and continue at step 8 of [Activity 2: Test the code](#Test-the-code-1) |
 
 ---
 
 ## Example test code
 
-```
-julia> include("main.jl")
+```julia
+julia> using Distributed
+
+julia> d = Dict([]) # empty directory for pids, used by the calling container
 Dict{Any,Any} with 0 entries
 
 julia> addprocs([("rob@172.17.0.3", 1)])
-1-element Array{Int64,1}:
- 2
 
 julia> d["test_sshd2"] = last(workers())
-2
 
 julia> @everywhere using RbO
 
-julia> tx1, rx1 = remote_body(d["test_sshd2"], createSubscriber)
-(RemoteChannel{Channel{Any}}(1, 1, 7), RemoteChannel{Channel{Any}}(1, 1, 8))
+julia> @everywhere f1(x) = createSubscriber(x)
 
-julia> tx2, rx2 = remote_body(d["test_sshd2"], createPublisher)
-(RemoteChannel{Channel{Any}}(1, 1, 10), RemoteChannel{Channel{Any}}(1, 1, 11))
-
-julia> put!(tx1, "Donald Duck") # transmit value "Donald Duck" to container
-RemoteChannel{Channel{Any}}(1, 1, 7)
-
-julia> put!(tx2, "The New York Times")
-RemoteChannel{Channel{Any}}(1, 1, 10)
-
-julia> isready(rx1) ? take!(rx1) : "" # receive result
-Subscriber("1687381951631187484", "Donald Duck", "", MEAN_CALCULATOR)
-
-julia> isready(rx2) ? take!(rx2) : ""
-Publisher("18206665133840381206", "The New York Times", NEWSPAPER, Subscriber[])
-
-julia> @async while true
-           if isready(rx1)
-               @show take!(rx1)
-           else
-               wait(rx1)
-           end
-       end
-Task (runnable) @0x00007fbf925c5ae0
-
-julia> @async while true
-           if isready(rx2)
-               @show take!(rx2)
-           else
-               wait(rx2)
-           end
-       end
-Task (runnable) @0x00007fbf92f59ae0
-
-julia> put!(tx1, "Daisy Duck")
-RemoteChannel{Channel{Any}}(1, 1, 7)
+julia> s1 = remotecall_fetch(f1, d["test_sshd2"], "Daisy")
 
 ```
 
@@ -231,34 +129,33 @@ RemoteChannel{Channel{Any}}(1, 1, 7)
 ## Activity 2b: Test the code
 
 Prerequisites:
-- Actitvity 2a
+- Actitvity 1
 
 ---
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 13 | Copy all the [Test code example](#Test-code-example-1) code to the clipboard, including the julia prompt and the response | |
-| 14 | Return to the container | |
-| 15 | Ctrl-Shfi-V | Paste the text on the clipboard in the Julia REPL. |
+| 8 | Copy all the [Test code example](#Test-code-example-1) code to the clipboard, including the julia prompt and the response | |
+| 9 | Return to the container | |
+| 10 | Ctrl-Shfi-V | Paste the text on the clipboard in the Julia REPL. |
 
 The result should look like the next example:
 
-```
-julia> take!(rx1) = Subscriber("15498821131237366424", "Donald Duck", "", MEAN_CALCULATOR)
-take!(rx2) = Publisher("8593928998820612462", "The New York Times", NEWSPAPER, Subscriber[])
-take!(rx1) = Subscriber("17785241625571045887", "Daisy Duck", "", MEAN_CALCULATOR)
+```julia
+julia> s1 = remotecall_fetch(f1, d["test_sshd2"], "Daisy")
+Subscriber("884704875723870469", "Daisy", "", MEAN_CALCULATOR)
 ```
 
 ---
 
 ## Activity 3: Run a function in the remote container
 
-Create and save a subscriber in the container test_sshd2. Then display all saved subscribers From a table. See also  [RbO.jl](https://www.appligate.nl/RbO.jl/).
+Create and save a subscriber in the container test_sshd2. Then display all saved subscribers from a table.
 
 Prerequisites:
 - Activity 1
-- Activity 2a & 2b
-- The package SQLite.jl is installed.
+- Activity 2
+- The package SQLite.jl is installed in both containers.
 
 
 Steps:
@@ -283,40 +180,41 @@ Steps:
 
 Try the code below.
 
-```
-# activate remote_body for the new function
-tx1, rx1 = remote_body(d["test_sshd2"], f)
+```julia
 
-# define a new function
-@everywhere f(x) = begin
-  s = createSubscriber(x) # create a subscriber
+using Distributed
+
+d = Dict([])
+
+addprocs([("rob@172.17.0.3", 1)])
+
+d["test_sshd2"] = last(workers())
+
+@everywhere using RbO
+
+# define a new function to create a new subscriber and save it in a database
+@everywhere f2(x) = begin
+  	s = createSubscriber(x) # create a subscriber
 	db = connect("./rbo.sqlite") # connect to database
-  create(db, "subscribers", [s]) # save subscriber in database
+	create(db, "subscribers", [s]) # save subscriber in database
 end
 
-# create and save the subscriber Donald Duck
-put!(tx1, "Donald Duck")
-
-# the display routine
-@async while true
-	if isready(rx1)
-  	@show take!(rx1)
-  else
-    wait(rx1)
-  end
-end
+remotecall_fetch(f2, 2, "Mickey")
 
 # define a new function for displaying all subscribers
-@everywhere f(x) = begin
-	db = connect("./rbo.sqlite") # connect to database
-	gather(db, x) # list all items in table x
+@everywhere f3(x) = begin
+   db = connect("./rbo.sqlite") # connect to database
+   gather(db, x) # list all items in table x
 end
 
-# activate remote_body for the new function
-tx1, rx1 = remote_body(d["test_sshd2"], f)
+# Get list of subscrobers
+remotecall_fetch(f3, 2, "subscribers")
 
-# All subscribers in the table subscribers
-put!(tx1, "subscribers")
+# Remove process
+rmprocs(d["test_sshd2"])
+
+# Remove key from dictionary
+delete!(d, "test_sshd2")
 
 ```
 
