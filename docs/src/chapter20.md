@@ -1,6 +1,4 @@
-# 20. Old Stuff
-
-# 11. Using Remote Channels
+# 20. Using Remote Channels (old stuff)
 
 ### What you will learn
 

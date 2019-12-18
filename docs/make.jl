@@ -24,10 +24,10 @@ makedocs(
             "10 - Raspberry Pi" => "chapter10.md"
         ],
         "Section 5 Up and running" => [
-            "11 - Using Remote Channels" => "chapter11.md",
+            "11 - Running functions remote" => "chapter11.md",
             "12 - Running the containers" => "chapter12.md",
             "13 - Logging" => "chapter13.md",
-            "20 - Old stuff" => "chapter20.md"
+            "20 - Using Remote Channels (old stuff)" => "chapter20.md"
         ],
 
         "Appendix" => "appendix.md",

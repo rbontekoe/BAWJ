@@ -1,4 +1,4 @@
-# 11. Using Remote Channels
+# 11. Running functions remote
 
 ### What you will learn
 

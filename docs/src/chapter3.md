@@ -8,6 +8,70 @@ Pages = ["chapter3.md"]
 
 We start with an procedure `Invoicing` we want to automate with Julia. Next, we will look at the requirements set by domain driven design. We end with the `design` we will implement.
 
+---
+
+## Definitions
+
+The points of attention are:
+- Procedure,
+- Controlleds process,
+- Automatic process,
+- Transaction data,
+- Domain-driven design, and
+- Style conventions.
+
+### Procedure
+
+A procedure is a description of work practice. It describes a series of actions in a particular order and interacts with people and machines. Actions make use of resources. Data, a service or a product, is the output of work.
+
+A process is the realization of the procedure. There are controlled and automatic processes.
+
+### Controlled process
+
+A controlled process is activated by an input.
+
+In the course, we look at a procedure `invoicing,` which is activated when it receives a list of attendees of a training course. It produces invoices and sends them to the organization that has registered the student. Journal records are sent to the general ledger application.
+
+### Automatic process
+
+An automatic process has a heartbeat that runs the process by itself and produces a continuous output.
+
+In the course, we look at a process that takes pictures every five seconds of the hallway. When there is a noticeable difference with the previous image, it will be sent to another application for further analysis.
+
+### Transaction data
+
+Both processes generate a lot of data that can be stored in a file or database. They are the owner of that data. The data can be analyzed to make a prediction. Nowadays, machine learning, in particular, deep learning techniques, are used for these tasks.
+
+In the case of the invoicing process, we could look at the trend of payment morale. In the case of the picture-taking process, we could determine whether the room is empty or not.
+
+### Domain-driven design
+
+Each process should be domain-specific. Subject matter experts and users of the domain speak the same language and use the same definitions and synonyms for concepts and objects. This leads to a Domain-driven design paradigm.
+
+The Onion Architecture lends itself perfectly to the domain-driven design pattern. It divides domain-specific matters into four areas:
+core,
+domain,
+API, and
+infrastructure.
+
+The core is the Julia language and libraries.
+
+The next peel, the domain, defines and materializes domain objects and concepts.  Between its elements, there must be coherence. You only use constructs from the `core.` An invoice or an empty-room are examples.
+
+The next layer is the API. The API consists of Julia functions that operate on the domain elements, and are used to create programs. You only use constructs from the `core and the domain.`
+
+`process_list_of_attendees,` `create_invoice,` `create_pdf,` `create_empty_room` are examples.
+
+ The infrastructure layer is the ultimate peel. The infrastructure has functions that communicate with the external world. Adapters are used to overcome mismatches between interfaces. When you write you the code, you use `elements from the inner layers.`
+
+`create_list_of_attendees` is an example function that processes a REST POST-command.
+
+### Style conventions
+
+The style conventions in this course are described in [Blue: a Style Guide for Julia](https://github.com/invenia/BlueStyle).
+
+---
+
 ## A procedure as a starting point
 In 1994 we were delivering Lotus Notes instructor-led training in the Netherlands. We became ISO-9001 certified one year later. ISO is short for the International Organization for Standardization. A part of ISO is the section procedures.
 
@@ -51,24 +115,6 @@ OM = Office Manage, AOM = Assistant Office Manager.
 
 Let's see how we can automate the procedure with Julia. We tackle it with a technique of Domain Driven Design and the Onion architecture.
 
-## Domain Driven Design and Onion Architecture
-
-The trend nowadays is to create application consisting of different unambiguous and autonomous units, running in containers:
-- You can quickly up and downscale containers based on the demand.
-- The software programmers can use their preferred programming language.
-- A unit is the owner of its data.
-
-The onion architecture lends itself perfectly to the domain-driven design pattern. If you look at the design like it's an onion, it's a core with peels around it. The base consists of Julia.
-
-The next peel is the domain. There must be coherence between its elements. The experts in this field speak the same language and use the same terms. Most items here are objects. You only use constructs from the core.
-
-The next layer is the API. Here you only use elements from the core and the domain. The API consists of the functions you use in your program.
-
-The outer peel is the Infrastructure layer. Its the connection with the external world. It uses the elements in the domain and API and adapters to match differences in technologies.
-
-An example is a REST request. If it is in JSON format, you have to convert it to a form you use in your software. After processing the inquiry, you turn it back to JSON. You can do so with adapters.
-
-When you write you the software, you only use the functions in the API and the Infrastructure layers.
 
 ## A review of the procedure Invoicing
 
