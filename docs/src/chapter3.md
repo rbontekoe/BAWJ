@@ -6,7 +6,7 @@
 Pages = ["chapter3.md"]
 ```
 
-We start with an procedure `Invoicing` we want to automate with Julia. Next, we will look at the requirements set by domain driven design. We end with the `design` we will implement.
+First, let's look at some terms and definitions. Next, the procedure `Invoicing` that we will automate with Julia. Then, we take a look at the requirements set by domain-driven design. We close with the `design` to we will implement.
 
 ---
 
@@ -149,7 +149,6 @@ We send the invoices to the customer by email. We store copies of the invoices l
 
 The domain objects are:
 
-- Message.
 - Invoice.
 - InvoiceStatus: UNPAID, PAID.
 - JournalRecord.
@@ -158,13 +157,12 @@ The domain objects are:
 
 The API contains the methods (functions) of the module. The methods use only elements from the core or of the domain. An overview of what I think we need:
 
-- createInvoice(id::String, company::Company, order::Order, students::Array(String, 1))::Invoice
-- updateInvoiceStatus(invoice::Invoice; status="PAID")::Invoice
-- createJournalRecord(invoice::Invoice)::JournalRecord
-- createJournalMessage(receiver::String, journalRecord::JournalRecord)::Message
-- readCSV(file::String)::DataFrame
-- findInvoice(df::DataFrame)::Invoice
-- reportUnpaidInvoices(db::SQLiteDB, table::String)::Dataframe
+- create_invoice(id::String, company::Company, order::Order, students::Array(String, 1))::Invoice
+- update_nvoice_status(invoice::Invoice; status="PAID")::Invoice
+- create_journal_record(invoice::Invoice)::Journalrecord
+- read_csv(file::String)::DataFrame
+- find_invoice(df::DataFrame)::Invoice
+- report_unpaid_invoices(db::SQLiteDB, table::String)::Dataframe
 
 [DataFrames.jl](SQLite, tableName),  makes it easy to work with data.
 
@@ -173,10 +171,10 @@ The API contains the methods (functions) of the module. The methods use only ele
 The methods of Infrastructure layer:
 
 - connect(path::String)::SQLiteDB
-- create(db::SQLiteDB, tableName::String, invoice::Invoice)
+- create(db::SQLiteDB, tablename::String, invoice::Invoice)
 - gather(db::SQLiteDB, tableName::String, selection::String)::DataFrame
-- createPDF(invoice::Invoice)::PDF
-- sendInvoice(invoice::Invoice, pdf::PDF)
+- create_pdf(invoice::Invoice)::PDF
+- send_invoice(invoice::Invoice, pdf::PDF)
 
 [SQLite.jl](https://juliadatabases.github.io/SQLite.jl/stable/) is the Julia package for SQLite, which we will use in the course. You can use it as an on-disk database file, but also as an in-memory database. The last option is ideal for testing.
 
