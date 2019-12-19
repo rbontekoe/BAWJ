@@ -1,4 +1,4 @@
-# 3 - Set-up the design
+# 3 - The design set-up
 
 ### What you will learn
 
@@ -6,18 +6,21 @@
 Pages = ["chapter3.md"]
 ```
 
-First, let's look at some terms and definitions. Next, the procedure `Invoicing` that we will automate with Julia. Then, we take a look at the requirements set by domain-driven design. We close with the `design` to we will implement.
+First, let's look at some terms and definitions. We'll convert the procedure `Invoicing` to a controlled-process model using the Onion Architecture pattern. `Domain` elements, like an invoice or journal record, define the starting point. Procedure `actions` become Julia-functions in the `API` I peel and use Domain elements. The `Infrastructure` layer interacts with the outer world and the inner layers.
+
+Chapter 4, Implementing the design, realizes the design. Making a Julia module of our model offers the ease of downloading it as a package and use it in our programs.
 
 ---
 
-## Definitions
+## Terms and definitions
 
 The points of attention are:
 - Procedure,
-- Controlleds process,
-- Automatic process,
+- Controlled-process,
+- Automatic-process,
 - Transaction data,
-- Domain-driven design, and
+- Domain-driven design,
+- Distributed processing, and
 - Style conventions.
 
 ### Procedure
@@ -26,27 +29,27 @@ A procedure is a description of work practice. It describes a series of actions 
 
 A process is the realization of the procedure. There are controlled and automatic processes.
 
-### Controlled process
+### Controlled-process
 
-A controlled process is activated by an input.
+An input activates a controlled process.
 
-In the course, we look at a procedure `invoicing,` which is activated when it receives a list of attendees of a training course. It produces invoices and sends them to the organization that has registered the student. Journal records are sent to the general ledger application.
+In the course, we look at a procedure `invoicing,` which is activated when it receives a list of attendees of a training course. It produces invoices and sends them to the organization that has registered the student. The application sends journal records will to the general ledger application.
 
-### Automatic process
+### Automatic-process
 
 An automatic process has a heartbeat that runs the process by itself and produces a continuous output.
 
-In the course, we look at a process that takes pictures every five seconds of the hallway. When there is a noticeable difference with the previous image, it will be sent to another application for further analysis.
+In the course, we look at a process that takes pictures every five seconds of the hallway. When there is a noticeable difference with the previous image, it sends it to another application for further analysis.
 
 ### Transaction data
 
-Both processes generate a lot of data that can be stored in a file or database. They are the owner of that data. The data can be analyzed to make a prediction. Nowadays, machine learning, in particular, deep learning techniques, are used for these tasks.
+Both processes generate a lot of data and store it in a file or database. They are the owner of that data. The data can be analyzed to make a prediction. Nowadays, machine learning, in particular, deep learning techniques, are used for these tasks.
 
 In the case of the invoicing process, we could look at the trend of payment morale. In the case of the picture-taking process, we could determine whether the room is empty or not.
 
 ### Domain-driven design
 
-Each process should be domain-specific. Subject matter experts and users of the domain speak the same language and use the same definitions and synonyms for concepts and objects. This leads to a Domain-driven design paradigm.
+Each process should be domain-specific. Subject matter experts and users of the domain speak the same language and use the same definitions and synonyms for concepts and objects. It leads to a Domain-driven design paradigm.
 
 The Onion Architecture lends itself perfectly to the domain-driven design pattern. It divides domain-specific matters into four areas:
 core,
@@ -62,13 +65,19 @@ The next layer is the API. The API consists of Julia functions that operate on t
 
 `process_list_of_attendees,` `create_invoice,` `create_pdf,` `create_empty_room` are examples.
 
- The infrastructure layer is the ultimate peel. The infrastructure has functions that communicate with the external world. Adapters are used to overcome mismatches between interfaces. When you write you the code, you use `elements from the inner layers.`
+ The infrastructure layer is the ultimate peel. With its functions, it communicates with the external world. Adapters overcome mismatches between interfaces. When you write you the code, you use `elements from the inner layers.`
 
 `create_list_of_attendees` is an example function that processes a REST POST-command.
 
+### Distributed processing
+
+Programs, written in Julia language, can run on other processor cores. Even in Docker containers on remote machines. Julia uses the master-worker concept. It means you execute Julia's functions on workers.
+
+Julia's `remotecall_fetch` function runs functions (our actions!) remotely. Internet of Things (IoT) applications are automatic-processes. To give commands and receive data, we use of Julia channels.
+
 ### Style conventions
 
-The style conventions in this course are described in [Blue: a Style Guide for Julia](https://github.com/invenia/BlueStyle).
+The article [Blue: a Style Guide for Julia](https://github.com/invenia/BlueStyle) describes the style conventions.
 
 ---
 
@@ -79,11 +88,11 @@ A procedure describes a workflow. It specifies the activities to be carried out 
 
 An input triggers a process. Every action creates an output, which can be data, a product, or a service.
 
-The example I use in the course is the procedure `Invoicing`.
+The example I use in the course is the procedure `Invoicing.`
 
 ### The course example
 
-In 1998 we rewrote our procedures as a table. Every row represents an action. Next to the activities are the columns with roles involved with the work. We used the RASCI notation for the kind of task of a role:
+In 1998 we rewrote our procedures as a table. Every row represents an action. Next to the activities are the columns with the roles involved with the work. We used the RASCI notation for the kind of task of a role:
 
 | Abbr | Meaning | Description |
 | :--- | :--- | :--- |
@@ -94,8 +103,6 @@ In 1998 we rewrote our procedures as a table. Every row represents an action. Ne
 | I | Informed | The person to be notified about the result. |
 
 ---
-
-**Procedure**: Invoicing.
 
 **Roles**:
 OM = Office Manage, AOM = Assistant Office Manager.
@@ -110,15 +117,14 @@ OM = Office Manage, AOM = Assistant Office Manager.
 | 4 | Book the invoice | R | A | Booked invoice | General ledger |
 | 5 | Book the paid invoice | R | A | Paid invoice | Bank records, General ledger | |
 | 6 | Archive the paid invoice | R | I | Archived invoice | Accounts Receivable paid |
+| 7 | Check unpaid invoices | | R | List of unpaid invoices to contact customer | Note in CRM system |
 
-**End result**: A paid invoice.
-
-Let's see how we can automate the procedure with Julia. We tackle it with a technique of Domain Driven Design and the Onion architecture.
+Let's see how we can automate the procedure with Julia. We tackle it with a technique of Domain-Driven Design and the Onion architecture.
 
 
 ## A review of the procedure Invoicing
 
-Looking at the `Invoicing` procedure, I see one domain or department, namely `Account Receivable`. It receives information from the process `Training Delivery`, which produces the list of students who have shown up in the classroom.
+Looking at the `Invoicing` procedure, I see one domain or department, namely `Account Receivable.` It receives information from the process `Training Delivery,` which produces the list of students who have shown up in the classroom.
 
 The resources are:
 - Order file.
@@ -129,14 +135,15 @@ Owner of:
 - Invoice
 
 Output
-- Journalized unpaid invoices for General Ledger.
-- Journalized paid invoices for General Ledger.
+- Email with attached invoice as PDF
+- Journal record unpaid invoices for General Ledger.
+- Journal records paid invoices for General Ledger.
 - Report of unpaid invoices.
 - Invoice as PDF.
 
 ### Summarized
 
-We send the invoices to the customer by email. We store copies of the invoices locally. We sent a journalized copies to General Ledger. We need:
+We send the invoice to the customer by email. We store a copy of the invoice locally. We sent the journalized copy to General Ledger. We need for testing:
 
 - Dummy Order file module.
 - Dummy Training Delivery module.
@@ -150,7 +157,7 @@ We send the invoices to the customer by email. We store copies of the invoices l
 The domain objects are:
 
 - Invoice.
-- InvoiceStatus: UNPAID, PAID.
+- InvoiceStatus: UNPAID, PAID, CREDITED.
 - JournalRecord.
 
 ### API Invoicing
@@ -158,8 +165,10 @@ The domain objects are:
 The API contains the methods (functions) of the module. The methods use only elements from the core or of the domain. An overview of what I think we need:
 
 - create_invoice(id::String, company::Company, order::Order, students::Array(String, 1))::Invoice
-- update_nvoice_status(invoice::Invoice; status="PAID")::Invoice
-- create_journal_record(invoice::Invoice)::Journalrecord
+- create_pdf(invoice::Invoice)::PDF
+- send_invoice(invoice::Invoice, pdf::PDF)
+- update_invoice_status(invoice::Invoice; status="PAID")::Invoice
+- create_journal_record(invoice::Invoice)::JournalRecord
 - read_csv(file::String)::DataFrame
 - find_invoice(df::DataFrame)::Invoice
 - report_unpaid_invoices(db::SQLiteDB, table::String)::Dataframe
@@ -171,16 +180,65 @@ The API contains the methods (functions) of the module. The methods use only ele
 The methods of Infrastructure layer:
 
 - connect(path::String)::SQLiteDB
-- create(db::SQLiteDB, tablename::String, invoice::Invoice)
-- gather(db::SQLiteDB, tableName::String, selection::String)::DataFrame
+- save(db::SQLiteDB, tablename::String, invoice::Invoice)
+- read(db::SQLiteDB, tableName::String, selection::String)::DataFrame
 - create_pdf(invoice::Invoice)::PDF
 - send_invoice(invoice::Invoice, pdf::PDF)
 
 [SQLite.jl](https://juliadatabases.github.io/SQLite.jl/stable/) is the Julia package for SQLite, which we will use in the course. You can use it as an on-disk database file, but also as an in-memory database. The last option is ideal for testing.
 
-I am thinking of Literate.jl as package to make PDFs.
+## Application infrastructure
 
-ToDo:
+```
+                               +-----------+
+                               | 1. Master |
+                               +-----------+
+                                     ↓ remotecall_fetch
+                           _________     ________
+                           ↓                    ↓
+                   +--------------+     +--------------------+
+                   | 2. Invoicing |     | 3. General Ledger  |
+                   +--------------+     +--------------------+
 
+
+Sequence diagram
+
+     Master                  Invoicing                  General Ledger
+       |
+       |  addprocs
+       |------------------------->|
+       |                          |↷ load Invoice module
+       |  remotecall_fetch(list)  |
+       |------------------------->|
+       |                          |↷ create_invoice
+       |                          |
+       |                          |↷ create_pdf
+       |                          |
+       |                          |↷ send_invoice
+       |                          |
+       |                          |↷ create_journal_record
+       |                          |
+       |                          |↷ connect
+       |                          |
+       |                          |↷ save(Db, JournalRecord)
+       |  JournalRecord           |
+       |<-------------------------|
+       |
+       |  addprocs
+       |------------------------------------------------------->|
+       |  remotecall_fetch(JournalRecord)                       |
+       |------------------------------------------------------->|
+       |                                                        |
+```
+
+1. Master \- Controlled-process in Docker container on the laptop.
+2. Worker Invoicing \- Controlled-process runs in a container on the laptop, created from Master.
+3. Worker General Ledger \- Controlled-process runs in a core on the laptop, created from Master.
+
+
+## ToDo
+
+- Thinking of Literate.jl as package to make PDFs.
 - How to attach a PDF to an email?
 - How to send an email?
+- [SMTPClient.jl](https://github.com/aviks/SMTPClient.jl)

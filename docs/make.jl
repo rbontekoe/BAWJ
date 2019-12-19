@@ -10,7 +10,7 @@ makedocs(
             "2 - Overview Julia" => "chapter2.md"
         ],
         "Section 2 - Building the application" => [
-            "3 - Set-up the design" => "chapter3.md",
+            "3 - The design set-up" => "chapter3.md",
             "4 - Implementing the design" => "chapter4.md",
             "5 - Writing test software" => "chapter5.md"
         ],
