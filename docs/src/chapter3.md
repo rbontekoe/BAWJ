@@ -33,7 +33,7 @@ A process is the realization of the procedure. There are controlled and automati
 
 An input activates a controlled process.
 
-In the course, we look at a procedure `invoicing,` which is activated when it receives a list of attendees of a training course. It produces invoices and sends them to the organization that has registered the student. The application sends journal records will to the general ledger application.
+In the course, we look at a procedure `Invoicing,` which is activated when it receives a list of attendees of a training course. It produces invoices and sends them to the organization that has registered the student. The application sends journal records to the General Ledger application.
 
 ### Automatic-process
 
@@ -47,6 +47,8 @@ Both processes generate a lot of data and store it in a file or database. They a
 
 In the case of the invoicing process, we could look at the trend of payment morale. In the case of the picture-taking process, we could determine whether the room is empty or not.
 
+For analyzes purposes, it is crucial not to update an existing item but create a new one with the modified data with a timestamp.
+
 ### Domain-driven design
 
 Each process should be domain-specific. Subject matter experts and users of the domain speak the same language and use the same definitions and synonyms for concepts and objects. It leads to a Domain-driven design paradigm.
@@ -59,11 +61,11 @@ infrastructure.
 
 The core is the Julia language and libraries.
 
-The next peel, the domain, defines and materializes domain objects and concepts.  Between its elements, there must be coherence. You only use constructs from the `core.` An invoice or an empty-room are examples.
+The next peel, the domain, defines and materializes domain objects and concepts.  Between its elements, there must be coherence. You only use constructs from the `core.` `UnpaidInvoice` is an example.
 
 The next layer is the API. The API consists of Julia functions that operate on the domain elements, and are used to create programs. You only use constructs from the `core and the domain.`
 
-`process_list_of_attendees,` `create_invoice,` `create_pdf,` `create_empty_room` are examples.
+`create_unpaidinvoice,` `create_paidinvoice,` `create_pdf` are examples.
 
  The infrastructure layer is the ultimate peel. With its functions, it communicates with the external world. Adapters overcome mismatches between interfaces. When you write you the code, you use `elements from the inner layers.`
 
@@ -136,14 +138,14 @@ Owner of:
 
 Output
 - Email with attached invoice as PDF
-- Journal record unpaid invoices for General Ledger.
-- Journal records paid invoices for General Ledger.
+- Journal statement unpaid invoices for General Ledger.
+- Journal JournalStatement paid invoices for General Ledger.
 - Report of unpaid invoices.
 - Invoice as PDF.
 
-### Summarized
+### Summary
 
-We send the invoice to the customer by email. We store a copy of the invoice locally. We sent the journalized copy to General Ledger. We need for testing:
+We send the invoice to the customer by email. We store a copy of the invoice locally. We sent the journal record copy to General Ledger. We need for testing:
 
 - Dummy Order file module.
 - Dummy Training Delivery module.
@@ -154,24 +156,35 @@ We send the invoice to the customer by email. We store a copy of the invoice loc
 
 ### Domain
 
-The domain objects are:
+The domain objects (types) are:
 
-- Invoice.
-- InvoiceStatus: UNPAID, PAID, CREDITED.
-- JournalRecord.
+- TrainingDelivery.ListShownup¹.
+- Invoice²
+- UnpaidInvoice <: Invoice.
+- PaidInvoice <: Invoice.
+- CreditedInvoice <: Invoice.
+- GeneralLedger.JournalStatement³.
+
+¹ Defined in the module TrainingDelivery. We will create the list in the test code to simplify the course.
+² Invoice is a abstract type. E.g. with `save(invoice::Invoice)` you can save UnpaidInvoice as well as PaidInvoice.
+³ Defined in the module GeneralLedger.
 
 ### API Invoicing
 
 The API contains the methods (functions) of the module. The methods use only elements from the core or of the domain. An overview of what I think we need:
 
-- create_invoice(id::String, company::Company, order::Order, students::Array(String, 1))::Invoice
+- create\_unpaidinvoice(id::String, company::Company¹, order::Order, students::Array(String, 1))::UnpaidInvoice
 - create_pdf(invoice::Invoice)::PDF
-- send_invoice(invoice::Invoice, pdf::PDF)
-- update_invoice_status(invoice::Invoice; status="PAID")::Invoice
-- create_journal_record(invoice::Invoice)::JournalRecord
-- read_csv(file::String)::DataFrame
-- find_invoice(df::DataFrame)::Invoice
-- report_unpaid_invoices(db::SQLiteDB, table::String)::Dataframe
+- archive\_invoice(invoice::Invoice)
+- create\_paidinvoice(invoice::Invoice)::PaidInvoice
+- create\_journalstm(invoice::Invoice)::JournalStatement
+- send\_invoice(invoice::Invoice, pdf::PDF)
+- read\_row(list::ListShownup, row::Int)::ListShownupItem
+- read\_bankstm(df::DataFrame)::DataFrameRow
+- find\_invoice(id:Int64)::Invoice
+- report\_unpaid\_invoices(db::SQLiteDB, table::String, condition::Boolean)::Dataframe
+
+¹ We define and create the Company, Order, and Student objects in the test code to simplify the course.
 
 [DataFrames.jl](SQLite, tableName),  makes it easy to work with data.
 
@@ -182,10 +195,62 @@ The methods of Infrastructure layer:
 - connect(path::String)::SQLiteDB
 - save(db::SQLiteDB, tablename::String, invoice::Invoice)
 - read(db::SQLiteDB, tableName::String, selection::String)::DataFrame
-- create_pdf(invoice::Invoice)::PDF
-- send_invoice(invoice::Invoice, pdf::PDF)
+- create\_pdf(invoice::Invoice)::PDF
+- send\_invoice(invoice::Invoice, pdf::PDF)
+- send\_report(report::DataFrame)
 
 [SQLite.jl](https://juliadatabases.github.io/SQLite.jl/stable/) is the Julia package for SQLite, which we will use in the course. You can use it as an on-disk database file, but also as an in-memory database. The last option is ideal for testing.
+
+## Activity diagram
+
+```
+    ○ ListShownup
+    ↓
+↱ read_row
+    ↓
+  create_unpaidinvoice
+    ↓
+    _______________________________________________
+    ↓               ↓             ↓               ↓
+  create_email    create_pdf   archive_invoice  create_journalstm
+    ↓               ↓             |               ↓
+    _________________             |             post_journalstm
+       ↓                          |               |
+    append_pdf                    |               |
+       ↓                          |               |
+    send_email                    |               |
+       ↓                          ↓               ↓
+    _______________________________________________
+       ↓
+↻      ⋄ ready read_item?
+       ↓ yes
+       ◉
+
+
+       ○ BankStatements
+       ↓
+↱ read_bankstm
+       ↓
+  ↱ find_invoice
+       ↓
+  ↻ ⋄ invoice found?
+       ↓ yes
+     ___________________________
+     ↓                         ↓
+  create_paidinvoice     create_journal_stm
+     ↓                         ↓
+  archive_paidinvoice    post_journal_stm
+     ↓                         ↓   
+     ___________________________                  
+     ↓
+↻    ⋄ last bankstm ?
+     ↓ yes
+  create_report_unpaid_invoices
+     ↓
+  send_report
+     ↓
+     ◉  
+```
 
 ## Application infrastructure
 
@@ -193,47 +258,18 @@ The methods of Infrastructure layer:
                                +-----------+
                                | 1. Master |
                                +-----------+
-                                     ↓ remotecall_fetch
-                           _________     ________
-                           ↓                    ↓
+                                     ↓
+                                     ◊
+       ListShownup / BankStatement  ↙ ↘  JournalStatement
                    +--------------+     +--------------------+
-                   | 2. Invoicing |     | 3. General Ledger  |
+                   | 2. Invoicing |     | 3. General Ledger  |   Workers
                    +--------------+     +--------------------+
-
-
-Sequence diagram
-
-     Master                  Invoicing                  General Ledger
-       |
-       |  addprocs
-       |------------------------->|
-       |                          |↷ load Invoice module
-       |  remotecall_fetch(list)  |
-       |------------------------->|
-       |                          |↷ create_invoice
-       |                          |
-       |                          |↷ create_pdf
-       |                          |
-       |                          |↷ send_invoice
-       |                          |
-       |                          |↷ create_journal_record
-       |                          |
-       |                          |↷ connect
-       |                          |
-       |                          |↷ save(Db, JournalRecord)
-       |  JournalRecord           |
-       |<-------------------------|
-       |
-       |  addprocs
-       |------------------------------------------------------->|
-       |  remotecall_fetch(JournalRecord)                       |
-       |------------------------------------------------------->|
-       |                                                        |
+                          ↓
+                   JournalStatement
 ```
-
-1. Master \- Controlled-process in Docker container on the laptop.
-2. Worker Invoicing \- Controlled-process runs in a container on the laptop, created from Master.
-3. Worker General Ledger \- Controlled-process runs in a core on the laptop, created from Master.
+1. Master \- Runs in a container.
+2. Worker Invoicing \- Function, see [Activity diagram](#Activity-diagram-1), runs in a container.
+3. Worker General Ledger \- Dummy, runs on a core.
 
 
 ## ToDo

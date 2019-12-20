@@ -232,3 +232,41 @@ println("Total price                     $symbol$(@sprintf("%.2f", totalprice))"
 ## Storage
 
 ## Infrastructure
+
+## Dunmmies
+
+##### JournalStatement
+
+```
+struct JournalRecord
+    date::DateTime
+    custid::String
+    invnbr::String
+    stmnbr::Int64
+    from::Int64
+    to::Int64
+    debit::Float64
+    credit::Float64
+    vat::Float64
+    pctvat::Float64
+    descr::String
+end
+```
+
+##### Account General Ledger
+
+```
+struct Account
+    date::DateTime
+    custid::String
+    invnbr::Int64
+    stmnbr::Int64
+    debit::Float6
+    credit::Float6
+    descr::String
+end
+
+stmnbr accounts receivable = 1300
+stmnbr vat = 1501
+stmnbr sales scheduled courses = 8100
+```
