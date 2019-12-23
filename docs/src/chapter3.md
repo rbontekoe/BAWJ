@@ -16,9 +16,6 @@ Chapter 4, Implementing the design, realizes the design. Making a Julia module o
 
 The points of attention are:
 - Procedure,
-- Controlled-process,
-- Automatic-process,
-- Transaction data,
 - Domain-driven design,
 - Distributed processing, and
 - Style conventions.
@@ -27,41 +24,15 @@ The points of attention are:
 
 A procedure is a description of work practice. It describes a series of actions in a particular order and interacts with people and machines. Actions make use of resources. Data, a service or a product, is the output of work.
 
-A process is the realization of the procedure. There are controlled and automatic processes.
-
-### Controlled-process
-
-An input activates a controlled process.
-
-In the course, we look at a procedure `Invoicing,` which is activated when it receives a list of attendees of a training course. It produces invoices and sends them to the organization that has registered the student. The application sends journal records to the General Ledger application.
-
-### Automatic-process
-
-An automatic process has a heartbeat that runs the process by itself and produces a continuous output.
-
-In the course, we look at a process that takes pictures every five seconds of the hallway. When there is a noticeable difference with the previous image, it sends it to another application for further analysis.
-
-### Transaction data
-
-Both processes generate a lot of data and store it in a file or database. They are the owner of that data. The data can be analyzed to make a prediction. Nowadays, machine learning, in particular, deep learning techniques, are used for these tasks.
-
-In the case of the invoicing process, we could look at the trend of payment morale. In the case of the picture-taking process, we could determine whether the room is empty or not.
-
-For analyzes purposes, it is crucial not to update an existing item but create a new one with the modified data with a timestamp.
-
 ### Domain-driven design
 
 Each process should be domain-specific. Subject matter experts and users of the domain speak the same language and use the same definitions and synonyms for concepts and objects. It leads to a Domain-driven design paradigm.
 
-The Onion Architecture lends itself perfectly to the domain-driven design pattern. It divides domain-specific matters into four areas:
-core,
-domain,
-API, and
-infrastructure.
+The Onion Architecture lends itself perfectly to the domain-driven design pattern. It divides domain-specific matters into four areas: core, domain, API, and infrastructure.
 
-The core is the Julia language and libraries.
+The core consists out of the Julia language constructs and Julia packages. Modules are packages.
 
-The next peel, the domain, defines and materializes domain objects and concepts.  Between its elements, there must be coherence. You only use constructs from the `core.` `UnpaidInvoice` is an example.
+The next peel, the domain, defines the domain entities and concepts. Between its elements, there must be coherence. You only use constructs from the `core.` `UnpaidInvoice` is an example.
 
 The next layer is the API. The API consists of Julia functions that operate on the domain elements, and are used to create programs. You only use constructs from the `core and the domain.`
 
@@ -69,13 +40,9 @@ The next layer is the API. The API consists of Julia functions that operate on t
 
  The infrastructure layer is the ultimate peel. With its functions, it communicates with the external world. Adapters overcome mismatches between interfaces. When you write you the code, you use `elements from the inner layers.`
 
-`create_list_of_attendees` is an example function that processes a REST POST-command.
+### Parallel processing
 
-### Distributed processing
-
-Programs, written in Julia language, can run on other processor cores. Even in Docker containers on remote machines. Julia uses the master-worker concept. It means you execute Julia's functions on workers.
-
-Julia's `remotecall_fetch` function runs functions (our actions!) remotely. Internet of Things (IoT) applications are automatic-processes. To give commands and receive data, we use of Julia channels.
+Programs, written in Julia language, can run on other processor cores. Even in Docker containers on remote machines. Julia uses the master-worker concept. It means that the master execute Julia's functions on workers.
 
 ### Style conventions
 
@@ -86,34 +53,26 @@ The article [Blue: a Style Guide for Julia](https://github.com/invenia/BlueStyle
 ## A procedure as a starting point
 In 1994 we were delivering Lotus Notes instructor-led training in the Netherlands. We became ISO-9001 certified one year later. ISO is short for the International Organization for Standardization. A part of ISO is the section procedures.
 
-A procedure describes a workflow. It specifies the activities to be carried out by people or machines and the resources that are required to produce a result.
+A procedure describes a workflow or business proces. It specifies the activities to be carried out by people or machines and the resources that are required to produce a result.
 
-An input triggers a process. Every action creates an output, which can be data, a product, or a service.
+An input triggers a process. Every action creates an output, most of the time the modified data of the input.
 
 The example I use in the course is the procedure `Invoicing.`
 
 ### The course example
 
-In 1998 we rewrote our procedures as a table. Every row represents an action. Next to the activities are the columns with the roles involved with the work. We used the RASCI notation for the kind of task of a role:
+In 1998 we rewrote our procedures as a table. Every row represents an action. Next to the activities are the columns with the roles involved with the work. The original procedure:
 
-| Abbr | Meaning | Description |
-| :--- | :--- | :--- |
-| R | Responsible | The person who is responsible for the execution of the activity. |
-| A | Approves | The person who approves the result before going to the next step. |
-| S | Supports | The members of the team. |
-| C | Consults | The person or entity to be consulted. |
-| I | Informed | The person to be notified about the result. |
-
----
+**Procecdure**: Invoicing.
 
 **Roles**:
 OM = Office Manage, AOM = Assistant Office Manager.
 
-**Input**: A list of students who have shown up in the classroom.
+**Input**: List of orders.
 
 | Step| Action | AOM | OM | Output | Tool | Exception |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 1 | Create an invoice per student | R | A | Created and authorized invoices | Order file | |
+| 1 | Create an invoice per order | R | A | Created and authorized invoices | Order file | |
 | 2 | Archive a copy of the invoice | R | | Archived copy | Accounts Receivable unpaid | |
 | 3 | Send the invoice to the customer | R | I | Invoice sent | |
 | 4 | Book the invoice | R | A | Booked invoice | General ledger |
@@ -121,136 +80,128 @@ OM = Office Manage, AOM = Assistant Office Manager.
 | 6 | Archive the paid invoice | R | I | Archived invoice | Accounts Receivable paid |
 | 7 | Check unpaid invoices | | R | List of unpaid invoices to contact customer | Note in CRM system |
 
+**RASCI**
+- R = Responsible, the entity who is responsible for the execution of the activity.
+- A = Approves, the entity who approves the result before going to the next step.
+- S = Supports, the members of the team.
+- C = Consults, the entity to be consulted.
+- I = Informed, the entity to be notified about the result.
+
+
 Let's see how we can automate the procedure with Julia. We tackle it with a technique of Domain-Driven Design and the Onion architecture.
 
+We start with an activity diagram, which represents the API-layer. The actions are written down as Julia functions. Arguments and return value can be typed in Julia, noted by a double colon (::) followed by a name. This defines the domain entities, e.g., `::Order, ::UnpaidInvoice`.
 
-## A review of the procedure Invoicing
+Forking and joining is represented by equal sign bars (======). Here we can determine which tasks can run in parallel.
 
-Looking at the `Invoicing` procedure, I see one domain or department, namely `Account Receivable.` It receives information from the process `Training Delivery,` which produces the list of students who have shown up in the classroom.
+## The procedure as activity diagram
 
-The resources are:
-- Order file.
-- CSV list of bank records.
-- General Ledger.
+The actions define the Julia functions of the API layer.
 
-Owner of:
-- Invoice
+Forking and joining is represented by equal sign bars (======). Here we can determine which tasks can run in parallel.
 
-Output
-- Email with attached invoice as PDF
-- Journal statement unpaid invoices for General Ledger.
-- Journal JournalStatement paid invoices for General Ledger.
-- Report of unpaid invoices.
-- Invoice as PDF.
+```
+    ○ List(::OpenCourseOrder)
+    ↓
+  create(::OpenCourseOrder)::UnpaidInvoice
+    ↓
+    ====================================
+    ↓                                  ↓
+    archive(::UnpaidInvoice)  create(::UnpaidInvoice)::PDF  
+    ↓                                  ↓
+    ====================================
+    ↓
+    send_email(::UnpaidInvoice, ::PDF)
+    ↓
+    post(::UnpaidInvoice)::JouralStatement # to GL
+    ↓
+↻   ⋄ last Order?
+    ↓ yes
+    ◉
 
-### Summary
 
-We send the invoice to the customer by email. We store a copy of the invoice locally. We sent the journal record copy to General Ledger. We need for testing:
-
-- Dummy Order file module.
-- Dummy Training Delivery module.
-- Dummy General Ledger module.
-- Bank records file.
+    ○ List(::BankStatement)
+    ↓
+  find(::Bankstatement)::UnpaidInvoice
+    ↓
+    ⋄ UnpaidInvoice found?
+↻   ↓ yes
+    create(::UnpaidInvoice, ::Bankstatement)::PaidInvoice
+    ↓
+    ===========
+    ↓         ↓
+    archive   post_journalstm(::PaidInvoice)::JournalStatement
+    ↓         ↓   
+    ===========
+    ↓
+↻   ⋄ last Bankstatement ?
+    ↓ yes
+    build_report_unpaid_invoices, when payment term is overdue.
+    ↓
+    send_report
+    ↓
+    ◉  
+```
 
 ## The design
+
+From the activity diagram.
 
 ### Domain
 
 The domain objects (types) are:
 
-- TrainingDelivery.ListShownup¹.
-- Invoice²
+Domain Types:
+- Invoice¹.
 - UnpaidInvoice <: Invoice.
-- PaidInvoice <: Invoice.
-- CreditedInvoice <: Invoice.
+- PaidInvoice <:Invoice.
+
+External types
+- Sales.OpenCourseOrder².
+- GeneralLedger.BankStatement³.
+- GeneralLedger.JournalStatement³.
 - GeneralLedger.JournalStatement³.
 
-¹ Defined in the module TrainingDelivery. We will create the list in the test code to simplify the course.
-² Invoice is a abstract type. E.g. with `save(invoice::Invoice)` you can save UnpaidInvoice as well as PaidInvoice.
+General Types:
+- DataFrame⁴
+
+¹ Abstract Type.
+
+² Defined in the module Sales. We iterate on a list of orders that we will create in the test code to simplify the course.
+
 ³ Defined in the module GeneralLedger.
+
+⁴ In the module DataFrames, delivered with Julia.
 
 ### API Invoicing
 
-The API contains the methods (functions) of the module. The methods use only elements from the core or of the domain. An overview of what I think we need:
+The API contains the methods (functions) of the module. The methods use only elements from the core or the domain. An overview of what I think we need:
 
-- create\_unpaidinvoice(id::String, company::Company¹, order::Order, students::Array(String, 1))::UnpaidInvoice
-- create_pdf(invoice::Invoice)::PDF
-- archive\_invoice(invoice::Invoice)
-- create\_paidinvoice(invoice::Invoice)::PaidInvoice
-- create\_journalstm(invoice::Invoice)::JournalStatement
-- send\_invoice(invoice::Invoice, pdf::PDF)
-- read\_row(list::ListShownup, row::Int)::ListShownupItem
-- read\_bankstm(df::DataFrame)::DataFrameRow
-- find\_invoice(id:Int64)::Invoice
-- report\_unpaid\_invoices(db::SQLiteDB, table::String, condition::Boolean)::Dataframe
+- create(order::Order)::UnpaidInvoice
+- create(::UnpaidInvoice)::PaidInvoice
+- create(::Invoice)::JournalStatement
 
-¹ We define and create the Company, Order, and Student objects in the test code to simplify the course.
+We define and create the `Order, with the Training, Company, Contact and Student` objects in the test code to simplify the course.
 
 [DataFrames.jl](SQLite, tableName),  makes it easy to work with data.
 
-### Infrastructure
+### Methods of Infrastructure layer:
 
-The methods of Infrastructure layer:
+Database:
+- connect(path::String)::SQLite.DB
+- save(db::SQLite.DB, tablename::String, invoice::Array{Invoice, 1})
+- read(db::SQLite.DB, tablename::String, selection::String)::DataFrame
 
-- connect(path::String)::SQLiteDB
-- save(db::SQLiteDB, tablename::String, invoice::Invoice)
-- read(db::SQLiteDB, tableName::String, selection::String)::DataFrame
-- create\_pdf(invoice::Invoice)::PDF
-- send\_invoice(invoice::Invoice, pdf::PDF)
-- send\_report(report::DataFrame)
+DBAdapter:
+- archive(invoice::Invoice, save(db::SQLite.DB, tablename::String, invoice::Invoice)) ???
+- read(Invoice.id, read(db::SQLite.DB, tablename::String, "item='$Invoice.id'"))::DataFrame ???
+
+Email:
+- to_pdf(invoice::Invoice)::File
+- send(invoice::Invoice, pdf::File)
+- send(report::DataFrame)
 
 [SQLite.jl](https://juliadatabases.github.io/SQLite.jl/stable/) is the Julia package for SQLite, which we will use in the course. You can use it as an on-disk database file, but also as an in-memory database. The last option is ideal for testing.
-
-## Activity diagram
-
-```
-    ○ ListShownup
-    ↓
-↱ read_row
-    ↓
-  create_unpaidinvoice
-    ↓
-    _______________________________________________
-    ↓               ↓             ↓               ↓
-  create_email    create_pdf   archive_invoice  create_journalstm
-    ↓               ↓             |               ↓
-    _________________             |             post_journalstm
-       ↓                          |               |
-    append_pdf                    |               |
-       ↓                          |               |
-    send_email                    |               |
-       ↓                          ↓               ↓
-    _______________________________________________
-       ↓
-↻      ⋄ ready read_item?
-       ↓ yes
-       ◉
-
-
-       ○ BankStatements
-       ↓
-↱ read_bankstm
-       ↓
-  ↱ find_invoice
-       ↓
-  ↻ ⋄ invoice found?
-       ↓ yes
-     ___________________________
-     ↓                         ↓
-  create_paidinvoice     create_journal_stm
-     ↓                         ↓
-  archive_paidinvoice    post_journal_stm
-     ↓                         ↓   
-     ___________________________                  
-     ↓
-↻    ⋄ last bankstm ?
-     ↓ yes
-  create_report_unpaid_invoices
-     ↓
-  send_report
-     ↓
-     ◉  
-```
 
 ## Application infrastructure
 
@@ -260,7 +211,7 @@ The methods of Infrastructure layer:
                                +-----------+
                                      ↓
                                      ◊
-       ListShownup / BankStatement  ↙ ↘  JournalStatement
+   OpenCourseOrder / BankStatement  ↙ ↘  JournalStatement
                    +--------------+     +--------------------+
                    | 2. Invoicing |     | 3. General Ledger  |   Workers
                    +--------------+     +--------------------+
