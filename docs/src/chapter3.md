@@ -1,4 +1,4 @@
-# 3 - The design set-up
+# 3 - The design
 
 ### What you will learn
 
@@ -6,9 +6,7 @@
 Pages = ["chapter3.md"]
 ```
 
-First, let's look at some terms and definitions. We'll convert the procedure `Invoicing` to a controlled-process model using the Onion Architecture pattern. `Domain` elements, like an invoice or journal record, define the starting point. Procedure `actions` become Julia-functions in the `API` I peel and use Domain elements. The `Infrastructure` layer interacts with the outer world and the inner layers.
-
-Chapter 4, Implementing the design, realizes the design. Making a Julia module of our model offers the ease of downloading it as a package and use it in our programs.
+First, let's look at some terms and definitions. We'll convert the procedure `Invoicing` to a activity diagram. Using the Onion Architecture pattern, we define the `Domain` objects, and the Julia API-functions. In the `Infrastructure` layer we put the functions that interact with the outer world and the inner layers.
 
 ---
 
@@ -22,27 +20,27 @@ The points of attention are:
 
 ### Procedure
 
-A procedure is a description of work practice. It describes a series of actions in a particular order and interacts with people and machines. Actions make use of resources. Data, a service or a product, is the output of work.
+A procedure is a description of work practice, a workflow. It describes a series of activities or actions in a particular order and interacts with people and machines. Actions make use of resources. Data, a service or a product, is the output of work.
 
 ### Domain-driven design
 
 Each process should be domain-specific. Subject matter experts and users of the domain speak the same language and use the same definitions and synonyms for concepts and objects. It leads to a Domain-driven design paradigm.
 
-The Onion Architecture lends itself perfectly to the domain-driven design pattern. It divides domain-specific matters into four areas: core, domain, API, and infrastructure.
+The Onion Architecture lends itself perfectly to the domain-driven design pattern. It divides an application into four areas: core, domain, API, and infrastructure.
 
-The core consists out of the Julia language constructs and Julia packages. Modules are packages.
+The core consists out of the Julia language constructs and Julia modules. [Modules](https://docs.julialang.org/en/v1/manual/modules/index.html) are also called packages.
 
-The next peel, the domain, defines the domain entities and concepts. Between its elements, there must be coherence. You only use constructs from the `core.` `UnpaidInvoice` is an example.
+The next layer, the domain, defines the domain entities and concepts. Between its elements, there must be coherence. You only use constructs from the `core.` `UnpaidInvoice` is an example.
 
-The next layer is the API. The API consists of Julia functions that operate on the domain elements, and are used to create programs. You only use constructs from the `core and the domain.`
+The next peel is the API. The API consists of Julia functions that operate on the domain elements, and are used to create programs. You only use constructs from the `core and the domain.`
 
 `create_unpaidinvoice,` `create_paidinvoice,` `create_pdf` are examples.
 
  The infrastructure layer is the ultimate peel. With its functions, it communicates with the external world. Adapters overcome mismatches between interfaces. When you write you the code, you use `elements from the inner layers.`
 
-### Parallel processing
+### Distributed processing
 
-Programs, written in Julia language, can run on other processor cores. Even in Docker containers on remote machines. Julia uses the master-worker concept. It means that the master execute Julia's functions on workers.
+Programs, written in Julia language, also can run on other processor cores. Even in Docker containers on remote machines. Julia uses the master-worker concept. It means that the master executes Julia's functions on workers.
 
 ### Style conventions
 
@@ -53,15 +51,15 @@ The article [Blue: a Style Guide for Julia](https://github.com/invenia/BlueStyle
 ## A procedure as a starting point
 In 1994 we were delivering Lotus Notes instructor-led training in the Netherlands. We became ISO-9001 certified one year later. ISO is short for the International Organization for Standardization. A part of ISO is the section procedures.
 
-A procedure describes a workflow or business proces. It specifies the activities to be carried out by people or machines and the resources that are required to produce a result.
+A procedure describes a workflow or business process. It specifies the activities to be carried out by people or machines and the resources that are required to produce a result.
 
-An input triggers a process. Every action creates an output, most of the time the modified data of the input.
+An input triggers a process. Every action creates an output, most of the time, modified information or side-effects such as saving data.
 
 The example I use in the course is the procedure `Invoicing.`
 
 ### The course example
 
-In 1998 we rewrote our procedures as a table. Every row represents an action. Next to the activities are the columns with the roles involved with the work. The original procedure:
+In 1998 we rewrote our procedures as a table. Every row represents an activity or action. Next to the events are the columns with the roles involved with the work. The original procedure:
 
 **Procecdure**: Invoicing.
 
@@ -90,13 +88,11 @@ OM = Office Manage, AOM = Assistant Office Manager.
 
 Let's see how we can automate the procedure with Julia. We tackle it with a technique of Domain-Driven Design and the Onion architecture.
 
-We start with an activity diagram, which represents the API-layer. The actions are written down as Julia functions. Arguments and return value can be typed in Julia, noted by a double colon (::) followed by a name. This defines the domain entities, e.g., `::Order, ::UnpaidInvoice`.
-
-Forking and joining is represented by equal sign bars (======). Here we can determine which tasks can run in parallel.
+---
 
 ## The procedure as activity diagram
 
-The actions define the Julia functions of the API layer.
+The activity diagram represents the API-layer. The actions are written down as Julia functions. Arguments and return value can be typed in Julia, noted by a double colon (::) followed by a name. This defines the domain entities, e.g., `::OpenCourseOrder, ::UnpaidInvoice`.
 
 Forking and joining is represented by equal sign bars (======). Here we can determine which tasks can run in parallel.
 
@@ -105,15 +101,15 @@ Forking and joining is represented by equal sign bars (======). Here we can dete
     ↓
   create(::OpenCourseOrder)::UnpaidInvoice
     ↓
-    ====================================
-    ↓                                  ↓
+    ===========================
+    ↓                         ↓
     archive(::UnpaidInvoice)  create(::UnpaidInvoice)::PDF  
-    ↓                                  ↓
-    ====================================
+    ↓                         ↓
+    ===========================
     ↓
     send_email(::UnpaidInvoice, ::PDF)
     ↓
-    post(::UnpaidInvoice)::JouralStatement # to GL
+    post(::UnpaidInvoice)::JournalStatement # to General Ledger
     ↓
 ↻   ⋄ last Order?
     ↓ yes
@@ -122,7 +118,7 @@ Forking and joining is represented by equal sign bars (======). Here we can dete
 
     ○ List(::BankStatement)
     ↓
-  find(::Bankstatement)::UnpaidInvoice
+  find(::BankStatement)::UnpaidInvoice
     ↓
     ⋄ UnpaidInvoice found?
 ↻   ↓ yes
@@ -134,7 +130,7 @@ Forking and joining is represented by equal sign bars (======). Here we can dete
     ↓         ↓   
     ===========
     ↓
-↻   ⋄ last Bankstatement ?
+↻   ⋄ last BankStatement ?
     ↓ yes
     build_report_unpaid_invoices, when payment term is overdue.
     ↓
@@ -145,7 +141,7 @@ Forking and joining is represented by equal sign bars (======). Here we can dete
 
 ## The design
 
-From the activity diagram.
+From the activity diagram we get:
 
 ### Domain
 
@@ -154,7 +150,7 @@ The domain objects (types) are:
 Domain Types:
 - Invoice¹.
 - UnpaidInvoice <: Invoice.
-- PaidInvoice <:Invoice.
+- PaidInvoice <: Invoice.
 
 External types
 - Sales.OpenCourseOrder².
@@ -175,13 +171,13 @@ General Types:
 
 ### API Invoicing
 
-The API contains the methods (functions) of the module. The methods use only elements from the core or the domain. An overview of what I think we need:
+The API contains the methods (functions) of the module. The methods use only elements from the core or domain. An overview of we need:
 
 - create(order::Order)::UnpaidInvoice
 - create(::UnpaidInvoice)::PaidInvoice
 - create(::Invoice)::JournalStatement
 
-We define and create the `Order, with the Training, Company, Contact and Student` objects in the test code to simplify the course.
+We define and create the `Order, with the Training, Company, Contact, and Student` objects in the test code to simplify the course.
 
 [DataFrames.jl](SQLite, tableName),  makes it easy to work with data.
 
@@ -193,12 +189,12 @@ Database:
 - read(db::SQLite.DB, tablename::String, selection::String)::DataFrame
 
 DBAdapter:
-- archive(invoice::Invoice, save(db::SQLite.DB, tablename::String, invoice::Invoice)) ???
-- read(Invoice.id, read(db::SQLite.DB, tablename::String, "item='$Invoice.id'"))::DataFrame ???
+- archive(invoice::Invoice, save(db::SQLite.DB, tablename::String, invoice::Invoice))
+- find(Invoice.id, read(db::SQLite.DB, tablename::String, "item='$Invoice.id'"))::DataFrame
 
 Email:
-- to_pdf(invoice::Invoice)::File
-- send(invoice::Invoice, pdf::File)
+- to_pdf(invoice::Invoice, filename::String)::File
+- send(invoice::Invoice, filename::String)
 - send(report::DataFrame)
 
 [SQLite.jl](https://juliadatabases.github.io/SQLite.jl/stable/) is the Julia package for SQLite, which we will use in the course. You can use it as an on-disk database file, but also as an in-memory database. The last option is ideal for testing.
