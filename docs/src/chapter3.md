@@ -6,7 +6,7 @@
 Pages = ["chapter3.md"]
 ```
 
-First, let's look at some terms and definitions. We'll convert the procedure `Invoicing` to a activity diagram. Using the Onion Architecture pattern, we define the `Domain` objects, and the Julia API-functions. In the `Infrastructure` layer we put the functions that interact with the outer world and the inner layers.
+First, let's look at some terms and definitions. We'll convert the procedure `Invoicing` into an activity diagram. Using the Onion Architecture pattern, we define the `Domain` objects and the Julia `API`-functions. In the `Infrastructure` layer, we put the functions that interact with the outer world and the inner layers.
 
 ---
 
@@ -61,7 +61,7 @@ The example I use in the course is the procedure `Invoicing.`
 
 In 1998 we rewrote our procedures as a table. Every row represents an activity or action. Next to the events are the columns with the roles involved with the work. The original procedure:
 
-**Procecdure**: Invoicing.
+**Procedure**: Invoicing.
 
 **Roles**:
 OM = Office Manage, AOM = Assistant Office Manager.
@@ -82,19 +82,19 @@ OM = Office Manage, AOM = Assistant Office Manager.
 - R = Responsible, the entity who is responsible for the execution of the activity.
 - A = Approves, the entity who approves the result before going to the next step.
 - S = Supports, the members of the team.
-- C = Consults, the entity to be consulted.
-- I = Informed, the entity to be notified about the result.
+- C = Consults, an entity.
+- I = Informed, notify the entity about the result.
 
 
 Let's see how we can automate the procedure with Julia. We tackle it with a technique of Domain-Driven Design and the Onion architecture.
 
 ---
 
-## The procedure as activity diagram
+## The procedure as an activity diagram
 
-The activity diagram represents the API-layer. The actions are written down as Julia functions. Arguments and return value can be typed in Julia, noted by a double colon (::) followed by a name. This defines the domain entities, e.g., `::OpenCourseOrder, ::UnpaidInvoice`.
+The activity diagram represents an API-layer. The actions are Julia functions. You can add types to arguments and return value in Julia, noted by a double colon (::) followed by the name of the type. This defines the domain entities, e.g., `::OpenCourseOrder, ::UnpaidInvoice`.
 
-Forking and joining is represented by equal sign bars (======). Here we can determine which tasks can run in parallel.
+Equal sign bars (======) represents forking, and joining. Here we can determine which tasks can run in parallel.
 
 ```
     ○ List(::OpenCourseOrder)
@@ -221,7 +221,7 @@ Email:
 
 ## ToDo
 
-- Thinking of Literate.jl as package to make PDFs.
+- Thinking of Literate.jl as a package to make PDFs.
 - How to attach a PDF to an email?
 - How to send an email?
 - [SMTPClient.jl](https://github.com/aviks/SMTPClient.jl)
