@@ -156,7 +156,6 @@ External types
 - Sales.OpenCourseOrder².
 - GeneralLedger.BankStatement³.
 - GeneralLedger.JournalStatement³.
-- GeneralLedger.JournalStatement³.
 
 General Types:
 - DataFrame⁴
@@ -166,8 +165,6 @@ General Types:
 ² Defined in the module Sales. We iterate on a list of orders that we will create in the test code to simplify the course.
 
 ³ Defined in the module GeneralLedger.
-
-⁴ In the module DataFrames, delivered with Julia.
 
 ### API Invoicing
 
