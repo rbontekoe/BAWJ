@@ -143,7 +143,7 @@ Equal sign bars (======) represents forking, and joining. Here we can determine 
 
 From the activity diagram we get:
 
-### Domain
+### Domain elements
 
 The domain objects (types) are:
 
@@ -166,19 +166,23 @@ General Types:
 
 ³ Defined in the module GeneralLedger.
 
+⁴ [DataFrames](https://en.wikibooks.org/wiki/Introducing_Julia/DataFrames) is a part of Julia. It is a data structure comparable to a spreadsheet.
+
 ### API Invoicing
 
 The API contains the methods (functions) of the module. The methods use only elements from the core or domain. An overview of we need:
 
-- create(order::Order)::UnpaidInvoice
-- create(::UnpaidInvoice)::PaidInvoice
+- create(::Order)::UnpaidInvoice
+- create(::UnpaidInvoice, ::BankStatement)::PaidInvoice
 - create(::Invoice)::JournalStatement
+
+In Julia, you can use the same function name as long as the `signature` is different, other types or number of arguments. It is called [multiple dispatch](https://en.wikipedia.org/wiki/Multiple_dispatch).
 
 We define and create the `Order, with the Training, Company, Contact, and Student` objects in the test code to simplify the course.
 
 [DataFrames.jl](SQLite, tableName),  makes it easy to work with data.
 
-### Methods of Infrastructure layer:
+### Methods of the Infrastructure layer
 
 Database:
 - connect(path::String)::SQLite.DB
@@ -186,8 +190,8 @@ Database:
 - read(db::SQLite.DB, tablename::String, selection::String)::DataFrame
 
 DBAdapter:
-- archive(invoice::Invoice, save(db::SQLite.DB, tablename::String, invoice::Invoice))
-- find(Invoice.id, read(db::SQLite.DB, tablename::String, "item='$Invoice.id'"))::DataFrame
+- archive(invoice::Invoice)
+- find(invoice::Invoice, condition::Boolean)::DataFrame
 
 Email:
 - to_pdf(invoice::Invoice, filename::String)::File

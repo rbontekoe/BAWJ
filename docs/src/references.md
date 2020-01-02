@@ -20,6 +20,7 @@
 
 ## Julia Package Manger
 - [A Brief Introduction to Package Management with Julia 1.0](https://www.simonwenkel.com/2018/10/06/a-brief-introduction-to-package-management-with-julia.html)
+- [Creating Packages](https://julialang.github.io/Pkg.jl/v1/creating-packages/index.html)
 - [Pkg + BinaryBuilder -- The Next Generation](https://julialang.org/blog/2019/11/artifacts)
 - [Overview popular Julia packages](https://juliaobserver.com/packages)
 

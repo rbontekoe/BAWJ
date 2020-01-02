@@ -9,7 +9,7 @@ UNDER DEVELOPMENT!
 The final folder structure and files for our Julia application.
 
 ```
-tci.jl
+AppliInvoicing.jl
 - src
   - api
     - api.jl
@@ -17,9 +17,12 @@ tci.jl
     - domain.jl
   - infrastructure
     - inftrastructure.jl
-    - db.jl
+  - AppliInvoicingl.jl
+  - general_ledger
   - main.jl
-  - tcl.jl
+  - print_invoice.jl
+  - sales.jl
+  - test.jl
 - test
   - runtests.jl
 ```
@@ -29,12 +32,84 @@ tci.jl
 ### Activity: Create the minimum folder structure and file domain.jl
 
 In this activity you will create the folder structure for our `invoicing` process. You partial tet-up the folder structure according to figure 1:
-- Create the base folder tci.jl.
-- Create the subfolders `src` and `domain`.
+- Create the base folder AppliInvoicing.
+- Create a repository on GitHub.
+- Create under `src` the subfolder `domain`.
 - Create the file domain.jl.
+
+###### Create the base folder AppliInvoicing
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
+| 1 | $ mkdir julia-projects | Create a working directory.  |
+| 2 | $ cd julia-projects | |
+| 3 | $ julia | Start Julia. |
+| 4 | julia > ] | Open the package manager. |
+| 5 | pkg> generate AppliInvoicing | Generate e.g. the package AppliInvoicing. Response: |
+
+`Generating project AppliInvoicing:
+    AppliInvoicing/Project.toml
+    AppliInvoicing/src/AppliInvoicing.jl`
+
+We come back to the generate files in chapter 6. Project.toml has the package name and dependencies.
+
+###### Create a repository on GitHub
+
+Leave the package manager and Julia.
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 6 | Go to GitHub | E.g. https://github.com/rbontekoe. Create an account if you don't have one. |
+| 7 | Click on the tab `repositories` |
+| 8 | Click on the green button `New` | Botton upper left side. |
+| 9 | Give the repository a name | E.g. AppliInvoicing |
+| 10 | Give the repository a name | E.g. Invoicing module for the course. |
+
+It is recommended to define a licence and .gitignore for Julia, e.g.
+- Add .gitignore: julia
+- Add licence: MIT licence
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 11 | Click on the green button `Create repository` | Button is located at the bottom side. |
+| 12 | return to your computer  and enter the folder AppliInvoicing |  |
+
+Install git: apt-get install git
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 13 | $ echo "# AppliInvoicing" >> README.md | Create README.md file. |
+| 14 | $ git init |  |
+| 16 | $ git status | Response: |
+
+`On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+	new file:   README.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	Project.toml
+	src/``
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 16 | $ git add README.md | Add README.md to commit list. | |
+| 17 | $ git add Project.toml |  |
+| 18 | $ git add src/ | |
+| 19 | $ git commit -m "first commit" | Commit the added files with a comment. |
+| 20 | $ git remote add origin https://github.com/rbontekoe/AppliInvoicing.git |
+| 21 | $ git push -u origin master | push changed to your GitHub repository. |
+
+Check on GitHub whether you see the updates.
+
+###### Create under the src-folder the folder domain
+
 | 1 | $ mkdir tcj.jl | mkdir is the linux command to create a folder. |
 | 2 | $ cd tcl.jl | Change to the new created folder. |
 | 3 | $ atom . | Start Atom in the current directory tcl.jl. **Don't forget the point (.)**. Here are the instructions to install [Atom/Juno](http://docs.junolab.org/latest/man/installation/) if you haven't done it already. |
