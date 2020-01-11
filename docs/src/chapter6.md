@@ -1,7 +1,13 @@
-# 6. Creating the modules
+# 5. Writing test software
 
-## Export
+## runtest.jl
 
-## Course
+## Cases
 
-## Registration
+```Julia
+@testset "SubscriberType test" begin
+    @test SubscriberType(0) == MEAN_CALCULATOR
+    @test SubscriberType(1) == STD_CALCULATOR
+    @test SubscriberType(2) == PLOTTER
+end
+```

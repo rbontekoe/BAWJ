@@ -97,7 +97,7 @@ The activity diagram represents an API-layer. The actions are Julia functions. Y
 Equal sign bars (======) represents forking, and joining. Here we can determine which tasks can run in parallel.
 
 ```
-    ○ List(::OpenCourseOrder)
+    ○ process(::Order)
     ↓
   create(::OpenCourseOrder)::UnpaidInvoice
     ↓
@@ -116,7 +116,7 @@ Equal sign bars (======) represents forking, and joining. Here we can determine 
     ◉
 
 
-    ○ List(::BankStatement)
+    ○ process(::BankStatement)
     ↓
   find(::BankStatement)::UnpaidInvoice
     ↓
@@ -124,11 +124,11 @@ Equal sign bars (======) represents forking, and joining. Here we can determine 
 ↻   ↓ yes
     create(::UnpaidInvoice, ::Bankstatement)::PaidInvoice
     ↓
-    ===========
-    ↓         ↓
-    archive   post_journalstm(::PaidInvoice)::JournalStatement
-    ↓         ↓   
-    ===========
+    ==========================
+    ↓                        ↓
+    archive(::PaidInvoice)   post_journalstm(::PaidInvoice)::JournalStatement
+    ↓                        ↓   
+    ==========================
     ↓
 ↻   ⋄ last BankStatement ?
     ↓ yes

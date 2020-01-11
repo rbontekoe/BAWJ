@@ -2,26 +2,33 @@
 
 UNDER DEVELOPMENT!
 
-## Set-up development environment
+### What you will learn
+
+```@contents
+Pages = ["chapter4.md"]
+```
+
+In chapter 3 we saw how the design of the invoicing module might look like. In this chapter we will implement the design. Two other module that will come in the picture are: AppliSales and AppliSQLite.
+
+## Development environment
 
 ### Application folder and file structure
 
 The final folder structure and files for our Julia application.
 
 ```
-AppliInvoicing.jl
+AppliInvoicing
 - src
   - api
     - api.jl
   - domain
     - domain.jl
   - infrastructure
-    - inftrastructure.jl
+    - infrastructure.jl
   - AppliInvoicingl.jl
   - general_ledger
   - main.jl
   - print_invoice.jl
-  - sales.jl
   - test.jl
 - test
   - runtests.jl
@@ -29,15 +36,27 @@ AppliInvoicing.jl
 
 *Figure 1*
 
-### Activity: Create the minimum folder structure and file domain.jl
+## Activity 4.1: Create the minimum folder structure and the file domain.jl
 
-In this activity you will create the folder structure for our `invoicing` process. You partial tet-up the folder structure according to figure 1:
+In this activity you will create the folder structure for our `invoicing` process. You partial set-up the folder structure according to figure 1:
 - Create the base folder AppliInvoicing.
 - Create a repository on GitHub.
-- Create under `src` the subfolder `domain`.
+- Create the folder `domain`under `src`.
 - Create the file domain.jl.
 
 ###### Create the base folder AppliInvoicing
+
+All steps are necessary, because we want to create a Julia module form our code.
+
+Prerequisites
+- Your computer OS is Ubuntu 18.04.
+- You have sudo (administraton) rights.
+- `git` installed.
+- `atom/juno` installed.
+
+You can install git with the command: sudo apt-get install git.
+
+To install juno see the next [instruction](http://docs.junolab.org/latest/man/installation/).
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -51,7 +70,7 @@ In this activity you will create the folder structure for our `invoicing` proces
     AppliInvoicing/Project.toml
     AppliInvoicing/src/AppliInvoicing.jl`
 
-We come back to the generate files in chapter 6. Project.toml has the package name and dependencies.
+We come back to the generate files in chapter 6. Project.toml has the package name and its dependencies.
 
 ###### Create a repository on GitHub
 
@@ -60,21 +79,24 @@ Leave the package manager and Julia.
 | Step | Action | Comment |
 | :--- | :--- | :--- |
 | 6 | Go to GitHub | E.g. https://github.com/rbontekoe. Create an account if you don't have one. |
-| 7 | Click on the tab `repositories` |
-| 8 | Click on the green button `New` | Botton upper left side. |
-| 9 | Give the repository a name | E.g. AppliInvoicing |
-| 10 | Give the repository a name | E.g. Invoicing module for the course. |
+| 7 | Click on the tab `Repositories` |
+| 8 | Click on the green button `New` | Botton upper right side. |
+| 9 | Give the repository a name | E.g. `AppliInvoicing.jl` |
+| 10 | Give the repository a description | E.g. Invoicing module for the course. |
 
-It is recommended to define a licence and .gitignore for Julia, e.g.
-- Add .gitignore: julia
-- Add licence: MIT licence
+!!! warning
+    Start with a empty repository!
+
+    After you pushed your first files you can define a licence and .gitignore for Julia, e.g.
+    - Add .gitignore: julia.
+    - Add licence: MIT licence.
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
 | 11 | Click on the green button `Create repository` | Button is located at the bottom side. |
-| 12 | return to your computer  and enter the folder AppliInvoicing |  |
+| 12 | Return to your computer and enter the folder AppliInvoicing |  |
 
-Install git: apt-get install git
+Install git: apt-get install git.
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -86,174 +108,187 @@ Install git: apt-get install git
 
 No commits yet
 
-Changes to be committed:
-  (use "git rm --cached <file>..." to unstage)
-
-	new file:   README.md
-
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
 
 	Project.toml
-	src/``
+	README.md
+	src/
+
+nothing added to commit but untracked files present (use "git add" to track)`
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 16 | $ git add README.md | Add README.md to commit list. | |
-| 17 | $ git add Project.toml |  |
-| 18 | $ git add src/ | |
-| 19 | $ git commit -m "first commit" | Commit the added files with a comment. |
-| 20 | $ git remote add origin https://github.com/rbontekoe/AppliInvoicing.git |
-| 21 | $ git push -u origin master | push changed to your GitHub repository. |
+| 17 | $ git add Project.toml | Add file to staged changes. |
+| 18 | $ git add README.md |  |
+| 19 | $ git add src/ | |
+| 20 | $ git status | Response: |
 
-Check on GitHub whether you see the updates.
+`On branch master
 
-###### Create under the src-folder the folder domain
+No commits yet
 
-| 1 | $ mkdir tcj.jl | mkdir is the linux command to create a folder. |
-| 2 | $ cd tcl.jl | Change to the new created folder. |
-| 3 | $ atom . | Start Atom in the current directory tcl.jl. **Don't forget the point (.)**. Here are the instructions to install [Atom/Juno](http://docs.junolab.org/latest/man/installation/) if you haven't done it already. |
-| 4 | Remove all Taps in the right pane.| The Tabs are: Telemerty Consent, Welcome, and Welcom Guide. A tab will be remove by clicking on the x-symbol. |
-| 5 | Right click on: tci.jl | tci.jl is the base folder. It will also be the name of our future module. |
-| 6 | Select: `New folder` | Dialog box `+ Enter the path for the new folder.` appears. |
-| 7 | Type: `src` |  |
-| 8 | Press: <Enter> | The new folder appears under the folder tci.jl |
-| 9 | Right click on: `src` |  |
-| 10 | Select: `New folder` |  |
-| 11 | Type: `domain` |  |
-| 12 | Press: <Enter> | The new folder `domain` appears under the folder `src`. |
-| 13 | Select the folder: `src` |  |
-| 14 | RightS click on: `domain` |  |
-| 15 | Select: `New file` |  |
-| 16 | Type: `domain.jl` |  |
-| 17 | Press: <Enter> | A new document appears in the pane next to the navigation pane. |
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+	new file:   Project.toml
+	new file:   README.md
+	new file:   src/AppliInvoicing.jl`
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 21 | $ git commit -m "first commit" | Response: |
+
+`[master (root-commit) 3b06d57] first commit
+ 3 files changed, 10 insertions(+)
+ create mode 100644 Project.toml
+ create mode 100644 README.md
+ create mode 100644 src/AppliInvoicing.jl`
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 22 | $ git remote add origin https://github.com/rbontekoe/AppliInvoicing.jl.git |  |
+| 23 | $ git push -u origin master | push changed to your GitHub repository. | Push your files to your GitHub repository. GitHub asks for your userid and password. |
+
+Check on GitHub the update.
+
+###### Create the folder domain under the src-folder
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 1 | Enter the AppliInvoicing folder|  |
+| 2 | $ atom . | Start Atom in the current directory AppliInvoicing.| **Don't forget the point (.)**. Here are the instructions to install [Atom/Juno](http://docs.junolab.org/latest/man/installation/) if you haven't done it already. |
+| 3 | Remove all Taps in the right pane.| The Tabs are: Telemerty Consent, Welcome, and Welcom Guide. A tab will be remove by clicking on the x-symbol. |
+| 4 | Right click on: src | |
+| 5 | Select: `New folder` |  |
+| 6 | Type: `domain` |  |
+| 7 | Press: <Enter> | The new folder `domain` appears under the folder `src`. |
+| 8 | Select the folder: `domain` |  |
+| 9 | Right click on: `domain` |  |
+| 10 | Select: `New file` |  |
+| 11 | Type: `domain.jl` |  |
+| 12 | Press: <Enter> | A new document appears in the pane next to the navigation pane. |
 
 In the navigation pane you see the next folders and files:
 
 ```
-- tci.jl
+- AppliInvoicing
   - src
     - domain
       - domain.jl
+		AppliInvoicing.jl
+	Project.toml
+	README.md
 ```
 
-## Domain
+## domain.jl
 
-For the domain object we will use ```strut```s. With the strut you can define a data type. There are abstract types and concrete types. We start with the concrete type.
+When us use packages in your application, define it at the top of the domain.jl file.
 
-### Concrete data types
-In the previous [chapter](#The-design-1) we found the next resources for which we will create ```struct```s:
+We use date and time in our application. To activate the build-in package you use the statement: using Dates.
 
-- Invoice.
-- InvoiceStatus: UNPAID, PAID.
-- JournalRecord.
-- Message.
+To define a data structure and type, we use the keyword `struct`. The body consists of the fields of the data structure.
 
-The invoice structure.
+Use constructors to define standard values, like the default valuta symbol. It simplifies the creating op the object.
 
-## Creating the invoice items
-
-Let's say that the invoice has a header and a body. We also have to do some calculations, e.g, the VAT. SAnd, we want to refer to the training and the orders, which are most likely stored at another entities, e.g. Marketing, and Sales.
-
-To keep things clear we create the following objects:
-- HeaderInvoice.
-- BodyInvoice.
-- MetaInvoice.
-
-Next, we combine these objects in blocks into the InvouceTraining.
-
-### HeaderInvoice
-
-We use the keyword `struct` to define a data structure. You give it a name and on the next line you mention the fields and their data types.
+To keep things clear we create the following objects as part of the invoice:
+- MetaInvoice, containing references to the order, the training, and the currency.
+- HeaderInvoice, contains all the general information.
+- OpentrainingItem, the invoice body consists of one item.
 
 ```julia
-struct HeaderInvoice
-    invoiceNbr::String
-    nameOrganization::String
-    cityOrganization::String
-    orderRefOrganization::String
-    nameContact::String
-    emailContact::String
-end # defined HeaderInvoice
-```
+using Dates # module use date functions
 
-### BodyInvoice
-
-```julia
-struct BodyInvoice
-    nameTraining::String
-    pricePerStudent::Float64
-    students::Array{String, 1}
-end # defined BodyInvoice
-```
-
-### MetaInvoice
-
-```julia
+# Meta data
 struct MetaInvoice
-    orderId::String
-    trainingId::String
-    date::DateTime
-    vatPercentage::Float64
+    order_id::String
+    training_id::String
+    date::DateTime #1
     currency::String
-    currencyRatio::Float64 #  against the euro
-end # defined MetaInvoice
-```
-
-### Enumerators
-
-```julia
-@enum InvoiceStatus begin
-    UNPAID
-    PAID
-end # defined enumerator for InvoiceStatus
-```
-
-### InvoiceTraining
-
-```julia
-struct InvoiceTraining
-    id::String
-    date::DateTime
-    meta::MetaInvoice
-    header::HeaderInvoice
-    body::BodyInvoice
-    status::InvoiceStatus
-end # defined InvoiceTraining
-```
-
-## Adding constructors
-
-### MetaInvoice
-
-```julia
-using DateTime
-
-struct MetaInvoice
-    ...
-    # Constructores
-    MetaInvoice() = new("", "", now(), 0.21, "€", 1)
-    #MetaInvoice(orderId, trainingId) = new(orderId, trainingId, now(), date, 0.21, "€", 1)
-    MetaInvoice(orderId, trainingId, date, vatPercentage, currency, currencyRatio) =
-        new(orderId, trainingId, date, vatPercentage, currency, currencyRatio)
-end # defined MetaInvoice
-```
-
-#### InvoiceTraining
-```julia
-using DateTime
-
-struct InvoiceTraining
-    ...
+    currency_ratio::Float64
     # Constructors
-    InvoiceTraining(headerInvoice, bodyInvoice ) =
-        new( "", now(), MetaInvoice(), headerInvoice, bodyInvoice, UNPAID )
-    InvoiceTraining(id, date, meta, headerInvoice, bodyInvoice, status) =
-        new( id, date, meta, date, headerInvoice, bodyInvoice,  status )
-end # defined InvoiceTraining
+    MetaInvoice(order_id, training_id) = new(order_id, training_id, now(), "€", 1.0) #2
+    MetaInvoice(order_id, training_id, date, currency, currency_ratio) = new(order_id, training_id, now(), currency, currency_ratio)
+end # defined MetaInvoice
+
+struct Header #3
+    invoice_nbr::String #4
+    name::String
+    address::String
+    zip::String
+    city::String
+    country::String
+    order_ref::String
+    name_contact::String
+    email_contact::String
+end # defined HeaderInvoice
+
+struct OpentrainingItem #5
+    name_training::String
+    date::DateTime
+		days::Int64
+    price_per_student::Float64
+    students::Array{String, 1}
+    vat_perc::Float64
+    # constructors
+    OpentrainingEntry(name_training, date, days, price_per_student, students) = new(name_training, days, date, price_per_student, students, 0.21)
+    OpentrainingEntry(name_training, date, price_per_student, students, vat_perc) = new(name_training, days, date, price_per_student, students, vat_perc)
+end # defined OpentrainingItem
+
+struct UnpaidInvoice
+    id::String
+    meta::MetaInvoice
+    header::Header
+    body::OpentrainingItem
+end # defined UnpaidInvoice
+```
+\#1 Invoice date
+
+\#2 We assume that most students are from a country in Europe where they have the euro as currency.
+
+\#3 Information from the order form.
+
+\#4 In the future we will automatically generate a unique id.
+
+\#5 Course information and students who attend the training.
+
+
+## Exercice 4.1
+
+1. Copy the domain data to the domain.jl file in atom.
+2. Select the first statement, and press <Enter>. The line will be evaluated. Repeat for all elements.
+3. Save the file with Ctrl-S.
+4. Create a folder `api` under the scr-folder.
+5. Create the file `api.jl` in the folder `api`.
+
+## api.jl
+
+In the API we only use Julia code and the elements from the domain, the basic idea behind the onion architecture.
+
+We use the include statement to have access to the domain elements. The relative path is to the domain.jl file.
+
+Basically, we define in the API the functions that our program needs. When the function has more than one statement, we embed the statements between a begin ... end block.
+
+The function `create` needs a `Order` as argument, and an id. As said before in the future we generate a unique id automatically within the block.
+
+
+
+```
+include("../domain/domain.jl")
+
+create(order::Order, invoice_id::String)::UnpaidInvoice = begin
+    meta = MetaInvoice(order.id, order.training.id)
+    header_invoice = Header(
+		    invoice_id, order.org.name, order.org.address, order.org.zip, order.org.city, order.org.country,      order.order_ref, order.contact_name, order.contact_email)
+    body_invoice = OpentrainingItem(order.training.name, order.training.date, order.training.price, order.students)
+
+    invoice = UnpaidInvoice(invoice_id, meta, header_invoice, body_invoice)
+end
 ```
 
-## Testing the invoice
+
+
+
 
 ```julia
 # main.jl

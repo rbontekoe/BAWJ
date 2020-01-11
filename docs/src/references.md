@@ -7,6 +7,7 @@
 - [Parallel Computing](https://github.com/crstnbr/JuliaWorkshop19/blob/master/3_Three/1_parallel_computing.ipynb)
 - [NaelsonDouglas/DistributedMachineLearningThesis](https://github.com/NaelsonDouglas/DistributedMachineLearningThesis)
 - [Blue: a Style Guide for Julia](https://github.com/invenia/BlueStyle)
+- [Performance Tips](https://docs.julialang.org/en/v1/manual/performance-tips/index.html)
 
 ## Julia Unicode
 - [Unicode Input](https://docs.julialang.org/en/v1/manual/unicode-input/)
@@ -40,3 +41,4 @@
 - [Auto Cue](https://www.cueprompter.com/nl/)
 - [This AI Clones Your Voice After Listening for 5 Seconds](https://www.youtube.com/watch?v=0sR1rU3gLzQ&t=148s)
 - [Julia Computing and NVIDIA Bring Julia GPU Computing to Arm](https://juliacomputing.com/blog/2019/12/03/nvidia-ngc-arm.html)
+- [Optimizing Serial Code](https://mitmath.github.io/18337/lecture2/optimizing)
