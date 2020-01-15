@@ -92,49 +92,35 @@ Let's see how we can automate the procedure with Julia. We tackle it with a tech
 
 ## The procedure as an activity diagram
 
-The activity diagram represents an API-layer. The actions are Julia functions. You can add types to arguments and return value in Julia, noted by a double colon (::) followed by the name of the type. This defines the domain entities, e.g., `::OpenCourseOrder, ::UnpaidInvoice`.
-
-Equal sign bars (======) represents forking, and joining. Here we can determine which tasks can run in parallel.
+The activity diagram represents the workflow. The actions are Julia functions. You can add typed arguments and return values in Julia, noted by a double colon (::) followed by the name of the type. This defines the domain entities, e.g., `::Order, ::UnpaidInvoice`.
 
 ```
-    ○ process(::Order)
+⚉ process(orders::Array{Order)::Array{JournalStatement}
     ↓
-  create(::OpenCourseOrder)::UnpaidInvoice
+    create(::Array{Order}::Array{UnpaidInvoice}
     ↓
-    ===========================
-    ↓                         ↓
-    archive(::UnpaidInvoice)  create(::UnpaidInvoice)::PDF  
-    ↓                         ↓
-    ===========================
+    archive(::Array{UnpaidInvoice})  
+    ↓                                ↓
+    create(::Array{UnpaidInvoice)::Array{JournalStatement}
     ↓
-    send_email(::UnpaidInvoice, ::PDF)
+    send_email(::Array{UnpaidInvoice}) # TODO
     ↓
-    post(::UnpaidInvoice)::JournalStatement # to General Ledger
+    return Array{JournalStatement}
     ↓
-↻   ⋄ last Order?
-    ↓ yes
     ◉
 
 
-    ○ process(::BankStatement)
+⚉ process(::Array{BankStatement})::Array{BankStatement}
     ↓
-  find(::BankStatement)::UnpaidInvoice
+    filter(::Array{UnpaidInvoice}, ::Array{Bankstatement})::Array{PaidInvoice}
     ↓
-    ⋄ UnpaidInvoice found?
-↻   ↓ yes
-    create(::UnpaidInvoice, ::Bankstatement)::PaidInvoice
+    archive(::Array{PaidInvoice})
+    ↓  
+    create(::Array{PaidInvoice})::Array{JournalStatement}
     ↓
-    ==========================
-    ↓                        ↓
-    archive(::PaidInvoice)   post_journalstm(::PaidInvoice)::JournalStatement
-    ↓                        ↓   
-    ==========================
+    report()::Array{UnpaidInvoice}::Array{UnpaidInvoiceOverdure} # TODO
     ↓
-↻   ⋄ last BankStatement ?
-    ↓ yes
-    build_report_unpaid_invoices, when payment term is overdue.
-    ↓
-    send_report
+    return Array{JournalStatement}
     ↓
     ◉  
 ```
@@ -148,16 +134,16 @@ From the activity diagram we get:
 The domain objects (types) are:
 
 Domain Types:
-- Invoice¹.
-- UnpaidInvoice <: Invoice.
-- PaidInvoice <: Invoice.
+- UnpaidInvoice,
+- PaidInvoice.
 
 External types
-- Sales.OpenCourseOrder².
-- GeneralLedger.BankStatement³.
+- Sales.Order²,
+- GeneralLedger.BankStatement³,
 - GeneralLedger.JournalStatement³.
 
 General Types:
+- Dates
 - DataFrame⁴
 
 ¹ Abstract Type.
