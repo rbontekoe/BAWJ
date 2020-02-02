@@ -1,5 +1,15 @@
 # Blog
 
+## 2020
+
+### 02/02/2020
+
+The pages `test_remote_channels.jl` and `myfunctions.jl`, I have embellished with `@info`. The flow of the data has now become more explicit. The code is on github: [test\_remote\_channels.jl](https://github.com/rbontekoe/AppliMaster.jl/blob/master/src/test_remote_channels.jl).
+
+Working with channels runs smoothly. I only run the functions that perform the operations on a different core. The `while true` loops for `task_1` and `task_2` tasks run locally. Should I also run these loops remotely?
+
+So I had to renumber the subsequent chapters.
+
 ### 02/01/2020
 Today I copied the blog from the AppliGate website to The course environment.
 
