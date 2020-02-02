@@ -1,9 +1,11 @@
-# 8. Introduction
+7. Documenting the modules
 
-**UNDER DEVELOPMENT!**
+## documenter.jl
 
-## What is Docker?
+### Basic folder structure
 
-## What is a Dockerfile
+## make.jl
 
-## What is docker-compose
+## Referring to modules
+
+## Run tests

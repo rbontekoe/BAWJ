@@ -9,12 +9,17 @@
 - [Blue: a Style Guide for Julia](https://github.com/invenia/BlueStyle)
 - [Performance Tips](https://docs.julialang.org/en/v1/manual/performance-tips/index.html)
 
+## Julia Debugging
+- [A Julia interpreter and debugger](https://julialang.org/blog/2019/03/debuggers/)
+
 ## Julia Unicode
 - [Unicode Input](https://docs.julialang.org/en/v1/manual/unicode-input/)
 
 ## Julia Wikibooks
 - [Index](https://en.wikibooks.org/wiki/Introducing_Julia)
 - [Introducing Julia/Types](https://en.wikibooks.org/wiki/Introducing_Julia/Types)
+- [Introducing Julia/DataFrames](https://en.wikibooks.org/wiki/Introducing_Julia/DataFrames)
+- [Introducing Julia/Working with dates and times](https://en.wikibooks.org/wiki/Introducing_Julia/Working_with_dates_and_times)
 
 ## Julia Machine Learning
 - [Data science for managers: Programming languages](https://www.datasciencecentral.com/profiles/blogs/data-science-for-managers-programming-languages)

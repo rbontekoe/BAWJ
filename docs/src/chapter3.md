@@ -95,34 +95,39 @@ Let's see how we can automate the procedure with Julia. We tackle it with a tech
 The activity diagram represents the workflow. The actions are Julia functions. You can add typed arguments and return values in Julia, noted by a double colon (::) followed by the name of the type. This defines the domain entities, e.g., `::Order, ::UnpaidInvoice`.
 
 ```
-⚉ process(orders::Array{Order)::Array{JournalStatement}
+⚉ process(::Array{Order)
     ↓
     create(::Array{Order}::Array{UnpaidInvoice}
     ↓
-    archive(::Array{UnpaidInvoice})  
-    ↓                                ↓
-    create(::Array{UnpaidInvoice)::Array{JournalStatement}
-    ↓
     send_email(::Array{UnpaidInvoice}) # TODO
     ↓
-    return Array{JournalStatement}
+    archive(::Array{UnpaidInvoice})
+    ↓
+    create(::Array{UnpaidInvoice}::Array{JournalEntry}
+    ↓
+    return ::Array{JournalEntry}
     ↓
     ◉
 
-
-⚉ process(::Array{BankStatement})::Array{BankStatement}
+⚉ process(::Array{UnpaidInvoice}, ::Array{BankStatement})
     ↓
     filter(::Array{UnpaidInvoice}, ::Array{Bankstatement})::Array{PaidInvoice}
     ↓
     archive(::Array{PaidInvoice})
-    ↓  
-    create(::Array{PaidInvoice})::Array{JournalStatement}
     ↓
-    report()::Array{UnpaidInvoice}::Array{UnpaidInvoiceOverdure} # TODO
+    create(::Array{PaidInvoice})::Array{JournalEntry}
     ↓
-    return Array{JournalStatement}
+    return ::Array{JournalEntry}
     ↓
-    ◉  
+    ◉
+
+⚉ process(::Array{UnpaidInvoice}, days::Int) # TODO
+    ↓
+    filter(::Array{UnpaidInvoice, ::Int}::Array{UnpaidInvoiceDue}
+    ↓
+    return ::Array{UnpaidInvoiceDue}
+    ↓
+    ◉
 ```
 
 ## The design
@@ -134,25 +139,25 @@ From the activity diagram we get:
 The domain objects (types) are:
 
 Domain Types:
-- UnpaidInvoice,
-- PaidInvoice.
+- UnpaidInvoice;
+- PaidInvoice;
+- UnpaidInvoiceDue;
+- MessageType;
+- BankStatement.
 
-External types
-- Sales.Order²,
-- GeneralLedger.BankStatement³,
-- GeneralLedger.JournalStatement³.
+External Types
+- Sales.Order¹;
+- GeneralLedger.JournalEntry².
 
-General Types:
-- Dates
-- DataFrame⁴
+General modules:
+- Dates³
+- DataFrames³
 
-¹ Abstract Type.
+¹ Defined in the module Sales. We iterate on a list of orders that we will create in the test code to simplify the course.
 
-² Defined in the module Sales. We iterate on a list of orders that we will create in the test code to simplify the course.
+² Defined in the module GeneralLedger.
 
-³ Defined in the module GeneralLedger.
-
-⁴ [DataFrames](https://en.wikibooks.org/wiki/Introducing_Julia/DataFrames) is a part of Julia. It is a data structure comparable to a spreadsheet.
+³ Dates and [DataFrames](https://en.wikibooks.org/wiki/Introducing_Julia/DataFrames) modules are a part of Julia. The DataFrame data structure is comparable to a spreadsheet.
 
 ### API Invoicing
 
@@ -160,31 +165,29 @@ The API contains the methods (functions) of the module. The methods use only ele
 
 - create(::Order)::UnpaidInvoice
 - create(::UnpaidInvoice, ::BankStatement)::PaidInvoice
-- create(::Invoice)::JournalStatement
+- create(::UnpaidInvoice)::JournalStatement
+- create(::PaidInvoice)::JournalStatement
+- create(::UnpaidInvoice, ::Int)::UnpaidInvoiceDue
 
-In Julia, you can use the same function name as long as the `signature` is different, other types or number of arguments. It is called [multiple dispatch](https://en.wikipedia.org/wiki/Multiple_dispatch).
 
-We define and create the `Order, with the Training, Company, Contact, and Student` objects in the test code to simplify the course.
+In Julia, you can use the same function name as long as the `signature` is different, so other types and, or the number of arguments. One calls it [`multiple dispatch`](https://en.wikipedia.org/wiki/Multiple_dispatch).
 
-[DataFrames.jl](SQLite, tableName),  makes it easy to work with data.
+We have defined and created the `Order, with the Training, Company, Contact, and Student` objects in the test module [AppliSales](https://github.com/rbontekoe/AppliSales.jl) to simplify the course.
+
+Also, we have already created a test module [AppliGeneralLedger](https://github.com/rbontekoe/AppliGeneralLedger.jl) to make it easier to test the code in this chapter.
 
 ### Methods of the Infrastructure layer
 
 Database:
 - connect(path::String)::SQLite.DB
-- save(db::SQLite.DB, tablename::String, invoice::Array{Invoice, 1})
-- read(db::SQLite.DB, tablename::String, selection::String)::DataFrame
+- archive(db::SQLite.DB, tablename::String, item::Array{Any, 1})
+- store(db::SQLite.DB, tablename::String, data_type::Array{Any, 1})
+- retrieve(db::SQLite.DB, tablename::String)::DataFrame
+- retrieve(db::SQLite.DB, tablename::String, selection::String)::DataFrame
 
-DBAdapter:
-- archive(invoice::Invoice)
-- find(invoice::Invoice, condition::Boolean)::DataFrame
+You find the methods in our module [AppliSQLite](https://github.com/rbontekoe/AppliSQLite.jl), which we will use in the course. It makes use of the module SQLite.
 
-Email:
-- to_pdf(invoice::Invoice, filename::String)::File
-- send(invoice::Invoice, filename::String)
-- send(report::DataFrame)
-
-[SQLite.jl](https://juliadatabases.github.io/SQLite.jl/stable/) is the Julia package for SQLite, which we will use in the course. You can use it as an on-disk database file, but also as an in-memory database. The last option is ideal for testing.
+[SQLite.jl](https://juliadatabases.github.io/SQLite.jl/stable/) is a Julia package, You can use it as an on-disk database file, but also as an in-memory database. The last option is ideal for testing.
 
 ## Application infrastructure
 
@@ -194,12 +197,12 @@ Email:
                                +-----------+
                                      ↓
                                      ◊
-   OpenCourseOrder / BankStatement  ↙ ↘  JournalStatement
+   OpenCourseOrder / BankStatement  ↙ ↘  JournalEntry
                    +--------------+     +--------------------+
                    | 2. Invoicing |     | 3. General Ledger  |   Workers
                    +--------------+     +--------------------+
                           ↓
-                   JournalStatement
+                     JournalEntry
 ```
 1. Master \- Runs in a container.
 2. Worker Invoicing \- Function, see [Activity diagram](#Activity-diagram-1), runs in a container.

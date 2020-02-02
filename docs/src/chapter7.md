@@ -1,11 +1,13 @@
-7. Documenting the modules
+# 5. Writing test software
 
-## documenter.jl
+## runtest.jl
 
-### Basic folder structure
+## Cases
 
-## make.jl
-
-## Referring to modules
-
-## Run tests
+```Julia
+@testset "SubscriberType test" begin
+    @test SubscriberType(0) == MEAN_CALCULATOR
+    @test SubscriberType(1) == STD_CALCULATOR
+    @test SubscriberType(2) == PLOTTER
+end
+```
