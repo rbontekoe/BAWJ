@@ -1,4 +1,10 @@
-# Testing the application
+# 6. Testing the application
+
+### What you will learn
+
+```@contents
+Pages = ["chapter6.md"]
+```
 
 ## Communication flow
 

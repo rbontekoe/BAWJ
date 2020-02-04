@@ -1,4 +1,4 @@
-7. Documenting the modules
+# 8. Documenting the modules
 
 ## documenter.jl
 

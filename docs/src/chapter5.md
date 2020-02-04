@@ -1,4 +1,4 @@
-# 6. Creating modules
+# 5. Creating modules
 
 UNDER DEVELOPMENT!
 
