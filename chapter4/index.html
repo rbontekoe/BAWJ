@@ -1,29 +1,34 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>4 - Implementing the design · BAWJ</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../"><img src="../assets/logo.png" alt="BAWJ logo"/></a><div class="docs-package-name"><span class="docs-autofit">BAWJ</span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Business Applications with Julia</a></li><li><a class="tocitem" href="../blog/">Blog</a></li><li><span class="tocitem">Section 1</span><ul><li><a class="tocitem" href="../chapter1/">1 - Intro Notebook</a></li><li><a class="tocitem" href="../chapter2/">2 - Overview Julia</a></li></ul></li><li><span class="tocitem">Section 2 - Building the application</span><ul><li><a class="tocitem" href="../chapter3/">3 - The design</a></li><li class="is-active"><a class="tocitem" href>4 - Implementing the design</a><ul class="internal"><li><a class="tocitem" href="#Development-environment-1"><span>Development environment</span></a></li><li><a class="tocitem" href="#Activity-4.1:-Create-the-minimum-folder-structure-and-the-file-domain.jl-1"><span>Activity 4.1: Create the minimum folder structure and the file domain.jl</span></a></li><li><a class="tocitem" href="#domain.jl-1"><span>domain.jl</span></a></li><li><a class="tocitem" href="#Exercice-4.1-1"><span>Exercice 4.1</span></a></li><li><a class="tocitem" href="#api.jl-1"><span>api.jl</span></a></li><li><a class="tocitem" href="#API-1"><span>API</span></a></li><li><a class="tocitem" href="#Storage-1"><span>Storage</span></a></li><li><a class="tocitem" href="#Infrastructure-1"><span>Infrastructure</span></a></li><li><a class="tocitem" href="#Dunmmies-1"><span>Dunmmies</span></a></li></ul></li><li><a class="tocitem" href="../chapter5/">5 - Creating modules</a></li><li><a class="tocitem" href="../chapter6/">6 - Testing the application</a></li></ul></li><li><span class="tocitem">Section 3 - Modules</span><ul><li><a class="tocitem" href="../chapter7/">7 - Writing test software</a></li><li><a class="tocitem" href="../chapter8/">8 - Documenting the modules</a></li></ul></li><li><span class="tocitem">Section 4 - SSH enabled containers</span><ul><li><a class="tocitem" href="../chapter9/">9 - Introduction</a></li><li><a class="tocitem" href="../chapter10/">10 - Create SSH enabled Containers</a></li><li><a class="tocitem" href="../chapter11/">11 - Raspberry Pi</a></li></ul></li><li><span class="tocitem">Section 5 Up and running</span><ul><li><a class="tocitem" href="../chapter12/">12 - Running functions remote</a></li><li><a class="tocitem" href="../chapter13/">13 - Running the containers</a></li><li><a class="tocitem" href="../chapter14/">14 - Logging</a></li><li><a class="tocitem" href="../chapter19/">19 - Activity diagrams</a></li><li><a class="tocitem" href="../chapter20/">20 - Using Remote Channels (old stuff)</a></li></ul></li><li><a class="tocitem" href="../appendix/">Appendix</a></li><li><a class="tocitem" href="../references/">References</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Section 2 - Building the application</a></li><li class="is-active"><a href>4 - Implementing the design</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>4 - Implementing the design</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/rbontekoe/BAWJ/blob/master/docs/src/chapter4.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id=".-Implementing-the-design-1"><a class="docs-heading-anchor" href="#.-Implementing-the-design-1">4. Implementing the design</a><a class="docs-heading-anchor-permalink" href="#.-Implementing-the-design-1" title="Permalink"></a></h1><p>UNDER DEVELOPMENT!</p><h3 id="What-you-will-learn-1"><a class="docs-heading-anchor" href="#What-you-will-learn-1">What you will learn</a><a class="docs-heading-anchor-permalink" href="#What-you-will-learn-1" title="Permalink"></a></h3><ul><li><a href="#.-Implementing-the-design-1">4. Implementing the design</a></li><ul><li><a href="#Development-environment-1">Development environment</a></li><li><a href="#Activity-4.1:-Create-the-minimum-folder-structure-and-the-file-domain.jl-1">Activity 4.1: Create the minimum folder structure and the file domain.jl</a></li><li><a href="#domain.jl-1">domain.jl</a></li><li><a href="#Exercice-4.1-1">Exercice 4.1</a></li><li><a href="#api.jl-1">api.jl</a></li><li><a href="#API-1">API</a></li><li><a href="#Storage-1">Storage</a></li><li><a href="#Infrastructure-1">Infrastructure</a></li><li><a href="#Dunmmies-1">Dunmmies</a></li></ul></ul><p>In chapter 3 we saw how the design of the invoicing module might look like. In this chapter we will implement the design. Two other module that will come in the picture are: AppliSales and AppliSQLite.</p><h2 id="Development-environment-1"><a class="docs-heading-anchor" href="#Development-environment-1">Development environment</a><a class="docs-heading-anchor-permalink" href="#Development-environment-1" title="Permalink"></a></h2><h3 id="Application-folder-and-file-structure-1"><a class="docs-heading-anchor" href="#Application-folder-and-file-structure-1">Application folder and file structure</a><a class="docs-heading-anchor-permalink" href="#Application-folder-and-file-structure-1" title="Permalink"></a></h3><p>The final folder structure and files for our Julia application.</p><pre><code class="language-none">AppliInvoicing
-- src
-  - api
-    - api.jl
-  - domain
-    - domain.jl
-  - infrastructure
-    - infrastructure.jl
-  - AppliInvoicingl.jl
-  - general_ledger
-  - main.jl
-  - print_invoice.jl
-  - test.jl
-- test
-  - runtests.jl</code></pre><p><em>Figure 1</em></p><h2 id="Activity-4.1:-Create-the-minimum-folder-structure-and-the-file-domain.jl-1"><a class="docs-heading-anchor" href="#Activity-4.1:-Create-the-minimum-folder-structure-and-the-file-domain.jl-1">Activity 4.1: Create the minimum folder structure and the file domain.jl</a><a class="docs-heading-anchor-permalink" href="#Activity-4.1:-Create-the-minimum-folder-structure-and-the-file-domain.jl-1" title="Permalink"></a></h2><p>In this activity you will create the folder structure for our <code>invoicing</code> process. You partial set-up the folder structure according to figure 1:</p><ul><li>Create the base folder AppliInvoicing.</li><li>Create a repository on GitHub.</li><li>Create the folder <code>domain</code>under <code>src</code>.</li><li>Create the file domain.jl.</li></ul><h6 id="Create-the-base-folder-AppliInvoicing-1"><a class="docs-heading-anchor" href="#Create-the-base-folder-AppliInvoicing-1">Create the base folder AppliInvoicing</a><a class="docs-heading-anchor-permalink" href="#Create-the-base-folder-AppliInvoicing-1" title="Permalink"></a></h6><p>All steps are necessary, because we want to create a Julia module form our code.</p><p>Prerequisites</p><ul><li>Your computer OS is Ubuntu 18.04.</li><li>You have sudo (administraton) rights.</li><li><code>git</code> installed.</li><li><code>atom/juno</code> installed.</li></ul><p>You can install git with the command: sudo apt-get install git.</p><p>To install juno see the next <a href="http://docs.junolab.org/latest/man/installation/">instruction</a>.</p><table><tr><th style="text-align: left">Step</th><th style="text-align: left">Action</th><th style="text-align: left">Comment</th></tr><tr><td style="text-align: left">1</td><td style="text-align: left">$ mkdir julia-projects</td><td style="text-align: left">Create a working directory.</td></tr><tr><td style="text-align: left">2</td><td style="text-align: left">$ cd julia-projects</td><td style="text-align: left"></td></tr><tr><td style="text-align: left">3</td><td style="text-align: left">$ julia</td><td style="text-align: left">Start Julia.</td></tr><tr><td style="text-align: left">4</td><td style="text-align: left">julia &gt; ]</td><td style="text-align: left">Open the package manager.</td></tr><tr><td style="text-align: left">5</td><td style="text-align: left">pkg&gt; generate AppliInvoicing</td><td style="text-align: left">Generate e.g. the package AppliInvoicing. Response:</td></tr></table><p><code>Generating project AppliInvoicing:     AppliInvoicing/Project.toml     AppliInvoicing/src/AppliInvoicing.jl</code></p><p>We come back to the generate files in chapter 6. Project.toml has the package name and its dependencies.</p><h6 id="Create-a-repository-on-GitHub-1"><a class="docs-heading-anchor" href="#Create-a-repository-on-GitHub-1">Create a repository on GitHub</a><a class="docs-heading-anchor-permalink" href="#Create-a-repository-on-GitHub-1" title="Permalink"></a></h6><p>Leave the package manager and Julia.</p><table><tr><th style="text-align: left">Step</th><th style="text-align: left">Action</th><th style="text-align: left">Comment</th></tr><tr><td style="text-align: left">6</td><td style="text-align: left">Go to GitHub</td><td style="text-align: left">E.g. https://github.com/rbontekoe. Create an account if you don&#39;t have one.</td></tr><tr><td style="text-align: left">7</td><td style="text-align: left">Click on the tab <code>Repositories</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">8</td><td style="text-align: left">Click on the green button <code>New</code></td><td style="text-align: left">Botton upper right side.</td></tr><tr><td style="text-align: left">9</td><td style="text-align: left">Give the repository a name</td><td style="text-align: left">E.g. <code>AppliInvoicing.jl</code></td></tr><tr><td style="text-align: left">10</td><td style="text-align: left">Give the repository a description</td><td style="text-align: left">E.g. Invoicing module for the course.</td></tr></table><div class="admonition is-warning"><header class="admonition-header">Warning</header><div class="admonition-body"><p>Start with a empty repository!</p><p>After you pushed your first files you can define a licence and .gitignore for Julia, e.g.</p><ul><li>Add .gitignore: julia.</li><li>Add licence: MIT licence.</li></ul></div></div><table><tr><th style="text-align: left">Step</th><th style="text-align: left">Action</th><th style="text-align: left">Comment</th></tr><tr><td style="text-align: left">11</td><td style="text-align: left">Click on the green button <code>Create repository</code></td><td style="text-align: left">Button is located at the bottom side.</td></tr><tr><td style="text-align: left">12</td><td style="text-align: left">Return to your computer and enter the folder AppliInvoicing</td><td style="text-align: left"></td></tr></table><p>Install git: apt-get install git.</p><table><tr><th style="text-align: left">Step</th><th style="text-align: left">Action</th><th style="text-align: left">Comment</th></tr><tr><td style="text-align: left">13</td><td style="text-align: left">$ echo &quot;# AppliInvoicing&quot; &gt;&gt; README.md</td><td style="text-align: left">Create README.md file.</td></tr><tr><td style="text-align: left">14</td><td style="text-align: left">$ git init</td><td style="text-align: left"></td></tr><tr><td style="text-align: left">16</td><td style="text-align: left">$ git status</td><td style="text-align: left">Response:</td></tr></table><p>`On branch master</p><p>No commits yet</p><p>Untracked files:   (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)</p><pre><code class="language-none">Project.toml
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>4 - Implementing the design · BAWJ</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../"><img src="../assets/logo.png" alt="BAWJ logo"/></a><div class="docs-package-name"><span class="docs-autofit">BAWJ</span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Business Applications with Julia</a></li><li><a class="tocitem" href="../blog/">Blog</a></li><li><span class="tocitem">Section 1</span><ul><li><a class="tocitem" href="../chapter1/">1 - Intro Notebook</a></li><li><a class="tocitem" href="../chapter2/">2 - Overview Julia</a></li></ul></li><li><span class="tocitem">Section 2 - Building the application</span><ul><li><a class="tocitem" href="../chapter3/">3 - The design</a></li><li class="is-active"><a class="tocitem" href>4 - Implementing the design</a><ul class="internal"><li><a class="tocitem" href="#Development-environment-1"><span>Development environment</span></a></li><li><a class="tocitem" href="#Activity-4.1:-Create-the-minimum-folder-structure-and-the-file-domain.jl-1"><span>Activity 4.1: Create the minimum folder structure and the file domain.jl</span></a></li><li><a class="tocitem" href="#domain.jl-1"><span>domain.jl</span></a></li><li><a class="tocitem" href="#Exercice-4.1-1"><span>Exercice 4.1</span></a></li><li><a class="tocitem" href="#api.jl-1"><span>api.jl</span></a></li><li><a class="tocitem" href="#infrastructure.jl-1"><span>infrastructure.jl</span></a></li><li><a class="tocitem" href="#db.jl-1"><span>db.jl</span></a></li><li><a class="tocitem" href="#Exercice-4.2-1"><span>Exercice 4.2</span></a></li></ul></li><li><a class="tocitem" href="../chapter5/">5 - Creating modules</a></li><li><a class="tocitem" href="../chapter6/">6 - Testing the application</a></li></ul></li><li><span class="tocitem">Section 3 - Modules</span><ul><li><a class="tocitem" href="../chapter7/">7 - Writing test software</a></li><li><a class="tocitem" href="../chapter8/">8 - Documenting the modules</a></li></ul></li><li><span class="tocitem">Section 4 - SSH enabled containers</span><ul><li><a class="tocitem" href="../chapter9/">9 - Introduction</a></li><li><a class="tocitem" href="../chapter10/">10 - Create SSH enabled Containers</a></li><li><a class="tocitem" href="../chapter11/">11 - Raspberry Pi</a></li></ul></li><li><span class="tocitem">Section 5 Up and running</span><ul><li><a class="tocitem" href="../chapter12/">12 - Running functions remote</a></li><li><a class="tocitem" href="../chapter13/">13 - Running the containers</a></li><li><a class="tocitem" href="../chapter14/">14 - Logging</a></li><li><a class="tocitem" href="../chapter19/">19 - Activity diagrams</a></li><li><a class="tocitem" href="../chapter20/">20 - Using Remote Channels (old stuff)</a></li></ul></li><li><a class="tocitem" href="../appendix/">Appendix</a></li><li><a class="tocitem" href="../references/">References</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Section 2 - Building the application</a></li><li class="is-active"><a href>4 - Implementing the design</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>4 - Implementing the design</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/rbontekoe/BAWJ/blob/master/docs/src/chapter4.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id=".-Implementing-the-design-1"><a class="docs-heading-anchor" href="#.-Implementing-the-design-1">4. Implementing the design</a><a class="docs-heading-anchor-permalink" href="#.-Implementing-the-design-1" title="Permalink"></a></h1><p>UNDER DEVELOPMENT!</p><h3 id="What-you-will-learn-1"><a class="docs-heading-anchor" href="#What-you-will-learn-1">What you will learn</a><a class="docs-heading-anchor-permalink" href="#What-you-will-learn-1" title="Permalink"></a></h3><ul><li><a href="#.-Implementing-the-design-1">4. Implementing the design</a></li><ul><li><a href="#Development-environment-1">Development environment</a></li><li><a href="#Activity-4.1:-Create-the-minimum-folder-structure-and-the-file-domain.jl-1">Activity 4.1: Create the minimum folder structure and the file domain.jl</a></li><li><a href="#domain.jl-1">domain.jl</a></li><li><a href="#Exercice-4.1-1">Exercice 4.1</a></li><li><a href="#api.jl-1">api.jl</a></li><li><a href="#infrastructure.jl-1">infrastructure.jl</a></li><li><a href="#db.jl-1">db.jl</a></li><li><a href="#Exercice-4.2-1">Exercice 4.2</a></li></ul></ul><p>In chapter 3, we saw how the design of the invoicing module. In this chapter, we will implement it, the <code>AppliInvoicing</code> module. Two other modules that will come in the picture are AppliSales and AppliGeneralLedger.</p><p>The AppliSales module supplies the orders that the AppliInvoicing needs to create the invoices when the course starts. Besides sending and storing the invoices, it also creates the journal entries for the AppliGeneralLedger module.</p><h2 id="Development-environment-1"><a class="docs-heading-anchor" href="#Development-environment-1">Development environment</a><a class="docs-heading-anchor-permalink" href="#Development-environment-1" title="Permalink"></a></h2><h3 id="Application-folder-and-file-structure-1"><a class="docs-heading-anchor" href="#Application-folder-and-file-structure-1">Application folder and file structure</a><a class="docs-heading-anchor-permalink" href="#Application-folder-and-file-structure-1" title="Permalink"></a></h3><p>The final folder structure and files for our Julia application.</p><pre><code class="language-none">ᵥ📁AppliInvoicing
+   📁 .git
+  ᵥ📁 src
+    ᵥ📁 api
+       📄 api.jl
+    ᵥ📁 domain
+       📄 domain.jl
+    ᵥ📁 infrastructure
+       📄 infrastructure.jl
+     📄 AppliInvoicingl.jl
+     📄 test.jl
+  ᵥ📁 test
+     📄 runtests.jl\
+   📄 bank.csv
+   📄 Manifest.toml
+   📄 Project.toml  #1
+   📄 README.md</code></pre><p>#1 Contains dependencies when working in the local activity mode. Julia adds dependencies automatically added when you add a package (module). Manifest.toml contains the references to the modules.</p><p><em>Figure 1</em></p><h2 id="Activity-4.1:-Create-the-minimum-folder-structure-and-the-file-domain.jl-1"><a class="docs-heading-anchor" href="#Activity-4.1:-Create-the-minimum-folder-structure-and-the-file-domain.jl-1">Activity 4.1: Create the minimum folder structure and the file domain.jl</a><a class="docs-heading-anchor-permalink" href="#Activity-4.1:-Create-the-minimum-folder-structure-and-the-file-domain.jl-1" title="Permalink"></a></h2><p>In this activity you will create the folder structure for the <code>invoicing</code> process. You partial set-up the folder structure according to figure 1:</p><ul><li>Create the base folder AppliInvoicing.</li><li>Create a repository on GitHub.</li><li>Create the folder <code>domain</code>under <code>src</code>.</li><li>Create the file domain.jl.</li></ul><h6 id="Create-the-base-folder-AppliInvoicing-1"><a class="docs-heading-anchor" href="#Create-the-base-folder-AppliInvoicing-1">Create the base folder AppliInvoicing</a><a class="docs-heading-anchor-permalink" href="#Create-the-base-folder-AppliInvoicing-1" title="Permalink"></a></h6><p>All steps are necessary, because we want to create a Julia module form our code.</p><p>Prerequisites</p><ul><li>Your computer OS is Ubuntu 18.04.</li><li>You have sudo (administraton) rights.</li><li><code>git</code> is installed.</li><li><code>atom/juno</code> installed.</li></ul><p>You can install git with the command: sudo apt-get install git.</p><p>Atom/juno is the IDE that is used in our example. To install juno see the next <a href="http://docs.junolab.org/latest/man/installation/">instruction</a>.</p><table><tr><th style="text-align: left">Step</th><th style="text-align: left">Action</th><th style="text-align: left">Comment</th></tr><tr><td style="text-align: left">1</td><td style="text-align: left">$ mkdir julia-projects</td><td style="text-align: left">Create a working directory.</td></tr><tr><td style="text-align: left">2</td><td style="text-align: left">$ cd julia-projects</td><td style="text-align: left"></td></tr><tr><td style="text-align: left">3</td><td style="text-align: left">$ julia</td><td style="text-align: left">Start Julia.</td></tr><tr><td style="text-align: left">4</td><td style="text-align: left">julia &gt; ]</td><td style="text-align: left">Open the package manager.</td></tr><tr><td style="text-align: left">5</td><td style="text-align: left">pkg&gt; generate AppliInvoicing</td><td style="text-align: left">Generate e.g. the package AppliInvoicing. The response you get is:</td></tr></table><p><code>Generating project AppliInvoicing:     AppliInvoicing/Project.toml     AppliInvoicing/src/AppliInvoicing.jl</code></p><p>Project.toml contains the package name and the dependencies.</p><h6 id="Create-a-repository-on-GitHub-1"><a class="docs-heading-anchor" href="#Create-a-repository-on-GitHub-1">Create a repository on GitHub</a><a class="docs-heading-anchor-permalink" href="#Create-a-repository-on-GitHub-1" title="Permalink"></a></h6><p>Close the package manager and Julia: Ctrl-C, Ctrl-D.</p><table><tr><th style="text-align: left">Step</th><th style="text-align: left">Action</th><th style="text-align: left">Comment</th></tr><tr><td style="text-align: left">6</td><td style="text-align: left">Go to <a href="https://github.com/">GitHub</a></td><td style="text-align: left">Create an account if you don&#39;t have one. What is <a href="https://en.wikipedia.org/wiki/GitHub">GitHub</a>.</td></tr><tr><td style="text-align: left">7</td><td style="text-align: left">Click on the tab <code>Repositories</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">8</td><td style="text-align: left">Click on the green button <code>New</code></td><td style="text-align: left">Bottom upper right side.</td></tr><tr><td style="text-align: left">9</td><td style="text-align: left">Give the repository a name</td><td style="text-align: left">E.g. <code>AppliInvoicing.jl</code></td></tr><tr><td style="text-align: left">10</td><td style="text-align: left">Give the repository a description</td><td style="text-align: left">E.g. Invoicing module for the course BAWJ.</td></tr></table><div class="admonition is-warning"><header class="admonition-header">Warning</header><div class="admonition-body"><p>Start with a empty repository!</p></div></div><table><tr><th style="text-align: left">Step</th><th style="text-align: left">Action</th><th style="text-align: left">Comment</th></tr><tr><td style="text-align: left">11</td><td style="text-align: left">Click on the green button <code>Create repository</code></td><td style="text-align: left">Button is located at the bottom side.</td></tr><tr><td style="text-align: left">12</td><td style="text-align: left">Return to your computer and enter the folder AppliInvoicing</td><td style="text-align: left"></td></tr></table><p>Install git: apt-get install git.</p><table><tr><th style="text-align: left">Step</th><th style="text-align: left">Action</th><th style="text-align: left">Comment</th></tr><tr><td style="text-align: left">13</td><td style="text-align: left">$ echo &quot;# AppliInvoicing&quot; &gt;&gt; README.md</td><td style="text-align: left">Create README.md file.</td></tr><tr><td style="text-align: left">14</td><td style="text-align: left">$ git init</td><td style="text-align: left"></td></tr><tr><td style="text-align: left">16</td><td style="text-align: left">$ git status</td><td style="text-align: left">The response you get is:</td></tr></table><p>`On branch master</p><p>No commits yet</p><p>Untracked files:   (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)</p><pre><code class="language-none">Project.toml
 README.md
-src/</code></pre><p>nothing added to commit but untracked files present (use &quot;git add&quot; to track)`</p><table><tr><th style="text-align: left">Step</th><th style="text-align: left">Action</th><th style="text-align: left">Comment</th></tr><tr><td style="text-align: left">17</td><td style="text-align: left">$ git add Project.toml</td><td style="text-align: left">Add file to staged changes.</td></tr><tr><td style="text-align: left">18</td><td style="text-align: left">$ git add README.md</td><td style="text-align: left"></td></tr><tr><td style="text-align: left">19</td><td style="text-align: left">$ git add src/</td><td style="text-align: left"></td></tr><tr><td style="text-align: left">20</td><td style="text-align: left">$ git status</td><td style="text-align: left">Response:</td></tr></table><p>`On branch master</p><p>No commits yet</p><p>Changes to be committed:   (use &quot;git rm –cached &lt;file&gt;...&quot; to unstage)</p><pre><code class="language-none">new file:   Project.toml
+src/</code></pre><p>nothing added to commit but untracked files present (use &quot;git add&quot; to track)`</p><table><tr><th style="text-align: left">Step</th><th style="text-align: left">Action</th><th style="text-align: left">Comment</th></tr><tr><td style="text-align: left">17</td><td style="text-align: left">$ git add Project.toml</td><td style="text-align: left">Add file to staged changes.</td></tr><tr><td style="text-align: left">18</td><td style="text-align: left">$ git add README.md</td><td style="text-align: left"></td></tr><tr><td style="text-align: left">19</td><td style="text-align: left">$ git add src/</td><td style="text-align: left"></td></tr><tr><td style="text-align: left">20</td><td style="text-align: left">$ git status</td><td style="text-align: left">The response is:</td></tr></table><p>`On branch master</p><p>No commits yet</p><p>Changes to be committed:   (use &quot;git rm –cached &lt;file&gt;...&quot; to unstage)</p><pre><code class="language-none">new file:   Project.toml
 new file:   README.md
-new file:   src/AppliInvoicing.jl`</code></pre><table><tr><th style="text-align: left">Step</th><th style="text-align: left">Action</th><th style="text-align: left">Comment</th></tr><tr><td style="text-align: left">21</td><td style="text-align: left">$ git commit -m &quot;first commit&quot;</td><td style="text-align: left">Response:</td></tr></table><p><code>[master (root-commit) 3b06d57] first commit  3 files changed, 10 insertions(+)  create mode 100644 Project.toml  create mode 100644 README.md  create mode 100644 src/AppliInvoicing.jl</code></p><table><tr><th style="text-align: left">Step</th><th style="text-align: left">Action</th><th style="text-align: left">Comment</th></tr><tr><td style="text-align: left">22</td><td style="text-align: left">$ git remote add origin https://github.com/rbontekoe/AppliInvoicing.jl.git</td><td style="text-align: left"></td></tr><tr><td style="text-align: left">23</td><td style="text-align: left">$ git push -u origin master</td><td style="text-align: left">push changed to your GitHub repository.</td></tr></table><p>Check on GitHub the update.</p><h6 id="Create-the-folder-domain-under-the-src-folder-1"><a class="docs-heading-anchor" href="#Create-the-folder-domain-under-the-src-folder-1">Create the folder domain under the src-folder</a><a class="docs-heading-anchor-permalink" href="#Create-the-folder-domain-under-the-src-folder-1" title="Permalink"></a></h6><table><tr><th style="text-align: left">Step</th><th style="text-align: left">Action</th><th style="text-align: left">Comment</th></tr><tr><td style="text-align: left">1</td><td style="text-align: left">Enter the AppliInvoicing folder</td><td style="text-align: left"></td></tr><tr><td style="text-align: left">2</td><td style="text-align: left">$ atom .</td><td style="text-align: left">Start Atom in the current directory AppliInvoicing.</td></tr><tr><td style="text-align: left">3</td><td style="text-align: left">Remove all Taps in the right pane.</td><td style="text-align: left">The Tabs are: Telemerty Consent, Welcome, and Welcom Guide. A tab will be remove by clicking on the x-symbol.</td></tr><tr><td style="text-align: left">4</td><td style="text-align: left">Right click on: src</td><td style="text-align: left"></td></tr><tr><td style="text-align: left">5</td><td style="text-align: left">Select: <code>New folder</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">6</td><td style="text-align: left">Type: <code>domain</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">7</td><td style="text-align: left">Press: &lt;Enter&gt;</td><td style="text-align: left">The new folder <code>domain</code> appears under the folder <code>src</code>.</td></tr><tr><td style="text-align: left">8</td><td style="text-align: left">Select the folder: <code>domain</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">9</td><td style="text-align: left">Right click on: <code>domain</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">10</td><td style="text-align: left">Select: <code>New file</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">11</td><td style="text-align: left">Type: <code>domain.jl</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">12</td><td style="text-align: left">Press: &lt;Enter&gt;</td><td style="text-align: left">A new document appears in the pane next to the navigation pane.</td></tr></table><p>In the navigation pane you see the next folders and files:</p><pre><code class="language-none">- AppliInvoicing
-  - src
-    - domain
-      - domain.jl
-		AppliInvoicing.jl
-	Project.toml
-	README.md</code></pre><h2 id="domain.jl-1"><a class="docs-heading-anchor" href="#domain.jl-1">domain.jl</a><a class="docs-heading-anchor-permalink" href="#domain.jl-1" title="Permalink"></a></h2><p>When us use packages in your application, define it at the top of the domain.jl file.</p><p>We use date and time in our application. To activate the build-in package you use the statement: using Dates.</p><p>To define a data structure and type, we use the keyword <code>struct</code>. The body consists of the fields of the data structure.</p><p>Use constructors to define standard values, like the default valuta symbol. It simplifies the creating op the object.</p><p>To keep things clear we create the following objects as part of the invoice:</p><ul><li>MetaInvoice, containing references to the order, the training, and the currency.</li><li>HeaderInvoice, contains all the general information.</li><li>OpentrainingItem, the invoice body consists of one item.</li></ul><pre><code class="language-julia">using Dates # module use date functions
+new file:   src/AppliInvoicing.jl`</code></pre><table><tr><th style="text-align: left">Step</th><th style="text-align: left">Action</th><th style="text-align: left">Comment</th></tr><tr><td style="text-align: left">21</td><td style="text-align: left">$ git commit -m &quot;first commit&quot;</td><td style="text-align: left">The response is:</td></tr></table><p><code>[master (root-commit) 3b06d57] first commit  3 files changed, 10 insertions(+)  create mode 100644 Project.toml  create mode 100644 README.md  create mode 100644 src/AppliInvoicing.jl</code></p><table><tr><th style="text-align: left">Step</th><th style="text-align: left">Action</th><th style="text-align: left">Comment</th></tr><tr><td style="text-align: left">22</td><td style="text-align: left">$ git remote add origin https://github.com/rbontekoe/AppliInvoicing.jl.git</td><td style="text-align: left"></td></tr><tr><td style="text-align: left">23</td><td style="text-align: left">$ git push -u origin master</td><td style="text-align: left">Push your files to your GitHub repository. GitHub asks for your userid and password.</td></tr><tr><td style="text-align: left">24</td><td style="text-align: left">Check the update on GitHub</td><td style="text-align: left"></td></tr></table><h6 id="Create-the-folder-domain-under-the-src-folder-1"><a class="docs-heading-anchor" href="#Create-the-folder-domain-under-the-src-folder-1">Create the folder domain under the src-folder</a><a class="docs-heading-anchor-permalink" href="#Create-the-folder-domain-under-the-src-folder-1" title="Permalink"></a></h6><table><tr><th style="text-align: left">Step</th><th style="text-align: left">Action</th><th style="text-align: left">Comment</th></tr><tr><td style="text-align: left">1</td><td style="text-align: left">Enter the AppliInvoicing folder</td><td style="text-align: left"></td></tr><tr><td style="text-align: left">2</td><td style="text-align: left">$ atom .</td><td style="text-align: left">Start Atom in the current directory AppliInvoicing.</td></tr><tr><td style="text-align: left">3</td><td style="text-align: left">Remove all Taps in the right pane.</td><td style="text-align: left">The Tabs are: Telemerty Consent, Welcome, and Welcom Guide. A tab will be remove by clicking on the x-symbol.</td></tr><tr><td style="text-align: left">4</td><td style="text-align: left">Right click on: src</td><td style="text-align: left"></td></tr><tr><td style="text-align: left">5</td><td style="text-align: left">Select: <code>New folder</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">6</td><td style="text-align: left">Type: <code>domain</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">7</td><td style="text-align: left">Press: &lt;Enter&gt;</td><td style="text-align: left">The new folder <code>domain</code> appears under the folder <code>src</code>.</td></tr><tr><td style="text-align: left">8</td><td style="text-align: left">Select the folder: <code>domain</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">9</td><td style="text-align: left">Right click on: <code>domain</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">10</td><td style="text-align: left">Select: <code>New file</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">11</td><td style="text-align: left">Type: <code>domain.jl</code></td><td style="text-align: left"></td></tr><tr><td style="text-align: left">12</td><td style="text-align: left">Press: &lt;Enter&gt;</td><td style="text-align: left">A new document appears in the pane next to the navigation pane.</td></tr></table><p>In the navigation pane you see the next folders and files:</p><pre><code class="language-none">ᵥ📁 AppliInvoicing
+   📁 .git
+  ᵥ📁 src
+    ᵥ📁 domain
+       📄 domain.jl
+     📄 AppliInvoicing.jl
+   📄 Project.toml
+   📄 README.md</code></pre><h2 id="domain.jl-1"><a class="docs-heading-anchor" href="#domain.jl-1">domain.jl</a><a class="docs-heading-anchor-permalink" href="#domain.jl-1" title="Permalink"></a></h2><p>To define a data structure and type, use the keyword <code>struct</code>. The body consists of the fields of the data structure.</p><p>Use constructors to define standard values, like the default currency symbol. It simplifies the creating op the object.</p><p>To keep things clear we create the following objects as part of the invoice:</p><ul><li>MetaInvoice, containing references to the order, the training, and the currency.</li><li>HeaderInvoice, contains all the general information.</li><li>OpentrainingItem, the invoice body consists of one item.</li></ul><pre><code class="language-julia">using Dates
+using AppliGeneralLedger
+using AppliSales # needed for test.jl and runtests.jl
 
 # Meta data
 struct MetaInvoice
@@ -35,7 +40,7 @@ struct MetaInvoice
     # Constructors
     MetaInvoice(order_id, training_id) = new(order_id, training_id, now(), &quot;€&quot;, 1.0) #2
     MetaInvoice(order_id, training_id, date, currency, currency_ratio) = new(order_id, training_id, now(), currency, currency_ratio)
-end # defined MetaInvoice
+end # MetaInvoice
 
 struct Header #3
     invoice_nbr::String #4
@@ -47,98 +52,218 @@ struct Header #3
     order_ref::String
     name_contact::String
     email_contact::String
-end # defined HeaderInvoice
+end # HeaderInvoice
 
 struct OpentrainingItem #5
     name_training::String
     date::DateTime
-		days::Int64
     price_per_student::Float64
     students::Array{String, 1}
     vat_perc::Float64
     # constructors
-    OpentrainingEntry(name_training, date, days, price_per_student, students) = new(name_training, days, date, price_per_student, students, 0.21)
-    OpentrainingEntry(name_training, date, price_per_student, students, vat_perc) = new(name_training, days, date, price_per_student, students, vat_perc)
-end # defined OpentrainingItem
+    OpentrainingItem(name_training, date, price_per_student, students) = new(name_training, date, price_per_student, students, 0.21) #6
+    OpentrainingItem(name_training, date, price_per_student, students, vat_perc) = new(name_training, date, price_per_student, students, vat_perc)
+end # OpentrainingItem
 
 struct UnpaidInvoice
     id::String
     meta::MetaInvoice
     header::Header
     body::OpentrainingItem
-end # defined UnpaidInvoice</code></pre><p>#1 Invoice date</p><p>#2 We assume that most students are from a country in Europe where they have the euro as currency.</p><p>#3 Information from the order form.</p><p>#4 In the future we will automatically generate a unique id.</p><p>#5 Course information and students who attend the training.</p><h2 id="Exercice-4.1-1"><a class="docs-heading-anchor" href="#Exercice-4.1-1">Exercice 4.1</a><a class="docs-heading-anchor-permalink" href="#Exercice-4.1-1" title="Permalink"></a></h2><ol><li>Copy the domain data to the domain.jl file in atom.</li><li>Select the first statement, and press &lt;Enter&gt;. The line will be evaluated. Repeat for all elements.</li><li>Save the file with Ctrl-S.</li><li>Create a folder <code>api</code> under the scr-folder.</li><li>Create the file <code>api.jl</code> in the folder <code>api</code>.</li></ol><h2 id="api.jl-1"><a class="docs-heading-anchor" href="#api.jl-1">api.jl</a><a class="docs-heading-anchor-permalink" href="#api.jl-1" title="Permalink"></a></h2><p>In the API we only use Julia code and the elements from the domain, the basic idea behind the onion architecture.</p><p>We use the include statement to have access to the domain elements. The relative path is to the domain.jl file.</p><p>Basically, we define in the API the functions that our program needs. When the function has more than one statement, we embed the statements between a begin ... end block.</p><p>The function <code>create</code> needs a <code>Order</code> as argument, and an id. As said before in the future we generate a unique id automatically within the block.</p><pre><code class="language-none">include(&quot;../domain/domain.jl&quot;)
+end # UnpaidInvoice
 
-create(order::Order, invoice_id::String)::UnpaidInvoice = begin
+struct BankStatement
+    date::Date
+    descr::String
+    iban::String
+    amount::Float64
+end # BankStatement
+
+struct PaidInvoice
+    id::String
+    meta::MetaInvoice
+    header::Header
+    body::OpentrainingItem
+    stm::BankStatement
+end # PaidInvoice</code></pre><p>#1 The invoice date.</p><p>#2 We assume that most students are from a country in Europe where they have the euro as currency.</p><p>#3 The information needed for the header of the invoice.</p><p>#4 In the future, we will automatically generate a unique id.</p><p>#5 It has the course information and the students who will attend the training.</p><p>#6 You create a instance of a data structure by using its name with the arguments between brackets. If you want to instantiate it with less arguments you can define constructors (or you use keyword arguments in functions or methods).</p><p>On the domain page, one defines the custom data structures that make-up our domain. To avoid too many method arguments, we break it up in the substructures as <code>MetaInvoice,</code> <code>Header,</code> and <code>OpentrainingItem.</code></p><p><code>Header</code> represents the information we need for the header of the invoice. <code>OpentrainingItem</code> serves as the body of an invoice. In practice, the body of an invoice could consist of several lines, but we leave it now limited to one line.</p><p>I have split an invoice into two data structures: UnpaidInvoice and PaidInvoice. It facilitates the property of Julia, which is called <code>multiple dispatch.</code> You can see an example of it in the API layer where we use the same method name, <code>create</code>, for both data structures, which each have a different operation.</p><h2 id="Exercice-4.1-1"><a class="docs-heading-anchor" href="#Exercice-4.1-1">Exercice 4.1</a><a class="docs-heading-anchor-permalink" href="#Exercice-4.1-1" title="Permalink"></a></h2><ol><li>Copy the domain data to the domain.jl file in Juno.</li><li>Select the first statement and press Shift-Enter¹. Juno evaluates the line and prints the result at the end of it. Repeat it for all elements.</li><li>Save the file with Ctrl-S.</li><li>Create a folder <code>api</code> under the <code>scr</code>-folder.</li><li>Create the empty file <code>api.jl</code> in the folder <code>api.</code></li><li>Create the empty files <code>infrastructure.jl</code> and <code>db.jl</code> in the folder &#39;infrastructure.&#39;</li></ol><h5 id="Notes-1"><a class="docs-heading-anchor" href="#Notes-1">Notes</a><a class="docs-heading-anchor-permalink" href="#Notes-1" title="Permalink"></a></h5><p>¹ In Juno pressing Shift-Enter executes the selected statement and moves the cursor to the next piece of code. Ctrl-Enter doesn&#39;t touch the cursor.</p><h2 id="api.jl-1"><a class="docs-heading-anchor" href="#api.jl-1">api.jl</a><a class="docs-heading-anchor-permalink" href="#api.jl-1" title="Permalink"></a></h2><p>In the API, we only use Julia code and the elements from the domain, the basic idea behind the onion architecture.</p><p>We use the include statement to have access to the domain elements. The relative path is to the domain.jl file.</p><p>We define in the API the functions and the methods that our program needs.</p><p>Functions start with the keyword <code>function</code> followed by the function name and the arguments between brackets:</p><pre><code class="language-julia">function hello(name)
+	println(&quot;Hello &quot; * name) # the * is also used for string concatenation
+end</code></pre><p>Methods start with the name of the method followed by the arguments between brackets, an equal sign, and a statement:</p><pre><code class="language-julia">hello(name) = println(&quot;Hello &quot; * name)</code></pre><p>When a method has more than one statement, we embed the statements between a <code>begin ... end block</code>:</p><pre><code class="language-julia">hello(name) = begin
+	name = uppercase(name)
+	println(&quot;HELLO &quot; * name)
+end</code></pre><p>There is no difference between functions and methods.</p><pre><code class="language-julia">include(&quot;../domain/domain.jl&quot;) #1
+
+import AppliSales.Order # Order is not exported but is refered to in the next method #2
+
+# create unpaid invoices from an order
+create(order::Order, invoice_id::String)::UnpaidInvoice = begin #3
     meta = MetaInvoice(order.id, order.training.id)
     header_invoice = Header(
-		    invoice_id, order.org.name, order.org.address, order.org.zip, order.org.city, order.org.country,      order.order_ref, order.contact_name, order.contact_email)
+        invoice_id, order.org.name, order.org.address, order.org.zip, order.org.city, order.org.country, order.order_ref, order.contact_name, order.contact_email)
     body_invoice = OpentrainingItem(order.training.name, order.training.date, order.training.price, order.students)
-
-    invoice = UnpaidInvoice(invoice_id, meta, header_invoice, body_invoice)
-end</code></pre><pre><code class="language-julia"># main.jl
-
-include(&quot;domain/domain.jl&quot;)
-
-headerInvoice = HeaderInvoice(&quot;1001&quot;, &quot;AppliGate&quot;, &quot;Landweg 74\n3833 VM Leusden,\nNetherlands&quot;, &quot;PO123&quot;, &quot;Rob Bontekoe&quot;, &quot;r@b.nl&quot;)
-bodyInvoice = BodyInvoice(&quot;Learn Smiling, Aug 30, 31 2019 &quot;, 1000.0, [&quot;Jan&quot;, &quot;Piet&quot;])
-inv = InvoiceTraining(headerInvoice, bodyInvoice)
-
-# print header
-println(inv.header.nameOrganization)
-println(&quot;Attn. $(inv.header.nameContact)&quot;)
-println(&quot;$(inv.header.cityOrganization)&quot;)
-println()
-print(&quot;INVOICE&quot;)
-println(&quot;Date: $(Date(inv.date))&quot;)
-println(&quot;Invoice number: $(inv.header.invoiceNbr)&quot;)
-println(&quot;=&quot;^40)
-println(&quot;Reference: $(inv.header.orderRefOrganization)&quot;)
-println()
-println(&quot;Training: $(inv.body.nameTraining)&quot;)
-println()
-nbrStudents = length(inv.body.students)
-unitprice = round(inv.body.pricePerStudent * inv.meta.currencyRatio; digits=2)
-price = round(nbrStudents * unitprice; digits=2)
-vat = round(price*inv.meta.vatPercentage; digits=2)
-totalprice = round(price + vat; digits=2)
-symbol = inv.meta.currency
-
-using Printf # package for formatting numbers
-
-println(&quot;#     Price                        Total&quot;)
-println(&quot;=&quot;^40)
-println(&quot;$nbrStudents     $(@sprintf(&quot;%.2f&quot;, unitprice))                   $symbol$(@sprintf(&quot;%.2f&quot;, price))&quot;)
-println()
-println(&quot;STUDENT(S)&quot;)
-println(&quot;-&quot;^20)
-for name in inv.body.students
-    println(name)
-end
-println()
-println(&quot;VAT                              $symbol$(@sprintf(&quot;%.2f&quot;, vat))&quot;)
-println(&quot;=&quot;^40)
-println(&quot;Total price                     $symbol$(@sprintf(&quot;%.2f&quot;, totalprice))&quot;)</code></pre><h2 id="API-1"><a class="docs-heading-anchor" href="#API-1">API</a><a class="docs-heading-anchor-permalink" href="#API-1" title="Permalink"></a></h2><h2 id="Storage-1"><a class="docs-heading-anchor" href="#Storage-1">Storage</a><a class="docs-heading-anchor-permalink" href="#Storage-1" title="Permalink"></a></h2><h2 id="Infrastructure-1"><a class="docs-heading-anchor" href="#Infrastructure-1">Infrastructure</a><a class="docs-heading-anchor-permalink" href="#Infrastructure-1" title="Permalink"></a></h2><h2 id="Dunmmies-1"><a class="docs-heading-anchor" href="#Dunmmies-1">Dunmmies</a><a class="docs-heading-anchor-permalink" href="#Dunmmies-1" title="Permalink"></a></h2><h5 id="JournalStatement-1"><a class="docs-heading-anchor" href="#JournalStatement-1">JournalStatement</a><a class="docs-heading-anchor-permalink" href="#JournalStatement-1" title="Permalink"></a></h5><pre><code class="language-none">struct JournalRecord
-    date::DateTime
-    custid::String
-    invnbr::String
-    stmnbr::Int64
-    from::Int64
-    to::Int64
-    debit::Float64
-    credit::Float64
-    vat::Float64
-    pctvat::Float64
-    descr::String
-end</code></pre><h5 id="Account-General-Ledger-1"><a class="docs-heading-anchor" href="#Account-General-Ledger-1">Account General Ledger</a><a class="docs-heading-anchor-permalink" href="#Account-General-Ledger-1" title="Permalink"></a></h5><pre><code class="language-none">struct Account
-    date::DateTime
-    custid::String
-    invnbr::Int64
-    stmnbr::Int64
-    debit::Float6
-    credit::Float6
-    descr::String
+    return UnpaidInvoice(invoice_id, meta, header_invoice, body_invoice) #4
 end
 
-stmnbr accounts receivable = 1300
-stmnbr vat = 1501
-stmnbr sales scheduled courses = 8100</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../chapter3/">« 3 - The design</a><a class="docs-footer-nextpage" href="../chapter5/">5 - Creating modules »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Sunday 2 February 2020 16:15">Sunday 2 February 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+# create paid invoice from a bank statement
+create(invoice::UnpaidInvoice, stm::BankStatement)::PaidInvoice = begin
+    id = invoice.id
+    meta = invoice.meta
+    header = invoice.header
+    body = invoice.body
+    stm = stm
+    return PaidInvoice(id, meta, header, body, stm)
+end
+
+# create journal entries from an unpaid invoice
+# the create_journal_entry function is exported by AppliGeneralLedger
+function conv2entry(inv::UnpaidInvoice, from::Int, to::Int)
+    id = string(Date(now())) * &quot;-&quot; * string(global n += 1)
+    customer_id = inv.header.name
+    invoice_nbr = inv.header.invoice_nbr
+    debit = inv.body.price_per_student * length(inv.body.students)
+    credit = 0.0
+    vat = debit * inv.body.vat_perc
+    descr = inv.body.name_training
+    return create_journal_entry(id, customer_id, invoice_nbr, from, to, debit, credit, vat, descr)
+end
+
+# create journal entries from a paid invoice
+# the create_journal_entry function is exported by AppliGeneralLedger test module
+function conv2entry(inv::PaidInvoice, from::Int, to::Int)
+    id = string(Date(now())) * &quot;-&quot; * string(global n += 1)
+    customer_id = inv.header.name
+    invoice_nbr = inv.header.invoice_nbr
+    debit = inv.stm.amount
+    credit = 0.0
+    vat = 0.0
+    descr = inv.body.name_training
+    return create_journal_entry(id, customer_id, invoice_nbr, from, to, debit, credit, vat, descr)
+end</code></pre><p>#1 It loads the domain elements.</p><p>#2 I only export the <code>api</code> and <code>infrastructure</code> pages from modules. Exporting domain elements can give irritating override errors. In the first API-method, we refer to Order, which cannot found by Julia. To make it accessible, use the import statement.  </p><p>#3 As we mentioned before, Julia uses <code>multiple dispatch</code> as a kind of overloading we know from object-oriented languages. It means that you can use the same method or function name as long as the signatures are different. As you can see, we use the create method two times, one for creating unpaid invoices and one for paid invoices.</p><p>When you use the help function <code>? create</code> it shows the two.</p><p>#4 When the last statement of a function block is also the return value, you can leave out the keyword <code>return.</code></p><h2 id="infrastructure.jl-1"><a class="docs-heading-anchor" href="#infrastructure.jl-1">infrastructure.jl</a><a class="docs-heading-anchor-permalink" href="#infrastructure.jl-1" title="Permalink"></a></h2><p>The infrastructure layer, the outer peel of the onion, uses the elements from the <code>api</code> and the <code>domain</code> layers.</p><p>The two methods that execute the workflow as we have described in our invoicing procedure are:</p><ol><li>process(path, orders::Array{Order, 1})</li><li>process(path, invoices::Array{UnpaidInvoice, 1}, stms::Array{BankStatement, 1})</li></ol><p>The first method creates unpaid invoices, the second one the paid invoices. Both generate the journal entries for the general ledger.</p><p>Take a peek at chapter 6 <a href="https://www.appligate.nl/BAWJ/chapter6/">Testing the application</a> to get an idea how the data flows through the application.</p><pre><code class="language-julia">using CSV
+using DataFrames
+
+include(&quot;../api/api.jl&quot;)
+include(&quot;./db.jl&quot;) # database functions
+
+@enum TableName begin
+    UNPAID
+    PAID
+end # enumerator for TableName types
+
+# get last statement number for today
+n = 0
+
+process(path, orders::Array{Order, 1}) = begin
+    # connect to db
+    db = connect(path)
+
+    # get last order number
+    invnbr = 1000 #ToDo
+
+    # create invoices
+    invoices = [create(order, &quot;A&quot; * string(invnbr += 1)) for order in orders]
+
+    # archive invoices
+    archive(db, string(UNPAID), invoices)
+
+    # create journal entries from invoices
+    return entries = [conv2entry(inv, 1300, 8000) for inv in invoices]
+end # process(path, orders::Array{Order, 1})
+
+#process(bankstm::Array(Bankstatement, 1) = begin
+process(path, invoices::Array{UnpaidInvoice, 1}, stms::Array{BankStatement, 1}) = begin
+    # connect to db
+    db = connect(path)
+
+    # create array with potential paid invoices based on received bank statements
+    potential_paid_invoices = []
+    for unpaid_invoice in invoices
+      for stm in stms # get potential paid invoices
+        if occursin(unpaid_invoice.id, stm.descr) # description contains invoice number
+          push!(potential_paid_invoices, create(unpaid_invoice, stm))
+        end
+      end
+    end
+
+    # convert to an array with PaidInvoice&#39;s
+    paid_invoices = convert(Array{PaidInvoice, 1}, potential_paid_invoices)
+
+    # archive PaidInvoice&#39;s
+    archive(db, string(PAID), paid_invoices)
+
+    # return array with JournalEntry&#39;s
+    return entries = [conv2entry(inv, 1150, 1300) for inv in paid_invoices]
+end # process(path, invoices::Array{UnpaidInvoice, 1}, stms::Array{BankStatement, 1})
+
+read_bank_statements(path::String) = begin
+    # read the CSV file containing bank statements
+    df = CSV.read(path) # returns a DataFrame
+
+    # return an array with BankStatement&#39;s
+    # row[1] is the first value of row, row[2] the second value, etc.
+    return [BankStatement(row[1], row[2], row[3], row[4]) for row in eachrow(df)]
+end # read_bank_statements
+
+retrieve_unpaid_invoices(path)::Array{UnpaidInvoice, 1} = begin
+    # connect to db
+    db = connect(path)
+
+    # retrieve unpaid invoices as dataframe
+    unpaid_records = retrieve(db, string(UNPAID))
+
+    # convert the dataframe to an array with UnpaidInvoice&#39;s.
+    # row is an array with one element, which is an array.
+    # row[1] is the the content of the element, the UnpaidInvoice.
+    unpaid_invoices = [row[1] for row in eachrow(unpaid_records.item)]
+
+    # return the array with UnpaidInvoice&#39;s
+    return unpaid_invoices
+end # retrieve_unpaid_invoices</code></pre><h2 id="db.jl-1"><a class="docs-heading-anchor" href="#db.jl-1">db.jl</a><a class="docs-heading-anchor-permalink" href="#db.jl-1" title="Permalink"></a></h2><p>A microservice is responsible for his data. If we also see a module as an independent component, the same argument would apply. For the Invoicing module, these are the <code>UnpaidInvoice</code> and <code>PaidInvoice</code> objects.</p><p>The db.jl page is based on <a href="https://github.com/JuliaDatabases/SQLite.jl">SQLite.jl</a> module. It translates a data structure into a row in a table whose column names match the argument names of the function. The <code>store</code> method performs this action.</p><p>Sometimes you want to save a data structure in a single cell, possibly with additional information. We use the data structure <code>DatabaseItem</code> to achieve this. The column <code>item</code> contains the data structure in the serialized form. Use the <code>archive</code> method for this purpose.</p><p>Reading rows results in a DataFrame. It is similar to a spreadsheet where you use column names. If we retrieve the data from a table, it has the advantage of reading the column <code>item</code> of the DataFrame results in an array.</p><pre><code class="language-Julia"># db.jl
+
+using SQLite
+
+# Database item
+struct DatabaseItem{T}
+   time::Float64
+   agent::String
+   action::String
+   key::String
+   item::T
+end # DatabaseItem
+
+# createDatabaseItem - internal method
+const agent = &quot;AB9F&quot;
+createDatabaseItem(item::Any; agent=agent, action=&quot;CREATE&quot;) = DatabaseItem(time(), agent, action, item.id, item)
+
+# Connect with PATH_CSV
+connect(path::String)::SQLite.DB = SQLite.DB(path)
+
+# connect to in-memory database
+connect()::SQLite.DB = SQLite.DB()
+
+# archive an item as DatabaseItem
+archive(db, table::String, items::Array{T, 1} where {T &lt;: Any}) = begin
+   # save items
+   dbi = [ createDatabaseItem( i ; action=&quot;CREATE&quot; ) for i in items]
+   # return as dataframe
+   DataFrame( dbi ) |&gt; SQLite.load!(db, table)
+end # archive
+
+#store the fields of an item
+store(db, table::String, items::Array{T, 1} where {T &lt;: Any}) = begin
+   DataFrame( items ) |&gt; SQLite.load!(db, table)
+end # store
+
+# retrieve all item from a table
+retrieve(db, table::String)::DataFrame = SQLite.Query( db, &quot;select * from $table&quot;) |&gt; DataFrame
+
+# retrieve item form a table based on a sql condition
+retrieve(db, table::String, condition::String )::DataFrame = SQLite.Query( db, &quot;select * from $table where $condition&quot;)  |&gt; DataFrame
+
+# run a custom function
+runfunct(funct, x, y, z) = funct(x, y, z)</code></pre><h2 id="Exercice-4.2-1"><a class="docs-heading-anchor" href="#Exercice-4.2-1">Exercice 4.2</a><a class="docs-heading-anchor-permalink" href="#Exercice-4.2-1" title="Permalink"></a></h2><p>To save time we clone my Invoicing repository from GitHub.</p><ol><li>Goto your base folder.</li><li>Run thee command: git clone https://github.com/rbontekoe/AppliInvoicing.jl.git</li><li>Goto the folder AppliInvoicing.jl: cd AppliInvoicing.jl</li><li>Start Juno: atom .</li><li>Start Julia.</li><li>Goto the package manager: ]</li><li><strong>Activate the local environment</strong> (and don&#39;t forget the point <code>.</code>): activate .</li><li>Open the page test.jl.</li><li>Use Shit-Enter to step door your code. You will see:</li></ol><pre><code class="language-none">[ Info: 2020-02-04T12:02:13.613 - Test program started.
+[ Info: The database test_invoicing.sqlite will be removed permanently by the last two statements of this page.
+[ Info: 2020-02-04T12:02:20.128 - Orders received.
+[ Info: 2020-02-04T12:02:23.586 - Unpaid invoices created.
+[ Info: 2020-02-04T12:02:27.884 - Journal entries for unpaid invoices created.
+[ Info: 2020-02-04T12:02:34.27 - Get bankstatement entries for testing.
+[ Info: 2020-02-04T12:02:35.278 - Unpaid invoices retrieved from database.
+[ Info: 2020-02-04T12:02:35.906 - Journal entries for paid invoices created.</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../chapter3/">« 3 - The design</a><a class="docs-footer-nextpage" href="../chapter5/">5 - Creating modules »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 4 February 2020 16:26">Tuesday 4 February 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

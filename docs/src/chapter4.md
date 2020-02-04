@@ -20,6 +20,7 @@ The final folder structure and files for our Julia application.
 
 ```
 ᵥ📁AppliInvoicing
+   📁 .git
   ᵥ📁 src
     ᵥ📁 api
        📄 api.jl
@@ -30,8 +31,14 @@ The final folder structure and files for our Julia application.
      📄 AppliInvoicingl.jl
      📄 test.jl
   ᵥ📁 test
-     📄 runtests.jl
+     📄 runtests.jl\
+   📄 bank.csv
+   📄 Manifest.toml
+   📄 Project.toml  #1
+   📄 README.md
 ```
+\#1 Contains dependencies when working in the local activity mode. Julia adds dependencies automatically added when you add a package (module). Manifest.toml contains the references to the modules.
+
 
 *Figure 1*
 
@@ -167,11 +174,11 @@ In the navigation pane you see the next folders and files:
 
 ```
 ᵥ📁 AppliInvoicing
-  ᵥ📁 .git
+   📁 .git
   ᵥ📁 src
     ᵥ📁 domain
        📄 domain.jl
-		 📄 AppliInvoicing.jl
+     📄 AppliInvoicing.jl
    📄 Project.toml
    📄 README.md
 ```
