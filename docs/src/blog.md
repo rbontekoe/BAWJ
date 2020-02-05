@@ -2,6 +2,20 @@
 
 ## 2020
 
+### 02/05/2020
+
+While working on the AppliMaster module, I got yesterday the impression that I should always working with the local package repository, `] active .`:
+
+- Adding packages will update General.toml, the file with the dependencies. and update the local Manifest.toml file. When you delete Manifest.toml you have to add the packages again.
+
+- When cloning a project works withoud adding the pacjkages again.
+
+So I removed AppliInvoicing, AppliGeneralLedger, and AppliSales from the general repository. This morning I started AppliMaster in Atom. My code in `test_remote_channels.jl` didn't work anymore. The two Databases invoicing.sqlite and ledger.sqlite were not created.
+
+I added the packages AppliInvoicing, AppliGeneralLedger, and AppliSales again to the general repository and my code was running well. The only explanation I could think of: remote code only looks at the general repository.
+
+I need to review the documentation on this subject.
+
 ### 02/02/2020
 
 The pages `test_remote_channels.jl` and `myfunctions.jl`, I have embellished with `@info`. The flow of the data has now become more explicit. The code is on github: [test\_remote\_channels.jl](https://github.com/rbontekoe/AppliMaster.jl/blob/master/src/test_remote_channels.jl).
