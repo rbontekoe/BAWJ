@@ -27,12 +27,14 @@ The final folder structure and files for our Julia application.
     ᵥ📁 domain
        📄 domain.jl
     ᵥ📁 infrastructure
+       📄 db.jl
        📄 infrastructure.jl
      📄 AppliInvoicingl.jl
      📄 test.jl
   ᵥ📁 test
      📄 runtests.jl\
    📄 bank.csv
+   📄 LICENCE
    📄 Manifest.toml
    📄 Project.toml  #1
    📄 README.md
