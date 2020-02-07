@@ -2,17 +2,21 @@
 
 ## 2020
 
+### 02/07/2020
+
+Chapter 4, 5 en 6 are ready for a final check.
+
 ### 02/05/2020
 
-While working on the AppliMaster module, I got yesterday the impression that I should always working with the local package repository, `] active .`:
+While working on the AppliMaster module, I got yesterday the impression that I should always be working with the local package repository, `] active .`:
 
-- Adding packages will update General.toml, the file with the dependencies. and update the local Manifest.toml file. When you delete Manifest.toml you have to add the packages again.
+- Adding packages will update General.toml, the file with the dependencies, and update the local Manifest.toml file. When you delete Manifest.toml, you have to add the packages again.
 
-- When cloning a project works withoud adding the pacjkages again.
+- When cloning a project works without adding the packages again.
 
-So I removed AppliInvoicing, AppliGeneralLedger, and AppliSales from the general repository. This morning I started AppliMaster in Atom. My code in `test_remote_channels.jl` didn't work anymore. The two Databases invoicing.sqlite and ledger.sqlite were not created.
+So I removed AppliInvoicing, AppliGeneralLedger, and AppliSales from the general repository. This morning I started AppliMaster in Atom. My code in `test_remote_channels.jl` didn't work anymore. The two Databases invoicing.sqlite and `ledger.sqlite` were not created.
 
-I added the packages AppliInvoicing, AppliGeneralLedger, and AppliSales again to the general repository and my code was running well. The only explanation I could think of: remote code only looks at the general repository.
+I added the packages AppliInvoicing, AppliGeneralLedger, and AppliSales again to the general repository, and my code was running well. The only explanation I could think of: remote code only looks at the general repository.
 
 I need to review the documentation on this subject.
 
