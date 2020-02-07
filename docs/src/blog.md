@@ -10,7 +10,7 @@ Chapter 4, 5 en 6 are ready for a final check.
 
 While working on the AppliMaster module, I got yesterday the impression that I should always be working with the local package repository, `] active .`:
 
-- Adding packages will update `Projectl.toml`, the file with the dependencies, and update the local Manifest.toml file. When you delete Manifest.toml, you have to add the packages again.
+- Adding packages will update `Project.toml`, the file with the dependencies, and update the local Manifest.toml file. When you delete Manifest.toml, you have to add the packages again.
 
 - When cloning a project works without adding the packages again.
 
