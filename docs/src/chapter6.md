@@ -23,10 +23,10 @@ You learn to use Julia Channel's to transfer data between the tasks. When starte
                    ↑⁴                    ↑⁴             ↓
                    ¦                     ¦              ◊ Dispatcher²
           ↙        ¦             ↙       ¦             ↙
-      ⁼⁼⁼ tx³      ¦         ⁼⁼⁼ tx³     ¦         ⁼⁼⁼ tx³
+      ⁼⁼⁼ tx³      ¦         ⁼⁼⁼ tx³     ¦        ⁼⁼⁼ tx³
        ¦           ¦       Order,        ¦         ¦
     "START"        ¦   BankStatement     ¦    JournalEntry
-       ¦           ¦         ¦           ¦         ¦    
+       ¦           ¦         ¦           ¦         ¦
        ↓         Order       ↓      JournalEntry   ↓
       +--------------+      +--------------+      +--------------+
       |    Sales     |      |  Invoicing   |      |General Ledger|    Workers
