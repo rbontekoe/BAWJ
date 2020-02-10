@@ -23,6 +23,7 @@
 
 ## Julia Machine Learning
 - [Data science for managers: Programming languages](https://www.datasciencecentral.com/profiles/blogs/data-science-for-managers-programming-languages)
+- [Julia Machine Learning for Slowpokes](https://medium.com/@Jernfrost/machine-learning-for-dummies-in-julia-6cd4d2e71a46)
 
 ## Julia Package Manger
 - [A Brief Introduction to Package Management with Julia 1.0](https://www.simonwenkel.com/2018/10/06/a-brief-introduction-to-package-management-with-julia.html)
