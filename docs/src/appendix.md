@@ -14,10 +14,17 @@ Ideas are from [Andre Ferrari](https://github.com/andferrari/julia_notebook)
 ## Install Julia
 
 Prerequisites
-- Your computer OS is Ubuntu 18.04.
+- Your computer OS is Ubuntu 18.04 64 bit.
 
-|Step        | Action      | Comment |
-|:---------- | :---------- |:---------- |
+| Step        | Action      | Comment |
+| :---------- | :---------- | :---------- |
+| 1 | [Download Julia](https://julialang.org/downloads/) | Click on the link and find the row `Generic Linux Binaries for x86`. Click on `64-bit`. Download the file eg. julia-1.3.0-linux-x86_64.tar.gz |
+| 2 | $ mkdir julia | Create a folder |
+| 3 | $ cd julia | Enter folder |
+| 4 | $ mv ~/Downloads/julia-1.3.0-linux-x86_64.tar.gz .| Move the downloaded file to folder `julia`. |
+| 5 | $ tar -zxvf julia-1.3.0-linux-x86_64.tar.gz | Extract the file. |
+| 6 | $ sudo ln -s /home/rob/julia/julia-1.3.0/bin/julia /usr/local/bin/julia | Create a link. |
+| 7 | $ julia | Start Julia. |
 
 ## Install Docker
 

@@ -3,10 +3,10 @@
 ### What you will learn
 
 ```@contents
-Pages = ["chapter13.md"]
+Pages = ["chapter14.md"]
 ```
 
-This link looks intersting:
+This link looks interesting:
 [Logging](https://discourse.julialang.org/t/how-to-save-logging-output-to-a-log-file/14004/5)
 
 ```julia
