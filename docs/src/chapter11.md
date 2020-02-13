@@ -2,6 +2,12 @@
 
 **UNDER DEVELOPMENT!**
 
+### What you will learn
+
+```@contents
+Pages = ["chapter11.md"]
+```
+
 ## Docker
 
 ## Dockerfile

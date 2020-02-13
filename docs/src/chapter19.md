@@ -1,4 +1,6 @@
-# Chapter 19 \- Activity diagrams
+# 19. Activity diagrams
+
+Old stuff I want to keep!
 
 ## General Ledger - workflow
 

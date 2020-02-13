@@ -1,6 +1,7 @@
 # 10. Creating SSH enabled Containers
 
-## Index
+### What you will learn
+
 ```@contents
 Pages = ["chapter10.md"]
 ```

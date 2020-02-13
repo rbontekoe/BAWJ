@@ -2,6 +2,12 @@
 
 Under development!
 
+### What you will learn
+
+```@contents
+Pages = ["chapter8.md"]
+```
+
 ## An example
 
 You can document your code, which the user can see when one uses Julia's help. Place the whole between three quotation marks, just above a function. The first line starts with four spaces, followed by the syntax of the function. On the next lines, you can tell what it does.

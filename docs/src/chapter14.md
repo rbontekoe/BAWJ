@@ -1,4 +1,10 @@
-# 13. Logging
+# 14. Logging
+
+### What you will learn
+
+```@contents
+Pages = ["chapter13.md"]
+```
 
 This link looks intersting:
 [Logging](https://discourse.julialang.org/t/how-to-save-logging-output-to-a-log-file/14004/5)

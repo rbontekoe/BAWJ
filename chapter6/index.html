@@ -5,17 +5,17 @@
                           BankStatement¹
                                 ¦
                                 ↓
-⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼⁼ rx¹
-                   ↑⁴                    ↑⁴             ↓
-                   ¦                     ¦              ◊ Dispatcher²
-          ↙        ¦             ↙       ¦             ↙
-      ⁼⁼⁼ tx³      ¦         ⁼⁼⁼ tx³     ¦        ⁼⁼⁼ tx³
+    ----------------------------------------------------- rx¹
+                   ↑⁴                    ↑⁴            ↓
+                   ¦                     ¦             ◊ Dispatcher²
+          ↙        ¦            ↙        ¦            ↙
+      --- tx³      ¦        --- tx³      ¦        --- tx³
        ¦           ¦       Order,        ¦         ¦
     &quot;START&quot;        ¦   BankStatement     ¦    JournalEntry
        ¦           ¦         ¦           ¦         ¦
        ↓         Order       ↓      JournalEntry   ↓
       +--------------+      +--------------+      +--------------+
-      |    Sales     |      |  Invoicing   |      |General Ledger|    Workers
+      |    Sales     |      |  Invoicing   |      | GeneralLedger|    Workers
       +--------------+      +--------------+      +--------------+
 ↘</code></pre><p>¹ rx, the channel that receives the output from the modules. The Master creates rx. The Master also generate the test data for the channel: Array{BankStatement, 1}.</p><p>² Dispatcher, a job running in the Master, takes an object from rx and pushes it to the relevant tx channel.</p><p>³ tx is a task bounded channel. The task takes the entity from his channel and processes it remotely.</p><p>⁴ The task pushes the output, Array{Order, 1} or Array{JournalEntry, 1} in this diagram, to the rx channel.</p><p>See: <a href="https://github.com/rbontekoe/AppliMaster.jl/blob/master/src/test_remote_channels.jl">test_remote_channels.jl</a></p><h2 id="Using-Channels-1"><a class="docs-heading-anchor" href="#Using-Channels-1">Using Channels</a><a class="docs-heading-anchor-permalink" href="#Using-Channels-1" title="Permalink"></a></h2><p>Julia has local and remote channels. In the <code>test\_remote\_channel.jl</code> page, we use local channels. The dispatcher creates the general channel rx and instantiates the tasks. Each task returns its channel.</p><pre><code class="language-none">function dispatcher()
     rx = Channel(32) # local channel
@@ -115,4 +115,4 @@ end # dispatcher</code></pre><h2 id="Output-1"><a class="docs-heading-anchor" hr
 
 [ Info: Dispatcher received String
 ┌ Warning: No task found for type String
-└ @ Main ~/julia-projects/tc/AppliMaster/src/api/myfunctions.jl:130</code></pre><p>#1 remotely means: running a task on another process (core).</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../chapter5/">« 5 - Creating modules</a><a class="docs-footer-nextpage" href="../chapter7/">7 - Writing test software »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Sunday 9 February 2020 14:10">Sunday 9 February 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+└ @ Main ~/julia-projects/tc/AppliMaster/src/api/myfunctions.jl:130</code></pre><p>#1 remotely means: running a task on another process (core).</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../chapter5/">« 5 - Creating modules</a><a class="docs-footer-nextpage" href="../chapter7/">7 - Writing test software »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 13 February 2020 09:18">Thursday 13 February 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

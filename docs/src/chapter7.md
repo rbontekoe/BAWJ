@@ -2,9 +2,15 @@
 
 Under development!
 
+### What you will learn
+
+```@contents
+Pages = ["chapter7.md"]
+```
+
 ## Folder structure AppliInvoicing module
 
-Test should be placed in the file `runtests.jl` in the folder `test.`
+Tests should be placed in the file `runtests.jl` in the folder `test.`
 
 ```
 ᵥ📁AppliInvoicing
