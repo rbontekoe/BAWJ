@@ -2,6 +2,27 @@
 
 ## 2020
 
+### 02/27/2020 - dispatcher is working
+
+SQLite gave problems with AppliGeneralLedger. I suspected it had something to do with multi-user issues. So I decided to experiment with Jula's open/read/write file functions.  The result was very positive, so I changed the code in AppliGeneralLedger.
+
+The test with remote channels went well. AppliMaster contains the code.
+
+### 02/20/2020 - addproc(4)
+
+In the past, I used Julia v1.1.0 and SQLite v0.8.x. I use a local channel with a dispatcher. It routes the data to the right task, which runs a Julia function remote. The application ran smoothly. The problem started when I switched to SQLite.jl v1.0.1. First, I thought that SQLite was causing the problem. However, the sample code uses only the AppliSales module, which doesn’t use SQLite.
+
+I posted the problem on discourse.julialang.org: [Distributed computing, not found package error](https://discourse.julialang.org/t/distributed-computing-not-found-package-error/34851). @pfitzseb gave the solution:
+
+Try
+
+```
+addprocs(n_procs; exeflags=`--project=$(Base.active_project())`)
+```
+instead – the currently active environment doesn’t propagate to processes started by addprocs by default.
+
+Now the application runs smoothly again. Thank you, `@pfitzseb.
+
 ### 02/07/2020
 
 Chapter 4, 5 en 6 are ready for a final check.

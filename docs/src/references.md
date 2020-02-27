@@ -36,6 +36,9 @@
 
 ## Atom/Juno Documentation
 - [Juno Documentation](http://docs.junolab.org/latest/man/installation/)
+- [From zero to Julia! Using Docker](https://techytok.com/from-zero-to-julia-using-docker/#create-a-julia-container)
+- [Auto Cue](https://www.cueprompter.com/nl/)
+
 
 ## Docker
 - [Dockerize an SSH service](https://docs.docker.com/engine/examples/running_ssh_service/)
@@ -43,8 +46,6 @@
 - [Multiple Computer Example](https://discourse.julialang.org/t/multiple-computer-example/10518)
 - [Running the "Real Time Voice Cloning" project in Docker](https://sean.lane.sh/posts/2019/07/Running-the-Real-Time-Voice-Cloning-project-in-Docker/)
 
-## Miscellaneous
-- [Auto Cue](https://www.cueprompter.com/nl/)
-- [This AI Clones Your Voice After Listening for 5 Seconds](https://www.youtube.com/watch?v=0sR1rU3gLzQ&t=148s)
+## Miscellaneous- [This AI Clones Your Voice After Listening for 5 Seconds](https://www.youtube.com/watch?v=0sR1rU3gLzQ&t=148s)
 - [Julia Computing and NVIDIA Bring Julia GPU Computing to Arm](https://juliacomputing.com/blog/2019/12/03/nvidia-ngc-arm.html)
 - [Optimizing Serial Code](https://mitmath.github.io/18337/lecture2/optimizing)
