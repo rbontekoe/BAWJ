@@ -32,17 +32,16 @@ The final folder structure and files for our Julia application.
      📄 AppliInvoicingl.jl
      📄 test.jl
   ᵥ📁 test
-     📄 runtests.jl\
+     📄 runtests.jl
    📄 bank.csv
    📄 LICENCE
    📄 Manifest.toml
    📄 Project.toml  #1
    📄 README.md
 ```
-\#1 Contains dependencies when working in the local activity mode. Julia adds dependencies automatically added when you add a package (module). Manifest.toml contains the references to the modules.
-
-
 *Figure 1*
+
+\#1 Contains dependencies when working in the local activate mode. Julia adds dependencies automatically when you add a package (module). Manifest.toml contains the references to the modules.
 
 ## Activity 4.1: Create the minimum folder structure and the file domain.jl
 

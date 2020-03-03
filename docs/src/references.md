@@ -1,5 +1,11 @@
 # References
 
+## Course modules
+- [AppliGeneralLedger](https://www.appligate.nl/AppliGeneralLedger.jl/)
+- [AppliSales](https://github.com/rbontekoe/AppliSales.jl)
+- [AppliInvoicing](https://github.com/rbontekoe/AppliInvoicing.jl)
+- [AppliMaster](https://github.com/rbontekoe/AppliMaster.jl)
+
 ## Julia
 - [Think Julia](https://benlauwens.github.io/ThinkJulia.jl/latest/book.html)
 - [The Emergent Features of JuliaLang: Part I](https://invenia.github.io/blog/2019/10/30/julialang-features-part-1/)

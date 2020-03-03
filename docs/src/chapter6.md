@@ -41,11 +41,11 @@ You learn to use Julia Channel's to transfer data between the tasks. When starte
 
 ⁴ The task pushes the output, Array{Order, 1} or Array{JournalEntry, 1} in this diagram, to the rx channel.
 
-See: [test\_remote\_channels.jl](https://github.com/rbontekoe/AppliMaster.jl/blob/master/src/test_remote_channels.jl)
+See: [test\_local\_channels.jl](https://github.com/rbontekoe/AppliMaster.jl/blob/master/src/test_local_channels.jl)
 
 ## Using Channels
 
-Julia has local and remote channels. In the `test\_remote\_channel.jl` page, we use local channels. The dispatcher creates the general channel rx and instantiates the tasks. Each task returns its channel.
+Julia has local and remote channels. In the `test\_local\_channel.jl` page, we use local channels. The dispatcher creates the general channel rx and instantiates the tasks. Each task returns its channel.
 
 ```
 function dispatcher()
@@ -68,26 +68,32 @@ Because the while loop runs asynchronous, the function can return it local chann
 For more information and examples of parallel computing, please see Carsten Bauer's [Parallel Computing](https://github.com/crstnbr/JuliaWorkshop19/blob/master/3_Three/1_parallel_computing.ipynb) notebook.
 
 ```
+# =================================
+# task_1 - processing orders
+# =================================
 function task_1(rx)
     tx = Channel(32)
     @async while true
         if isready(tx)
             orders = take!(tx)
-            @info("task_1 received $(typeof(orders))")
+            @info("task 1 (create invoices): $(typeof(orders))")
             if typeof(orders) == Array{AppliSales.Order, 1}
-                @info("task_1 will process $(length(orders)) orders remote")
+                @info("task_1 (create invoices) will process $(length(orders)) orders remotely")
                 result = @fetch AppliInvoicing.process(PATH_DB, orders)
-                @info("task_1 will put $(length(result)) journal entries on rx channel")
+                @info("task_1 (create invoices) will put $(length(result)) journal entries on rx channel")
                 put!(rx, result)
             end
         else
-            @info("task_1 is waiting for data")
+            @info("task_1 (create invoices) is waiting for data")
             wait(tx)
         end
     end
     return tx
-end # test_1
+end # task_1
 ```
+\#1 - When the endless loop is in the `wait(tx)` state, then the state is released and is the if clause executed. It takes the value, and tests whether it is of the type `Array{AppliSales.Order, 1}`.
+
+\#2 - The function `AppliInvoicing.process(PATH_DB, orders)` is executed remotely, on another core or machine
 
 ## Running code on other cores
 

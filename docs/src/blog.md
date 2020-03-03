@@ -2,6 +2,12 @@
 
 ## 2020
 
+### 03/03/2020
+
+Created documentation for the module [AppliGeneralLedger](https://www.appligate.nl/AppliGeneralLedger.jl/).
+
+Master code runs successfully in a Docker container. Net to test a call to another container.
+
 ### 02/27/2020 - dispatcher is working
 
 SQLite gave problems with AppliGeneralLedger. I suspected it had something to do with multi-user issues. So I decided to experiment with Jula's open/read/write file functions.  The result was very positive, so I changed the code in AppliGeneralLedger.
