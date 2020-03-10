@@ -3,7 +3,7 @@
 ## Course modules
 - [AppliGeneralLedger](https://www.appligate.nl/AppliGeneralLedger.jl/)
 - [AppliSales](https://github.com/rbontekoe/AppliSales.jl)
-- [AppliInvoicing](https://github.com/rbontekoe/AppliInvoicing.jl)
+- [AppliInvoicing](https://www.appligate.nl/AppliInvoicing.jl)
 - [AppliMaster](https://github.com/rbontekoe/AppliMaster.jl)
 
 ## Julia

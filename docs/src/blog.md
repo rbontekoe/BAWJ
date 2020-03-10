@@ -2,11 +2,25 @@
 
 ## 2020
 
+###
+
+### 04/10/2020 - SQLite problem Raspberry Pi
+
+There is a problem with making a connection from a docker container on my Ubuntu laptop to a container on a Raspberry Pi 3+. I posted a question on  `discourse.`
+
+See [Addprocs gives connection refused to a docker container on raspberry pi](https://discourse.julialang.org/t/addprocs-gives-connection-refused-to-a-docker-container-on-raspberry-pi/35640)
+
+Now I consider using HTTP.jl (or Pages.jl) to inform the application to retrieve an image from my Raspi with scp.
+
+### 04/04/2020 - Documentation AppliInvoicing module
+
+I have completed the documentation for [ApplInvoicing.jl](https://www.appligate.nl/AppliInvoicing.jl/)
+
 ### 03/03/2020
 
 Created documentation for the module [AppliGeneralLedger](https://www.appligate.nl/AppliGeneralLedger.jl/).
 
-Master code runs successfully in a Docker container. Net to test a call to another container.
+Master code runs successfully in a Docker container.
 
 ### 02/27/2020 - dispatcher is working
 
