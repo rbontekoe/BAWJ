@@ -16,32 +16,51 @@ The AppliSales module supplies the orders that the AppliInvoicing needs to creat
 
 ### Application folder and file structure
 
-The final folder structure and files for our Julia application.
+The final folder structure and files for our Julia module [AppliInvoicing.jl](https://github.com/rbontekoe/AppliInvoicing.jl).
 
 ```
 ᵥ📁AppliInvoicing
    📁 .git
-  ᵥ📁 src
+	 📁 assets #1
+	 📁 chapter1 #1
+	 📁 chapter2 #1
+	 📁 chapter3 #1
+	 📁 docs #1
+	 📁 search #1
+  ᵥ📁 src #2
     ᵥ📁 api
        📄 api.jl
+       📄 doc.jl #3
     ᵥ📁 domain
        📄 domain.jl
     ᵥ📁 infrastructure
        📄 db.jl
+       📄 doc.jl #3
        📄 infrastructure.jl
      📄 AppliInvoicingl.jl
      📄 test.jl
   ᵥ📁 test
-     📄 runtests.jl
+     📄 runtests.jl #4
    📄 bank.csv
+	 📄 index.html #1
    📄 LICENCE
    📄 Manifest.toml
-   📄 Project.toml  #1
+   📄 Project.toml  #5
    📄 README.md
+	 📄 search_index.js #1
 ```
 *Figure 1*
 
-\#1 Contains dependencies when working in the local activate mode. Julia adds dependencies automatically when you add a package (module). Manifest.toml contains the references to the modules.
+\#1 Folders and files that make up the documentation of [AppliInvoicing.jl](https://www.appligate.nl/AppliInvoicing.jl/).
+
+\#2 The application files. We use the onion architecture.
+
+\#3 Julia help documentation. See chapter [8. Documenting your code](https://www.appligate.nl/BAWJ/chapter8/).
+
+\#4 Unit test file. See chapter [7. Writing test software](https://www.appligate.nl/BAWJ/chapter7/)
+
+\#5 Contains the dependencies. Julia adds dependencies automatically to the `Project.toml` file when you activate the local environment (`pkg> activate .`) and add a package (module). See Manifest.toml](https://julialang.github.io/Pkg.jl/v1/toml-files/):
+"The manifest file is an absolute record of the state of the packages in the environment. It includes exact information about (direct and indirect) dependencies of the project, and given a Project.toml + Manifest.toml pair it is possible to instantiate the exact same package environment, which is very useful for reproducibility."
 
 ## Activity 4.1: Create the minimum folder structure and the file domain.jl
 

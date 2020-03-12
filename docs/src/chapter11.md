@@ -1,6 +1,6 @@
 # 11. Creating containers on the Raspberry Pi
 
-**UNDER DEVELOPMENT!**
+**UNDER DEVELOPMENT!!!**
 
 ### What you will learn
 
@@ -8,103 +8,83 @@
 Pages = ["chapter11.md"]
 ```
 
-## Docker
+## Create the image and the container
 
-## Dockerfile
+Prerequisites:
+- Your have Rasbian OS on your Raspberry Pi.
+- You have `nano` installed (apt-get update && apt-get install nano)
+- You have started your computer.
+- You have installed Docker (See appendix). **TODO Check whether instructions are still right!!!**
 
-What I did on 12/01/2019.
+Steps:
+1. Create a Dockerfile in the folder test-sshd.
+2. Create a Docker image eg\_ssdh and the container test\_sshd.
+3. Create a user `rob`, who has administrator rights.
+4. Check whether you have SSH access to the container.
 
-Following the instructions on [Dockerize an SSH service](https://docs.docker.com/engine/examples/running_ssh_service/).
-
-```
-FROM ubuntu:18.04
-#FROM ubuntu:16.04
-
-RUN apt-get update && apt-get install -y openssh-server
-RUN mkdir /var/run/sshd
-#RUN echo 'root:THEPASSWORDYOUCREATED' | chpasswd
-RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-
-# SSH login fix. Otherwise user is kicked off after login
-RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
-
-ENV NOTVISIBLE "in users profile"
-RUN echo "export VISIBLE=now" >> /etc/profile
-
-EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
-```
-
-## Inter container communication
-
-What I did on 12/01/2019.
-
+## Remove next text
 Following the instructions on [Dockerize an SSH service](https://docs.docker.com/engine/examples/running_ssh_service/).
 - Created the container on Raspberry Pi.
 - Tried the connection; it works nice but I have to login with a password.
 
-First created the Dockerfile, then:
+### 1. Create a Dockerfile in the folder test_ssh
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | ssh pi@192.168.XXX.XXX | Login on Raspberry Pi. |
-| 2 | $ mkdir test-ssh | Create a new folder |
-| 3 | $ cd test-ssh | Step into the folder |
-| 4 | Select the content of the Dockerfile [above](#Dockerfile-1) | |
-| 5 | Ctrl-C | Copy selected text to the clipboard |
-| 6 | $ nano Dockerfile | Create a new empty file |
-| 7 | Shift-Ctrl-V | Paste text on clipboard into nano |
-| 8 | Ctrl-O | Save the file |
-| 9 | Ctrl-X | Exit nano |
-| 10 | $ docker build \-t eg\_sshd . | Create a Docker image from the Dockerfile |
-| 11 | $ docker run \-d \-P \-\-name test\_sshd eg\_sshd | Create a container |
-| 12 | $ docker port test\_sshd 22 | Find port number |
-| | 0.0.0.0:32769 | Response | Port number is 32769 |
-| 13 | Ctrl-D | Leave Raspberry Pi |
-| 14 | $ ssh root@192.168.XXX.XXX -p 32769 | Login remote on container with ssh |
+| 1 | ssh pi@xxx.xxx.xxx.xxx | Login on Raspberry Pi. |
+| 2 | Folow the instructions on [1. Create a Dockerfile in the folder test\_ssh](https://www.appligate.nl/BAWJ/chapter10/#.-Create-a-Dockerfile-in-the-folder-test_ssh-1) | Same Dockerfile |
 
-!!! note
-
-    - apt-get update && apt-get install -y julia -> doesn't work on Ubuntu 18.04
-
-    Some Linux command I had to use because RUN echo 'root:THEPASSWORDYOUCREATED' | chpasswd didn't work either.
-
-    - adduser rob
-    - usermod -aG sudo rob
-    - su rob
-    - sudo -i
-    - userdel rob
-    - see [also](https://linoxide.com/linux-how-to/ssh-docker-container/)
-
-    I also had to run `unminimize` to get `sudo` available. `unminimize` did't work in the container on the Raspberry Pi -> you have to be root.
-
-    Next step: create the certificates, so you don't have to login with a password (required by Julia). DONE.
-
-    Yes, I can make a ssh container-container connection between my laptop and the Raspberry Pi. Ubuntu 18.04.
-
-    Next step is to install Julia on both containers having Ubuntu 18.04 installed.
-
-
-## Activity for passwordless for machine -> machine communication (Obsolete?)
-
-What I tried three weeks before 12/01/2019: **machine -> machine** connection.
+### 2. Create a Docker image eg\_sshd and the container test\_sshd
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | $ sudo apt-get update |  |
-| 2 | $ sudo apt-get install openssh-client | Install ssh client on Ubuntu |
-| 3 | $ ls -al ~/.ssh/id_*.pub | On Ubuntu |
-| 4 | $ ssh-keygen -t rsa -b 4096 -C "your_email@domain.com" | On Ubuntu |
-| 5 | $ ls ~/.ssh/id_* | On Ubuntu |
-| 5 | $ ssh-copy-id  pi@192.168.XXX.XXX | Copy file to Raspberry Pi |
-| 7 | $ ssh pi@192.168.XXX.XXX | Connect to raspberry pi |
-| 8 | $ chmod 700 ~/.ssh | Change right the folder .ssh on Raspberry Pi |
-| 9 | $ chmod 600 ~/.ssh/authorized_keys | Change right of the file autorized_keys on Raspberry Pi|
+| 1 | $ docker build \-t eg\_sshd . | Create a Docker image from the Dockerfile |
+| 2 | $ docker run \-d \-p 2222:22 \-\-name test\_sshd eg\_sshd | Create a container |
 
+### 3. Create a user `rob`, who has administrator rights
 
-TODO: Lookup first what I did in the past! Want to use volumes in case container crashes, security, etc.
+Follow the instructions on [3. Create a user rob, who has administrator rights](https://www.appligate.nl/BAWJ/chapter10/#.-Create-a-user-rob,-who-has-administrator-rights-1).
 
-| Step | Action | Comment
+### 4. Check whether you have SSH access to the container.
+
+| Step | Action | Comment |
 | :--- | :--- | :--- |
-| 8 | $ chmod 700 ~/.ssh | Change right the folder .ssh on Raspberry Pi |
-| 9 | $ chmod 600 ~/.ssh/authorized_keys | Change right of the file authorized_keys on Raspberry Pi|
+| 1 | $ ssh rob@xxx.xxx.xxx.xxx -p 22222 | Use the ip-address of your Raspberry Pi. |
+| 2 | Login with the password you specified in previous step 3 | You should see something like `rob@675c5140e449:~$`. |
+
+!!! info
+    You can Copy your file with your file `id_rsa.pub` in the folder `~/.ssh` to establish passwordless access to your container. Use the command `ssh-copy-id rob@xxx.xxx.xxx.xxx -p 2222`, either form your laptop or a container on your laptop.  In this case is xxx.xxx.xxx.xxx the ip-address of your Raspberry Pi.
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 1 | Ctrl-D | Leave the container. |
+| 2 | Ctrl-D | leave the Raspberry Pi. |
+| 3 | $ sudo docker start test_sshd | Start the `test_sshd` container on your laptop. |
+| 4 | $ ssh-copy-id rob@xxx.xxx.xxx.xxx -p 2222 | copy your public key to the container running on the Raspberry Pi. |
+| 5 | $ ssh rob@xxx.xxx.xxx.xxx -p 22222 | Connect to the remote container. The first time you have to login. |
+
+
+## Install Julia
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 1 | $ mkdir julia | Leave the container. |
+| 2 | $ cd julia | |
+| 3 | $ wget -c https://julialang-s3.julialang.org/bin/linux/armv7l/1.3/julia-1.3.1-linux-armv7l.tar.gz | Download the file. |
+| 8 | $ tar -zxvf julia-1.3.1-linux-armv7l.tar.gz | Extract the file. |
+| 9 | $ ls | List the content of the folder. |
+| | julia-1.3.1  julia-1.3.1-linux-armv7l.tar.gz | |
+| 10 | $ cd julia-1.3.0/bin/ | We will test Julia. |
+| 11 | $ ./julia | Start Julia. |
+
+##### Response
+
+```               _
+   _       _ _(_)_     |  Documentation: https://docs.julialang.org
+  (_)     | (_) (_)    |
+   _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
+  | | | | | | |/ _` |  |
+  | | |_| | | | (_| |  |  Version 1.3.1 (2019-12-30)
+ _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org/ release
+|__/                   |
+```

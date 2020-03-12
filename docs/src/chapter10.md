@@ -62,7 +62,7 @@ You have created the keys before, no further action is required. The file id_rsa
 | 4 | $ ssh-keygen -t rsa -b 4096 -C "your_email@domain.com" | Generate the key. |
 | 5 | $ ls ~/.ssh/id_* | View your new keys. |
 
-### Do we need to do this in the ssh container?
+See [SSH Connection Refused (Causes & Solutions)](https://likegeeks.com/ssh-connection-refused/#Change-in-public-keys-after-reinstall)
 
 | Step | Action | Comment
 | :--- | :--- | :--- |
@@ -105,7 +105,7 @@ Step | Action | Comment |
 | :--- | :--- | :--- |
 | 2 | $ sudo mkdir test-ssh | Create a new folder. |
 | 3 | $ cd test-ssh | Go to the folder. |
-| 4 | Select the content of the Dockerfile [above](#Dockerfile-1) | |
+| 4 | Select the content of the Dockerfile [above](#The-Dockerfile-1) | |
 | 5 | Ctrl-C | Copy the selected text to the clipboard. |
 | 6 | $ nano Dockerfile | Create a new empty file. |
 | 7 | Shift-Ctrl-V | Paste text from the clipboard into nano. |
@@ -117,11 +117,9 @@ Step | Action | Comment |
 Step | Action | Comment |
 | :--- | :--- | :--- |
 | 1 | $ docker build \-t eg\_sshd . | Create a Docker image from the Dockerfile |
-| 2 | $ docker run \-d \-P \-\-name test\_sshd eg\_sshd | Create a container |
-| 3 | $ docker port test\_sshd 22 | Find port number |
-| | 0.0.0.0:32768 | Response | Port number is 32768. |
-| 4 | $ docker exec -it test_sshd bash | Enter the container |
-| 5 | Ctrl-D | Leave the container. |
+| 2 | $ docker run \-d \-p 2222:22 \-\-name test\_sshd eg\_sshd | Create a container |
+| 3 | $ docker exec -it test_sshd bash | Enter the container |
+| 4 | Ctrl-D | Leave the container. |
 
 sudo docker run -d -P -v /home/rob/test-ssh:/home/rob/.ssh --name test_sshd eg_sshd
 sudo chmod 777 /home/rob/test-ssh/
@@ -165,8 +163,15 @@ Is the information correct? [Y/n] Y
 | 4 | # apt-get install sudo | You act as root when you precede your commands with `sudo.` It is not installed yet in this minimized container. |
 | 5 | # su rob | Switch to the user rob |  |
 | | To run a command as administrator (user "root"), use "sudo <command>". \nSee "man sudo_root" for details. | |
-| 5 | $ sudo -i | Back as root user |
+| 5 | Ctrl-D | Back as root user. |
 | 6 | Ctrl-D | Leave the container. |
+
+##### Important?
+
+| Step | Action | Comment
+| :--- | :--- | :--- |
+| 6 | $ chmod 700 ~/.ssh | Change right the folder .ssh |
+| 7 | $ chmod 600 ~/.ssh/authorized_keys | Change right of the file authorized_keys |
 
 
 ## Activity 3 - Install Julia
@@ -281,6 +286,9 @@ Now try logging into the machine, with:   "ssh -p '32769' 'rob@localhost'"
 and check to make sure that only the key(s) you wanted were added
 ```
 
+!!! info
+    Your keys are stored in the folder /etc/ssh/.
+
 ### 2. Test the SSH connection with the container.
 
 | Step | Action | Comment
@@ -303,6 +311,27 @@ To restore this content, you can run the 'unminimize' command.
 Last login: Thu Dec  5 12:16:21 2019 from 172.17.0.1
 rob@13304c03391d:~$
 ```
+
+!!! info
+    You can also work with the docker network address.
+
+    ```
+    docker inspect test_sshd | grep "IPAddress"
+    ```
+
+    The response is:
+
+    ```
+    "SecondaryIPAddresses": null,
+    "IPAddress": "172.17.0.2",
+            "IPAddress": "172.17.0.2",
+    ```
+
+    You can also use:
+
+    ```
+    ssh rob@172.17.0.2
+    ```
 
 ## Exercise
 

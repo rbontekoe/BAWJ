@@ -2,7 +2,46 @@
 
 ## 2020
 
-###
+### 04/11/2020 - Pages.jl and HTTP.jl
+
+I did some tests with Pages.jl and HHTP.jl, The result is promising. The solution is to send a file name over an Http connection and use `scp` to retrieve the file from the Raspberry Pi for further processing.
+
+##### The test
+
+Julia 1.3.1 running on my laptop in a Ubuntu docker container as server. The variable `result` will contain the file name:
+
+```
+julia> using Pages
+
+julia> using JSON
+
+julia> @async Pages.start()
+Task (runnable) @0x00007fb2c0ee3340
+
+julia> result = ""
+""
+
+julia> Endpoint("/test", POST) do request::HTTP.Request
+           data = String(request.body)
+           global result = data
+           response = JSON.json(Dict(:data => data))
+       end
+Endpoint(Dict{Symbol,HTTP.Handlers.RequestHandlerFunction}(:POST => HTTP.Handlers.RequestHandlerFunction{var"#11#12"}(var"#11#12"())), "/test")
+```
+
+Julia 1.3.1 running on my Raspberry Pi in a Ubuntu docker container as client:
+
+```
+julia> using HTTP
+
+julia> r = HTTP.request("POST", "http://xxx.xxx.xxx.xxxxxxx:8000/test", [], "12345.jpg")
+HTTP.Messages.Response:
+"""
+HTTP/1.1 200 OK
+Transfer-Encoding: chunked
+
+{"data":"12345.jpg"}"""
+```
 
 ### 04/10/2020 - SQLite problem Raspberry Pi
 
