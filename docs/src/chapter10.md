@@ -121,9 +121,6 @@ Step | Action | Comment |
 | 3 | $ docker exec -it test_sshd bash | Enter the container |
 | 4 | Ctrl-D | Leave the container. |
 
-sudo docker run -d -P -v /home/rob/test-ssh:/home/rob/.ssh --name test_sshd eg_sshd
-sudo chmod 777 /home/rob/test-ssh/
-
 ### 3. Create a user `rob`, who has administrator rights
 
 | Step | Action | Comment |

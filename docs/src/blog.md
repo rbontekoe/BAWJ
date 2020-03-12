@@ -2,6 +2,12 @@
 
 ## 2020
 
+### 04/12/2020 - Relative mark down links
+
+Chapter 11 was not updated. I also got a message `Page build failure`.
+
+The solution was to use relative links to switch between pages, e.g. `../chapter10/#.-Create-a-Dockerfile-in-the-folder-test_ssh-1`.
+
 ### 04/11/2020 - Pages.jl and HTTP.jl
 
 I did some tests with Pages.jl and HHTP.jl, The result is promising. The solution is to send a file name over an Http connection and use `scp` to retrieve the file from the Raspberry Pi for further processing.
