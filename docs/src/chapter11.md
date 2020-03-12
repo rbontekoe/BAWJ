@@ -49,7 +49,7 @@ Follow the instructions on [3. Create a user rob, who has administrator rights](
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | $ ssh rob@xxx.xxx.xxx.xxx -p 22222 | Use the ip-address of your Raspberry Pi. |
+| 1 | $ ssh rob@xxx.xxx.xxx.xxx -p 2222 | Use the ip-address of your Raspberry Pi. |
 | 2 | Login with the password you specified in previous step 3 | You should see something like `rob@675c5140e449:~$`. |
 
 !!! info
@@ -70,7 +70,7 @@ Follow the instructions on [3. Create a user rob, who has administrator rights](
 | :--- | :--- | :--- |
 | 1 | $ mkdir julia | Leave the container. |
 | 2 | $ cd julia | |
-| 3 | $ wget -c https://julialang-s3.julialang.org/bin/linux/armv7l/1.3/julia-1.3.1-linux-armv7l.tar.gz | Download the file. |
+| 3 | $ wget -c `https://julialang-s3.julialang.org/bin/linux/armv7l/1.3/julia-1.3.1-linux-armv7l.tar.gz` | Download the file. |
 | 8 | $ tar -zxvf julia-1.3.1-linux-armv7l.tar.gz | Extract the file. |
 | 9 | $ ls | List the content of the folder. |
 | | julia-1.3.1  julia-1.3.1-linux-armv7l.tar.gz | |
