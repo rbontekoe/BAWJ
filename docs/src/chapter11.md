@@ -32,7 +32,7 @@ Following the instructions on [Dockerize an SSH service](https://docs.docker.com
 | Step | Action | Comment |
 | :--- | :--- | :--- |
 | 1 | ssh pi@xxx.xxx.xxx.xxx | Login on Raspberry Pi. |
-| 2 | Folow the instructions on [1. Create a Dockerfile in the folder test\_ssh](https://www.appligate.nl/BAWJ/chapter10/#.-Create-a-Dockerfile-in-the-folder-test_ssh-1) | Same Dockerfile |
+| 2 | Folow the instructions on [1. Create a Dockerfile in the folder test\_ssh](../chapter10/#.-Create-a-Dockerfile-in-the-folder-test_ssh-1) | Same Dockerfile |
 
 ### 2. Create a Docker image eg\_sshd and the container test\_sshd
 
@@ -43,7 +43,7 @@ Following the instructions on [Dockerize an SSH service](https://docs.docker.com
 
 ### 3. Create a user `rob`, who has administrator rights
 
-Follow the instructions on [3. Create a user rob, who has administrator rights](https://www.appligate.nl/BAWJ/chapter10/#.-Create-a-user-rob,-who-has-administrator-rights-1).
+Follow the instructions on [3. Create a user rob, who has administrator rights](../chapter10/#.-Create-a-user-rob,-who-has-administrator-rights-1).
 
 ### 4. Check whether you have SSH access to the container.
 
