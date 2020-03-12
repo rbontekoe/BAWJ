@@ -31,7 +31,7 @@ You learn to write a function that can run remotely, and that saves a subscriber
 
 Prerequisites:
 - Docker is installed on your computer.
-- You have the two containers `test_sshd` and `test_sshd2` created in chapter 9, [Create the Container](/chapter9/index.html#.-Creating-SSH-enabled-Containers-1).
+- You have the two containers `test_sshd` and `test_sshd2` created in chapter 9, [Create the Container](../chapter10/index.html#Activity-2-Create-the-Container-1).
 - Both containers are SSH enabled.
 - You have a Internet connection to download the RbO.jl module.
 
