@@ -58,7 +58,7 @@ Follow the instructions on [3. Create a user rob, who has administrator rights](
 | Step | Action | Comment |
 | :--- | :--- | :--- |
 | 1 | Ctrl-D | Leave the container. |
-| 2 | Ctrl-D | leave the Raspberry Pi. |
+| 2 | Ctrl-D | Leave the Raspberry Pi. |
 | 3 | $ sudo docker start test_sshd | Start the `test_sshd` container on your laptop. |
 | 4 | $ ssh-copy-id rob@xxx.xxx.xxx.xxx -p 2222 | copy your public key to the container running on the Raspberry Pi. |
 | 5 | $ ssh rob@xxx.xxx.xxx.xxx -p 22222 | Connect to the remote container. The first time you have to login. |

@@ -1,4 +1,4 @@
-# 12. Running functions remote
+# 12. Run the application in containers
 
 Under development!
 
