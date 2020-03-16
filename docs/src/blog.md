@@ -2,13 +2,13 @@
 
 ## 2020
 
-### 04/12/2020 - Relative mark down links
+### 03/12/2020 - Relative mark down links
 
 Chapter 11 was not updated. I also got a message `Page build failure`.
 
 The solution was to use relative links to switch between pages, e.g. `../chapter10/#.-Create-a-Dockerfile-in-the-folder-test_ssh-1`.
 
-### 04/11/2020 - Pages.jl and HTTP.jl
+### 03/11/2020 - Pages.jl and HTTP.jl
 
 I did some tests with Pages.jl and HHTP.jl, The result is promising. The solution is to send a file name over an Http connection and use `scp` to retrieve the file from the Raspberry Pi for further processing.
 
@@ -49,7 +49,7 @@ Transfer-Encoding: chunked
 {"data":"12345.jpg"}"""
 ```
 
-### 04/10/2020 - SQLite problem Raspberry Pi
+### 03/10/2020 - SQLite problem Raspberry Pi
 
 There is a problem with making a connection from a docker container on my Ubuntu laptop to a container on a Raspberry Pi 3+. I posted a question on  `discourse.`
 
@@ -57,7 +57,7 @@ See [Addprocs gives connection refused to a docker container on raspberry pi](ht
 
 Now I consider using HTTP.jl (or Pages.jl) to inform the application to retrieve an image from my Raspi with scp.
 
-### 04/04/2020 - Documentation AppliInvoicing module
+### 03/04/2020 - Documentation AppliInvoicing module
 
 I have completed the documentation for [ApplInvoicing.jl](https://www.appligate.nl/AppliInvoicing.jl/)
 
