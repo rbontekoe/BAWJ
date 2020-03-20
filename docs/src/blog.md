@@ -2,6 +2,38 @@
 
 ## 2020
 
+### 03/20/2020 - Design Patterns and best Practices with Julia
+
+Recently I bought the book [Design Patterns and Best Practices with Julia](https://www.amazon.com/Hands-Design-Patterns-Julia-comprehensive/dp/183864881X). I can recommend the book. After reading the chapter `Modules, Packages, and Data Type Concepts`, I decided to set up an abstract data tree, because it can give you a quick overview of your application. The branches are the abstract data types and the leaves the concrete data types. I chose `Domain` as an abstract root type. Using the function `subtypetree(Domain),` I get an excellent overview of the data structure:
+
+```
+julia> subtypes(Invoice)
+2-element Array{Any,1}:
+ PaidInvoice  
+ UnpaidInvoice
+
+julia> subtypetree(Domain)
+Domain
+    Invoice
+        PaidInvoice
+        UnpaidInvoice
+    Payment
+        BankStatement
+    Structure
+        BodyItem
+            OpentrainingItem
+        Header
+        MetaInvoice
+
+julia> fieldnames(PaidInvoice)
+(:id, :meta, :header, :body, :stm)
+
+julia> fieldnames(UnpaidInvoice)
+(:id, :meta, :header, :body)
+```
+
+See the [Invoicing module](https://www.appligate.nl/AppliInvoicing.jl/) documentation for more details.
+
 ### 03/12/2020 - Relative mark down links
 
 Chapter 11 was not updated. I also got a message `Page build failure`.
