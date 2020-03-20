@@ -4,7 +4,9 @@
 
 ### 03/20/2020 - Design Patterns and best Practices with Julia
 
-Recently I bought the book [Design Patterns and Best Practices with Julia](https://www.amazon.com/Hands-Design-Patterns-Julia-comprehensive/dp/183864881X). I can recommend the book. After reading the chapter `Modules, Packages, and Data Type Concepts`, I decided to set up an abstract data tree, because it can give you a quick overview of your application. The branches are the abstract data types and the leaves the concrete data types. I chose `Domain` as an abstract root type. Using the function `subtypetree(Domain),` I get an excellent overview of the data structure:
+Recently I bought the book [Design Patterns and Best Practices with Julia](https://www.amazon.com/Hands-Design-Patterns-Julia-comprehensive/dp/183864881X). I can recommend the book. After reading the chapter `Modules, Packages, and Data Type Concepts`, I decided to set up an abstract data tree, because it can give you a quick overview of your application. The branches are the abstract data types and the leaves the concrete data types. I chose `Domain` as an abstract root type.
+
+Using the function `subtypetree(Domain),` I get an excellent overview of the data structure:
 
 ```
 julia> subtypes(Invoice)
