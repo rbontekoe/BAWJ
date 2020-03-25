@@ -45,6 +45,7 @@ Pages = ["index.md",
 "chapter8.md",
 "chapter10.md",
 "chapter12.md",
+"chapter13.md",
 "appendix.md",
 "references.md"]
 ```

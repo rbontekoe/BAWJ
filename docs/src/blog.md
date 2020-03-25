@@ -2,6 +2,57 @@
 
 ## 2020
 
+### 03/25/2020 - Holy traits pattern implemented in dispatcher
+
+The `Holy traits pattern` is described in the book Design Patterns and Best Practices with Julia. It can replace it-else constructs. Old situation [dispatcher logic](https://www.appligate.nl/BAWJ/chapter6/#The-dispatcher-1). New situation to avoid troubles in the future when more Appli-packages are used. The Holy traits pattern makes it more clear:
+
+```
+# Holy traits pattern definition => can be moved to the domain layer
+abstract type Dispatcher end
+struct T0 <: Dispatcher end # AppliMaster
+struct T1 <: Dispatcher end # AppliInvoicing
+struct T2 <: Dispatcher end # AppliGeneralLedger
+struct T3 <: Dispatcher end # AppliInvoicing
+
+# the data types on rx-channel
+Dispatcher(::Type{<: String}) = T0()
+Dispatcher(::Type{<: Array{AppliSales.Order, 1}}) = T1()
+Dispatcher(::Type{<: Array{AppliGeneralLedger.JournalEntry,1}}) = T2()
+Dispatcher(::Type{<: Array{AppliInvoicing.BankStatement,1}}) = T3()
+# end Trait definition
+
+function dispatcher()
+    rx = Channel(32)
+
+    # instantiate tasks
+    tx0 = task_0(rx) # get orders from Sales
+    tx1 = task_1(rx) # process the orders
+    tx2 = task_2(rx) # process the journal entries
+    tx3 = task_3(rx) # process the unpaid invoices
+
+    # implementate Holy traits pattern
+    dispatch(x::T) where {T} = dispatch(Dispatcher(T), x)
+
+    dispatch(::T0, x) = put!(tx0, x)
+    dispatch(::T1, x) = put!(tx1, x)
+    dispatch(::T2, x) = put!(tx2, x)
+    dispatch(::T3, x) = put!(tx3, x)
+
+    @async while true
+        if isready(rx)
+            value = take!(rx)
+            @info("Dispatcher received $(typeof(value))")
+            dispatch(value)
+        else
+            wait(rx)
+        end
+    end
+
+    return rx
+end # dispatcher
+
+```
+
 ### 03/20/2020 - Design Patterns and best Practices with Julia
 
 Recently I bought the book [Design Patterns and Best Practices with Julia](https://www.amazon.com/Hands-Design-Patterns-Julia-comprehensive/dp/183864881X). I can recommend the book. After reading the chapter `Modules, Packages, and Data Type Concepts`, I decided to set up an abstract data tree, because it can give you a quick overview of your application. The branches are the abstract data types and the leaves the concrete data types. I chose `Domain` as an abstract root type.
