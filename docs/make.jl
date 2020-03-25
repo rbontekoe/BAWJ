@@ -17,7 +17,8 @@ makedocs(
             "6 - Testing the application" => "chapter6.md"
         ],
         "Section 3 - Modules" => [
-            "7 - Writing test software" => "chapter7.md", "8 - Documenting the modules" => "chapter8.md"
+            "7 - Writing test software" => "chapter7.md",
+            "8 - Documenting the modules" => "chapter8.md"
         ],
         "Section 4 - SSH enabled containers" => [
             "9 - Introduction" => "chapter9.md",

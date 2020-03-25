@@ -4,7 +4,7 @@
 
 ### 03/25/2020 - Holy traits pattern implemented in dispatcher
 
-The `Holy traits pattern` is described in the book Design Patterns and Best Practices with Julia. It can replace if-else constructs. Old situation [dispatcher logic](https://www.appligate.nl/BAWJ/chapter6/#The-dispatcher-1). With the new situation, we avoid troubles in the future when we use more Appli-packages. The Holy traits pattern makes it more clear:
+The `Holy traits pattern` is described in the book Design Patterns and Best Practices with Julia. It can replace if-else constructs. Old situation [dispatcher logic](https://www.appligate.nl/BAWJ/chapter6/#The-dispatcher-1). With the new situation, we avoid troubles in the future when we use more Appli-packages. See current infrastructure, [6. Testing the application](https://www.appligate.nl/BAWJ/chapter6/). The Holy traits pattern makes it more clear:
 
 ```
 # Holy traits pattern definition => can be moved to the domain layer
