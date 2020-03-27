@@ -2,6 +2,69 @@
 
 ## 2020
 
+### 03/27/2020 - Extending Julia LOAD_PATH
+
+II wanted to add a new feature to AppliInvoicing: reporting e.g., an aging report. It should live in a submodule of AppliInvoicing. First, I created a branch `dev`:
+
+```
+$ git branch dev
+
+$ git checkout dev
+
+$ atom .
+```
+
+Next, I created the file `Reporting.jl` and created a dummy module `Reporting`:
+
+```
+module Reporting
+
+const PATH_DB = "./invoicing.sqlite"
+
+using Dates
+
+using AppliInvoicing
+
+aging() = begin
+    unpaid_invoices = AppliInvoicing.retrieve_unpaid_invoices(PATH_DB)
+    list = []
+    for invoice in unpaid_invoices
+        date = invoice.meta.date
+        println(date, " - ", Dates.today())
+    end
+end # aging
+
+end # module
+```
+
+After that, I added the function `report()` to `api.jl` and modified the file `AppliInvoicing.jl`:
+
+```
+module AppliInvoicing
+
+greet() = print("Hello World!")
+
+export create, process, retrieve_unpaid_invoices, read_bank_statements, report
+
+# first, link to the current model
+include("./infrastructure/infrastructure.jl")
+
+# next, submodule Reporting
+include("Reporting.jl")
+using .Reporting: aging
+
+end # module
+```
+
+To test the module, I used `AppliMaster`. I didn't want all the time to upload `AppliInvoicing` to GitHub, so I extended the Julia `LOAD_PATH`. After removing the `AppliInvoicing` package, I added the next line to `test_local_channels.jl`:
+
+```
+# define the local path for AppliInvoicing
+@everywhere push!(LOAD_PATH, "/home/rob/julia-projects/tc/AppliInvoicing")
+```
+
+
+
 ### 03/25/2020 - Holy traits pattern implemented in dispatcher
 
 The `Holy traits pattern` is described in the book Design Patterns and Best Practices with Julia. It can replace if-else constructs. Old situation [dispatcher logic](https://www.appligate.nl/BAWJ/chapter6/#The-dispatcher-1). With the new situation, we avoid troubles in the future when we use more Appli-packages. See current infrastructure, [6. Testing the application](https://www.appligate.nl/BAWJ/chapter6/). The Holy traits pattern makes it more clear:
