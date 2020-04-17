@@ -88,3 +88,8 @@ Follow the instructions on [3. Create a user rob, who has administrator rights](
  _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org/ release
 |__/                   |
 ```
+
+
+##### Create symbolic link
+
+ln -s /home/rob/julia/julia-1.3.1/bin/julia /usr/local/bin/julia

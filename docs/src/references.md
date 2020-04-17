@@ -14,6 +14,7 @@
 - [NaelsonDouglas/DistributedMachineLearningThesis](https://github.com/NaelsonDouglas/DistributedMachineLearningThesis)
 - [Blue: a Style Guide for Julia](https://github.com/invenia/BlueStyle)
 - [Performance Tips](https://docs.julialang.org/en/v1/manual/performance-tips/index.html)
+- [Julia Tutorial](https://www.sas.upenn.edu/~jesusfv/Chapter_HPC_8_Julia.pdf)
 
 ## Julia Debugging
 - [A Julia interpreter and debugger](https://julialang.org/blog/2019/03/debuggers/)
@@ -51,6 +52,7 @@
 - [ssh key generation using dockerfile](https://stackoverflow.com/questions/27504187/ssh-key-generation-using-dockerfile)
 - [Multiple Computer Example](https://discourse.julialang.org/t/multiple-computer-example/10518)
 - [Running the "Real Time Voice Cloning" project in Docker](https://sean.lane.sh/posts/2019/07/Running-the-Real-Time-Voice-Cloning-project-in-Docker/)
+- [How To Install Docker On Raspberry Pi](https://phoenixnap.com/kb/docker-on-raspberry-pi)
 
 ## Miscellaneous- [This AI Clones Your Voice After Listening for 5 Seconds](https://www.youtube.com/watch?v=0sR1rU3gLzQ&t=148s)
 - [Julia Computing and NVIDIA Bring Julia GPU Computing to Arm](https://juliacomputing.com/blog/2019/12/03/nvidia-ngc-arm.html)

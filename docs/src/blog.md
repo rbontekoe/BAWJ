@@ -2,6 +2,26 @@
 
 ## 2020
 
+### 04/17/2010 - Using socket for remote communication
+
+I have defined Task_4 in `myfunctions2.jl` of AppliMaster. The task listens on port 8000. When data is detected, it is deserialized. The string START will initiate the process. Sending a `BankStatement` will create the paid invoices.
+
+First start `test_local_channels_2.jl`. Then run the next code in a separate Julia session.
+```
+using Sockets
+using Serialization
+using AppliGeneralLedger, AppliInvoicing
+
+io = connect("<ip target laptop>", 8000)
+
+# start application
+serialize(io, "START")
+
+# send bankstatements
+stms = AppliInvoicing.read_bank_statements("./bank.csv")
+serialize(io, stms)
+```
+
 ### 03/27/2020 - Extending Julia LOAD_PATH
 
 II wanted to add a new feature to AppliInvoicing: reporting e.g., an aging report. It should live in a submodule of AppliInvoicing. First, I created a branch `dev`:
@@ -116,7 +136,7 @@ end # dispatcher
 
 ```
 
-### 03/20/2020 - Design Patterns and best Practices with Julia
+### 03/20/2020 - Design Patterns and Best Practices with Julia
 
 Recently I bought the book [Design Patterns and Best Practices with Julia](https://www.amazon.com/Hands-Design-Patterns-Julia-comprehensive/dp/183864881X). I can recommend the book. After reading the chapter `Modules, Packages, and Data Type Concepts`, I decided to set up an abstract data tree, because it can give you a quick overview of your application. The branches are the abstract data types and the leaves the concrete data types. I chose `Domain` as an abstract root type.
 
