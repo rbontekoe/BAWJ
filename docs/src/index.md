@@ -4,6 +4,9 @@
 
 *In this course, you learn to create Julia modules. The software you write makes use of these modules and runs in Docker containers.*
 
+!!! info
+    See the Blog for the latest remarks!
+
 ## Preface
 
 In July 2018, I read an article about a new programming language that was rapidly gaining in popularity, [Julia](https://julialang.org/). It appealed to me how you could define a function. Almost exactly as I learned it during my bachelor study electronics: `f(x) = 2x² + 3x + 1`, in Julia written as `f(x) = 2x^2 + 3x + 1`. Then I set up a project to learn how to implement the observer pattern. It was easy, but I left it out because I was working on Scala at that moment.

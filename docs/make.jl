@@ -29,6 +29,7 @@ makedocs(
             "12 - Running functions remote" => "chapter12.md",
             "13 - Running the containers" => "chapter13.md",
             "14 - Logging" => "chapter14.md",
+            "15 - Create a Package" => "chapter15.md",
             "19 - Activity diagrams" => "chapter19.md",
             "20 - Using Remote Channels (old stuff)" => "chapter20.md"
         ],

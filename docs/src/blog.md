@@ -2,6 +2,66 @@
 
 ## 2020
 
+### 05/07/2020
+
+After watching the video [Developing Julia Packages](https://www.youtube.com/watch?reload=9&v=QVmU29rCjaA) I decided to use `PkgTemplates.jl` as the starting point for package development.
+
+I created the package AppliAR.jl (AR = Account Receivable) with the code from AppliInvoicing.jl, a name I will replace.
+
+Also, I recreated the supporting packages AppliSales.jl and AppliGeneral.jl.
+
+Overall, I believe that what I learned from using PkgTemplates makes the application more professional. Unfortunately, I have to rewrite parts of the course.
+
+In [AppliMaster.jl](https://github.com/rbontekoe/AppliMaster.jl) you find the files `test_local_channels_2.jl` and `client.jl` to test the application.
+
+```
+# test_local_channels2.jl
+
+using Pkg
+Pkg.activate(".")
+
+# remove old stuff
+cmd = `rm test_invoicing.sqlite test_ledger.txt test_journal.txt`
+run(cmd)
+
+# enable distrbuted computing
+using Distributed
+@info("Enable distributed computing")
+
+# this should be the next step
+np = addprocs(4; exeflags=`--project=$(Base.active_project())`)
+#np = addprocs([("rob@192.168.2.77:2222", :auto)]; exeflags=`--project=$(Base.active_project())`)
+@info("number of processes is $(length(np))")
+
+# activate the packages (before the processes are created)
+@everywhere begin
+    using AppliSales
+    using AppliGeneralLedger
+    using AppliAR
+end;
+
+@info("Distributed computing enabled")
+
+# get the tasks and dispatcher
+include("./api/api.jl")
+
+# start the dispatcher
+rx = dispatcher()
+@info("Dispatcher started")
+
+# start application remote
+include("client.jl")
+
+# display aging report
+using DataFrames
+
+sleep(10)
+r = DataFrame(report())
+println("\nUnpaid invoices\n============")
+println(r)
+
+```
+
 ### 04/17/2010 - Using socket for remote communication
 
 I have defined Task_4 in `myfunctions2.jl` of AppliMaster. The task listens on port 8000. When data is detected, it is deserialized. The string START will initiate the process. Sending a `BankStatement` will create the paid invoices.
