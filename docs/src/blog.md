@@ -2,6 +2,18 @@
 
 ## 2020
 
+### 05/11/2020
+
+Last Friday, I have registered my first packages at [JuliaRegistries/General](https://github.com/JuliaRegistries/General):
+- AppliSales
+- AppliGeneralLedger
+
+To register the packages you use [https://juliahub.com/ui/Packages](https://juliahub.com/ui/Home), using the `Registering Packages` page. You have to wait for three days before you can add the packages to a project.
+
+I had to do this because AppliSales and AppliGeneralLedgers are dependencies in AppliAR.jl and I wanted to make use of Travis CI. Travis CI requires that it can add the tests (in `runtests.jl`) from the official Julia registry.
+
+Now I am considering to partially rewrite the course to incorporate my newly acquired knowledge.
+
 ### 05/07/2020
 
 After watching the video [Developing Julia Packages](https://www.youtube.com/watch?reload=9&v=QVmU29rCjaA) I decided to use `PkgTemplates.jl` as the starting point for package development.
