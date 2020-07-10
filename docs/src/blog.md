@@ -2,6 +2,18 @@
 
 ## 2020
 
+### 07/10/2020
+
+I played last week with Rocket.jl, a package where you can work with actors. During the time I worked with Akka and Scala, I became familiar with the idea of actors.
+
+Actors send messages to other actors, which are stored in their mailbox and then processed one by one. The advantage is that the actors are completely separated from each other and can manage their data.
+
+The results were positive, so I consider to set up the application the way I did with Akka.
+
+### 06/25/2020
+
+A submodule is a defined unit where you define what the input is and what someone else can use. Would it have an advantage to define the Domain, API and Infrastructure shell as a sub module as well?  I implemented it in AppliAR.
+
 ### 05/11/2020
 
 Last Friday, I have registered my first packages at [JuliaRegistries/General](https://github.com/JuliaRegistries/General):
