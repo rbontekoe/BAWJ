@@ -2,7 +2,11 @@
 
 ## 2020
 
-### 07/10/2020
+### 07/15/2020 - Rewrite the course
+
+Added documentation to [AppliAR](https://www.appligate.nl/AppliAR.jl/). In [4. Example](https://www.appligate.nl/AppliAR.jl/chapter4/) the code that uses Docker containers and actors. Now ready to rewrite the course and incorporate the actors.
+
+### 07/10/2020 - Rocket.jl
 
 I played last week with Rocket.jl, a package where you can work with actors. During the time I worked with Akka and Scala, I became familiar with the idea of actors.
 
@@ -10,11 +14,11 @@ Actors send messages to other actors, which are stored in their mailbox and then
 
 The results were positive, so I consider to set up the application the way I did with Akka.
 
-### 06/25/2020
+### 06/25/2020 - Domain, API, and Infrastructure as sub-modules
 
-A submodule is a defined unit where you define what the input is and what someone else can use. Would it have an advantage to define the Domain, API and Infrastructure shell as a sub module as well?  I implemented it in AppliAR.
+A sub-module is a defined unit where you define what the input is and what someone else can use. Would it have an advantage to define the Domain, API and Infrastructure shell as a sub module as well?  I implemented it in AppliAR.
 
-### 05/11/2020
+### 05/11/2020 - Registered the packages AppliSales and AppliGeneralLedger
 
 Last Friday, I have registered my first packages at [JuliaRegistries/General](https://github.com/JuliaRegistries/General):
 - AppliSales
@@ -26,7 +30,7 @@ I had to do this because AppliSales and AppliGeneralLedgers are dependencies in 
 
 Now I am considering to partially rewrite the course to incorporate my newly acquired knowledge.
 
-### 05/07/2020
+### 05/07/2020 - PkgTemplates.jl
 
 After watching the video [Developing Julia Packages](https://www.youtube.com/watch?reload=9&v=QVmU29rCjaA) I decided to use `PkgTemplates.jl` as the starting point for package development.
 
