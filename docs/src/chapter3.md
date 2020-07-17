@@ -121,7 +121,7 @@ The activity diagram represents the workflow. The actions are Julia functions. Y
     ↓
     ◉
 
-⚉ process(::Array{UnpaidInvoice}, days::Int) # TODO
+⚉ report(::Array{UnpaidInvoice}, days::Int) # TODO
     ↓
     filter(::Array{UnpaidInvoice, ::Int}::Array{UnpaidInvoiceDue}
     ↓
@@ -134,23 +134,21 @@ The activity diagram represents the workflow. The actions are Julia functions. Y
 
 From the activity diagram we get:
 
-### Domain elements
+### Domain Elements
 
 The domain objects (types) are:
 
 Domain Types:
 - UnpaidInvoice;
 - PaidInvoice;
-- UnpaidInvoiceDue;
-- MessageType;
 - BankStatement.
 
-External Types
+External Types:
 - Sales.Order¹;
 - GeneralLedger.JournalEntry².
 
 General modules:
-- Dates³
+- Dates³;
 - DataFrames³
 
 ¹ Defined in the module Sales. We iterate on a list of orders that we will create in the test code to simplify the course.
@@ -159,54 +157,50 @@ General modules:
 
 ³ Dates and [DataFrames](https://en.wikibooks.org/wiki/Introducing_Julia/DataFrames) modules are a part of Julia. The DataFrame data structure is comparable to a spreadsheet.
 
-### API Invoicing
+### API
 
 The API contains the methods (functions) of the module. The methods use only elements from the core or domain. An overview of we need:
 
-- create(::Order)::UnpaidInvoice
-- create(::UnpaidInvoice, ::BankStatement)::PaidInvoice
-- create(::UnpaidInvoice)::JournalStatement
-- create(::PaidInvoice)::JournalStatement
-- create(::UnpaidInvoice, ::Int)::UnpaidInvoiceDue
-
+- create(::Array{Order,1})::Array{UnpaidInvoice, 1}
+- create(::Array{UnpaidInvoice, 1}, ::Array{BankStatement, 1})::Array{PaidInvoice,1)
+- conv2entry(inv::Array{UnpaidInvoice, 1}, from::Int, to::Int)::Array{JournalEntry, 1}
+- conv2entry(inv::Array{PaidInvoice, 1}, from::Int, to::Int)::Array{JournalEntry, 1}
 
 In Julia, you can use the same function name as long as the `signature` is different, so other types and, or the number of arguments. One calls it [`multiple dispatch`](https://en.wikipedia.org/wiki/Multiple_dispatch).
 
-We have defined and created the `Order, with the Training, Company, Contact, and Student` objects in the test module [AppliSales](https://github.com/rbontekoe/AppliSales.jl) to simplify the course.
+We have defined and created the `Order, consisting the Training, Company, Contact, and Student` objects in the test module [AppliSales](https://github.com/rbontekoe/AppliSales.jl) to simplify testing the code in the course.
 
-Also, we have already created a test module [AppliGeneralLedger](https://github.com/rbontekoe/AppliGeneralLedger.jl) to make it easier to test the code in this chapter.
+Also, we have already created a test module [AppliGeneralLedger](https://github.com/rbontekoe/AppliGeneralLedger.jl) to make it easier to test the code in the course.
 
 ### Methods of the Infrastructure layer
 
-Database:
-- connect(path::String)::SQLite.DB
-- archive(db::SQLite.DB, tablename::String, item::Array{Any, 1})
-- store(db::SQLite.DB, tablename::String, data_type::Array{Any, 1})
-- retrieve(db::SQLite.DB, tablename::String)::DataFrame
-- retrieve(db::SQLite.DB, tablename::String, selection::String)::DataFrame
+Database, private methods:
+- add_to_file(file::String, data::Array{Any, 1}
+- read_from_file(file::String)::Array{Any, 1}
 
-You find the methods in our module [AppliSQLite](https://github.com/rbontekoe/AppliSQLite.jl), which we will use in the course. It makes use of the module SQLite.
+External accessable methods:
+- read_bank_statements(path::String)::Array{BankStatement,1}
+- process(::Array{Order)::Array{JounalEntry, 1}
+- process(::UnpaidInvoice, ::BankStatement)::Array{JounalEntry, 1}
+- retrieve_unpaid_invoices()::Array{UnpaidInvoice, 1}
+- retrieve_paid_invoice()::Array{PaidInvoice, 1}
 
-[SQLite.jl](https://juliadatabases.github.io/SQLite.jl/stable/) is a Julia package, You can use it as an on-disk database file, but also as an in-memory database. The last option is ideal for testing.
-
-## Application infrastructure
+## Application infrastructure with actors
 
 ```
-                               +-----------+
-                               | 1. Master |
-                               +-----------+
-                                     ↓
-                                     ◊
-   OpenCourseOrder / BankStatement  ↙ ↘  JournalEntry
-                   +--------------+     +--------------------+
-                   | 2. Invoicing |     | 3. General Ledger  |   Workers
-                   +--------------+     +--------------------+
-                          ↓
-                     JournalEntry
+                           StmActor
+                              |
+                              | BankStatement(s)
+                              ↓       
+       SalesActor -------> ARActor -------> GLActor
+                  Order(s)    ↑    Entry(s)    ↑
+                              ↓                ↓
+                            Store            Store
 ```
-1. Master \- Runs in a container.
-2. Worker Invoicing \- Function, see [Activity diagram](#Activity-diagram-1), runs in a container.
-3. Worker General Ledger \- Dummy, runs on a core.
+- All actors run in main
+- ARActor (Accounts Receivable Actor) next-code runs on processor-core/container
+- GLActor (General Ledger Actor) next-code runs on processor-core/container
+
 
 
 ## ToDo
