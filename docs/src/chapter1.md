@@ -20,8 +20,8 @@ Fig 1. The application architecture.
 
 - The SalesActor uses the AppliSales package to send the orders to the ARActor.
 - The StmActor reads a CSV file with bank statements and sends them to the ARActor.
-- The ARActor (Accounts Receivable) uses the Applijl module to process orders and bank statements and sends journal entries to the GLActor.
-- GLActor uses the AppliGeneralLedger package and turns journal entries into general legder statements.
+- The ARActor (Accounts Receivable) uses the AppliAR.jl module to process orders and bank statements and sends journal entries to the GLActor.
+- GLActor uses the AppliGeneralLedger package and turns journal entries into general ledger statements.
 
 I use the word package for an official registered Julia [module](https://docs.julialang.org/en/v1/base/base/#module). A module is Julia code with a clearly defined boundary. We can achieve it by using the [onion architecture](https://www.thinktocode.com/2018/08/16/onion-architecture/).
 
