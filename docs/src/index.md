@@ -9,7 +9,7 @@
 
 ## Preface
 
-In July 2018, I read an article about a new programming language that was rapidly gaining in popularity, [Julia](https://julialang.org/). It appealed to me how you could define a function. Almost exactly as I learned it during my bachelor study electronics: `f(x) = 2x² + 3x + 1`, in Julia written as `f(x) = 2x^2 + 3x + 1`. Then I set up a project to learn how to implement the observer pattern. It was easy, but shelfed it because I was working on Scala at that moment.
+In July 2018, I read an article about a new programming language that was rapidly gaining in popularity, [Julia](https://julialang.org/). It appealed to me how you could define a function. Almost exactly as I learned it during my bachelor study electronics: `f(x) = 2x² + 3x + 1`, in Julia written as `f(x) = 2x^2 + 3x + 1`. Then I set up a project to learn how to implement the observer pattern. It was easy, but shelved it because I was working on Scala at that moment.
 
 While working with Scala, I came in touch with the Onion Architecture, after watching Wade Waldron's presentation, [Domain-Driven Design, and Onion Architecture](https://youtu.be/MnNeDXg3Qao). Since then, I use it.
 
@@ -27,6 +27,8 @@ I had already a GitHub Pages profile, and thought: "Why not set up the AppliGate
 
 With trying out so many things with Julia, the problem arose that I could not find specific trials back in my notes. After the success of the website, I thought: "Why not set up a course where I can register all the interesting things?".
 
+In June 2020, I discovered a new package called [Rocket.jl](https://github.com/biaslab/Rocket.jl) which supports the [actor model](https://www.brianstorti.com/the-actor-model/). I know the actor model from my Scala and Akka period. It makes your application more robust and the workflow easier. It is the main reason I rewrite the course.
+
 ### Developing Business Applications with Julia
 
 The result is this course Business Applications with Julia I am creating now.
@@ -40,15 +42,8 @@ Rob Bontekoe
 Pages = ["index.md",
 "chapter1.md",
 "chapter2.md",
-"chapter3.md",
-"chapter4.md",
-"chapter5.md",
-"chapter6.md",
-"chapter7.md",
-"chapter8.md",
-"chapter10.md",
-"chapter12.md",
-"chapter13.md",
+"notebook.md",
+"overview.md",
 "appendix.md",
 "references.md"]
 ```

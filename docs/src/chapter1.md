@@ -1,76 +1,28 @@
-# 1. Introduction Notebook
+# 1 - The Application
 
-```@contents
-Pages = ["chapter1.md"]
+## The Application Architecture
+
+We will look at in this course at the module AppliAR.jl. AR is short for Accounts Receivable. We test the module with two supporting packages: AppliSales.jl and AppliGeneralLedger.jl
+
+The application architecture is based on the **actor model**. The article [The actor model in 10 minutes](https://www.brianstorti.com/the-actor-model/) explains the model very well. The link comes from the [Rocket.jl](https://biaslab.github.io/Rocket.jl/stable/) documentation, the package we use to test our AppliAR.jl module.
+
 ```
+                           StmActor
+                              |
+                              | BankStatement(s)
+                              ↓       
+       SalesActor -------> ARActor -------> GLActor
+                  Order(s)    ↑    Entry(s)    ↑
+                              ↓                ↓
+                            Store            Store
+```
+Fig 1. The application architecture.
 
-## What is a notebook?
+- The SalesActor uses the AppliSales package to send the orders to the ARActor.
+- The StmActor reads a CSV file with bank statements and sends them to the ARActor.
+- The ARActor (Accounts Receivable) uses the Applijl module to process orders and bank statements and sends journal entries to the GLActor.
+- GLActor uses the AppliGeneralLedger package and turns journal entries into general legder statements.
 
-> In this case, "notebook" or "notebook documents" denote documents that contain both code and rich text elements, such as figures, links, equations, ... Because of the mix of  code and text elements, these documents are the ideal place to bring together an analysis description, and its results, as well as, they can be executed perform the data analysis in real tme.[See](https://www.datacamp.com/community/tutorials/tutorial-jupyter-notebook?utm_source=adwords_ppc&utm_campaignid=898687156&utm_adgroupid=48947256715&utm_device=c&utm_keyword=&utm_matchtype=b&utm_network=g&utm_adpostion=1t1&utm_creative=229765585186&utm_targetid=dsa-473406581035&utm_loc_interest_ms=&utm_loc_physical_ms=1010646&gclid=CjwKCAiAwZTuBRAYEiwAcr67OT0L2OMoR-APTl3_d0nqhdJevnsFnoJscqhbdNXm5gCw25Ul5zJlLBoCDMEQAvD_BwE)
+I use the word package for an official registered Julia [module](https://docs.julialang.org/en/v1/base/base/#module). A module is Julia code with a clearly defined boundary. We can achieve it by using the [onion architecture](https://www.thinktocode.com/2018/08/16/onion-architecture/).
 
-[Top](#Introduction-Notebook-1)
-
-## Options to use a notebook
-You have several option to work with IJulia:
-1. You have installed Julia on [your own machine](https://subscription.packtpub.com/book/programming/9781788998369/1/ch01lvl1sec12/installing-julia-from-binaries).
-2. You have installed Docker on your own machine and run IJulia from a container with [Julia and IJulia installed](https://github.com/andferrari/julia_notebook).
-3. You make use of the IJulia server installed on the [machne of your instructor](file:///home/rob/julia_projects/courses/bawj/docs/build/appendix/index.html#Install-IJulia-1).
-
-The IJulia Notebook is installed on the machine of the instructor, but you can also install IJula on your own notebook. Follow the instruction in the appendix.
-
-[Top](#Introduction-Notebook-1)
-
-## Starting IJulia
-
-Ask your instructor for the public ip-address and the token.
-
-The first time you enter the IJulia server, it will ask you one time for the token.
-
-### Login to the IJulia server
-
-|Step        | Action      | Comment |
-|:---------- | :---------- |:---------- |
-| 1 | Start browser |
-| 2 | http://x.x.x.x:8888| Ask instructor for the complete the public ip-address of the IJulia server |
-| 3 | Enter the token in the **Password or token** field |
-| 4 | Click on the Log in button |
-
-[Top](#Introduction-Notebook-1)
-
-## Create a new notebook
-
-![Test](file:///home/rob/julia_projects/courses/bawj/images/pic1.png)
-
-|Step        | Action/Response | Comment |
-|:---------- | :---------- |:---------- |
-| 1 | Click on work directory |
-| 2 | Click on button New | Open New menu. |
-| 3 | Select on item Julia.x.x.x | Create a new Julia Notebook. |
-|  |  New Notebook is opened |
-| 4 | Place the cursor in the first cel | In this cell you can type your code. |
-| 5 | println("Hello World!") | Type your Julia code. |
-| 6 | Shift-Enter | Activate the code and create a new cell
-
-[Top](#Introduction-Notebook-1)
-
-## Notebook commands
-
-Working with a Notebook is rather intuitive. Here are some commands you will often use.
-
-|Command       | Comment |
-|:---------- | :---------- |
-| Shift-Enter | Execute code and create a new cell below. |
-| Ctrl-Enter | Execute code and stay in the cell |
-| Tab | Code completion, e.g. printl-Tab => println. |
-| Double Tab | List with option, e.g. print-Tab displays `print, println, and printstyled` |
-| \sqrt-tab | Special characters, in this case `√`. |
-| Esc-A | Create empty cell above the current cell. |
-| Esc-B | Create empty cell below current cell. |
-| Esc-M | Change to a markdown cell. |
-| Esc-Y | Change to code cell. |
-
-Click on the keyboard icon to see more options.
-
-[Top](#Introduction-Notebook-1)
-
-## Summary
+The [example](https://www.appligate.nl/AppliAR.jl/stable/chapter4/) on AppliAR.jl page shows a case with docker containers.
