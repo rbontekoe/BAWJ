@@ -8,7 +8,8 @@ makedocs(
         "Blog" => "blog.md",
         "Section 1 - Building the application" => [
             "1 - The Application" => "chapter1.md",
-            "2 - The design" => "chapter2.md"
+            "2 - The design" => "chapter2.md",
+            "3 - Implementing the design" => "chapter3.md"
         ],
         "IJulia Notebook" => "notebook.md",
         "Overview Julia" => "overview.md",

@@ -1,57 +1,70 @@
-# 4. Implementing the design
+# 3. Implementing the design
 
 UNDER DEVELOPMENT!
 
 ### What you will learn
 
 ```@contents
-Pages = ["chapter4.md"]
+Pages = ["chapter3.md"]
 ```
 
-In chapter 3, we saw how the design of the invoicing module. In this chapter, we will implement it, the `AppliInvoicing` module. Two other modules that will come in the picture are AppliSales and AppliGeneralLedger.
+In chapter 2, we saw how the design of the AppliAR module. In this chapter, we will implement it, the `AppliAR(.jl)` module and its sub-modules `Domain(.jl)`, `API(.jl)`, and `Infrastructure(.jl)`. Two packages that will come in the picture are AppliSales and AppliGeneralLedger.
 
-The AppliSales module supplies the orders that the AppliInvoicing needs to create the invoices when the course starts. Besides sending and storing the invoices, it also creates the journal entries for the AppliGeneralLedger module.
+The AppliSales package supplies the orders that AppliAR module needs to create the invoices when a course starts. Besides sending and storing the invoices, it also creates the journal entries for the AppliGeneralLedger package.
 
 ## Development environment
 
 ### Application folder and file structure
 
-The final folder structure and files for our Julia module [AppliInvoicing.jl](https://github.com/rbontekoe/AppliInvoicing.jl).
+The final folder structure and files for our Julia module [AppliAR.jl](https://github.com/rbontekoe/AppliAR.jl).
 
 ```
 ᵥ📁AppliInvoicing
    📁 .git
-	 📁 assets #1
-	 📁 chapter1 #1
-	 📁 chapter2 #1
-	 📁 chapter3 #1
-	 📁 docs #1
-	 📁 search #1
+	 📁 .github
+	ᵥ📁 docs #1
+	    📁 build
+			📁 src
+	   ᵥ📁 stable
+	       📁 assets
+	       📁 chapter1
+			   📁 chapter2
+			   📁 chapter3   
+			   📁 search
+				 📄 index.html
+			   📄 search_index.js
+			 📄 make.jl
+			 📄 Manifest.toml
+			 📄 Project.toml
   ᵥ📁 src #2
     ᵥ📁 api
-       📄 api.jl
-       📄 doc.jl #3
+       📄 Api.jl
+       📄 spec.jl #3
     ᵥ📁 domain
-       📄 domain.jl
+       📄 Domain.jl
+			 📄 spec.jl #3
     ᵥ📁 infrastructure
        📄 db.jl
        📄 doc.jl #3
-       📄 infrastructure.jl
-     📄 AppliInvoicingl.jl
-     📄 test.jl
+       📄 Infrastructure.jl
+     📄 AppliAR.jl
+     📄 Reporting.jl
   ᵥ📁 test
-     📄 runtests.jl #4
-   📄 bank.csv
-	 📄 index.html #1
+		 📄 Manifest.toml #4
+		 📄 Project.toml #4
+		 📄 runtests.jl #4
+   📄 .coveralls.yml
+	 📄 .gitignore
+	 📄 .travis.yml
+	 📄 bank.csv
    📄 LICENCE
    📄 Manifest.toml
    📄 Project.toml  #5
    📄 README.md
-	 📄 search_index.js #1
 ```
-*Figure 1*
+*Fig 1*
 
-\#1 Folders and files that make up the documentation of [AppliInvoicing.jl](https://www.appligate.nl/AppliInvoicing.jl/).
+\#1 Folders and files that make up the documentation of [AppliAR.jl](https://www.appligate.nl/AppliAR.jl/stable).
 
 \#2 The application files. We use the onion architecture.
 
@@ -65,12 +78,12 @@ The final folder structure and files for our Julia module [AppliInvoicing.jl](ht
 ## Activity 4.1: Create the minimum folder structure and the file domain.jl
 
 In this activity you will create the folder structure for the `invoicing` process. You partial set-up the folder structure according to figure 1:
-- Create the base folder AppliInvoicing.
+- Create the base folder AppliAR.
 - Create a repository on GitHub.
 - Create the folder `domain`under `src`.
-- Create the file domain.jl.
+- Create the file Domain.jl.
 
-###### Create the base folder AppliInvoicing
+###### Create the base folder AppliAR
 
 All steps are necessary, because we want to create a Julia module form our code.
 
@@ -78,9 +91,12 @@ Prerequisites
 - Your computer OS is Ubuntu 18.04.
 - You have sudo (administraton) rights.
 - `git` is installed.
+- `Julia` is installed.
 - `atom/juno` installed.
 
 You can install git with the command: sudo apt-get install git.
+
+To install Julia, see [instructions](appendix/index.html#Install-Julia).
 
 Atom/juno is the IDE that is used in our example. To install juno see the next [instruction](http://docs.junolab.org/latest/man/installation/).
 
