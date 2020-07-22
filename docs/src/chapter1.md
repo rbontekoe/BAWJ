@@ -23,6 +23,8 @@ Fig 1. The application architecture.
 - The ARActor (Accounts Receivable) uses the AppliAR.jl module to process orders and bank statements and sends journal entries to the GLActor.
 - GLActor uses the AppliGeneralLedger package and turns journal entries into general ledger statements.
 
-I use the word package for an official registered Julia [module](https://docs.julialang.org/en/v1/base/base/#module). A module is Julia code with a clearly defined boundary. We can achieve it by using the [onion architecture](https://www.thinktocode.com/2018/08/16/onion-architecture/).
+I use the word package for an official registered Julia [module](https://docs.julialang.org/en/v1/base/base/#module).
 
-The [example](https://www.appligate.nl/AppliAR.jl/stable/chapter4/) on AppliAR.jl page shows a case with docker containers.
+A module is Julia code with a clearly defined boundary. We use the [onion architecture](https://www.thinktocode.com/2018/08/16/onion-architecture/) to achieve it. The peels Domain, API, and Infrastructure are defined as sub-modules.
+
+The [example](https://www.appligate.nl/AppliAR.jl/stable/chapter4/) on AppliAR.jl page shows the case with docker containers.
