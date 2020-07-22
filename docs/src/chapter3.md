@@ -21,21 +21,21 @@ The final folder structure and files for our Julia module [AppliAR.jl](https://g
 ```
 ᵥ📁AppliInvoicing
    📁 .git
-	 📁 .github
-	ᵥ📁 docs #1
-	    📁 build
-			📁 src
-	   ᵥ📁 stable
-	       📁 assets
-	       📁 chapter1
-			   📁 chapter2
-			   📁 chapter3   
-			   📁 search
-				 📄 index.html
-			   📄 search_index.js
-			 📄 make.jl
-			 📄 Manifest.toml
-			 📄 Project.toml
+   📁 .github
+  ᵥ📁 docs #1
+      📁 build
+      📁 src
+     ᵥ📁 stable
+         📁 assets
+         📁 chapter1
+         📁 chapter2
+         📁 chapter3   
+         📁 search
+         📄 index.html
+         📄 search_index.js
+       📄 make.jl
+       📄 Manifest.toml
+       📄 Project.toml
   ᵥ📁 src #2
     ᵥ📁 api
        📄 Api.jl
