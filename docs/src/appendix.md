@@ -32,6 +32,10 @@ Prerequisites
 Step        | Action      | Comment |
 | :---------- | :---------- | :---------- |
 | 1 | sudo apt install git | |
+| 2 | git config --global user.email "<your email address>" |  |
+| 3 | git config --global user.name "<your first and last name>" | E.g. "Rob Bontekoe" |
+| 4 | git config --global github.user "<yout git hub name>" | E.g. "rbontekoe" |
+| 5 | cat .gitconfig | Show your git data. |
 
 ## Install Atom
 
