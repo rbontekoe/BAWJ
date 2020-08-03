@@ -19,7 +19,7 @@ The AppliSales package supplies the orders that AppliAR module needs to create t
 The final folder structure and files for our Julia module [AppliAR.jl](https://github.com/rbontekoe/AppliAR.jl).
 
 ```
-ᵥ📁AppliInvoicing
+ᵥ📁AppliAR
    📁 .git
    📁 .github
   ᵥ📁 docs #1
@@ -29,7 +29,7 @@ The final folder structure and files for our Julia module [AppliAR.jl](https://g
          📁 assets
          📁 chapter1
          📁 chapter2
-         📁 chapter3   
+         📁 chapter3
          📁 search
          📄 index.html
          📄 search_index.js
