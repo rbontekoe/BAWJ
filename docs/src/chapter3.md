@@ -8,18 +8,46 @@ UNDER DEVELOPMENT!
 Pages = ["chapter3.md"]
 ```
 
-In chapter 2, we saw how the design of the AppliAR module. In this chapter, we will implement it, the `AppliAR(.jl)` module and its sub-modules `Domain(.jl)`, `API(.jl)`, and `Infrastructure(.jl)`. Two packages that will come in the picture are AppliSales and AppliGeneralLedger.
+In chapter 2, we saw the design of the AppliAR module. In this chapter, we will implement it, the `AppliAR(.jl)` module and its sub-modules `Domain(.jl)`, `API(.jl)`, and `Infrastructure(.jl)`. Two packages that we will use are AppliSales and AppliGeneralLedger.
 
 The AppliSales package supplies the orders that AppliAR module needs to create the invoices when a course starts. Besides sending and storing the invoices, it also creates the journal entries for the AppliGeneralLedger package.
 
-## Development environment
+## Activity 3.1: Setup the development environment for AppliAR
 
-### Application folder and file structure
+In this activity you will create the environment for the development of the module AppliAR.
+- Install Julia.
+- Install Atom.
+- Install Juno.
+- Add the package PkgTemplates.
+- Create the basic application file structure for module AppliAR using PkgTemplates.
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 1 | [Install Julia](../appendix/#Install-Julia-1) | Follow the Installation instructions. |
+| 2 | [Install Git](../appendix/#Install-Git-1) |  |
+| 3 | [Install Atom](../appendix/#Install-Atom-1) |  |
+| 4 | [Install Juno](../appendix/#Install-Juno-1) |  |
+| 5 | Close Atom |  |
+| 6 | $ cd projects |  |
+| 6 | $ julia | Start Julia. |
+| 7 | julia> ] | Go to the package manager. |
+| 8 | pkg> add PkgTemplates | Install the PkgTemplates package. |
+| 9 | pkg> BackSpace | Back to Julia REPL. |
+| 10 | julia> using PkgTemplates <enter> | Load PkgTemplates. |
+| 11 | julia> t = template() <enter> | Create a default template. |
+| 12 | julia> t("AppliAR") <enter> | Create the module AppliAR. |
+| 13 | julia> Ctrl-D | Exit Julia |
+| 14 | $ cd ~/.julia/dev/AppliAR | Go to the development folder. |
+| 15 | $ atom . | Start Atom. |
+
+Explore the file structure.
+
+### Final Application folder and file structure
 
 The final folder structure and files for our Julia module [AppliAR.jl](https://github.com/rbontekoe/AppliAR.jl).
 
 ```
-ᵥ📁AppliAR
+ᵥ📁 AppliAR
    📁 .git
    📁 .github
   ᵥ📁 docs #1
@@ -50,9 +78,9 @@ The final folder structure and files for our Julia module [AppliAR.jl](https://g
      📄 AppliAR.jl
      📄 Reporting.jl
   ᵥ📁 test
-		 📄 Manifest.toml #4
-		 📄 Project.toml #4
-		 📄 runtests.jl #4
+     📄 Manifest.toml #4
+     📄 Project.toml #4
+     📄 runtests.jl #4
    📄 .coveralls.yml
 	 📄 .gitignore
 	 📄 .travis.yml
@@ -75,44 +103,7 @@ The final folder structure and files for our Julia module [AppliAR.jl](https://g
 \#5 Contains the dependencies. Julia adds dependencies automatically to the `Project.toml` file when you activate the local environment (`pkg> activate .`) and add a package (module). See Manifest.toml](https://julialang.github.io/Pkg.jl/v1/toml-files/):
 "The manifest file is an absolute record of the state of the packages in the environment. It includes exact information about (direct and indirect) dependencies of the project, and given a Project.toml + Manifest.toml pair it is possible to instantiate the exact same package environment, which is very useful for reproducibility."
 
-## Activity 4.1: Create the minimum folder structure and the file domain.jl
-
-In this activity you will create the folder structure for the `invoicing` process. You partial set-up the folder structure according to figure 1:
-- Create the base folder AppliAR.
-- Create a repository on GitHub.
-- Create the folder `domain`under `src`.
-- Create the file Domain.jl.
-
-###### Create the base folder AppliAR
-
-All steps are necessary, because we want to create a Julia module form our code.
-
-Prerequisites
-- Your computer OS is Ubuntu 18.04.
-- You have sudo (administraton) rights.
-- `git` is installed.
-- `Julia` is installed.
-- `atom/juno` installed.
-
-You can install git with the command: sudo apt-get install git.
-
-To install Julia, see [instructions](appendix/index.html#Install-Julia).
-
-Atom/juno is the IDE that is used in our example. To install juno see the next [instruction](http://docs.junolab.org/latest/man/installation/).
-
-| Step | Action | Comment |
-| :--- | :--- | :--- |
-| 1 | $ mkdir julia-projects | Create a working directory.  |
-| 2 | $ cd julia-projects | |
-| 3 | $ julia | Start Julia. |
-| 4 | julia > ] | Open the package manager. |
-| 5 | pkg> generate AppliInvoicing | Generate e.g. the package AppliInvoicing. The response you get is: |
-
-`Generating project AppliInvoicing:
-    AppliInvoicing/Project.toml
-    AppliInvoicing/src/AppliInvoicing.jl`
-
-Project.toml contains the package name and the dependencies.
+---
 
 ###### Create a repository on GitHub
 
@@ -123,7 +114,7 @@ Close the package manager and Julia: Ctrl-C, Ctrl-D.
 | 6 | Go to [GitHub](https://github.com/) | Create an account if you don't have one. What is [GitHub](https://en.wikipedia.org/wiki/GitHub). |
 | 7 | Click on the tab `Repositories` |
 | 8 | Click on the green button `New` | Bottom upper right side. |
-| 9 | Give the repository a name | E.g. `AppliInvoicing.jl` |
+| 9 | Give the repository a name | E.g. `AppliAR.jl` |
 | 10 | Give the repository a description | E.g. Invoicing module for the course BAWJ. |
 
 !!! warning

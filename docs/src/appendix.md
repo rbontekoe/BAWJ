@@ -14,6 +14,7 @@ Prerequisites
 | Step        | Action      | Comment |
 | :---------- | :---------- | :---------- |
 | 1 | [Download Julia](https://julialang.org/downloads/) | Click on the link and find the row `Generic Linux Binaries for x86`. Click on `64-bit`. Download the file eg. julia-1.5.0-rc2-linux-x86_64.tar.gz |
+| 2 | Ctrl+Alt-T | Open a terminal window. |
 | 2 | $ mkdir julia | Create a folder |
 | 3 | $ cd julia | Enter folder |
 | 4 | $ mv ~/Downloads/julia-1.5.0-rc2-linux-x86_64.tar.gz .| Move the downloaded file to folder `julia`. |
@@ -28,6 +29,7 @@ You can remove a symbolic link with: `rm julia`.
 
 Prerequisites
 - Your computer OS is Ubuntu 20.04 64 bit.
+- You preferably have a [GitHub account](https://github.com/).
 
 Step        | Action      | Comment |
 | :---------- | :---------- | :---------- |
