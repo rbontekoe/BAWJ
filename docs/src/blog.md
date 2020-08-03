@@ -2,6 +2,12 @@
 
 ## 2020
 
+### 08/03/2020
+
+Received my Samsung Portable SSD T5 and installed Ubuntu 20.04 on it. It is very fast.
+
+I also rewrote the appendix with up-to-date installation instructions. I changed the name Appendix into Installation instructions. [See](https://www.appligate.nl/BAWJ/dev/).
+
 ### 07/15/2020 - Rewrite the course
 
 Added documentation to [AppliAR](https://www.appligate.nl/AppliAR.jl/). In [4. Example](https://www.appligate.nl/AppliAR.jl/chapter4/) the code that uses Docker containers and actors. Now ready to rewrite the course and incorporate the actors.

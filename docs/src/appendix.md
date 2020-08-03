@@ -2,50 +2,147 @@
 
 ## Introduction
 
-I have a Windows 10 laptop with Ubuntu 18.04 installed on a separate disk. I start my machine form this disk.
+I have a Lenovo Legion Y520 Windows 10 laptop with Ubuntu 20.04 installed on a Samsung portable SSD T5 disk. I start my machine from this disk.
 
-All instalation instructions in this course are based on Ubuntu. Whenever possible I like to create the course environment in a Docker container, for the instructor and for the students.
-
-In the course setup I use my machine as IJulia Notebook server.
-
-Ideas are from [Andre Ferrari](https://github.com/andferrari/julia_notebook)
-
+All installation instructions in this course are based on Ubuntu.
 
 ## Install Julia
 
 Prerequisites
-- Your computer OS is Ubuntu 18.04 64 bit.
+- Your computer OS is Ubuntu 20.04 64 bit.
 
 | Step        | Action      | Comment |
 | :---------- | :---------- | :---------- |
-| 1 | [Download Julia](https://julialang.org/downloads/) | Click on the link and find the row `Generic Linux Binaries for x86`. Click on `64-bit`. Download the file eg. julia-1.3.0-linux-x86_64.tar.gz |
+| 1 | [Download Julia](https://julialang.org/downloads/) | Click on the link and find the row `Generic Linux Binaries for x86`. Click on `64-bit`. Download the file eg. julia-1.5.0-rc2-linux-x86_64.tar.gz |
 | 2 | $ mkdir julia | Create a folder |
 | 3 | $ cd julia | Enter folder |
-| 4 | $ mv ~/Downloads/julia-1.3.0-linux-x86_64.tar.gz .| Move the downloaded file to folder `julia`. |
-| 5 | $ tar -zxvf julia-1.3.0-linux-x86_64.tar.gz | Extract the file. |
-| 6 | $ sudo ln -s /home/rob/julia/julia-1.3.0/bin/julia /usr/local/bin/julia | Create a link. |
+| 4 | $ mv ~/Downloads/julia-1.5.0-rc2-linux-x86_64.tar.gz .| Move the downloaded file to folder `julia`. |
+| 5 | $ tar -zxvf jjulia-1.5.0-rc2-linux-x86_64.tar.gz | Extract the file. |
+| 6 | $ sudo ln -s /home/rob/julia-1.5.0-rc2-linux-x86_64.tar.gz /usr/local/bin/julia | Create a link. |
 | 7 | $ julia | Start Julia. |
+| 8 | Ctrl-D | Close Julia. |
+
+You can remove a symbolic link with: `rm julia`.
+
+## Install Git
+
+Prerequisites
+- Your computer OS is Ubuntu 20.04 64 bit.
+
+Step        | Action      | Comment |
+| :---------- | :---------- | :---------- |
+| 1 | sudo apt install git | |
+
+## Install Atom
+
+Prerequisites
+- Your computer OS is Ubuntu 20.04 64 bit.
+- You have installed Julia.
+- You have installed Git.
+
+See also: http://docs.junolab.org/stable/man/installation/
+
+Step        | Action      | Comment |
+| :---------- | :---------- | :---------- |
+| 1 | goto https://atom.io/ | |
+| 2 | select `Download .deb` | |
+| 4 | cd ~/Downloads/ |  |
+| 5 | sudo apt install ./atom-amd64.deb |  |
+
+## Install Juno
+
+Prerequisites
+- Your computer OS is Ubuntu 20.04 64 bit.
+- You have installed Julia.
+- You have installed Git
+- You have installed Atom.
+
+Step        | Action      | Comment |
+| :---------- | :---------- | :---------- |
+| 1 | mkdir projects |  |
+| 2 | cd projects |  |
+| 3 | atom <Enter> | Start Atom. |  |
+| 4 | Ctrl-, | Open settings. |
+| 5 | Select: `Packages` |  |
+| 6 | Type: `uber-juno` | In field under Installed packages. |
+| 7 | Click on the button: `install` | Juno will be installed, can take a while. |
+| 8 | Close Atom |  |
+| 9 | atom . | Start atom again with current directory as default. |
+| 10 | Select from menu: Juno | Juno menu opens. |
+| 11 | Select: Open REPL | Julia will be started. |
+| 12 | 1 + 2 <Enter> | Result of addition will be shown in the REPL. |
+| 13 | Select from menu: `File` |  |
+| 14 | Select: `New file` |  |
+| 15 | Type: `println("Hello world!")` |  |
+| 16 | Shift-Enter | `Hello world!` will be shown in the file after the statement. |
+| 17 | Ctrl-S | The file can be saved. |
+
+## Install IJulia
+
+Prerequisites
+- Julia 1.0+ has been installed.
+
+|Step        | Action      | Comment |
+|:---------- | :---------- |:---------- |
+| 1 | julia | Start Julia. |
+| 2 | ] | Activate package manager. |
+| 3 | add IJulia | Install package. |
+| 4 | BackSpace | Back to the julia prompt. |
+| 5 | using IJulia | Load package. |
+| 6 | notebook(detached=true, dir=".") | Start IJulia. |
+
+Only the first time you get the next question:
+
+install Jupyter via Conda, y/n? [y]:
+
+Type: y <Enter>
+
+Your browser window opens.
+
+|Step        | Action      | Comment |
+|:---------- | :---------- |:---------- |    
+| 7 | Select: New > Julia 1.5.0-rc2 | Create a new Julia notebook. |
+| 8 | Type: 1 + 2 | Enter a formula in a cell. |
+| 9 | Shift-Enter | Execute formula. The result 3 will be shown. |
 
 ## Install Docker
 
 Prerequisites
-- Your computer OS is Ubuntu 18.04.
-
-See: [How To Install Docker On Ubuntu 18.04 Bionic Beaver](https://phoenixnap.com/kb/how-to-install-docker-on-ubuntu-18-04)
+- Your computer OS is Ubuntu 18.04 or higher.
 
 |Step        | Action      | Comment |
 |:---------- | :---------- |:---------- |
 | 1 | sudo apt-get update | Update Software Repositories. |
 | 2 | sudo apt-get remove docker docker-engine docker.io | Uninstall Old Versions of Docker |
 | 3 | sudo apt install docker.io | Install Docker |
-| 4 | sudo systemctl start docker | Start and Automate Docker |
-| 5 | sudo systemctl enable docker |
-| 6 | docker --version | Check Docker Version |
+| 4 | sudo systemctl start docker |  |
+| 5 | sudo systemctl enable docker |  |
+| 6 | sudo docker version | Check Docker Version |
+
+See also: [How To Install Docker On Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
+
+## Important Docker commands
+| Action      | Comment |
+|:----------  |:---------- |
+| sudo docker images | Display all Docker Images. |
+| sudo docker ps | Display all running containers. |
+| sudo docker ps - a | Display all containers. |
+| sudo docker start <name or id> | E.g `docker start julia`. |
+| sudo docker exec -it <name or id> <command> | E.g `docker exec -it julia bash`. |
+| sudo docker exec -it <name or id> <command> | E.g `docker exec -it julia julia`. |
+| Ctrl-D | Exit the container |
+| sudo docker stop <name or id> | E.g `docker stop julia`. |
+| sudo docker rm -f <name or id> | Delete a container. |
+| sudo docker rmi <image id> | Delete a image. |
+
+---
+
+## To be reconsidered, I am not sure to deliver on-line courses this way.
 
 ## Dockerfile
 
 Prerequisites
-- Your computer OS is Ubuntu 18.04.
+- Your computer OS is Ubuntu 20.04.
 - You have installed Dockerversion version 0.18.0 or higher.
 
 If you have installed Docker, you can create a Docker `Image` from a Dockerfile. From an image you can create [Docker containers](https://www.docker.com/resources/what-container).
@@ -82,7 +179,7 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
 ## Install IJulia
 
 Prerequisites
-- Your computer OS is Ubuntu 18.04.
+- Your computer OS is Ubuntu 20.04.
 - You have installed Dockerversion version 0.18.0 or higher.
 
 !!! note
@@ -123,18 +220,3 @@ Prerequisites
 | 5 | Ctrl-Shift-C | Copy the token to the clipboard. |
 | 6 | Store the key somewhere, so you can email it to your students. |
 | 7 | $ Ctrl-D | Exit Docker client. |
-
-
-## Important Docker commands
-| Action      | Comment |
-|:----------  |:---------- |
-| docker images | Display all Docker Images. |
-| docker ps | Display all running containers. |
-| docker ps - a | Display all containers. |
-| docker start <name or id> | E.g `docker start julia`. |
-| docker exec -it <name or id> <command> | E.g `docker exec -it julia bash`. |
-| docker exec -it <name or id> <command> | E.g `docker exec -it julia julia`. |
-| Ctrl-D | Exit the container |
-| docker stop <name or id> | E.g `docker stop julia`. |
-| docker rm -f <name or id> | Delete a container. |
-| docker rmi <image id> | Delete a image. |

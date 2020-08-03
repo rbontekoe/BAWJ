@@ -1,5 +1,11 @@
 # IJulia Notebook
 
+Whenever possible I like to create the course environment in a Docker container, for the instructor and for the students.
+
+In online courses, I use my machine as IJulia Notebook server.
+
+Ideas are from [Andre Ferrari](https://github.com/andferrari/julia_notebook)
+
 ```@contents
 Pages = ["notebook.md"]
 ```
