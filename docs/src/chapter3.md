@@ -1,4 +1,4 @@
-# 3. Implementing the design
+# 3. Experimenting with Modules
 
 UNDER DEVELOPMENT!
 
@@ -12,14 +12,34 @@ In chapter 2, we saw the design of the AppliAR module. In this chapter, we will 
 
 The AppliSales package supplies the orders that AppliAR module needs to create the invoices when a course starts. Besides sending and storing the invoices, it also creates the journal entries for the AppliGeneralLedger package.
 
-## Activity 3.1: Setup the development environment for AppliAR
+## Course Example
 
-In this activity you will create the environment for the development of the module AppliAR.
+Initial, we will build an application where we can register and retrieve persons. The module you can experiment with is `Accounts.`
+
+In this chapter, we start with the setup of the development environment by creating the module Accounts.
+
+Next, you will use the `Onion Architecture` to define the model which consists of the layers Domain, API, and Infrastructure. The layers are declared as sub-modules.
+
+#### Domain
+The domain has objects Person, Address, AddressType.
+
+#### API
+The API has the function `create`. It can be used for creating persons and the addresses.
+
+#### Infrastructure
+The Infrastructure has the functions `save` and `retrieve,` to save and retrieve persons.
+
+## Activity 3.1 - Setup the Development Environment
+
+#### Prerequisites
+- Ubuntu 20.04.
+
+In this activity you will create the development environment.
 - Install Julia.
 - Install Atom.
 - Install Juno.
-- Add the package PkgTemplates.
-- Create the basic application file structure for module AppliAR using PkgTemplates.
+- Add the Julia package PkgTemplates.
+- Create the basic application file structure for module `Accounts` using PkgTemplates.
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -42,268 +62,233 @@ In this activity you will create the environment for the development of the modu
 
 Explore the file structure.
 
-### Final Application folder and file structure
+## Activity 3.2 - Create the Application Environment
 
-The final folder structure and files for our Julia module [AppliAR.jl](https://github.com/rbontekoe/AppliAR.jl).
-
-```
-ᵥ📁 AppliAR
-   📁 .git
-   📁 .github
-  ᵥ📁 docs #1
-      📁 build
-      📁 src
-     ᵥ📁 stable
-         📁 assets
-         📁 chapter1
-         📁 chapter2
-         📁 chapter3
-         📁 search
-         📄 index.html
-         📄 search_index.js
-       📄 make.jl
-       📄 Manifest.toml
-       📄 Project.toml
-  ᵥ📁 src #2
-    ᵥ📁 api
-       📄 Api.jl
-       📄 spec.jl #3
-    ᵥ📁 domain
-       📄 Domain.jl
-			 📄 spec.jl #3
-    ᵥ📁 infrastructure
-       📄 db.jl
-       📄 doc.jl #3
-       📄 Infrastructure.jl
-     📄 AppliAR.jl
-     📄 Reporting.jl
-  ᵥ📁 test
-     📄 Manifest.toml #4
-     📄 Project.toml #4
-     📄 runtests.jl #4
-   📄 .coveralls.yml
-	 📄 .gitignore
-	 📄 .travis.yml
-	 📄 bank.csv
-   📄 LICENCE
-   📄 Manifest.toml
-   📄 Project.toml  #5
-   📄 README.md
-```
-*Fig 1*
-
-\#1 Folders and files that make up the documentation of [AppliAR.jl](https://www.appligate.nl/AppliAR.jl/stable).
-
-\#2 The application files. We use the onion architecture.
-
-\#3 Julia help documentation. See chapter [8. Documenting your code](https://www.appligate.nl/BAWJ/chapter8/).
-
-\#4 Unit test file. See chapter [7. Writing test software](https://www.appligate.nl/BAWJ/chapter7/)
-
-\#5 Contains the dependencies. Julia adds dependencies automatically to the `Project.toml` file when you activate the local environment (`pkg> activate .`) and add a package (module). See Manifest.toml](https://julialang.github.io/Pkg.jl/v1/toml-files/):
-"The manifest file is an absolute record of the state of the packages in the environment. It includes exact information about (direct and indirect) dependencies of the project, and given a Project.toml + Manifest.toml pair it is possible to instantiate the exact same package environment, which is very useful for reproducibility."
-
----
-
-###### Create a repository on GitHub
-
-Close the package manager and Julia: Ctrl-C, Ctrl-D.
+#### Prerequisites
+- Ubuntu 20.04 installed.
+- Julia 1.5 installed.
+- Atom/Juno installed.
+- Git installed.
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 6 | Go to [GitHub](https://github.com/) | Create an account if you don't have one. What is [GitHub](https://en.wikipedia.org/wiki/GitHub). |
-| 7 | Click on the tab `Repositories` |
-| 8 | Click on the green button `New` | Bottom upper right side. |
-| 9 | Give the repository a name | E.g. `AppliAR.jl` |
-| 10 | Give the repository a description | E.g. Invoicing module for the course BAWJ. |
+| 1 | Ctrl+Alt-T | Create a terminal window. |
+| 2 | cd projects |  |
+| 3 | julia | Start Julia. |
+| 4 | julia> using PkgTemplates | Load PkgTemplates. |
+| 5 | julia> t = Template() | Create a default template. |
+```Template:
+  authors: ["Rob Bontekoe <rbontekoe@appligate.nl> and contributors"]
+  dir: "~/.julia/dev"
+  host: "github.com"
+  julia: v"1.0.0"
+  user: "rbontekoe"
+  plugins:
+    CompatHelper:
+      file: "~/.julia/packages/PkgTemplates/aXRp5/templates/github/workflows/CompatHelper.yml"
+      destination: "CompatHelper.yml"
+      cron: "0 0 * * *"
+    Git:
+      ignore: String[]
+      name: nothing
+      email: nothing
+      branch: nothing
+      ssh: false
+      jl: true
+      manifest: false
+      gpgsign: false
+    License:
+      path: "~/.julia/packages/PkgTemplates/aXRp5/templates/licenses/MIT"
+      destination: "LICENSE"
+    ProjectFile:
+      version: v"0.1.0"
+    Readme:
+      file: "~/.julia/packages/PkgTemplates/aXRp5/templates/README.md"
+      destination: "README.md"
+      inline_badges: false
+    SrcDir:
+      file: "~/.julia/packages/PkgTemplates/aXRp5/templates/src/module.jl"
+    TagBot:
+      file: "~/.julia/packages/PkgTemplates/aXRp5/templates/github/workflows/TagBot.yml"
+      destination: "TagBot.yml"
+      cron: "0 0 * * *"
+      token: Secret("GITHUB_TOKEN")
+      ssh: Secret("DOCUMENTER_KEY")
+      ssh_password: nothing
+      changelog: nothing
+      changelog_ignore: nothing
+      gpg: nothing
+      gpg_password: nothing
+      registry: nothing
+      branches: nothing
+      dispatch: nothing
+      dispatch_delay: nothing
+    Tests:
+      file: "~/.julia/packages/PkgTemplates/aXRp5/templates/test/runtests.jl"
+      project: false
+```
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 5 | julia> t("Accounts") | Create application environment. |
+```
+[ Info: Running prehooks
+[ Info: Running hooks
+ Activating environment at `~/.julia/dev/Accounts/Project.toml`
+   Updating registry at `~/.julia/registries/General`
+######################################################################## 100,0%
+No Changes to `~/.julia/dev/Accounts/Project.toml`
+No Changes to `~/.julia/dev/Accounts/Manifest.toml`
+ Activating environment at `~/.julia/environments/v1.5/Project.toml`
+[ Info: Running posthooks
+[ Info: New package is at /home/rob/.julia/dev/Accounts
+```
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 6 | julia> Ctrl-D | exit Julia. |
+| 7 | $ cd ~/.julia/dev/Accounts/ | Got to development folder. |
+| 8 | $ atom .| Start Atom/Juno. |
+
+You will see the following file structure.
+
+```
+ᵥ📁 Accounts
+   📁 .git
+   📁 .github
+  ᵥ📁 src
+     📄 Accounts.jl
+  ᵥ📁 test
+     📄 runtests.jl
+   📄 .gitignore
+   📄 LICENCE
+   📄 Manifest.toml
+   📄 Project.toml
+   📄 README.md
+```
+
+## Activity 3.3 - Create a Repository on GitHub
+
+- Ubuntu 20.04 installed.
+- Julia 1.5 installed.
+- Atom/Juno installed.
+- Git installed.
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 1 | Go to [GitHub](https://github.com/) | Create an account if you don't have one. What is [GitHub](https://en.wikipedia.org/wiki/GitHub)? |
+| 2 | Click on the tab `Repositories` |  |
+| 3 | Click on the green button `New` |  |
+| 4 | Give the repository the name `Accounts.jl` |  |
+| 5 | Give the repository a description | E.g. A module for the BAWJ course with which you can experiment. |
 
 !!! warning
     Start with a empty repository!
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 11 | Click on the green button `Create repository` | Button is located at the bottom side. |
-| 12 | Return to your computer and enter the folder AppliInvoicing |  |
+| 6 | Click on the green button `Create repository` | Button is located at the bottom side. |
+| 7 | Return to your computer and go to the folder `~/.julia/dev/Accounts`|  ||
+| 10 | $ git status | The response is: |
 
-Install git: apt-get install git.
-
-| Step | Action | Comment |
-| :--- | :--- | :--- |
-| 13 | $ echo "# AppliInvoicing" >> README.md | Create README.md file. |
-| 14 | $ git init |  |
-| 16 | $ git status | The response you get is: |
-
-`On branch master
-
-No commits yet
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-
-	Project.toml
-	README.md
-	src/
-
-nothing added to commit but untracked files present (use "git add" to track)`
+```
+On branch master
+nothing to commit, working tree clean
+```
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 17 | $ git add Project.toml | Add file to staged changes. |
-| 18 | $ git add README.md |  |
-| 19 | $ git add src/ | |
-| 20 | $ git status | The response is: |
+| 11 | $ atom .| Start Atom/Juno. |
+| 12 | Click on the `Publish button` | You will find the button in the lower right corner. |
+| 13 | Check the update on GitHub | You should see the same file structure. Manifest.toml is missing. |
 
-`On branch master
-
-No commits yet
-
-Changes to be committed:
-  (use "git rm --cached <file>..." to unstage)
-
-	new file:   Project.toml
-	new file:   README.md
-	new file:   src/AppliInvoicing.jl`
+###### Create the sub-module Domain.jl in the src-folder
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 21 | $ git commit -m "first commit" | The response is: |
-
-`[master (root-commit) 3b06d57] first commit
- 3 files changed, 10 insertions(+)
- create mode 100644 Project.toml
- create mode 100644 README.md
- create mode 100644 src/AppliInvoicing.jl`
-
-| Step | Action | Comment |
-| :--- | :--- | :--- |
-| 22 | $ git remote add origin https://github.com/rbontekoe/AppliInvoicing.jl.git |  |
-| 23 | $ git push -u origin master | Push your files to your GitHub repository. GitHub asks for your userid and password. |
-| 24 | Check the update on GitHub | |
-
-###### Create the folder domain under the src-folder
-
-| Step | Action | Comment |
-| :--- | :--- | :--- |
-| 1 | Enter the AppliInvoicing folder|  |
-| 2 | $ atom . | Start Atom in the current directory AppliInvoicing.| **Don't forget the point (.)**. Here are the instructions to install [Atom/Juno](http://docs.junolab.org/latest/man/installation/) if you haven't done it already. |
-| 3 | Remove all Taps in the right pane.| The Tabs are: Telemerty Consent, Welcome, and Welcom Guide. A tab will be remove by clicking on the x-symbol. |
-| 4 | Right click on: src | |
-| 5 | Select: `New folder` |  |
-| 6 | Type: `domain` |  |
-| 7 | Press: <Enter> | The new folder `domain` appears under the folder `src`. |
-| 8 | Select the folder: `domain` |  |
-| 9 | Right click on: `domain` |  |
-| 10 | Select: `New file` |  |
-| 11 | Type: `domain.jl` |  |
-| 12 | Press: <Enter> | A new document appears in the pane next to the navigation pane. |
+| 1 | Go to the `~/.julia/dev/Accounts` folder|  |
+| 3 | Remove all Taps in the right pane.|  |
+| 4 | Right click on: src |  |
+| 5 | Select: `New file` |  |
+| 6 | Type: `Domain.jl` | A file that represents a module starts with a capital letter.  |
+| 7 | Press: <Enter> | A new document appears in the pane next to the navigation pane. |
 
 In the navigation pane you see the next folders and files:
 
 ```
 ᵥ📁 AppliInvoicing
-   📁 .git
   ᵥ📁 src
-    ᵥ📁 domain
-       📄 domain.jl
-     📄 AppliInvoicing.jl
-   📄 Project.toml
-   📄 README.md
+     📄 Accounts.jl
+     📄 Domain.jl
 ```
 
-## domain.jl
+## Domain.jl
 
-To define a data structure and type, use the keyword `struct`. The body consists of the fields of the data structure.
+On the Domain page, you define the custom data structures that make-up your domain.
 
-Use constructors to define standard values, like the default currency symbol. It simplifies the creating op the object.
+To define a data structure and type, use the keyword `struct`. The body consists of the fields of the data structure. A struct is a non-mutable object unless you use the preceding keyword `mutable.`
 
-To keep things clear we create the following objects as part of the invoice:
-- MetaInvoice, containing references to the order, the training, and the currency.
-- HeaderInvoice, contains all the general information.
-- OpentrainingItem, the invoice body consists of one item.
+Use constructors to define standard values. It simplifies the creating op the object.
 
 ```julia
-using Dates
-using AppliGeneralLedger
-using AppliSales # needed for test.jl and runtests.jl
+module Domain #1
 
-# Meta data
-struct MetaInvoice
-    order_id::String
-    training_id::String
-    date::DateTime #1
-    currency::String
-    currency_ratio::Float64
-    # Constructors
-    MetaInvoice(order_id, training_id) = new(order_id, training_id, now(), "€", 1.0) #2
-    MetaInvoice(order_id, training_id, date, currency, currency_ratio) = new(order_id, training_id, now(), currency, currency_ratio)
-end # MetaInvoice
+using Dates #2
 
-struct Header #3
-    invoice_nbr::String #4
-    name::String
-    address::String
-    zip::String
-    city::String
-    country::String
-    order_ref::String
-    name_contact::String
-    email_contact::String
-end # HeaderInvoice
+export Person, Address, AddressType, EMAIL, WORK #3
 
-struct OpentrainingItem #5
-    name_training::String
-    date::DateTime
-    price_per_student::Float64
-    students::Array{String, 1}
-    vat_perc::Float64
-    # constructors
-    OpentrainingItem(name_training, date, price_per_student, students) = new(name_training, date, price_per_student, students, 0.21) #6
-    OpentrainingItem(name_training, date, price_per_student, students, vat_perc) = new(name_training, date, price_per_student, students, vat_perc)
-end # OpentrainingItem
+# local function to generate a unique id
+create_key(name::String) = string(hash(name * string(time()))) #4
 
-struct UnpaidInvoice
-    id::String
-    meta::MetaInvoice
-    header::Header
-    body::OpentrainingItem
-end # UnpaidInvoice
+# enumerated type for an address.
+@enum AddressType EMAIL WORK #5
 
-struct BankStatement
-    date::Date
-    descr::String
-    iban::String
-    amount::Float64
-end # BankStatement
+struct Address #6
+  id::String
+  created::DateTime
+  address_type::AddressType
+  address::String
+  #constructors
+  Address(address_type, address) = new(create_key(address), now(), address_type, address)
+end # Address
 
-struct PaidInvoice
-    id::String
-    meta::MetaInvoice
-    header::Header
-    body::OpentrainingItem
-    stm::BankStatement
-end # PaidInvoice
+struct Person #7
+  id::String
+  created::DateTime
+  name::String
+  addresses::Array{Address, 1}
+  #constructors
+  Person(name) = new(create_key(name), name, [])
+  Person(name, addresses) = new(create_key(name), now(), name, addresses)
+end
+
+end
+
 ```
-\#1 The invoice date.
+\#1 Module names start with a capital letter.
 
-\#2 We assume that most students are from a country in Europe where they have the euro as currency.
+\#2 If you need date functions like time(), date(), or now() you have the load the Dates package.
 
-\#3 The information needed for the header of the invoice.
+\#3 Define what other (sub-)modules default see when they want to use the sub-module Domain.
 
-\#4 In the future, we will automatically generate a unique id.
+\#4 We use the hash function to generate an unique id.
 
-\#5 It has the course information and the students who will attend the training.
+\#5 The AddressTypes that you allow in an address.
 
-\#6 You create a instance of a data structure by using its name with the arguments between brackets. If you want to instantiate it with less arguments you can define constructors (or you use keyword arguments in functions or methods).
+\#6 The structure of the Address datatype. The constructor `create` allows the programmer to only specify the AddressType and the address. The fields `id` and `created` are generated by Julia code.
 
-On the domain page, one defines the custom data structures that make-up our domain. To avoid too many method arguments, we break it up in the substructures as `MetaInvoice,` `Header,` and `OpentrainingItem.`
+\#7 The Person datatype. The fields `id` and `created` are generated by Julia code. When you don't specify an address, the software creates an empty array. Later on, you can add addresses using the `push!` function.
 
-`Header` represents the information we need for the header of the invoice. `OpentrainingItem` serves as the body of an invoice. In practice, the body of an invoice could consist of several lines, but we leave it now limited to one line.
+## Exercice 3.4 - Adding Dates module as dependency
 
-I have split an invoice into two data structures: UnpaidInvoice and PaidInvoice. It facilitates the property of Julia, which is called `multiple dispatch.` You can see an example of it in the API layer where we use the same method name, `create`, for both data structures, which each have a different operation.
+The Domain.jl code
 
-## Exercice 4.1
+#### Prerequisites
+- Exercise 3.1, 3.2, and 3.3
 
-1. Copy the domain data to the domain.jl file in Juno.
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+
+
+1. Copy the domain data to the Domain.jl file in Juno.
 2. Select the first statement and press Shift-Enter¹. Juno evaluates the line and prints the result at the end of it. Repeat it for all elements.
 3. Save the file with Ctrl-S.
 4. Create a folder `api` under the `scr`-folder.
@@ -580,3 +565,64 @@ To save time we clone my Invoicing repository from GitHub.
 [ Info: 2020-02-04T12:02:35.278 - Unpaid invoices retrieved from database.
 [ Info: 2020-02-04T12:02:35.906 - Journal entries for paid invoices created.
 ```
+
+## The final application file structure
+
+The final folder structure and files for our Julia module [AppliAR.jl](https://github.com/rbontekoe/AppliAR.jl).
+
+```
+ᵥ📁 AppliAR
+   📁 .git
+   📁 .github
+  ᵥ📁 docs #1
+      📁 build
+      📁 src
+     ᵥ📁 stable
+         📁 assets
+         📁 chapter1
+         📁 chapter2
+         📁 chapter3
+         📁 search
+         📄 index.html
+         📄 search_index.js
+       📄 make.jl
+       📄 Manifest.toml
+       📄 Project.toml
+  ᵥ📁 src #2
+    ᵥ📁 api
+       📄 Api.jl
+       📄 spec.jl #3
+    ᵥ📁 domain
+       📄 Domain.jl
+			 📄 spec.jl #3
+    ᵥ📁 infrastructure
+       📄 db.jl
+       📄 doc.jl #3
+       📄 Infrastructure.jl
+     📄 AppliAR.jl
+     📄 Reporting.jl
+  ᵥ📁 test
+     📄 Manifest.toml #4
+     📄 Project.toml #4
+     📄 runtests.jl #4
+   📄 .coveralls.yml
+	 📄 .gitignore
+	 📄 .travis.yml
+	 📄 bank.csv
+   📄 LICENCE
+   📄 Manifest.toml
+   📄 Project.toml  #5
+   📄 README.md
+```
+*Fig 1*
+
+\#1 Folders and files that make up the documentation of [AppliAR.jl](https://www.appligate.nl/AppliAR.jl/stable).
+
+\#2 The application files. We use the onion architecture.
+
+\#3 Julia help documentation. See chapter [8. Documenting your code](https://www.appligate.nl/BAWJ/chapter8/).
+
+\#4 Unit test file. See chapter [7. Writing test software](https://www.appligate.nl/BAWJ/chapter7/)
+
+\#5 Project.toml contains the dependencies of the module. Julia adds dependencies automatically to the file when you activate the local environment (`pkg> activate .`) and add a package (module). See Manifest.toml](https://julialang.github.io/Pkg.jl/v1/toml-files/):
+"The manifest file is an absolute record of the state of the packages in the environment. It includes exact information about (direct and indirect) dependencies of the project, and given a Project.toml + Manifest.toml pair it is possible to instantiate the exact same package environment, which is very useful for reproducibility."
