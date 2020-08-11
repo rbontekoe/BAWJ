@@ -1,80 +1,132 @@
-# 5. Creating modules
+# 5. Create and test Infrastructure.jl
 
 UNDER DEVELOPMENT!
 
-### What you will learn
+### Contents
 
 ```@contents
 Pages = ["chapter5.md"]
 ```
 
-With modules we can build applications. A [module](https://docs.julialang.org/en/v1/manual/modules/index.html) is a demarcated unit, with its own namespace. You create a module with the package manages command `generate`, as we did during step 5 in the activity of the [previous chapter](https://www.appligate.nl/BAWJ/chapter4/#Create-the-base-folder-AppliInvoicing-1).
-
-The command created tho next:
-- Project.toml
-- src/AppliInvoicing.jl
-
-
-## AppliInvoicing.jl
+## Infrastructure.jl
 
 ```
-module AppliInvoicing #1
+module Infrastructure #1
 
-greet() = print("Hello World!") #2
+    import ..Accounts: Domain, API #2
 
-export create, process, retrieve_unpaid_invoices, read_bank_statements \#3
+    using .Domain, .API #3
 
-include("./infrastructure/infrastructure.jl") #4
+    using Serialization #4
 
-end # module
+    export add_to_file, read_from_file #5
+
+function read_from_file(file::String) #6
+    io = open(file, "r")
+
+    r = []
+    while !eof(io)
+        push!(r, deserialize(io))
+    end
+
+    close(io)
+
+    return r
+end
+
+function add_to_file(file::String, data::Array{T, 1} where T <: Any)
+    io = open(file, "a+")
+
+    [serialize(io, r) for r in data]
+
+    close(io)
+end
+
+end
 
 ```
-\#1 The module block with its name.
 
-\#2 Initial the only statements, can be removed.
+\#1 The module name is Infrastructure.
 
-\#3 The functions that other programs can use.
+\#2 The sub-module uses only the elements that are defined in the sub-module Domain, API, Julia, and any loaded packages.
 
-\#4 The path to our model.
+\#3 The code instantiate the sub-modules Domain and API.
 
-## Exports
+\#4 Data stored on disk has to be serialized.
 
-Exports are the interface to the module. Here you mention the function from the API and infrastructure layers. I don't export elements from the domain; one can use the import statement when a reference is necessary.
+\#5 We export the methods `read_from_file` and `add_to_file`.
 
-## Dependencies
+\#6 `read_from_file`
 
-The file Project.toml contains the base information of the module and the dependencies.
+\#7 `add_to_file`
+
+
+## Accounts.jl
 
 ```
-name = "AppliInvoicing"
-uuid = "3941c6da-33b5-11ea-2884-afa98fed5e3b"
-authors = ["Rob Bontekoe <rbontekoe@appligate.nl>"]
-version = "0.2.0"
+module Accounts
 
-[deps]
-AppliGeneralLedger = "153ef306-36d1-11ea-1f0d-e3f38f84e10d"
-AppliSales = "a1ddd20a-2e39-11ea-38f9-6b919ef027c3"
-CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
-DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
-Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
-Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
-SQLite = "0aa819cd-b072-5ff4-a722-6bc24af294d9"
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+export EMAIL, WORK # Domain
+export create # API
+export add_to_file, read_from_file # Infrastructure
+
+include("Domain.jl"); using .Domain
+include("API.jl"); using .API
+include("Infrastructure.jl"); using .Infrastructure
+
+end
 ```
 
-Initial is the section [deps] empty. Dependencies are automatically if you [activate](https://www.simonwenkel.com/2018/10/06/a-brief-introduction-to-package-management-with-julia.html) the
-project mode with: `] activate ./` and add a package.
+## runtests.jl
+```
+using Accounts
+using Test
 
-Use `update` in this mode to receive the latest package versions.
+const FILE_ACCOUNTS = "./test_accounts.txt"
 
-Use `remove` to delete a package from the list.
+import Accounts: Domain, API, Infrastructure
+using .Domain, .API, .Infrastructure
 
-Use `gc` to remove unnecessary stuff.
+@testset "Domain.jl" begin
+    rob_address_email = Address(EMAIL, "rbontekoe@appligate.nl")
+    rob = Person("Rob Bontekoe", [rob_address_email])
+    email_addresses = filter(x -> x.address_type == EMAIL, rob.addresses)
+    @test email_addresses[1].address == "rbontekoe@appligate.nl"
+end
 
-## GitHub
+@testset "API.jl" begin
+    rob_address_email = create(EMAIL, "rbontekoe@appligate.nl")
+    rob = create("Rob Bontekoe", [rob_address_email])
+    email_addresses = filter(x -> x.address_type == EMAIL, rob.addresses)
+    @test email_addresses[1].address == "rbontekoe@appligate.nl"
+end
 
-In [chapter 4](https://www.appligate.nl/BAWJ/chapter4/#Create-a-repository-on-GitHub-1) you learned how to create a Julia package at GitHub.
+@testset "Infrastructure.jl" begin
+    dd_address_email = create(EMAIL, "donald@duckcity.com")
+    donald = create("Donald Duck", [dd_address_email])
+    add_to_file(FILE_ACCOUNTS, [donald])
+    result = read_from_file(FILE_ACCOUNTS)
+    first_person = result[1]
+    @test first_person.addresses[1].address == "donald@duckcity.com"
+    cmd = `rm $FILE_ACCOUNTS`
+    run(cmd)
+end
 
-## Download a package
+```
 
-To add a package that is not registered at Julialang, you use command `add` followed by the (git) package name , e.g. `add https://github.com/rbontekoe/AppliGeneralLedger.jl`.
+## Exercise 5.1 - Adding the sub-module Infrastructure.
+
+1. Create the file `Infrastructure.jl` and add the code of section [Infrastructure.jl](#Infrastructure.jl-1) to the file.
+2. Add the code of section [runtests.jl](#runtests.jl-1) to the file runtests.jl.
+3. Modify  `Accounts.jl` according to section [Accounts.jl](#Accounts.jl-1).
+4. Go to the package manager, activate Accounts (`activate .`) and run the test (`test Accounts`). You should see:
+
+```
+Test Summary: | Pass  Total
+Domain.jl     |    1      1
+Test Summary: | Pass  Total
+API.jl        |    1      1
+Test Summary:     | Pass  Total
+Infrastructure.jl |    1      1
+    Testing Accounts tests passed
+```

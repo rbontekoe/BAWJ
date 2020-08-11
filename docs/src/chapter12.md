@@ -1,8 +1,8 @@
-# 12. Run the application in containers
+# 12. Run the Application in Containers
 
-Under development!
+UNDER DEVELOPMENT!
 
-### What you will learn
+### Contents
 
 ```@contents
 Pages = ["chapter12.md"]

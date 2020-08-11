@@ -2,6 +2,10 @@
 
 ## 2020
 
+### 08/11/2020
+
+Today, I 'finished' the Accounts.jl module. I am happy that I switched to an easier example of the activities and exercise.
+
 ### 08/03/2020
 
 Received my Samsung Portable SSD T5 and installed Ubuntu 20.04 on it. It is very fast.

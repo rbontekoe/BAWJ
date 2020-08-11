@@ -1,6 +1,8 @@
 # 14. Logging
 
-### What you will learn
+UNDER DEVELOPMENT!
+
+### Contents
 
 ```@contents
 Pages = ["chapter14.md"]

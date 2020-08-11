@@ -19,11 +19,12 @@ Prerequisites
 | 3 | $ cd julia | Enter folder |
 | 4 | $ mv ~/Downloads/julia-1.5.0-rc2-linux-x86_64.tar.gz .| Move the downloaded file to folder `julia`. |
 | 5 | $ tar -zxvf jjulia-1.5.0-rc2-linux-x86_64.tar.gz | Extract the file. |
-| 6 | $ sudo ln -s /home/rob/julia-1.5.0-rc2-linux-x86_64.tar.gz /usr/local/bin/julia | Create a link. |
+| 6 | $ sudo ln -s /home/rob/julia-1.5.0-rc2-linux-x86_64.tar.gz /usr/local/bin/julia | Create a symbolic link. |
 | 7 | $ julia | Start Julia. |
 | 8 | Ctrl-D | Close Julia. |
 
-You can remove a symbolic link with: `rm julia`.
+!!! info
+    You can remove a symbolic link with: `rm julia`.
 
 ## Install Git
 

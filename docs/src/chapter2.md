@@ -1,193 +1,201 @@
-# 2 - The design
+# 2. Setup the Development Environment
 
-### What you will learn
+In this chapter you learn to create your development environment based on Ubuntu 20.04.
+
+### Contents
 
 ```@contents
 Pages = ["chapter2.md"]
 ```
 
-First, let's look at some terms and definitions. We'll convert the procedure `Invoicing` into an activity diagram. Using the Onion Architecture pattern, we define the `Domain` objects and the Julia `API`-functions. In the `Infrastructure` layer, we put the functions that interact with the outer world and the inner layers.
+## Get Experience with Modules
 
----
+To get experience with Julia and modules, we start with building an application where we can register and retrieve persons. The module name is `Accounts.`
 
-## Terms and definitions
+The activities are
+- Activity 2.1 - Setup the Development Environment.
+- Activity 2.2 - Create the Accounts module.
+- Activity 2.3 - Create a Repository on GitHub.
 
-The points of attention are:
-- Procedure,
-- Domain-driven design,
-- Distributed processing, and
-- Style conventions.
+We use the `Onion Architecture` to define a model which consists of the layers Domain, API, and Infrastructure. The layers are declared as sub-modules. See also [Domain-driven Design](../chapter2/#Domain-driven-design-1) in section 2 `Accounts Receivable` chapter 7 `The design`.
 
-### Procedure
+#### The Domain layer
+The domain has the objects Person, Address, and AddressType.
 
-A procedure is a description of work practice, a workflow. It describes a series of activities or actions in a particular order and interacts with people and machines. Actions make use of resources. Data, a service or a product, is the output of work.
+#### The API layer
+The API has the function `create`. It can be used for creating persons and the addresses.
 
-### Domain-driven design
+#### The Infrastructure layer
+The Infrastructure has the functions `save` and `retrieve,` to save and retrieve persons.
 
-Each process should be domain-specific. Subject matter experts and users of the domain speak the same language and use the same definitions and synonyms for concepts and objects. It leads to a Domain-driven design paradigm.
+## Activity 3.1 - Setup the Development Environment
 
-The Onion Architecture lends itself perfectly to the domain-driven design pattern. It divides an application into four areas: core, domain, API, and infrastructure.
+#### Prerequisites
+- Ubuntu 20.04.
 
-The core consists out of the Julia language constructs and Julia modules. [Modules](https://docs.julialang.org/en/v1/manual/modules/index.html) are also called packages.
+In this activity you will create the development environment.
+- Install Julia.
+- Install Atom.
+- Install Juno.
+- Add the Julia package PkgTemplates.
+- Create the basic application file structure for module `Accounts` using PkgTemplates.
 
-The next layer, the domain, defines the domain entities and concepts. Between its elements, there must be coherence. You only use constructs from the `core.` `UnpaidInvoice` is an example.
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 1 | [Install Julia](../appendix/#Install-Julia-1) | Follow the Installation instructions. |
+| 2 | [Install Git](../appendix/#Install-Git-1) |  |
+| 3 | [Install Atom](../appendix/#Install-Atom-1) |  |
+| 4 | [Install Juno](../appendix/#Install-Juno-1) |  |
+| 5 | Close Atom |  |
+| 6 | $ cd projects |  |
+| 6 | $ julia | Start Julia. |
+| 7 | julia> ] | Go to the package manager. |
+| 8 | pkg> add PkgTemplates | Install the PkgTemplates package. |
+| 9 | pkg> BackSpace | Back to Julia REPL. |
+| 10 | julia> using PkgTemplates | Load PkgTemplates. |
+| 11 | julia> t = template() | Create a default template. |
+| 12 | julia> t("AppliAR") | Create the module AppliAR. |
+| 13 | julia> Ctrl-D | Exit Julia |
+| 14 | $ cd ~/.julia/dev/Accounts | Go to the Accounts development folder. |
+| 15 | $ atom **.** | Start Atom. Starting with `atom . (dot)` shows only the files of the selected folder.|
 
-The next peel is the API. The API consists of Julia functions that operate on the domain elements, and are used to create programs. You only use constructs from the `core and the domain.`
+Explore the file structure.
 
-`create_unpaidinvoice,` `create_paidinvoice,` `create_pdf` are examples.
+## Activity 3.2 - Create the Accounts Module.
 
- The infrastructure layer is the ultimate peel. With its functions, it communicates with the external world. Adapters overcome mismatches between interfaces. When you write you the code, you use `elements from the inner layers.`
+#### Prerequisites
+- Ubuntu 20.04 installed.
+- Julia 1.5 installed.
+- Atom/Juno installed.
+- Git installed.
+- PkgTemplates package installed.
 
-### Distributed processing
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 1 | Ctrl+Alt-T | Create a terminal window. |
+| 2 | $ cd projects |  |
+| 3 | $ julia | Start Julia. |
+| 4 | julia> using PkgTemplates | Load PkgTemplates. |
+| 5 | julia> t = Template() | Create a default template. |
+```Template:
+  authors: ["Rob Bontekoe <rbontekoe@appligate.nl> and contributors"]
+  dir: "~/.julia/dev"
+  host: "github.com"
+  julia: v"1.0.0"
+  user: "rbontekoe"
+  plugins:
+    CompatHelper:
+      file: "~/.julia/packages/PkgTemplates/aXRp5/templates/github/workflows/CompatHelper.yml"
+      destination: "CompatHelper.yml"
+      cron: "0 0 * * *"
+    Git:
+      ignore: String[]
+      name: nothing
+      email: nothing
+      branch: nothing
+      ssh: false
+      jl: true
+      manifest: false
+      gpgsign: false
+    License:
+      path: "~/.julia/packages/PkgTemplates/aXRp5/templates/licenses/MIT"
+      destination: "LICENSE"
+    ProjectFile:
+      version: v"0.1.0"
+    Readme:
+      file: "~/.julia/packages/PkgTemplates/aXRp5/templates/README.md"
+      destination: "README.md"
+      inline_badges: false
+    SrcDir:
+      file: "~/.julia/packages/PkgTemplates/aXRp5/templates/src/module.jl"
+    TagBot:
+      file: "~/.julia/packages/PkgTemplates/aXRp5/templates/github/workflows/TagBot.yml"
+      destination: "TagBot.yml"
+      cron: "0 0 * * *"
+      token: Secret("GITHUB_TOKEN")
+      ssh: Secret("DOCUMENTER_KEY")
+      ssh_password: nothing
+      changelog: nothing
+      changelog_ignore: nothing
+      gpg: nothing
+      gpg_password: nothing
+      registry: nothing
+      branches: nothing
+      dispatch: nothing
+      dispatch_delay: nothing
+    Tests:
+      file: "~/.julia/packages/PkgTemplates/aXRp5/templates/test/runtests.jl"
+      project: false
+```
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 5 | julia> t("Accounts") | Create the application environment. |
+```
+[ Info: Running prehooks
+[ Info: Running hooks
+ Activating environment at `~/.julia/dev/Accounts/Project.toml`
+   Updating registry at `~/.julia/registries/General`
+######################################################################## 100,0%
+No Changes to `~/.julia/dev/Accounts/Project.toml`
+No Changes to `~/.julia/dev/Accounts/Manifest.toml`
+ Activating environment at `~/.julia/environments/v1.5/Project.toml`
+[ Info: Running posthooks
+[ Info: New package is at /home/rob/.julia/dev/Accounts
+```
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 6 | julia> Ctrl-D | exit Julia. |
+| 7 | $ cd ~/.julia/dev/Accounts/ | Got to development folder. |
+| 8 | $ atom .| Start Atom/Juno. |
 
-Programs, written in Julia language, also can run on other processor cores. Even in Docker containers on remote machines. Julia uses the master-worker concept. It means that the master executes Julia's functions on workers.
-
-### Style conventions
-
-The article [Blue: a Style Guide for Julia](https://github.com/invenia/BlueStyle) describes the style conventions.
-
----
-
-## A procedure as a starting point
-In 1994 we were delivering Lotus Notes instructor-led training in the Netherlands. We became ISO-9001 certified one year later. ISO is short for the International Organization for Standardization. A part of ISO is the section procedures.
-
-A procedure describes a workflow or business process. It specifies the activities to be carried out by people or machines and the resources that are required to produce a result.
-
-An input triggers a process. Every action creates an output, most of the time, modified information or side-effects such as saving data.
-
-The example I use in the course is the procedure `Invoicing.`
-
-### The course example
-
-In 1998 we rewrote our procedures as a table. Every row represents an activity or action. Next to the events are the columns with the roles involved with the work. The original procedure:
-
-**Procedure**: Invoicing.
-
-**Roles**:
-OM = Office Manage, AOM = Assistant Office Manager.
-
-**Input**: List of orders.
-
-| Step| Action | AOM | OM | Output | Tool | Exception |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 1 | Create an invoice per order | R | A | Created and authorized invoices | Order file | |
-| 2 | Archive a copy of the invoice | R | | Archived copy | Accounts Receivable unpaid | |
-| 3 | Send the invoice to the customer | R | I | Invoice sent | |
-| 4 | Book the invoice | R | A | Booked invoice | General ledger |
-| 5 | Book the paid invoice | R | A | Paid invoice | Bank records, General ledger | |
-| 6 | Archive the paid invoice | R | I | Archived invoice | Accounts Receivable paid |
-| 7 | Check unpaid invoices | | R | List of unpaid invoices to contact customer | Note in CRM system |
-
-**RASCI**
-- R = Responsible, the entity who is responsible for the execution of the activity.
-- A = Approves, the entity who approves the result before going to the next step.
-- S = Supports, the members of the team.
-- C = Consults, an entity.
-- I = Informed, notify the entity about the result.
-
-
-Let's see how we can automate the procedure with Julia. We tackle it with a technique of Domain-Driven Design and the Onion architecture.
-
----
-
-## The procedure as an activity diagram
-
-The activity diagram represents the workflow. The actions are Julia functions. You can add typed arguments and return values in Julia, noted by a double colon (::) followed by the name of the type. This defines the domain entities, e.g., `::Order, ::UnpaidInvoice`.
+You will see the following file structure.
 
 ```
-⚉ process(::Array{Order)
-    ↓
-    create(::Array{Order}::Array{UnpaidInvoice}
-    ↓
-    send_email(::Array{UnpaidInvoice}) # TODO
-    ↓
-    archive(::Array{UnpaidInvoice})
-    ↓
-    create(::Array{UnpaidInvoice}::Array{JournalEntry}
-    ↓
-    return ::Array{JournalEntry}
-    ↓
-    ◉
-
-⚉ process(::Array{UnpaidInvoice}, ::Array{BankStatement})
-    ↓
-    filter(::Array{UnpaidInvoice}, ::Array{Bankstatement})::Array{PaidInvoice}
-    ↓
-    archive(::Array{PaidInvoice})
-    ↓
-    create(::Array{PaidInvoice})::Array{JournalEntry}
-    ↓
-    return ::Array{JournalEntry}
-    ↓
-    ◉
-
-⚉ report(::Array{UnpaidInvoice}, days::Int) # TODO
-    ↓
-    filter(::Array{UnpaidInvoice, ::Int}::Array{UnpaidInvoiceDue}
-    ↓
-    return ::Array{UnpaidInvoiceDue}
-    ↓
-    ◉
+ᵥ📁 Accounts
+   📁 .git
+   📁 .github
+  ᵥ📁 src
+     📄 Accounts.jl
+  ᵥ📁 test
+     📄 runtests.jl
+   📄 .gitignore
+   📄 LICENCE
+   📄 Manifest.toml
+   📄 Project.toml
+   📄 README.md
 ```
 
-## The design
+## Activity 3.3 - Create a Repository on GitHub
 
-From the activity diagram we get:
+- Ubuntu 20.04 installed.
+- Julia 1.5 installed.
+- Atom/Juno installed.
+- Git installed.
 
-### Domain Elements
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 1 | Go to [GitHub](https://github.com/) | Create an account if you don't have one. What is [GitHub](https://en.wikipedia.org/wiki/GitHub)? |
+| 2 | Click on the tab `Repositories` |  |
+| 3 | Click on the green button `New` |  |
+| 4 | Give the repository the name `Accounts.jl` |  |
+| 5 | Give the repository a description | E.g. A module for the BAWJ course with which you can experiment. |
 
-The domain objects (types) are:
+!!! warning
+    Don't change the default settings!
 
-Domain Types:
-- UnpaidInvoice;
-- PaidInvoice;
-- BankStatement.
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 6 | Click on the **green** button `Create repository` | Button is located at the bottom side. |
+| 7 | Return to your computer and go to the folder `~/.julia/dev/Accounts`|  ||
+| 10 | $ git status | The response is: |
 
-External Types:
-- AppliSales.Order¹;
-- AppliGeneralLedger.JournalEntry².
+```
+On branch master
+nothing to commit, working tree clean
+```
 
-General packages:
-- Dates³;
-- DataFrames³
-
-¹ Defined in the package AppliSales.
-
-² Defined in the package [AppliGeneralLedger](https://www.appligate.nl/AppliGeneralLedger.jl/).
-
-³ Dates is a sub-module of Julia. A package for manipulating data is [DataFrames](https://en.wikibooks.org/wiki/Introducing_Julia/DataFrames). The DataFrame data structure is comparable to a spreadsheet.
-
-### API
-
-The API contains the methods (functions) of the module. The methods use only elements from the core or domain. An overview of we need:
-
-- create(::Array{Order,1})::Array{UnpaidInvoice, 1}
-- create(::Array{UnpaidInvoice, 1}, ::Array{BankStatement, 1})::Array{PaidInvoice,1)
-- conv2entry(inv::Array{UnpaidInvoice, 1}, from::Int, to::Int)::Array{JournalEntry, 1}
-- conv2entry(inv::Array{PaidInvoice, 1}, from::Int, to::Int)::Array{JournalEntry, 1}
-
-In Julia, you can use the same function name as long as the `signature` is different, so other types and, or the number of arguments. One calls it [`multiple dispatch`](https://en.wikipedia.org/wiki/Multiple_dispatch).
-
-An `Order`, consists of the data objects `Training, and Company` plus additional data about `contact`, and `student`. It is defined in `domain.jl` the support-package [AppliSales](https://github.com/rbontekoe/AppliSales.jl/blob/master/src/domain/domain.jl).
-
-Also, we have already created a support-package [AppliGeneralLedger](https://github.com/rbontekoe/AppliGeneralLedger.jl) to make it easier to test AppliAR.jl. JournalEntry is defined in [domain.jl](https://github.com/rbontekoe/AppliGeneralLedger.jl/blob/master/src/domain/domain.jl).
-
-### Methods of the Infrastructure layer
-
-Database, private methods:
-- add\_to\_file(file::String, data::Array{Any, 1}
-- read\_from\_file(file::String)::Array{Any, 1}
-
-External accessable methods:
-- read\_bank\_statements(path::String)::Array{BankStatement,1}
-- process(::Array{Order)::Array{JounalEntry, 1}
-- process(::UnpaidInvoice, ::BankStatement)::Array{JounalEntry, 1}
-- retrieve\_unpaid\_invoices()::Array{UnpaidInvoice, 1}
-- retrieve\_paid\_invoice()::Array{PaidInvoice, 1}
-
-## ToDo
-
-- I am thinking of Literate.jl as a package to make PDFs.
-- How to attach a PDF to an email?
-- How to send an email?
-- [SMTPClient.jl](https://github.com/aviks/SMTPClient.jl)
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 11 | $ atom .| Start Atom/Juno. |
+| 12 | Click on the `Publish button` | You will find the button in the lower right corner. |
+| 13 | Check the update on GitHub | You should see the same file structure. Manifest.toml is missing. |

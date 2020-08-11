@@ -1,4 +1,12 @@
-# Implementing AppliAR (Accounts Receivable) package
+# 15. Implementing AppliAR (Accounts Receivable) Package
+
+UNDER DEVELOPMENT!
+
+### Contents
+
+```@contents
+Pages = ["chapter15.md"]
+```
 
 See also: [Developing Julia Packages](https://www.youtube.com/watch?v=QVmU29rCjaA)
 
@@ -95,7 +103,7 @@ Prerequisites
 2.  
 3.  
 
-### Step 7 - Creating inthe Infra tests
+### Step 7 - Creating the Infra tests
 1.  
 2.  
 3.
