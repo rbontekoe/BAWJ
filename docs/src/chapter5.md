@@ -92,20 +92,22 @@ using .Domain, .API, .Infrastructure
 
 const FILE_ACCOUNTS = "./test_accounts.txt"
 
-rob_address_email = create(EMAIL, "rbontekoe@appligate.nl")
-rob_address_work = create(WORK,
+donald_email = create(EMAIL, "donald@duckcity.com")
+donald_work = create(WORK,
   """
-  Landweg 74
-  3833VM LEUSDEN
-  The Netherlands
+  Donalds Hardware Store
+  attn. Donald Duck
+  1190 Seven Seas Dr
+  FL 32830 Lake Buena Vista
+  USA
   """
 )
 
-addresses = [rob_address_email, rob_address_work]
+addresses = [donald_email, donald_work]
 
-rob = create("Rob Bontekoe", addresses)
+donald = create("Donald Duck", addresses)
 
-add_to_file(FILE_ACCOUNTS, [rob])
+add_to_file(FILE_ACCOUNTS, [donald])
 
 result = read_from_file(FILE_ACCOUNTS)
 
@@ -123,21 +125,21 @@ import Accounts: Domain, API, Infrastructure
 using .Domain, .API, .Infrastructure
 
 @testset "Domain.jl" begin
-    rob_address_email = Address(EMAIL, "rbontekoe@appligate.nl")
-    rob = Person("Rob Bontekoe", [rob_address_email])
-    email_addresses = filter(x -> x.address_type == EMAIL, rob.addresses)
-    @test email_addresses[1].address == "rbontekoe@appligate.nl"
+    donald_email = Address(EMAIL, "donald@duckcity.com")
+    donald = Person("Donald duck", [donald_email])
+    email_addresses = filter(x -> x.address_type == EMAIL, donald.addresses)
+    @test email_addresses[1].address == "donald@duckcity.com"
 end
 
 @testset "API.jl" begin
-    rob_address_email = create(EMAIL, "rbontekoe@appligate.nl")
-    rob = create("Rob Bontekoe", [rob_address_email])
-    email_addresses = filter(x -> x.address_type == EMAIL, rob.addresses)
-    @test email_addresses[1].address == "rbontekoe@appligate.nl"
+    donald_email = Address(EMAIL, "donald@duckcity.com")
+    donald = Person("Donald Duck", [donald_email])
+    email_addresses = filter(x -> x.address_type == EMAIL, donald.addresses)
+    @test email_addresses[1].address == "donald@duckcity.com"
 end
 
 @testset "Infrastructure.jl" begin
-    dd_address_email = create(EMAIL, "donald@duckcity.com")
+    donald_email = create(EMAIL, "donald@duckcity.com")
     donald = create("Donald Duck", [dd_address_email])
     add_to_file(FILE_ACCOUNTS, [donald])
     result = read_from_file(FILE_ACCOUNTS)
@@ -151,10 +153,12 @@ end
 
 ## Exercise 5.1 - Adding the sub-module Infrastructure.
 
-1. Create the file `Infrastructure.jl` and add the code of section [Infrastructure.jl](#Infrastructure.jl-1) to the file.
-2. Add the code of section [runtests.jl](#runtests.jl-1) to the file runtests.jl.
-3. Modify  `Accounts.jl` according to section [Accounts.jl](#Accounts.jl-1).
-4. Go to the package manager, activate Accounts (`activate .`) and run the test (`test Accounts`). You should see:
+- Create the file `Infrastructure.jl` and add the code of section [Infrastructure.jl](#Infrastructure.jl-1) to the file.
+- Add the code of section [runtests.jl](#runtests.jl-1) to the file runtests.jl.
+- Modify  `Accounts.jl` according to section [Accounts.jl](#Accounts.jl-1).
+- Go to the package manager, activate Accounts (`activate .`).
+- Add the `Serialization` package to the dependencies.
+- Run the test (`test Accounts`). You should see:
 
 ```
 Test Summary: | Pass  Total
@@ -165,3 +169,6 @@ Test Summary:     | Pass  Total
 Infrastructure.jl |    1      1
     Testing Accounts tests passed
 ```
+
+- Create the file `test_infr.jl` and copy the code from section `test_infr.jl` into it.
+- Test the code.

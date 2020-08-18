@@ -47,20 +47,22 @@ using .Domain, .API, .Infrastructure
 
 const FILE_ACCOUNTS = &quot;./test_accounts.txt&quot;
 
-rob_address_email = create(EMAIL, &quot;rbontekoe@appligate.nl&quot;)
-rob_address_work = create(WORK,
+donald_email = create(EMAIL, &quot;donald@duckcity.com&quot;)
+donald_work = create(WORK,
   &quot;&quot;&quot;
-  Landweg 74
-  3833VM LEUSDEN
-  The Netherlands
+  Donalds Hardware Store
+  attn. Donald Duck
+  1190 Seven Seas Dr
+  FL 32830 Lake Buena Vista
+  USA
   &quot;&quot;&quot;
 )
 
-addresses = [rob_address_email, rob_address_work]
+addresses = [donald_email, donald_work]
 
-rob = create(&quot;Rob Bontekoe&quot;, addresses)
+donald = create(&quot;Donald Duck&quot;, addresses)
 
-add_to_file(FILE_ACCOUNTS, [rob])
+add_to_file(FILE_ACCOUNTS, [donald])
 
 result = read_from_file(FILE_ACCOUNTS)
 
@@ -73,21 +75,21 @@ import Accounts: Domain, API, Infrastructure
 using .Domain, .API, .Infrastructure
 
 @testset &quot;Domain.jl&quot; begin
-    rob_address_email = Address(EMAIL, &quot;rbontekoe@appligate.nl&quot;)
-    rob = Person(&quot;Rob Bontekoe&quot;, [rob_address_email])
-    email_addresses = filter(x -&gt; x.address_type == EMAIL, rob.addresses)
-    @test email_addresses[1].address == &quot;rbontekoe@appligate.nl&quot;
+    donald_email = Address(EMAIL, &quot;donald@duckcity.com&quot;)
+    donald = Person(&quot;Donald duck&quot;, [donald_email])
+    email_addresses = filter(x -&gt; x.address_type == EMAIL, donald.addresses)
+    @test email_addresses[1].address == &quot;donald@duckcity.com&quot;
 end
 
 @testset &quot;API.jl&quot; begin
-    rob_address_email = create(EMAIL, &quot;rbontekoe@appligate.nl&quot;)
-    rob = create(&quot;Rob Bontekoe&quot;, [rob_address_email])
-    email_addresses = filter(x -&gt; x.address_type == EMAIL, rob.addresses)
-    @test email_addresses[1].address == &quot;rbontekoe@appligate.nl&quot;
+    donald_email = Address(EMAIL, &quot;donald@duckcity.com&quot;)
+    donald = Person(&quot;Donald Duck&quot;, [donald_email])
+    email_addresses = filter(x -&gt; x.address_type == EMAIL, donald.addresses)
+    @test email_addresses[1].address == &quot;donald@duckcity.com&quot;
 end
 
 @testset &quot;Infrastructure.jl&quot; begin
-    dd_address_email = create(EMAIL, &quot;donald@duckcity.com&quot;)
+    donald_email = create(EMAIL, &quot;donald@duckcity.com&quot;)
     donald = create(&quot;Donald Duck&quot;, [dd_address_email])
     add_to_file(FILE_ACCOUNTS, [donald])
     result = read_from_file(FILE_ACCOUNTS)
@@ -96,10 +98,10 @@ end
     cmd = `rm $FILE_ACCOUNTS`
     run(cmd)
 end
-</code></pre><h2 id="Exercise-5.1-Adding-the-sub-module-Infrastructure.-1"><a class="docs-heading-anchor" href="#Exercise-5.1-Adding-the-sub-module-Infrastructure.-1">Exercise 5.1 - Adding the sub-module Infrastructure.</a><a class="docs-heading-anchor-permalink" href="#Exercise-5.1-Adding-the-sub-module-Infrastructure.-1" title="Permalink"></a></h2><ol><li>Create the file <code>Infrastructure.jl</code> and add the code of section <a href="#Infrastructure.jl-1">Infrastructure.jl</a> to the file.</li><li>Add the code of section <a href="#runtests.jl-1">runtests.jl</a> to the file runtests.jl.</li><li>Modify  <code>Accounts.jl</code> according to section <a href="#Accounts.jl-1">Accounts.jl</a>.</li><li>Go to the package manager, activate Accounts (<code>activate .</code>) and run the test (<code>test Accounts</code>). You should see:</li></ol><pre><code class="language-none">Test Summary: | Pass  Total
+</code></pre><h2 id="Exercise-5.1-Adding-the-sub-module-Infrastructure.-1"><a class="docs-heading-anchor" href="#Exercise-5.1-Adding-the-sub-module-Infrastructure.-1">Exercise 5.1 - Adding the sub-module Infrastructure.</a><a class="docs-heading-anchor-permalink" href="#Exercise-5.1-Adding-the-sub-module-Infrastructure.-1" title="Permalink"></a></h2><ul><li>Create the file <code>Infrastructure.jl</code> and add the code of section <a href="#Infrastructure.jl-1">Infrastructure.jl</a> to the file.</li><li>Add the code of section <a href="#runtests.jl-1">runtests.jl</a> to the file runtests.jl.</li><li>Modify  <code>Accounts.jl</code> according to section <a href="#Accounts.jl-1">Accounts.jl</a>.</li><li>Go to the package manager, activate Accounts (<code>activate .</code>).</li><li>Add the <code>Serialization</code> package to the dependencies.</li><li>Run the test (<code>test Accounts</code>). You should see:</li></ul><pre><code class="language-none">Test Summary: | Pass  Total
 Domain.jl     |    1      1
 Test Summary: | Pass  Total
 API.jl        |    1      1
 Test Summary:     | Pass  Total
 Infrastructure.jl |    1      1
-    Testing Accounts tests passed</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../chapter4/">« 4 - Create and Test API.jl</a><a class="docs-footer-nextpage" href="../chapter6/">6 - The Accounts Package from a User Point of View »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 18 August 2020 16:02">Tuesday 18 August 2020</span>. Using Julia version 1.5.0-rc2.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+    Testing Accounts tests passed</code></pre><ul><li>Create the file <code>test_infr.jl</code> and copy the code from section <code>test_infr.jl</code> into it.</li><li>Test the code.</li></ul></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../chapter4/">« 4 - Create and Test API.jl</a><a class="docs-footer-nextpage" href="../chapter6/">6 - The Accounts Package from a User Point of View »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 18 August 2020 16:44">Tuesday 18 August 2020</span>. Using Julia version 1.5.0-rc2.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
