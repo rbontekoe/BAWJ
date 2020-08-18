@@ -38,45 +38,44 @@ In this activity you will create the development environment.
 - Install Atom.
 - Install Juno.
 - Add the Julia package PkgTemplates.
-- Create the basic application file structure for module `Accounts` using PkgTemplates.
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | [Install Julia](../appendix/#Install-Julia-1) | Follow the Installation instructions. |
-| 2 | [Install Git](../appendix/#Install-Git-1) |  |
-| 3 | [Install Atom](../appendix/#Install-Atom-1) |  |
-| 4 | [Install Juno](../appendix/#Install-Juno-1) |  |
-| 5 | Close Atom |  |
-| 6 | $ cd projects |  |
-| 6 | $ julia | Start Julia. |
-| 7 | julia> ] | Go to the package manager. |
-| 8 | pkg> add PkgTemplates | Install the PkgTemplates package. |
-| 9 | pkg> BackSpace | Back to Julia REPL. |
-| 10 | julia> using PkgTemplates | Load PkgTemplates. |
-| 11 | julia> t = template() | Create a default template. |
-| 12 | julia> t("AppliAR") | Create the module AppliAR. |
-| 13 | julia> Ctrl-D | Exit Julia |
-| 14 | $ cd ~/.julia/dev/Accounts | Go to the Accounts development folder. |
-| 15 | $ atom **.** | Start Atom. Starting with `atom . (dot)` shows only the files of the selected folder.|
+| 1 | Ctrl+Alt-T | Open a terminal window. |
+| 2 | [Install Julia](../appendix/index.html#Install-Julia-1) | Follow the Installation instructions. |
+| 3 | [Install Git](../appendix/index.html#Install-Git-1) |  |
+| 4 | [Install Atom](../appendix/index.html#Install-Atom-1) |  |
+| 5 | [Install Juno](../appendix/index.html#Install-Juno-1) |  |
+| 6 | Close Atom |  |
+| 7 | $ julia | Start Julia. |
+| 8 | julia> ] | Go to the package manager. |
+| 9 | pkg> add PkgTemplates | Install the PkgTemplates package. |
+| 10 | pkg> BackSpace | Back to Julia REPL. |
+| 11 | julia> Ctrl-D | Exit Julia |
 
 Explore the file structure.
 
 ## Activity 3.2 - Create the Accounts Module.
 
 #### Prerequisites
+- Activity 3.1:
 - Ubuntu 20.04 installed.
 - Julia 1.5 installed.
 - Atom/Juno installed.
 - Git installed.
 - PkgTemplates package installed.
 
+In this activity you will create the basic application file structure for the module `Accounts` using PkgTemplates:
+- Create a template.
+- Create the module Accounts.
+- Go to the development directory `~/.julia/dev/Accounts/`.
+- Start Atom/Juno.
+
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | Ctrl+Alt-T | Create a terminal window. |
-| 2 | $ cd projects |  |
-| 3 | $ julia | Start Julia. |
-| 4 | julia> using PkgTemplates | Load PkgTemplates. |
-| 5 | julia> t = Template() | Create a default template. |
+| 1 | $ julia | Start Julia. |
+| 2 | julia> using PkgTemplates | Load PkgTemplates. |
+| 3 | julia> t = Template() | Create a default template. |
 ```Template:
   authors: ["Rob Bontekoe <rbontekoe@appligate.nl> and contributors"]
   dir: "~/.julia/dev"
@@ -129,7 +128,7 @@ Explore the file structure.
 ```
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 5 | julia> t("Accounts") | Create the application environment. |
+| 4 | julia> t("Accounts") | Create the application environment. |
 ```
 [ Info: Running prehooks
 [ Info: Running hooks
@@ -144,9 +143,9 @@ No Changes to `~/.julia/dev/Accounts/Manifest.toml`
 ```
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 6 | julia> Ctrl-D | exit Julia. |
-| 7 | $ cd ~/.julia/dev/Accounts/ | Got to development folder. |
-| 8 | $ atom .| Start Atom/Juno. |
+| 5 | julia> Ctrl-D | exit Julia. |
+| 6 | $ cd ~/.julia/dev/Accounts/ | Got to development folder. |
+| 7 | $ atom .| Start Atom/Juno. |
 
 You will see the following file structure.
 
@@ -155,18 +154,28 @@ You will see the following file structure.
    📁 .git
    📁 .github
   ᵥ📁 src
-     📄 Accounts.jl
+     📄 Accounts.jl #1
   ᵥ📁 test
-     📄 runtests.jl
+     📄 runtests.jl #2
    📄 .gitignore
    📄 LICENCE
    📄 Manifest.toml
-   📄 Project.toml
+   📄 Project.toml #3
    📄 README.md
 ```
+\#1 File with the name of the module where you define among other things:
+- sub-modules,
+- (export) of the functions that others can invoke immediately,
+- as well as data structures, and
+- (import) of the things you want to use from other (sub-)modules or packages.
+
+\#2 Unit tests.
+
+\#3 Contains the module version and its dependencies.
 
 ## Activity 3.3 - Create a Repository on GitHub
 
+#### Prerequsites
 - Ubuntu 20.04 installed.
 - Julia 1.5 installed.
 - Atom/Juno installed.
@@ -175,19 +184,18 @@ You will see the following file structure.
 | Step | Action | Comment |
 | :--- | :--- | :--- |
 | 1 | Go to [GitHub](https://github.com/) | Create an account if you don't have one. What is [GitHub](https://en.wikipedia.org/wiki/GitHub)? |
-| 2 | Click on the tab `Repositories` |  |
-| 3 | Click on the green button `New` |  |
-| 4 | Give the repository the name `Accounts.jl` |  |
-| 5 | Give the repository a description | E.g. A module for the BAWJ course with which you can experiment. |
+| 2 | Click on the green button `New` | Maybe you have first to click on the tab `Repositories` |
+| 3 | Give the repository the name `Accounts.jl` |  |
+| 4 | Give the repository a description | E.g. A module for the BAWJ course with which you can experiment. |
 
 !!! warning
     Don't change the default settings!
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 6 | Click on the **green** button `Create repository` | Button is located at the bottom side. |
-| 7 | Return to your computer and go to the folder `~/.julia/dev/Accounts`|  ||
-| 10 | $ git status | The response is: |
+| 5 | Click on the **green** button `Create repository` | Button is located at the bottom side. |
+| 6 | Return to your computer and go to the folder `~/.julia/dev/Accounts`|  ||
+| 7 | $ git status | The response is: |
 
 ```
 On branch master
@@ -196,6 +204,6 @@ nothing to commit, working tree clean
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 11 | $ atom .| Start Atom/Juno. |
-| 12 | Click on the `Publish button` | You will find the button in the lower right corner. |
-| 13 | Check the update on GitHub | You should see the same file structure. Manifest.toml is missing. |
+| 8 | $ atom .| Start Atom/Juno. |
+| 9 | Click on the `Publish button` | You will find the button in the lower right corner. |
+| 10 | Check the update on GitHub | You should see the same file structure. Manifest.toml is missing. |

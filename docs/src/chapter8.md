@@ -13,7 +13,7 @@ Pages = ["chapter8.md"]
 ## The folder structure
 
 
-
+```
 ᵥ📁AppliAR
    📁 docs #1
 		 📁 src
@@ -44,3 +44,4 @@ Pages = ["chapter8.md"]
    📄 LICENCE
    📄 Project.toml  #5
    📄 README.md
+```

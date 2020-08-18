@@ -227,3 +227,30 @@ Prerequisites
 | 5 | Ctrl-Shift-C | Copy the token to the clipboard. |
 | 6 | Store the key somewhere, so you can email it to your students. |
 | 7 | $ Ctrl-D | Exit Docker client. |
+
+
+## Install Ubuntu on Samsung T5 and Lemovo Legion Y520 with Windows 10
+
+The steps I have done.
+
+|Step        | Action/Response | Comment |
+|:---------- | :---------- |:---------- |
+| 1 | Download ISO-image from Ubuntu 18.04. website |  |
+| 2 | Copy with Rufus to [USB-stick](https://github.com/kfechter/LegionY530Ubuntu/blob/master/Sections/CreateBootDrive.md) |  |
+| 3 | Start machine and press F2 | Change the Bios Lenovo |
+```
+Under Boot tab:
+Fast Boot disabled
+Under Security tab:
+Secureboot disabled
+See:
+https://github.com/kfechter/LegionY530Ubuntu/blob/master/Sections/InstallUbuntu.md
+```
+
+|Step        | Action/Response | Comment |
+|:---------- | :---------- |:---------- |
+| 4 | Start Y520 with Windows 10 and press F12 |  |
+| 5 | Choose Ubuntu | Restart via USB. |
+| 6 | After restart choose for install Ubuntu on 500GB portable disk |  |
+| 7 | sudo apt update |  |
+| 8 | sudo do-release-upgrade -d | [Upgrade to Ubuntu 20.04](https://ubuntu.com/blog/how-to-upgrade-from-ubuntu-18-04-lts-to-20-04-lts-today). |

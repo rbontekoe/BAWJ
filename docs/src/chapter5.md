@@ -1,6 +1,13 @@
 # 5. Create and test Infrastructure.jl
 
-UNDER DEVELOPMENT!
+The Infrastructure has functions that refer to the outer world. For example:
+- JSON data that has to converted to Julia objects or visa versa,
+- Julia objects that have to be stored,
+- Stored objects that have to be converted to Julia objects,
+- Event Sourcing, registering events and replay a history of events.
+- CQRS (Command Query Responsibility Segregation) separating events from queries.
+
+
 
 ### Contents
 
@@ -10,18 +17,24 @@ Pages = ["chapter5.md"]
 
 ## Infrastructure.jl
 
-```
+```julia
 module Infrastructure #1
 
-    import ..Accounts: Domain, API #2
+import ..Accounts: Domain, API #2
 
-    using .Domain, .API #3
+using .Domain, .API #3
 
-    using Serialization #4
+using Serialization #4
 
-    export add_to_file, read_from_file #5
+export add_to_file, read_from_file #5
 
-function read_from_file(file::String) #6
+function add_to_file(file::String, data::Array{T, 1} where T <: Any) #6
+    io = open(file, "a+")
+    [serialize(io, r) for r in data]
+    close(io)
+end
+
+function read_from_file(file::String) #7
     io = open(file, "r")
 
     r = []
@@ -32,14 +45,6 @@ function read_from_file(file::String) #6
     close(io)
 
     return r
-end
-
-function add_to_file(file::String, data::Array{T, 1} where T <: Any)
-    io = open(file, "a+")
-
-    [serialize(io, r) for r in data]
-
-    close(io)
 end
 
 end
@@ -66,15 +71,45 @@ end
 ```
 module Accounts
 
-export EMAIL, WORK # Domain
-export create # API
-export add_to_file, read_from_file # Infrastructure
+#export EMAIL, WORK # Domain
+#export create # API
+#export add_to_file, read_from_file # Infrastructure
 
 include("Domain.jl"); using .Domain
 include("API.jl"); using .API
 include("Infrastructure.jl"); using .Infrastructure
 
 end
+```
+
+## test_infr.jl
+```
+using Pkg; Pkg.activate(".")
+
+import Accounts: Domain, API, Infrastructure
+
+using .Domain, .API, .Infrastructure
+
+const FILE_ACCOUNTS = "./test_accounts.txt"
+
+rob_address_email = create(EMAIL, "rbontekoe@appligate.nl")
+rob_address_work = create(WORK,
+  """
+  Landweg 74
+  3833VM LEUSDEN
+  The Netherlands
+  """
+)
+
+addresses = [rob_address_email, rob_address_work]
+
+rob = create("Rob Bontekoe", addresses)
+
+add_to_file(FILE_ACCOUNTS, [rob])
+
+result = read_from_file(FILE_ACCOUNTS)
+
+println(result)
 ```
 
 ## runtests.jl

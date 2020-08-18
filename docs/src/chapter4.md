@@ -15,7 +15,7 @@ Pages = ["chapter4.md"]
 ```julia
 module API #1
 
-import ..Accounts: Domain, API #2
+import ..Accounts: Domain #2
 
 using .Domain #3
 
@@ -32,7 +32,7 @@ Create an Address or a Person object.
 `````
 julia> address_email = create(EMAIL, "donald@duckcity.com")
 
-julia> donald = create("Donal Duck", [address_email])
+julia> donald = create("Donald Duck", [address_email])
 `````
 """
 function create end #6
@@ -45,21 +45,23 @@ create(name::String)::Person = Person(name) #9
 
 end
 ```
-\#1 The module name is API.
+\#1 The module name is `API`.
 
-\#2 The API sub-module uses only the elements that are defined in the sub-module Domain, Julia, and any loaded packages.
+\#2 The `API` sub-module uses only the elements that are defined in the sub-module Domain, Julia, and any loaded packages. `..Accounts` refers to the super-domain of `API`. `import ..Accounts: Domain` give us a reference to the sub-module `Domain`.
 
-\#3 The code instantiates the sub-module Domain (`using .Domain`). The dot tells Julia that Domain is a sub-module. Julia loads the elements Person, Address, AddressType, EMAIL, and WORK into the scope of the module because we specify `using`. If we would use `import` instead of `using`, we also have to mention the module name (e.g. Domain.Person). Now, we can call them without mentioning the sub-module name.
+\#3 The code instantiates the sub-module Domain (`using .Domain`). The dot tells Julia that Domain is a sub-module. Julia loads the elements Person, Address, AddressType, EMAIL, and WORK into the scope of the module because we specify `using`. If we would use `import` instead of `using`, we also have to mention the module name (e.g. Domain.EMAIL). Now, we can call them without mentioning the name of the sub-module.
 
-\#4 We export the method `create`. It means that other modules and programs can use it directly. Functions wit.hout the keyword `function` are called methods.
+\#4 We export the method `create`. It means that other modules and programs can use it directly. Functions without the keyword `function` are called methods.
 
-\#5 We describe the usage of the different uses of `create.` Users can use the question mark (`? create`) to display the text.
+\#5 We document the different uses (called `multiple dispatch`) of the method `create.` Users can use the question mark (`? create`) to display the text and the example. The whole example code, including the `julia>`-prompts, can be copied to the clipboard and pasted back into the REPL.
 
-\#6 The function we want to inform the user about.
+\#6 The function `create`.
 
-\#8 Create a Person with an Address.
+\#7 The method `create` when we want to create an `Address`.
 
-\#9 Create a Person with an empty Address array. Although the object Person is not mutable, we can still add elements to an array. For example `push!(donald.addresses, <Address object>`).
+\#8 The method `create` when we want to create a `Person` with a known `Address`.
+
+\#8 Creates a Person with an empty Address array. Although the object Person is not mutable, we can still add elements to the array. For example `push!(donald.addresses, <Address object>`).
 
 ## Accounts.jl
 ```
@@ -74,6 +76,33 @@ include("API.jl"); using .API
 end
 ```
 
+## test_api.jl
+
+```
+using Pkg; Pkg.activate(".")
+
+import Accounts: Domain, API
+
+using .Domain, .API
+
+donald_email = create(EMAIL, "donald@duckcity.com")
+donald_work = create(WORK,
+  """
+  Donalds Hardware Store
+  attn. Donald Duck
+  1190 Seven Seas Dr
+  FL 32830 Lake Buena Vista
+  USA
+  """
+)
+
+addresses = [donald_email, donald_work]
+
+donald = create("Donald Duck", addresses)
+
+println(donald)
+```
+
 ## runtests.jl
 
 ```
@@ -84,15 +113,15 @@ import Accounts: Domain, API
 using .Domain, .API
 
 @testset "Domain.jl" begin
-    dd_address_email = Address(EMAIL, "donald@duckcity.com")
-    donald = Person("Donald Duck", [dd_address_email])
-    email_addresses = filter(x -> x.address_type == EMAIL, Donald.addresses)
+    donald_email = Address(EMAIL, "donald@duckcity.com")
+    donald = Person("Donald duck", [donald_email])
+    email_addresses = filter(x -> x.address_type == EMAIL, donald.addresses)
     @test email_addresses[1].address == "donald@duckcity.com"
 end
 
 @testset "API.jl" begin
-    dd_address_email = Address(EMAIL, "donald@duckcity.com")
-    donald = Person("Donald Duck", [dd_address_email])
+    donald_email = Address(EMAIL, "donald@duckcity.com")
+    donald = Person("Donald Duck", [donald_email])
     email_addresses = filter(x -> x.address_type == EMAIL, donald.addresses)
     @test email_addresses[1].address == "donald@duckcity.com"
 end
@@ -100,10 +129,16 @@ end
 
 ## Exercise 4.1 - Adding the sub-module API.
 
-1. Create the file `API.jl` and add the code of section [API.jl](#API.jl-1) to the file.
-2. Add the code of section [runtests.jl](#runtests.jl-1) to the file runtests.jl.
-3. Modify  `Accounts.jl` according to section [Accounts.jl](#Accounts.jl-1).
-4. Go to the package manager, activate Accounts (`activate .`) and run the test (`test Accounts`). You should see:
+#### Prerequisites
+- Previous activities.
+
+In this exercise you create the sub-module API. You can apply everything you've learned so far.
+
+- Create the file `API.jl` and add the code of section [API.jl](#API.jl-1) to the file. Change the five back-tics into three back-tics. Remove the comments.
+- Copy the code of section [runtests.jl](#runtests.jl-1) to the file runtests.jl.
+- Modify  `Accounts.jl` according to section [Accounts.jl](#Accounts.jl-1).
+- Create the file `test_api.jl` and paste the code of section `test_api.jl` into it. Test the code.
+- Go to the package manager, activate the Accounts module (`]activate .`) and run the tests (`test Accounts`). You should see:
 
 ```
 Test Summary: | Pass  Total
@@ -111,4 +146,24 @@ Domain.jl     |    1      1
 Test Summary: | Pass  Total
 API.jl        |    1      1
     Testing Accounts tests passed
+```
+
+- Return to the julia-prompt and type: `? create`. The help text of the function `create` is displayed.
+
+```
+help?> create
+search: create searchsortedlast
+
+  create(address_type::AddressType, address::String)::Address
+  create(name::String, addresses::Array{Address,1})::Person
+  create(name::String)::Person
+
+  Create an Address or a Person object.
+
+  Example
+  ≡≡≡≡≡≡≡≡≡
+
+  julia> address_email = create(EMAIL, "donald@duckcity.com")
+
+  julia> donald = create("Donald Duck", [address_email])
 ```

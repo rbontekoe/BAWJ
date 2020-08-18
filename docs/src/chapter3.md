@@ -78,10 +78,13 @@ end
 
 ## Activity 3.1 - Create the File Domain.jl in the src-folder
 
-Prerequisites (activities in chapter 2)
+#### Prerequisites (activities in chapter 2)
 - Activity 2.1 - Setup the Development Environment.
 - Activity 2.2 - Create the Accounts module.
 - Activity 2.3 - Create a Repository on GitHub.
+
+In this activity you:
+- Create the file Domain.jl.
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -103,21 +106,51 @@ In the navigation pane you see the next folders and files:
 
 ## Activity 3.2 - Pasting the Domain Code into Domain.jl
 
+#### Prerequisites
 - The previous activity 3.1
+
+In this activity you:
+- Add Domain code to the file Domain.jl.
+- Save the file.
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | Select the code from the section [Domain.jl-Domain-objects](#Domain.jl-Domain-objects-1) |  |
-| 2 | Copy the code to the clipboard |  |
+| 1 | Select the code from the section [Domain.jl-Domain-objects](#Domain.jl-Domain-Objects-1) |  |
+| 2 | Ctrl-C | Copy the code to the clipboard. |
 | 3 | Paste the code in the file Domain.jl |  |
 | 4 | Ctrl-S | Save the file. |
 
+## Modified Accounts.jl
+
+```
+module Accounts
+
+include("Domain.jl"); using .Domain #1
+
+end
+```
+\#1 the function `include` loads the code of the specified file. `using .Domain` activates the module.
+The dot refers to a sub-module of Accounts. The `;` separates the two Julia statements.
+
+## Activity 3.3 - Update Accounts.jl
+
+#### Prerequisites
+- The previous activity 3.2
+
+In this activity you declare Domain as a sub-module of Accounts.
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 1 | Open `Accounts.jl` |  |
+| 2 | Delete all lines |  |
+| 3 | Copy the code [Modified Accounts.jl](#Modified-Accounts.jl-1) into the file |  |
+| 4 | Ctrl-S | Save the file. |
 
 ## Dependencies
 
-All dependencies of your module should be declared in the file `Build.toml` under the section `[deps]`. We use the now()-function in the code and is defined in Dates. Dates is a sub-module of Julia and should be loaded in your code by `using Dates`.
+You declare all dependencies of your module in the file `Project.toml` under the section `[deps]`. The `now()`-function belongs to `Dates` module. Dates is a sub-module of Julia and should be loaded in your code by `using Dates`.
 
-When someone adds our module Accounts it automatically loads the right dependency versions.
+When someone adds our module Accounts it automatically loads the right dependency version.
 
 ```
 name = "Accounts"
@@ -139,20 +172,27 @@ test = ["Test"]
 ```
 *Fig 3.1*
 
-## Activity 3.3 - Adding Dates as Dependency
+## Activity 3.4 - Adding Dates as Dependency
 
 #### Prerequisites
-- The previous activity 3.2
+- The previous activity 3.3
 
-You automatically add dependencies to the file `Build.toml` when you switch to your Accounts environment.
+In this activity you will:
+- Activate the Accounts environment.
+- Add the dependency Dates to the environment and Project.toml.
+- Inspect the status of the work environment.
+
+You automatically add dependencies to the file `Project.toml` when you switch to your Accounts environment.
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | jullia> ] | Activate the package manager. |
-| 2 | pkg> activate . | Go to the Accounts environment. |
-| 3 | (Accounts) pkg> status | Show Accounts loaded packages (dependencies) |
-| 4 | (Accounts) pkg> add Dates | Add the Dates module. |
-| 5 | (Accounts) pkg> status | Shows your dependencies. |
+| 1 | Open the REPL: Juno > Open REPL | Open Julia REPL. |
+| 2 | Press: <Enter>-button | Start Julia. |
+| 3 | jullia> ] | Type `]` to activate the package manager. |
+| 4 | pkg> activate . | Activate the Accounts environment. |
+| 5 | (Accounts) pkg> status | Show Accounts loaded packages (dependencies) |
+| 6 | (Accounts) pkg> add Dates | Add the Dates module. |
+| 7 | (Accounts) pkg> status | Shows your dependencies. |
 
 ```
 Project Accounts v0.1.0
@@ -165,7 +205,6 @@ Status `~/.julia/dev/Accounts/Project.toml`
 | 6 | Press: BackSpace | return to the Julia prompt. |
 
 
-
 ## test_domain.jl
 
 ```
@@ -175,30 +214,32 @@ import Accounts: Domain
 
 using .Domain
 
-rob_address_email = Address(EMAIL, "rbontekoe@appligate.nl")
-rob_address_work = Address(WORK,
+donald_email = Address(EMAIL, "donald@duckcity.com")
+donald_work = Address(WORK,
   """
-  Landweg 74
-  3833VM LEUSDEN
-  The Netherlands
+  Donalds Hardware Store
+  attn. Donald Duck
+  1190 Seven Seas Dr
+  FL 32830 Lake Buena Vista
+  USA
   """
 )
 
-addresses = [rob_address_email, rob_address_work]
+addresses = [donald_email, donald_work]
 
-rob = Person("Rob Bontekoe", addresses)
+donald = Person("Donald Duck", addresses)
 
-email_address = filter(x -> x.address_type == EMAIL, rob.addresses)
+email_address = filter(x -> x.address_type == EMAIL, donald.addresses)
 
 println(email_address[1].address)
 ```
 
-## Activity 3.4 - Testing your Code
+## Activity 3.5 - Testing your Code
 
 Most of the time you put code want to test parts of your application in a test file.
 
 #### Prerequisites
-- The previous activity 3.3
+- The previous activity 3.4
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -213,7 +254,7 @@ Step | Action | Comment |
 
 ## runtests.jl
 
-It is even better to put you test code in the file runtest.jl. The file is located in the folder test.
+It is even better to put you test code in the file `runtests.jl`. The file is located in the folder `test`.
 
 ```
 using Accounts
@@ -223,10 +264,10 @@ import Accounts: Domain
 using .Domain
 
 @testset "Domain.jl" begin
-    rob_address_email = Address(EMAIL, "rbontekoe@appligate.nl")
-    rob = Person("Rob Bontekoe", [rob_address_email])
-    email_addresses = filter(x -> x.address_type == EMAIL, rob.addresses)
-    @test email_addresses[1].address == "rbontekoe@appligate.nl"
+    donald_email = Address(EMAIL, "donald@duckcity.com")
+    donald = Person("Donald duck", [donald_email])
+    email_addresses = filter(x -> x.address_type == EMAIL, donald.addresses)
+    @test email_addresses[1].address == "donald@duckcity.com"
 end
 ```
 
@@ -237,7 +278,7 @@ end
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | $ atom . | Start Atom/Juno.
+| 1 | $ atom . | Start Atom/Juno. |
 | 2 | Select the folder: `test` | Open the folder with runtests.jl. |
 
 ```
