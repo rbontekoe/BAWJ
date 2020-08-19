@@ -1,4 +1,4 @@
-# 4. Create and test API.jl
+# 4. Create and Test API.jl
 
 In this chapter, you define the functions that one can use to make-up a program.
 
@@ -127,7 +127,7 @@ end
 end
 ```
 
-## Exercise 4.1 - Adding the sub-module API.
+## Exercise 4.1 - Adding the Sub-module API.
 
 #### Prerequisites
 - Previous activities.

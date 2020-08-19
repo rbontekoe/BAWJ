@@ -1,4 +1,4 @@
-# 5. Create and test Infrastructure.jl
+# 5. Create and Test Infrastructure.jl
 
 The Infrastructure has functions that refer to the outer world. For example:
 - JSON data that has to converted to Julia objects or visa versa,
@@ -6,8 +6,6 @@ The Infrastructure has functions that refer to the outer world. For example:
 - Stored objects that have to be converted to Julia objects,
 - Event Sourcing, registering events and replay a history of events.
 - CQRS (Command Query Responsibility Segregation) separating events from queries.
-
-
 
 ### Contents
 
@@ -151,7 +149,7 @@ end
 
 ```
 
-## Exercise 5.1 - Adding the sub-module Infrastructure.
+## Exercise 5.1 - Adding the Sub-module Infrastructure.
 
 - Create the file `Infrastructure.jl` and add the code of section [Infrastructure.jl](#Infrastructure.jl-1) to the file.
 - Add the code of section [runtests.jl](#runtests.jl-1) to the file runtests.jl.
