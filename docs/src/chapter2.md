@@ -1,6 +1,6 @@
 # 2. Setup the Development Environment
 
-In this chapter you learn to create your development environment based on Ubuntu 20.04.
+In this chapter, you learn to create your development environment based on Ubuntu 20.04 and Julia version 1.5.
 
 ### Contents
 
@@ -17,27 +17,27 @@ The activities are
 - Activity 2.2 - Create the Accounts module.
 - Activity 2.3 - Create a Repository on GitHub.
 
-We use the `Onion Architecture` to define a model which consists of the layers Domain, API, and Infrastructure. The layers are declared as sub-modules. See also [Domain-driven Design](../chapter2/#Domain-driven-design-1) in section 2 `Accounts Receivable` chapter 7 `The design`.
+We use the `Onion Architecture` to define a model that consists of the layers Domain, API, and Infrastructure. The layers are declared as sub-modules. See also [Domain-driven Design](../chapter7/index.html#Domain-driven-design-1) in section 2 `Accounts Receivable` of chapter 7 `The design`.
 
 #### The Domain layer
 The domain has the objects Person, Address, and AddressType.
 
 #### The API layer
-The API has the function `create`. It can be used for creating persons and the addresses.
+The API has the function `create`. It can be used for creating persons and addresses.
 
 #### The Infrastructure layer
-The Infrastructure has the functions `save` and `retrieve,` to save and retrieve persons.
+Infrastructure has the functions `save` and `retrieve` to save and retrieve persons.
 
 ## Activity 3.1 - Setup the Development Environment
 
-#### Prerequisites
-- Ubuntu 20.04.
-
-In this activity you will create the development environment.
+In this activity, you will create a development environment.
 - Install Julia.
 - Install Atom.
 - Install Juno.
 - Add the Julia package PkgTemplates.
+
+#### Prerequisites
+- Ubuntu 20.04.
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -57,25 +57,26 @@ Explore the file structure.
 
 ## Activity 3.2 - Create the Accounts Module.
 
-#### Prerequisites
-- Activity 3.1:
-- Ubuntu 20.04 installed.
-- Julia 1.5 installed.
-- Atom/Juno installed.
-- Git installed.
-- PkgTemplates package installed.
-
 In this activity you will create the basic application file structure for the module `Accounts` using PkgTemplates:
 - Create a template.
 - Create the module Accounts.
 - Go to the development directory `~/.julia/dev/Accounts/`.
 - Start Atom/Juno.
 
+#### Prerequisites
+- Activity 3.1:
+- Ubuntu 20.04.
+- Julia 1.5 installed.
+- Atom/Juno installed.
+- Git installed.
+- Julia [PkgTemplates](https://github.com/invenia/PkgTemplates.jl) package installed.
+
 | Step | Action | Comment |
 | :--- | :--- | :--- |
 | 1 | $ julia | Start Julia. |
 | 2 | julia> using PkgTemplates | Load PkgTemplates. |
 | 3 | julia> t = Template() | Create a default template. |
+
 ```Template:
   authors: ["Rob Bontekoe <rbontekoe@appligate.nl> and contributors"]
   dir: "~/.julia/dev"
@@ -128,7 +129,7 @@ In this activity you will create the basic application file structure for the mo
 ```
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 4 | julia> t("Accounts") | Create the application environment. |
+| 4 | julia> t("Accounts") | Create the application environment Accounts. |
 ```
 [ Info: Running prehooks
 [ Info: Running hooks
@@ -143,8 +144,8 @@ No Changes to `~/.julia/dev/Accounts/Manifest.toml`
 ```
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 5 | julia> Ctrl-D | exit Julia. |
-| 6 | $ cd ~/.julia/dev/Accounts/ | Got to development folder. |
+| 5 | julia> Ctrl-D | Exit Julia. |
+| 6 | $ cd ~/.julia/dev/Accounts/ | Go to development folder. |
 | 7 | $ atom .| Start Atom/Juno. |
 
 You will see the following file structure.
@@ -167,7 +168,7 @@ You will see the following file structure.
 - sub-modules,
 - (export) of the functions that others can invoke immediately,
 - as well as data structures, and
-- (import) of the things you want to use from other (sub-)modules or packages.
+- (import) of the elements, you want to use from other (sub-)modules or packages.
 
 \#2 Unit tests.
 
@@ -175,8 +176,10 @@ You will see the following file structure.
 
 ## Activity 3.3 - Create a Repository on GitHub
 
-#### Prerequsites
-- Ubuntu 20.04 installed.
+In this activity, you create a repository on GitHub. You can push changes in the design of the module to GitHub. Later on, you will learn how others can use the module.
+
+#### Prerequisites
+- Ubuntu 20.04.
 - Julia 1.5 installed.
 - Atom/Juno installed.
 - Git installed.
@@ -184,8 +187,8 @@ You will see the following file structure.
 | Step | Action | Comment |
 | :--- | :--- | :--- |
 | 1 | Go to [GitHub](https://github.com/) | Create an account if you don't have one. What is [GitHub](https://en.wikipedia.org/wiki/GitHub)? |
-| 2 | Click on the green button `New` | Maybe you have first to click on the tab `Repositories` |
-| 3 | Give the repository the name `Accounts.jl` |  |
+| 2 | Click on the green button `New` | Maybe you have first to click on the tab `Repositories`. |
+| 3 | Give the repository the name: `Accounts.jl` | **The extention `.jl` is mandatory**. |
 | 4 | Give the repository a description | E.g. A module for the BAWJ course with which you can experiment. |
 
 !!! warning
@@ -194,7 +197,7 @@ You will see the following file structure.
 | Step | Action | Comment |
 | :--- | :--- | :--- |
 | 5 | Click on the **green** button `Create repository` | Button is located at the bottom side. |
-| 6 | Return to your computer and go to the folder `~/.julia/dev/Accounts`|  ||
+| 6 | Return to your computer and go to the folder `~/.julia/dev/Accounts` |  |
 | 7 | $ git status | The response is: |
 
 ```
@@ -205,5 +208,5 @@ nothing to commit, working tree clean
 | Step | Action | Comment |
 | :--- | :--- | :--- |
 | 8 | $ atom .| Start Atom/Juno. |
-| 9 | Click on the `Publish button` | You will find the button in the lower right corner. |
+| 9 | Click on the `Publish` button | You will find the button in the lower right corner. |
 | 10 | Check the update on GitHub | You should see the same file structure. Manifest.toml is missing. |
