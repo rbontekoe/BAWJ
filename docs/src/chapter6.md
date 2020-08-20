@@ -31,9 +31,9 @@ end
 
 \#3 The function to store and retrieve persons.
 
-## Activity 6.1 - Export elements
+## Activity 6.1 - Export Elements
 
-In this activity you define which functions, enumerated values, and DataType are immediately available.
+In this activity you define which functions, enumerated values, and DataType are immediately available when a software programmer uses our module `Accounts`.
 
 #### Prerequisites
 - Ubuntu 20.04.
@@ -47,7 +47,7 @@ Step | Action | Comment |
 | 1 | $ cd ~/.julia/dev/Accounts | Go to the Acoounts project folder. |
 | 2 | $ atom . | Start Atom/Juno. |
 | 3 | Open the file Accounts.jl |  |
-| 4 | Remove the hashtags | Accordingly to the section [Accounts.jl](#Accounts.jl-1) |
+| 4 | Remove the hashtags | According to section [Accounts.jl](#Accounts.jl-1) |
 | 5 | Ctrl-S | Save the file. |
 | 6 | Ctrl-D | Close Julia. |
 | 7 | Press: <Enter> | Start Julia REPL. |
@@ -61,9 +61,17 @@ Step | Action | Comment |
 julia> Accounts.
 API            Domain          EMAIL           Infrastructure  WORK            
 add_to_file     create        eval            include         read_from_file
-
-## test_accounts.jl
 ```
+
+Step | Action | Comment |
+| :--- | :--- | :--- |
+| 13 | Shift+Ctrl-9 | Open Git panel when closed. |
+| 14 | Put the cursor in the field `Commit message` |  |
+| 15 | Type: Define export elements Account.jl |  |
+| 16 | Click on: `Stage All` |  |
+| 17 | Click on: `Commit to master` |  |
+| 18 | Click on: `Push` |  |
+| 19 | Verify on GitHub whether you see the exports in Accounts.jl |  |
 
 ## test_accounts.jl
 
@@ -149,10 +157,24 @@ Step | Action | Comment |
 | 7 | julia> ] |  |
 | 8 | pkg> activate . |  |
 | 9 | (TestAccounts) pkg> add https://github.com/<your account name>/Accounts.jl | Download the package. Use `rbontekoe` in case you doesn't have a GitHub repository of Accounts yourself. |
-| 10 | Press: BackSpace-button | Return to Julia. |
-| 11 | File > New File | Create a new file, e.g. test_accounts.jl. |
-| 12 | Press: <Enter> | Create the file. |
-| 13 | Ctrl-S | Save the file. |
+| 10 | TestAccounts) pkg>test Accounts | Run the tests. |
+
+```
+Test Summary: | Pass  Total
+Domain.jl     |    1      1
+Test Summary: | Pass  Total
+API.jl        |    1      1
+Test Summary:     | Pass  Total
+Infrastructure.jl |    1      1
+    Testing Accounts tests passed
+```
+
+Step | Action | Comment |
+| :--- | :--- | :--- |
+| 11 | Press: BackSpace-button | Return to Julia. |
+| 12 | File > New File | Create a new file, e.g. test_accounts.jl. |
+| 13 | Press: <Enter> | Create the file. |
+| 14 | Ctrl-S | Save the file. |
 | 15 | Paste the code under the section [test_ accounts.jl](#test_accounts.jl-1) in the file |  |
 | 16 | Use repeatably `Shift-Enter` to execute the lines | Run the code line by line. |
 
@@ -213,3 +235,32 @@ In this exercise you run a test in the folder `TestAccounts` again with the modi
 1. Return to the Accounts development environment and change the contents of `Accounts.jl` conform the section [runtest.jl](#runtest.jl-1).
 2. Go to the package manager and run `test Accounts`.
 3. Got to the folder `TestAccounts`, start Atom/Juno and activate the `TestAccounts` environment. Run first `update Accounts` and next `test Accounts`. Run your test software.
+4. Update your GitHub repostitory.
+5. Go to the TestAccounts folder, start Atom/Juno and Julia and activate the next package manager commands, activate . , status, update Accounts, test Accounts:
+
+```
+(@v1.5) pkg> activate .
+ Activating environment at `~/projects/TestAccounts/Project.toml`
+
+(TestAccounts) pkg> status
+Status `~/projects/TestAccounts/Project.toml`
+  [c01e8521] Accounts v0.1.0 `https://github.com/rbontekoe/Accounts.jl#master`
+  [a93c6f00] DataFrames v0.21.6
+
+(TestAccounts) pkg> update Accounts
+   Updating registry at `~/.julia/registries/General`
+######################################################################## 100,0%
+   Updating git-repo `https://github.com/rbontekoe/Accounts.jl`
+Updating `~/projects/TestAccounts/Project.toml`
+  [c01e8521] ~ Accounts v0.1.0 `https://github.com/rbontekoe/Accounts.jl#master` ⇒ v0.1.0 `https://github.com/rbontekoe/Accounts.jl#master`
+Updating `~/projects/TestAccounts/Manifest.toml`
+  [c01e8521] ~ Accounts v0.1.0 `https://github.com/rbontekoe/Accounts.jl#master` ⇒ v0.1.0 `https://github.com/rbontekoe/Accounts.jl#master`
+
+(TestAccounts) pkg> test Accounts
+    Testing Accounts
+
+Test Summary: | Pass  Total
+Accounts.jl   |    1      1
+    Testing Accounts tests passed
+
+```
