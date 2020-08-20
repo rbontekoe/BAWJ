@@ -1,8 +1,12 @@
 # 4. Create and Test API.jl
 
-In this chapter, you define the functions that one can use to make-up a program.
+In this chapter, you define the functions that one can use to write a software program.
 
-In this case it is the function `create` that we use to create as well as addresses or persons. Julia functions are dispatch-able,which means that the function is matched based on the number of arguments and their type.
+In this case, it is the function `create` that we use to create:
+- an address.
+- a person.
+
+Julia's functions are dispatch-able. Julia looks for the right method based on the number of arguments and their data-type.
 
 ### Contents
 
@@ -21,7 +25,7 @@ using .Domain #3
 
 export create #4
 
-""" #5
+"""
     create(address_type::AddressType, address::String)::Address
     create(name::String, addresses::Array{Address,1})::Person
     create(name::String)::Person
@@ -35,31 +39,38 @@ julia> address_email = create(EMAIL, "donald@duckcity.com")
 julia> donald = create("Donald Duck", [address_email])
 `````
 """
-function create end #6
+function create end #5
 
-create(address_type::AddressType, address::String)::Address = Address(address_type, address) #7
+create(address_type::AddressType, address::String)::Address = Address(address_type, address) #6
 
-create(name::String, addresses::Array{Address,1})::Person = Person(name, addresses) #8
+create(name::String, addresses::Array{Address,1})::Person = Person(name, addresses) #7
 
-create(name::String)::Person = Person(name) #9
+create(name::String)::Person = Person(name) #8
 
 end
 ```
 \#1 The module name is `API`.
 
-\#2 The `API` sub-module uses only the elements that are defined in the sub-module Domain, Julia, and any loaded packages. `..Accounts` refers to the super-domain of `API`. `import ..Accounts: Domain` give us a reference to the sub-module `Domain`.
+\#2 The `API` sub-module uses only the elements that are defined in the sub-module Domain, Julia, and any loaded packages. `..Accounts` refers to the main-module of `API`. `import ..Accounts: Domain` give us a reference to the sub-module `Domain`, so we can use it in the next statement.
 
-\#3 The code instantiates the sub-module Domain (`using .Domain`). The dot tells Julia that Domain is a sub-module. Julia loads the elements Person, Address, AddressType, EMAIL, and WORK into the scope of the module because we specify `using`. If we would use `import` instead of `using`, we also have to mention the module name (e.g. Domain.EMAIL). Now, we can call them without mentioning the name of the sub-module.
+\#3 The code instantiates the sub-module Domain (`using .Domain`). The dot tells Julia that Domain is a sub-module. Julia loads all exported elements of Domain (Person, Address, AddressType, EMAIL, and WORK) into the scope of the module because we specify `using`. If we would use `import` instead of `using`, we also have to mention the module name (e.g. Domain.EMAIL). Now, we can call them without mentioning the name of the sub-module.
 
-\#4 We export the method `create`. It means that other modules and programs can use it directly. Functions without the keyword `function` are called methods.
+\#4 We export the `create` methods. It means that other modules and programs can use them directly unless it conflicts with similar names.
 
-\#5 We document the different uses (called `multiple dispatch`) of the method `create.` Users can use the question mark (`? create`) to display the text and the example. The whole example code, including the `julia>`-prompts, can be copied to the clipboard and pasted back into the REPL.
+\#5 Here, we document the different use cases (methods) of the function `create`. One calls it `multiple dispatch` and it can be compared to `overloading` in Object-Oriented programming languages.
 
-\#6 The function `create`.
+The methods must be indented and their signatures must be different. A signature is determined by the number of arguments and their data-types.
 
-\#7 The method `create` when we want to create an `Address`.
+When users type a question mark followed by the function-name (`? create`) then Julia displays the text and the example. Run the example code by pasting it into the REPL, including the `julia>`-prompts.
 
-\#8 The method `create` when we want to create a `Person` with a known `Address`.
+!!! warning
+    The five (5) back-tics surrounding the example code have to be replaced by three (3) back-tics.
+
+    I had to use five back-tics to avoid conflicts in the mark-down language.
+
+\#6 The method `create` when we want to create an `Address`.
+
+\#7 The method `create` when we want to create a `Person` with a known `Address`.
 
 \#8 Creates a Person with an empty Address array. Although the object Person is not mutable, we can still add elements to the array. For example `push!(donald.addresses, <Address object>`).
 
@@ -137,7 +148,7 @@ In this exercise you create the sub-module API. You can apply everything you've 
 - Create the file `API.jl` and add the code of section [API.jl](#API.jl-1) to the file. Change the five back-tics into three back-tics. Remove the comments.
 - Copy the code of section [runtests.jl](#runtests.jl-1) to the file runtests.jl.
 - Modify  `Accounts.jl` according to section [Accounts.jl](#Accounts.jl-1).
-- Create the file `test_api.jl` and paste the code of section `test_api.jl` into it. Test the code.
+- Create the file `test_api.jl` and paste the code of section [test_api.jl](#test_api.jl-1) into it. Test the code.
 - Go to the package manager, activate the Accounts module (`]activate .`) and run the tests (`test Accounts`). You should see:
 
 ```
@@ -166,4 +177,15 @@ search: create searchsortedlast
   julia> address_email = create(EMAIL, "donald@duckcity.com")
 
   julia> donald = create("Donald Duck", [address_email])
+```
+
+- Push the changes to your GitHub repository. Check the changes on GitHub.
+- Go to the Accounts folder `cd ~/.julia/dev/Accounts` and and type `git log --oneline`. You sloud see:
+
+```
+~/.julia/dev/Accounts$ git log --oneline
+3b1af29 (HEAD -> master) Add API.jl sub-module
+c76901f (origin/master) Add Domain.jl sub-module
+0cf05da Files generated by PkgTemplates
+82338c3 Initial commit
 ```

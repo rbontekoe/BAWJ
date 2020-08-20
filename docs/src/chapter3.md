@@ -305,9 +305,12 @@ Domain.jl     |    1      1
     Testing Accounts tests passed
 ```
 
-## Activity 3.7 - Update your GitHub repository
+## Activity 3.7 - Update your GitHub Repository
 
 It is time to push our changes to the GitHub repository. The easiest way is to use Atom/Juno. The Git pane have to be visible.
+
+#### Prerequisites
+- The previous activity 3.6
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
