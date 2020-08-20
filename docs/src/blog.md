@@ -2,6 +2,12 @@
 
 ## 2020
 
+### 08/20/2020
+
+Finished section 1 `Experimenting with Modules`. Reviewed chapters one till six. I did the activities and exercises. Looks good.
+
+The next step is section 2 `The Accounts Receivable Module`.
+
 ### 08/11/2020
 
 Today, I 'finished' the Accounts.jl module. I am happy that I switched to an easier example of the activities and exercise.

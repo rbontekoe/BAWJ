@@ -29,24 +29,8 @@ With trying out so many things with Julia, the problem arose that I could not fi
 
 In June 2020, I discovered a new package called [Rocket.jl](https://github.com/biaslab/Rocket.jl) which supports the [actor model](https://www.brianstorti.com/the-actor-model/). I know the actor model from my Scala and Akka period. It makes your application more robust and the workflow easier. It is the main reason I rewrite the course.
 
-### Developing Business Applications with Julia
+### Business Applications with Julia
 
-The result is this course Business Applications with Julia I am creating now.
+The result is this course Building Business Applications with Julia. Chapters 1 till 6 are ready now.
 
 Rob Bontekoe
-
-## Index (Chapters that are ready)
-
-```@contents
-Pages = ["index.md",
-"chapter1.md",
-"chapter2.md",
-"chapter3.md",
-"chapter4.md"
-"chapter5.md"
-"chapter6.md"
-"notebook.md",
-"overview.md",
-"appendix.md",
-"references.md"]
-```
