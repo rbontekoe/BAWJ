@@ -68,11 +68,11 @@ When users type a question mark followed by the function-name (`? create`) then 
 
     I had to use five back-tics to avoid conflicts in the mark-down language.
 
-\#6 The method `create` when we want to create an `Address`.
+\#6 The method `create` when we want to create an `Address`. `(address_type::AddressType, address::String)` is its signature.  `Address(address_type, address)` is the constructor of the data-type Address that we have defined in Domain.jl.
 
-\#7 The method `create` when we want to create a `Person` with a known `Address`.
+\#7 The method `create` when we want to create a `Person` with one or more addresses. `addresses::Array{Address,1}` specifies that the argument must be a one-dimensional array with `Address` objects.
 
-\#8 Creates a Person with an empty Address array. Although the object Person is not mutable, we can still add elements to the array. For example `push!(donald.addresses, <Address object>`).
+\#8 This line creates a Person with an empty Address array. Although the object Person is not mutable, we can still add elements to the array. For example `push!(donald.addresses, <Address object>`).
 
 ## Accounts.jl
 ```
