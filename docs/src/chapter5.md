@@ -1,11 +1,13 @@
 # 5. Create and Test Infrastructure.jl
 
-The Infrastructure has functions that refer to the outer world. For example:
-- JSON data that has to converted to Julia objects or visa versa,
-- Julia objects that have to be stored,
-- Stored objects that have to be converted to Julia objects,
-- Event Sourcing, registering events and replay a history of events.
-- CQRS (Command Query Responsibility Segregation) separating events from queries.
+The Infrastructure has functions that refer to the outer world and can use elements from the Domain and API layers. For example:
+- converting JSON data to Julia objects or visa versa.
+- storing Julia's objects.
+- retrieving objects.
+- Event Sourcing, registering events, and replaying a history of events.
+- CQRS (Command Query Responsibility Segregation), separating events from queries.
+
+In this chapter, you learn to store and retrieve data-types.
 
 ### Contents
 
@@ -51,17 +53,17 @@ end
 
 \#1 The module name is Infrastructure.
 
-\#2 The sub-module uses only the elements that are defined in the sub-module Domain, API, Julia, and any loaded packages.
+\#2 The sub-module uses only the elements that are defined in the higher layers, Domain, API, Julia, and any loaded packages.
 
-\#3 The code instantiate the sub-modules Domain and API.
+\#3 The code instantiates the sub-modules Domain and API.
 
 \#4 Data stored on disk has to be serialized.
 
 \#5 We export the methods `read_from_file` and `add_to_file`.
 
-\#6 `read_from_file`
+\#6 `read_from_file`.
 
-\#7 `add_to_file`
+\#7 `add_to_file`.
 
 
 ## Accounts.jl
@@ -138,7 +140,7 @@ end
 
 @testset "Infrastructure.jl" begin
     donald_email = create(EMAIL, "donald@duckcity.com")
-    donald = create("Donald Duck", [dd_address_email])
+    donald = create("Donald Duck", [donald_email])
     add_to_file(FILE_ACCOUNTS, [donald])
     result = read_from_file(FILE_ACCOUNTS)
     first_person = result[1]
@@ -152,7 +154,7 @@ end
 ## Exercise 5.1 - Adding the Sub-module Infrastructure.
 
 - Create the file `Infrastructure.jl` and add the code of section [Infrastructure.jl](#Infrastructure.jl-1) to the file.
-- Add the code of section [runtests.jl](#runtests.jl-1) to the file runtests.jl.
+- Add the code from section [runtests.jl](#runtests.jl-1) to the file runtests.jl.
 - Modify  `Accounts.jl` according to section [Accounts.jl](#Accounts.jl-1).
 - Go to the package manager, activate Accounts (`activate .`).
 - Add the `Serialization` package to the dependencies.
@@ -170,3 +172,4 @@ Infrastructure.jl |    1      1
 
 - Create the file `test_infr.jl` and copy the code from section `test_infr.jl` into it.
 - Test the code.
+- Push the changes to your GitHub repository. Check the changes on GitHub.
