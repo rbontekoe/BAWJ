@@ -1,4 +1,4 @@
-# 2 - The Design
+# 2 - The Design of AppliAR.jl
 
 UNDER DEVELOPMENT!
 
@@ -12,7 +12,7 @@ First, let's look at some terms and definitions. We'll convert the procedure `In
 
 ---
 
-## Terms and definitions
+## Terms and Definitions
 
 The points of attention are:
 - Procedure,
@@ -24,7 +24,7 @@ The points of attention are:
 
 A procedure is a description of work practice, a workflow. It describes a series of activities or actions in a particular order and interacts with people and machines. Actions make use of resources. Data, a service or a product, is the output of work.
 
-### Domain-driven design
+### Domain-Driven Design
 
 Each process should be domain-specific. Subject matter experts and users of the domain speak the same language and use the same definitions and synonyms for concepts and objects. It leads to a Domain-driven design paradigm.
 
@@ -40,26 +40,26 @@ The next peel is the API. The API consists of Julia functions that operate on th
 
  The infrastructure layer is the ultimate peel. With its functions, it communicates with the external world. Adapters overcome mismatches between interfaces. When you write you the code, you use `elements from the inner layers.`
 
-### Distributed processing
+### Distributed Processing
 
 Programs, written in Julia language, also can run on other processor cores. Even in Docker containers on remote machines. Julia uses the master-worker concept. It means that the master executes Julia's functions on workers.
 
-### Style conventions
+### Style Conventions
 
 The article [Blue: a Style Guide for Julia](https://github.com/invenia/BlueStyle) describes the style conventions.
 
 ---
 
-## A procedure as a starting point
+## A Procedure as a Starting Point
 In 1994 we were delivering Lotus Notes instructor-led training in the Netherlands. We became ISO-9001 certified one year later. ISO is short for the International Organization for Standardization. A part of ISO is the section procedures.
 
-A procedure describes a workflow or business process. It specifies the activities to be carried out by people or machines and the resources that are required to produce a result.
+A procedure describes a workflow of a business process. It specifies the activities to be carried out by people or machines and the resources that are required to produce a result.
 
 An input triggers a process. Every action creates an output, most of the time, modified information or side-effects such as saving data.
 
 The example I use in the course is the procedure `Invoicing.`
 
-### The course example
+### The Course Example
 
 In 1998 we rewrote our procedures as a table. Every row represents an activity or action. Next to the events are the columns with the roles involved with the work. The original procedure:
 
@@ -92,12 +92,12 @@ Let's see how we can automate the procedure with Julia. We tackle it with a tech
 
 ---
 
-## The procedure as an activity diagram
+## The Procedure as an Activity Diagram
 
 The activity diagram represents the workflow. The actions are Julia functions. You can add typed arguments and return values in Julia, noted by a double colon (::) followed by the name of the type. This defines the domain entities, e.g., `::Order, ::UnpaidInvoice`.
 
 ```
-⚉ process(::Array{Order)
+⚉ process(::Array{Order)::Array{JournalEntry}
     ↓
     create(::Array{Order}::Array{UnpaidInvoice}
     ↓
@@ -111,7 +111,7 @@ The activity diagram represents the workflow. The actions are Julia functions. Y
     ↓
     ◉
 
-⚉ process(::Array{UnpaidInvoice}, ::Array{BankStatement})
+⚉ process(::Array{UnpaidInvoice}, ::Array{BankStatement})::Array{JournalEntry}
     ↓
     filter(::Array{UnpaidInvoice}, ::Array{Bankstatement})::Array{PaidInvoice}
     ↓
@@ -132,7 +132,7 @@ The activity diagram represents the workflow. The actions are Julia functions. Y
     ◉
 ```
 
-## The design
+## The Design
 
 From the activity diagram we get:
 
@@ -153,7 +153,7 @@ General packages:
 - Dates³;
 - DataFrames³
 
-¹ Defined in the package AppliSales.
+¹ Defined in the package [AppliSales](https://github.com/rbontekoe/AppliSales.jl).
 
 ² Defined in the package [AppliGeneralLedger](https://www.appligate.nl/AppliGeneralLedger.jl/).
 
@@ -170,11 +170,11 @@ The API contains the methods (functions) of the module. The methods use only ele
 
 In Julia, you can use the same function name as long as the `signature` is different, so other types and, or the number of arguments. One calls it [`multiple dispatch`](https://en.wikipedia.org/wiki/Multiple_dispatch).
 
-An `Order`, consists of the data objects `Training, and Company` plus additional data about `contact`, and `student`. It is defined in `domain.jl` the support-package [AppliSales](https://github.com/rbontekoe/AppliSales.jl/blob/master/src/domain/domain.jl).
+An `Order`, consists of the data objects `Training, and Company` plus additional data about `contact`, and `student`. Order is defined in `domain.jl` of the support-package [AppliSales](https://github.com/rbontekoe/AppliSales.jl/blob/master/src/domain/domain.jl).
 
 Also, we have already created a support-package [AppliGeneralLedger](https://github.com/rbontekoe/AppliGeneralLedger.jl) to make it easier to test AppliAR.jl. JournalEntry is defined in [domain.jl](https://github.com/rbontekoe/AppliGeneralLedger.jl/blob/master/src/domain/domain.jl).
 
-### Methods of the Infrastructure layer
+### Methods of the Infrastructure Layer
 
 Database, private methods:
 - add\_to\_file(file::String, data::Array{Any, 1}
