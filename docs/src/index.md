@@ -17,11 +17,11 @@ The ease with which I could build business applications with Julia stayed with m
 
 At the beginning of 2019, a recruiter told me that the interest in Scala in the Netherlands was waning. Should I continue with Scala?
 
-### A course was born
+### A course syllabus?
 
 I decided to stop with Scala and picked up my Julia observer trial project again.
 
-It turned out that you can create effective documentation, using the package Documenter.jl. You write it in the markdown language and can insert examples of how to use your code. During the creation of the HTML code, you can have the cases tested, which is useful if you later expand the module and generate the documentation again.
+It turned out that you can create effective documentation, using the package [Documenter.jl](https://github.com/JuliaDocs/Documenter.jl). You write it in the markdown language and you can insert examples of how to use your code. During the creation of the HTML code, you can have the cases tested, which is useful if you later expand the module and generate the documentation again.
 
 I had already a GitHub Pages profile, and thought: "Why not set up the AppliGate website in this way and link it to my profile." I did it: [https://www.appligate.nl](https://www.appligate.nl/).
 

@@ -6,7 +6,7 @@ makedocs(
     pages = [
         "Business Applications with Julia" => "index.md",
         "Blog" => "blog.md",
-        "1 - The Final Application" => "chapter1.md",
+        "1 - The Application" => "chapter1.md",
         "Section 1 - Experimenting with Modules" => [
             "2 - Setup the Development Environment" => "chapter2.md",
             "3 - Create and Test Domain.jl" => "chapter3.md",
