@@ -88,4 +88,24 @@ end # process orders
 
 The function has a named argument `path` that is used to store the created invoices. The default file name is `test_invoicing.txt` and is used for testing purposes. For production purposes you have to specify a different name to prevent the file from being erased when you run the tests.
 
-## Case Study 10.1 - Make Infrastructure ready for InvoiceItem
+## Case Study Part Three - Prepare Infrastructure for InvoiceItem and OpenTrainingItem
+
+
+
+
+## To Redefine
+
+- When everything is working well merge your changes into the master branch.
+
+```
+$ git git checkout master
+
+$ git merge dev
+
+$ git branch -d dev # remove the dev branch
+```
+
+- run the tests again.
+
+!!! info
+    When you cooperate with others on a project you can create a [Pull Request (PR)](https://hackernoon.com/how-to-git-pr-from-the-command-line-a5b204a57ab1) with your motivation to merge your changes.
