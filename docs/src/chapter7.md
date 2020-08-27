@@ -180,7 +180,7 @@ Database, private methods:
 - add\_to\_file(file::String, data::Array{Any, 1}
 - read\_from\_file(file::String)::Array{Any, 1}
 
-External accessable methods:
+External accessible methods:
 - read\_bank\_statements(path::String)::Array{BankStatement,1}
 - process(::Array{Order)::Array{JounalEntry, 1}
 - process(::UnpaidInvoice, ::BankStatement)::Array{JounalEntry, 1}

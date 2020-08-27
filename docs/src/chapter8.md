@@ -91,7 +91,7 @@ However, if we want to view the payment data, we must explicitly refer to `PaidI
             ↓     ↓             ↓     ↓        ↓            ↓
  UnpaidInvoice  PaidInvoice   Meta  Header  BodyItem   BankStatement
                                                ↓
-                                          OpenTraining
+                                       OpentrainingItem
 
 spec.jl, abstract types:
 abstract type ARDomain end
@@ -144,16 +144,18 @@ id(i::Invoice)::String = i._id
 stm(i::PaidInvoice) = i._stm
 ```
 
-ou see that I refer to the abstract data type `Invoice` for retrieving the field values of `UnpaidInvoice` or `PaidInvoice`. Except, when I need the payment data I refer explicitly to `PaidInvoce`.
+You see that I refer to the abstract data type `Invoice` for retrieving the field values of `UnpaidInvoice` or `PaidInvoice`. Except, when I need the payment data I refer explicitly to `PaidInvoce`.
 
 ## 8.1 Case Study Part One - Redefining BodyItem as a Concrete Datatype
 
-Our boss wants our module to be able to print invoices with more than one item, e.g. books and in-company training. He also believes that `Structure` must resemble a hard copy invoice and that any additional information should be retrieved from the metadata. So, `BodyItem` must be the leave of the tree.
+Our boss wants our module to be able to print invoices with more than one item, e.g. books and in-company training. He also believes that `Structure` must resemble a hard copy invoice and that any additional information should be retrieved from the metadata. Promoting `BodyItem` to a leave of the tree could cause problems if we have already stored invoices. It is easier to add another leave, `InvoiceItem`.
 
 ```
  ____Structure____
  ↓       ↓       ↓
 Meta   Header   BodyItem
+                 ↓    ↓
+   OpentrainingItem  InvoiceItem
 ```
 
 Example of the body of a hard copy invoice:
@@ -168,35 +170,37 @@ Example of the body of a hard copy invoice:
 |  |  |  |  |  |  |
 | Total |  |  |  |  |2,438,25 |
 
-We have to replace `OpenTrainingItem` with `BodyItem`. Also, we have to remove the abstract definition of BodyItem.
+We have to add `InvoiceItem`.
 
 ```
-struct BodyItem <: Struture
+struct InvoiceItem <: BodyItem
     _prod_code::String
     _qty::Float64
     _descr::Array{String, 1}
     _unit_price::Float64
-    _vat::Float64
+    _vat_perc::Float64
+		# constructors
+	  InvoiceItem(code, qty, descr, unit_price) = new(code, qty, descr, unit_price, 0.21)
+	  InvoiceItem(code, qty, descr, unit_price, vat_perc) = new(code, qty, descr, unit_price, vat_perc)
 end
 
-code(b::BodyItem) = b._prod_code
-descr(b::BodyItem{Array(String, 1)}) = b.descr
-unit_price(b::BodyItem) = b._unit_price
-quantity(b::BodyItem) = b._qty
-vat(b::BodyItem) = b._vat
+code(b::InvoiceItem) = b._prod_code
+descr(b::Array{InvoiceItem, 1}) = b._descr
+unit_price(b::InvoiceItem) = b._unit_price
+qty(b::InvoiceItem) = b._qty
+vat_perc(b::InvoiceItem) = b._vat_perc
 
-# Example of creatinga BodyItem
+# Example of creating an InvoiceItem
 
-ot = OpentrainingItem("Learn Smiling", Date(2020, 9, 30), 1000.0, ["Mickey Mouse", "Mini Mouse"])
+order = AppliSales.Order("8381386117430892602", AppliSales.Organization("1173987178361159366", "Duck City Chronicals", "1185 Seven Seas Dr", "FL 32830", "Lake Buena Vista", "USA"), AppliSales.Training("LS", Dates.DateTime("2019-08-30T00:00:00"), 2, "Learn Smiling", 1000.0), "DD-001", "Mickey Mouse", "mickey@duckcity.com", ["Mini Mouse", "Goofy"])
 
-students = "Attendees: " * reduce((x, y) -> x * ", " * y, ot._students)
-description  = [ot._name_training, Date(ot._date), students]
+students = "Attendees: " * reduce((x, y) -> x * ", " * y, order.students)
+description  = [order.training.name, "Date: " * string(Date(order.training.date)), students]
 
-body = Body(
-  ot._name_training, # code
-  "Date: " * string(length(ot._students)), # quantity
-  description, # descr
-  ot._price_per_student, # unit_price
-  ot._vat_perc # vat
-  )
+body_invoice = InvoiceItem(
+		order.training.name, # code
+		length(order.students), # quantity
+		description, # descr
+		order.training.price, # unit_price
+	)
 ```

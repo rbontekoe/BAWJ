@@ -34,7 +34,7 @@
             ↓     ↓             ↓     ↓        ↓            ↓
  UnpaidInvoice  PaidInvoice   Meta  Header  BodyItem   BankStatement
                                                ↓
-                                          OpenTraining
+                                       OpentrainingItem
 
 spec.jl, abstract types:
 abstract type ARDomain end
@@ -56,33 +56,37 @@ body(i::Invoice)::BodyItem = i._body
 id(i::Invoice)::String = i._id
 
 # Field of an PaidInvoice containing the bank statement
-stm(i::PaidInvoice) = i._stm</code></pre><p>ou see that I refer to the abstract data type <code>Invoice</code> for retrieving the field values of <code>UnpaidInvoice</code> or <code>PaidInvoice</code>. Except, when I need the payment data I refer explicitly to <code>PaidInvoce</code>.</p><h2 id=".1-Case-Study-Part-One-Redefining-BodyItem-as-a-Concrete-Datatype-1"><a class="docs-heading-anchor" href="#.1-Case-Study-Part-One-Redefining-BodyItem-as-a-Concrete-Datatype-1">8.1 Case Study Part One - Redefining BodyItem as a Concrete Datatype</a><a class="docs-heading-anchor-permalink" href="#.1-Case-Study-Part-One-Redefining-BodyItem-as-a-Concrete-Datatype-1" title="Permalink"></a></h2><p>Our boss wants our module to be able to print invoices with more than one item, e.g. books and in-company training. He also believes that <code>Structure</code> must resemble a hard copy invoice and that any additional information should be retrieved from the metadata. So, <code>BodyItem</code> must be the leave of the tree.</p><pre><code class="language-none"> ____Structure____
+stm(i::PaidInvoice) = i._stm</code></pre><p>You see that I refer to the abstract data type <code>Invoice</code> for retrieving the field values of <code>UnpaidInvoice</code> or <code>PaidInvoice</code>. Except, when I need the payment data I refer explicitly to <code>PaidInvoce</code>.</p><h2 id=".1-Case-Study-Part-One-Redefining-BodyItem-as-a-Concrete-Datatype-1"><a class="docs-heading-anchor" href="#.1-Case-Study-Part-One-Redefining-BodyItem-as-a-Concrete-Datatype-1">8.1 Case Study Part One - Redefining BodyItem as a Concrete Datatype</a><a class="docs-heading-anchor-permalink" href="#.1-Case-Study-Part-One-Redefining-BodyItem-as-a-Concrete-Datatype-1" title="Permalink"></a></h2><p>Our boss wants our module to be able to print invoices with more than one item, e.g. books and in-company training. He also believes that <code>Structure</code> must resemble a hard copy invoice and that any additional information should be retrieved from the metadata. Promoting <code>BodyItem</code> to a leave of the tree could cause problems if we have already stored invoices. It is easier to add another leave, <code>InvoiceItem</code>.</p><pre><code class="language-none"> ____Structure____
  ↓       ↓       ↓
-Meta   Header   BodyItem</code></pre><p>Example of the body of a hard copy invoice:</p><table><tr><th style="text-align: left">Item</th><th style="text-align: right">Qty</th><th style="text-align: left">Description</th><th style="text-align: right">Price</th><th style="text-align: right">VAT</th><th style="text-align: right">Total</th></tr><tr><td style="text-align: left">LS</td><td style="text-align: right">2</td><td style="text-align: left">Learn Smiling</td><td style="text-align: right">1,000.00</td><td style="text-align: right">0.21</td><td style="text-align: right">2,420,00</td></tr><tr><td style="text-align: left"></td><td style="text-align: right"></td><td style="text-align: left">Date 2020/9/30</td><td style="text-align: right"></td><td style="text-align: right"></td><td style="text-align: right"></td></tr><tr><td style="text-align: left"></td><td style="text-align: right"></td><td style="text-align: left">Attendees: Mickey Mouse, Mini Mouse</td><td style="text-align: right"></td><td style="text-align: right"></td><td style="text-align: right"></td></tr><tr><td style="text-align: left"></td><td style="text-align: right"></td><td style="text-align: left"></td><td style="text-align: right"></td><td style="text-align: right"></td><td style="text-align: right"></td></tr><tr><td style="text-align: left">BAWJ</td><td style="text-align: right">1</td><td style="text-align: left">Sylabus</td><td style="text-align: right">15,00</td><td style="text-align: right">0.21</td><td style="text-align: right">18.15</td></tr><tr><td style="text-align: left"></td><td style="text-align: right"></td><td style="text-align: left"></td><td style="text-align: right"></td><td style="text-align: right"></td><td style="text-align: right"></td></tr><tr><td style="text-align: left">Total</td><td style="text-align: right"></td><td style="text-align: left"></td><td style="text-align: right"></td><td style="text-align: right"></td><td style="text-align: right">2,438,25</td></tr></table><p>We have to replace <code>OpenTrainingItem</code> with <code>BodyItem</code>. Also, we have to remove the abstract definition of BodyItem.</p><pre><code class="language-none">struct BodyItem &lt;: Struture
+Meta   Header   BodyItem
+                 ↓    ↓
+   OpentrainingItem  InvoiceItem</code></pre><p>Example of the body of a hard copy invoice:</p><table><tr><th style="text-align: left">Item</th><th style="text-align: right">Qty</th><th style="text-align: left">Description</th><th style="text-align: right">Price</th><th style="text-align: right">VAT</th><th style="text-align: right">Total</th></tr><tr><td style="text-align: left">LS</td><td style="text-align: right">2</td><td style="text-align: left">Learn Smiling</td><td style="text-align: right">1,000.00</td><td style="text-align: right">0.21</td><td style="text-align: right">2,420,00</td></tr><tr><td style="text-align: left"></td><td style="text-align: right"></td><td style="text-align: left">Date 2020/9/30</td><td style="text-align: right"></td><td style="text-align: right"></td><td style="text-align: right"></td></tr><tr><td style="text-align: left"></td><td style="text-align: right"></td><td style="text-align: left">Attendees: Mickey Mouse, Mini Mouse</td><td style="text-align: right"></td><td style="text-align: right"></td><td style="text-align: right"></td></tr><tr><td style="text-align: left"></td><td style="text-align: right"></td><td style="text-align: left"></td><td style="text-align: right"></td><td style="text-align: right"></td><td style="text-align: right"></td></tr><tr><td style="text-align: left">BAWJ</td><td style="text-align: right">1</td><td style="text-align: left">Sylabus</td><td style="text-align: right">15,00</td><td style="text-align: right">0.21</td><td style="text-align: right">18.15</td></tr><tr><td style="text-align: left"></td><td style="text-align: right"></td><td style="text-align: left"></td><td style="text-align: right"></td><td style="text-align: right"></td><td style="text-align: right"></td></tr><tr><td style="text-align: left">Total</td><td style="text-align: right"></td><td style="text-align: left"></td><td style="text-align: right"></td><td style="text-align: right"></td><td style="text-align: right">2,438,25</td></tr></table><p>We have to add <code>InvoiceItem</code>.</p><pre><code class="language-none">struct InvoiceItem &lt;: BodyItem
     _prod_code::String
     _qty::Float64
     _descr::Array{String, 1}
     _unit_price::Float64
-    _vat::Float64
+    _vat_perc::Float64
+		# constructors
+	  InvoiceItem(code, qty, descr, unit_price) = new(code, qty, descr, unit_price, 0.21)
+	  InvoiceItem(code, qty, descr, unit_price, vat_perc) = new(code, qty, descr, unit_price, vat_perc)
 end
 
-code(b::BodyItem) = b._prod_code
-descr(b::BodyItem{Array(String, 1)}) = b.descr
-unit_price(b::BodyItem) = b._unit_price
-quantity(b::BodyItem) = b._qty
-vat(b::BodyItem) = b._vat
+code(b::InvoiceItem) = b._prod_code
+descr(b::Array{InvoiceItem, 1}) = b._descr
+unit_price(b::InvoiceItem) = b._unit_price
+qty(b::InvoiceItem) = b._qty
+vat_perc(b::InvoiceItem) = b._vat_perc
 
-# Example of creatinga BodyItem
+# Example of creating an InvoiceItem
 
-ot = OpentrainingItem(&quot;Learn Smiling&quot;, Date(2020, 9, 30), 1000.0, [&quot;Mickey Mouse&quot;, &quot;Mini Mouse&quot;])
+order = AppliSales.Order(&quot;8381386117430892602&quot;, AppliSales.Organization(&quot;1173987178361159366&quot;, &quot;Duck City Chronicals&quot;, &quot;1185 Seven Seas Dr&quot;, &quot;FL 32830&quot;, &quot;Lake Buena Vista&quot;, &quot;USA&quot;), AppliSales.Training(&quot;LS&quot;, Dates.DateTime(&quot;2019-08-30T00:00:00&quot;), 2, &quot;Learn Smiling&quot;, 1000.0), &quot;DD-001&quot;, &quot;Mickey Mouse&quot;, &quot;mickey@duckcity.com&quot;, [&quot;Mini Mouse&quot;, &quot;Goofy&quot;])
 
-students = &quot;Attendees: &quot; * reduce((x, y) -&gt; x * &quot;, &quot; * y, ot._students)
-description  = [ot._name_training, Date(ot._date), students]
+students = &quot;Attendees: &quot; * reduce((x, y) -&gt; x * &quot;, &quot; * y, order.students)
+description  = [order.training.name, &quot;Date: &quot; * string(Date(order.training.date)), students]
 
-body = Body(
-  ot._name_training, # code
-  &quot;Date: &quot; * string(length(ot._students)), # quantity
-  description, # descr
-  ot._price_per_student, # unit_price
-  ot._vat_perc # vat
-  )</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../chapter7/">« 7 - The Design</a><a class="docs-footer-nextpage" href="../chapter9/">9 - The API Sub-module »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 25 August 2020 18:18">Tuesday 25 August 2020</span>. Using Julia version 1.5.0-rc2.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+body_invoice = InvoiceItem(
+		order.training.name, # code
+		length(order.students), # quantity
+		description, # descr
+		order.training.price, # unit_price
+	)</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../chapter7/">« 7 - The Design</a><a class="docs-footer-nextpage" href="../chapter9/">9 - The API Sub-module »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 27 August 2020 16:50">Thursday 27 August 2020</span>. Using Julia version 1.5.0-rc2.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
