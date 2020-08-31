@@ -1,4 +1,4 @@
-# 9. The API Sub-module
+# 9. The Sub-module API
 
 UNDER DEVELOPMENT!
 
@@ -100,8 +100,10 @@ And, I should not forget to export `InvoiceItem` in the Domain module.
 
 ```
 export OpentrainingItem, name_training, date, price_per_student, students, vat_perc
-export InvoiceItem, code, descr, unit_price, qty, vat
+export InvoiceItem, code, descr, unit_price, qty, vat_perc
 ```
+
+If one were already using my package, I cannot delete OpentrainingItem. Of course, this is not the case but in reality, you have to take it into account.
 
 ## Exercise 9.1 - Change the code according to case study one and two
 
@@ -136,7 +138,7 @@ $ git status
 - Start Atom/Juno.
 - Make the changes according to [Case Study Part One](../chapter8/index.html#.1-Case-Study-Part-One-Redefining-BodyItem-as-a-Concrete-Datatype-1). Export InvoiceItem and functions in `Domain.jl`.
 - Change the data types of the field 'body' in `UnpaidInvoice` and `PaidInvoice` to the abstract type `BodyItem`.
-- Add the new create-function to the API according to Case Study Part Two.
+- Add the new create-function to the API according to [Advantages of API as Sub-Module](#Advantage-of-API-as-Sub-Module.-1).
 - Add `Training` to the import statement of AppliSales in API.jl and instantiate AppliSales.
 
 ```
@@ -148,22 +150,7 @@ using AppliSales
 - Run the test again.
 
 ```
-pkg> test AppliAR
+pkg> activate .
+
+(AppliAR) pkg> test AppliAR
 ```
-
-## To Redefine
-
-- When everything is working well merge your changes into the master branch.
-
-```
-$ git git checkout master
-
-$ git merge dev
-
-$ git branch -d dev # remove the dev branch
-```
-
-- run the tests again.
-
-!!! info
-    When you cooperate with others on a project you can create a [Pull Request (PR)](https://hackernoon.com/how-to-git-pr-from-the-command-line-a5b204a57ab1) with your motivation to merge your changes.

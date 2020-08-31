@@ -1,4 +1,4 @@
-# 8. The Domain Sub-module
+# 8. The Sub-module Domain
 
 UNDER DEVELOPMENT!
 
@@ -174,33 +174,51 @@ We have to add `InvoiceItem`.
 
 ```
 struct InvoiceItem <: BodyItem
-    _prod_code::String
-    _qty::Float64
-    _descr::Array{String, 1}
-    _unit_price::Float64
-    _vat_perc::Float64
-		# constructors
-	  InvoiceItem(code, qty, descr, unit_price) = new(code, qty, descr, unit_price, 0.21)
-	  InvoiceItem(code, qty, descr, unit_price, vat_perc) = new(code, qty, descr, unit_price, vat_perc)
+	_prod_code::String
+ 	_qty::Float64
+ 	_descr::Array{String, 1}
+ 	_unit_price::Float64
+ 	_vat_perc::Float64
+ 	# constructors
+	InvoiceItem(code, qty, descr, unit_price) = new(code, qty, descr, unit_price, 0.21)
+	InvoiceItem(code, qty, descr, unit_price, vat_perc) = new(code, qty, descr, unit_price, vat_perc)
 end
 
 code(b::InvoiceItem) = b._prod_code
-descr(b::Array{InvoiceItem, 1}) = b._descr
+descr(b::InvoiceItem) = b._descr
 unit_price(b::InvoiceItem) = b._unit_price
 qty(b::InvoiceItem) = b._qty
 vat_perc(b::InvoiceItem) = b._vat_perc
 
 # Example of creating an InvoiceItem
 
-order = AppliSales.Order("8381386117430892602", AppliSales.Organization("1173987178361159366", "Duck City Chronicals", "1185 Seven Seas Dr", "FL 32830", "Lake Buena Vista", "USA"), AppliSales.Training("LS", Dates.DateTime("2019-08-30T00:00:00"), 2, "Learn Smiling", 1000.0), "DD-001", "Mickey Mouse", "mickey@duckcity.com", ["Mini Mouse", "Goofy"])
+julia> using Pkg; Pkg.activate(".")
 
-students = "Attendees: " * reduce((x, y) -> x * ", " * y, order.students)
-description  = [order.training.name, "Date: " * string(Date(order.training.date)), students]
+julia> using AppliSales
 
-body_invoice = InvoiceItem(
-		order.training.name, # code
-		length(order.students), # quantity
-		description, # descr
-		order.training.price, # unit_price
-	)
+julia> using Dates
+
+julia> import AppliAR: Domain
+
+julia> using .Domain
+
+julia> order = AppliSales.process()[2]
+AppliSales.Order("11183030955785246264", AppliSales.Organization("12468650793473591401", "Duck City Chronicals", "1185 Seven Seas Dr", "FL 32830", "Lake Buena Vista", "USA"), AppliSales.Training("LS", DateTime("2019-08-30T00:00:00"), 2, "Learn Smiling", 1000.0), "DD-001", "Mickey Mouse", "mickey@duckcity.com", ["Mini Mouse", "Goofy"])
+
+julia> students = "Attendees: " * reduce((x, y) -> x * ", " * y, order.students)
+"Attendees: Mini Mouse, Goofy"
+
+julia> description  = [order.training.name, "Date: " * string(Date(order.training.date)), students]
+3-element Array{String,1}:
+ "Learn Smiling"
+ "Date: 2019-08-30"
+ "Attendees: Mini Mouse, Goofy"
+
+julia> body_invoice = InvoiceItem(
+               order.training.name, # code
+               length(order.students), # quantity
+               description, # descr
+               order.training.price, # unit_price
+       )
+InvoiceItem("Learn Smiling", 2.0, ["Learn Smiling", "Date: 2019-08-30", "Attendees: Mini Mouse, Goofy"], 1000.0, 0.21)
 ```

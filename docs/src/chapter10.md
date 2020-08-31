@@ -1,4 +1,4 @@
-# 10. The Infrastructure Sub-module
+# 10. The Sub-module Infrastructure
 
 UNDER DEVELOPMENT!
 
@@ -56,9 +56,9 @@ export process, read_bank_statements, retrieve_unpaid_invoices, retrieve_paid_in
 \#8 Functions that are directly accessible to others.
 
 
-## process
+## Method process
 
-In [The Procedure as an Activity Diagram](../chapter7/index.html#The-Procedure-as-an-Activity-Diagram-1) of chapter 7 we sketched the workflows. Here you can see the effect of the workflow when an order is received.
+In [The Procedure as an Activity Diagram](../chapter7/index.html#The-Procedure-as-an-Activity-Diagram-1) of chapter 7 we sketched the workflows. Here you can see the implementation of the workflow when an order is received.
 
 ```
 process(orders::Array{Order, 1}; path=FILE_UNPAID_INVOICES) = begin
@@ -88,24 +88,84 @@ end # process orders
 
 The function has a named argument `path` that is used to store the created invoices. The default file name is `test_invoicing.txt` and is used for testing purposes. For production purposes you have to specify a different name to prevent the file from being erased when you run the tests.
 
-## Case Study Part Three - Prepare Infrastructure for InvoiceItem and OpenTrainingItem
+## Case Study Part Three - Replace OpentrainingItem by InvoiceItem
 
+To keep it 'relatively simple' we replace `OpentrainingItem` by `InvoiceItem`.
 
+## Exercide 10.1 - Changes for using InvoiceItem
 
+The steps to be taken.
+1. In the sub-module Domain, we remove `OpenTrainingItem` and the field methods (name_training, 
+date, price_per_student, students, vat_perc).
+2. In the API sub-module we remove `create(order::Order, invoice_id::String)::UnpaidInvoice `.
+3. In the sub-module API, we change the code of two `conv2entry` methods.
+4. In the sub-module Infrastructure, we make all methods suitable for `InvoiceItem`.
+5. Test the changes.
+6. Change the test code in `runtests.jl`.
 
-## To Redefine
+#### Step 1 - Remove `OpenTrainingItem`
+- Go to the sub-module Domain and put `#=` and `=#` around `OpentrainingItem`.
+- Put a `#` before the methods (name_training, date, price_per_student, students, vat_perc) to retrieve the Opentraining fields.
+- Put a `#` before the the line that starts with `export OpentrainingItem`.
 
-- When everything is working well merge your changes into the master branch.
+#### Step 2 - Remove `create(order::Order, invoice_id::String)`
+- Put `#=` and `=#` around the method `create(order::Order, invoice_id::String)::UnpaidInvoice`.
+
+#### Step 3 - Change the code of `conv2entry`
+
+- Replace in both methods `conv2entry` the line `debit = price_per_student(b) * length(students(b))` by
 
 ```
-$ git git checkout master
-
-$ git merge dev
-
-$ git branch -d dev # remove the dev branch
+debit = unit_price(b) * qty(b)
 ```
 
-- run the tests again.
+- Replace in both methods `conv2entry` the line `descr = name_training(b))` by:
 
-!!! info
-    When you cooperate with others on a project you can create a [Pull Request (PR)](https://hackernoon.com/how-to-git-pr-from-the-command-line-a5b204a57ab1) with your motivation to merge your changes.
+```
+descr = code(b)
+```
+
+#### Step 4 - Make all methods suitable for `InvoiceItem`
+
+- In sub-module Infrastructure, change the code of the first method process where the invoices are created by
+
+```
+# create invoices
+invoices = [(create(getfield(order, fieldnames(typeof(order))[3]), order, "A" * string(invnbr += 1))) for order in orders]
+```
+
+#### Step 5 - Test the changes.
+- Create a file `test.jl` with the next code and test it line by line.
+
+```
+using Pkg; Pkg.activate(".")
+
+using AppliAR
+using AppliSales
+
+import AppliAR: Domain, API
+using .Domain, .API
+
+orders = AppliSales.process()
+
+invnbr = 1000
+
+invoices = [(create(getfield(order, fieldnames(typeof(order))[3]), order, "A" * string(global invnbr += 1))) for order in orders]
+
+b = body(invoices[2])
+
+descr(b)
+
+AppliAR.process(orders)
+
+unpaid_invoices = retrieve_unpaid_invoices()
+
+stms =  read_bank_statements("./bank.csv")
+
+AppliAR.process(unpaid_invoices, stms)
+
+```
+
+#### Step 6 - Change the test code in runtests.jl
+
+Change the testcode in `runtests.jl`.
