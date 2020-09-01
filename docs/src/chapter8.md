@@ -215,8 +215,8 @@ julia> description  = [order.training.name, "Date: " * string(Date(order.trainin
  "Attendees: Mini Mouse, Goofy"
 
 julia> body_invoice = InvoiceItem(
-               order.training.name, # code
-               length(order.students), # quantity
+               order.training.name, # prod_code
+               length(order.students), # qty
                description, # descr
                order.training.price, # unit_price
        )
