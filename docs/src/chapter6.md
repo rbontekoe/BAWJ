@@ -246,9 +246,8 @@ end
 In this exercise, you run a test in the folder `TestAccounts` again with the modified Accounts module.
 1. Return to the Accounts development environment and change the contents of `Accounts.jl` conform the section [runtest.jl](#runtest.jl-1).
 2. Go to the package manager and run `test Accounts`.
-3. Got to the folder `TestAccounts`, start Atom/Juno, and activate the `TestAccounts` environment. Run first `update Accounts` and next `test Accounts`. Run your test software.
-4. Update your GitHub repository.
-5. Go to the TestAccounts folder, start Atom/Juno and Julia and activate the next package manager commands:
+3. Push the changes to your GitHub repository.
+4. Go to the TestAccounts folder, start Atom/Juno and Julia and activate the next package manager commands:
 - activate .
 - status
 - update Accounts
@@ -280,3 +279,17 @@ Accounts.jl   |    1      1
     Testing Accounts tests passed
 
 ```
+
+You might decide to change the version number of the module, for example to 0.2.0. You change the version number in the file `Project.toml`.
+
+```
+name = "Accounts"
+uuid = "c01e8521-f333-4719-ae6f-8e8181cc4e4d"
+authors = ["Rob Bontekoe <rbontekoe@appligate.nl> and contributors"]
+version = "0.1.0"
+```
+
+The version number consists of three parts, where the notation `x.y.z` has the following [meaning](https://stackoverflow.com/questions/2864448/best-practice-software-versioning):
+- x = main version number, 0-~.
+- y = feature number, 1-~. Increase this number if the change contains new features with or without bug fixes.
+- z = hotfix number, 0-~. Increase this number if the change only contains bug fixes.
