@@ -1,12 +1,12 @@
 # 4. Create and Test API.jl
 
-In this chapter, you define the functions that one can use to write a software program.
+In this chapter, you define the functions that one can use to write a software program using our module `Accounts`.
 
-In this case, it is the function `create` that we use to create:
+In this case, it is the function `create` that one use to create:
 - an address.
 - a person.
 
-Julia's functions are dispatch-able. Julia looks for the right method based on the number of arguments and their data-type.
+Julia's functions are dispatch-able. Julia looks for the right method based on the number of arguments and their data-types.
 
 ### Contents
 
@@ -51,9 +51,11 @@ end
 ```
 \#1 The module name is `API`.
 
-\#2 The `API` sub-module uses only the elements that are defined in the sub-module Domain, Julia, and any loaded packages. `..Accounts` refers to the main-module of `API`. `import ..Accounts: Domain` give us a reference to the sub-module `Domain`, so we can use it in the next statement.
+\#2 The `API` sub-module uses only the functions and types that are defined in the sub-module Domain, Julia, and any loaded packages. `..Accounts` refers to the main-module of `API`. `import ..Accounts: Domain` give us a reference to the sub-module `Domain`, we can load in the next statement.
 
-\#3 The code instantiates the sub-module Domain (`using .Domain`). The dot tells Julia that Domain is a sub-module. Julia loads all exported elements of Domain (Person, Address, AddressType, EMAIL, and WORK) into the scope of the module because we specify `using`. If we would use `import` instead of `using`, we also have to mention the module name (e.g. Domain.EMAIL). Now, we can call them without mentioning the name of the sub-module.
+\#3 The code loads the sub-module Domain (`using .Domain`). The dot tells Julia that Domain is a sub-module. Julia loads all exported elements of Domain (Person, Address, AddressType, EMAIL, and WORK) into the scope of users code because we specify `using`. If we would use `import` instead of `using`, we also have to mention the module name (e.g. `Domain.EMAIL`).
+
+Now, we can call them without mentioning the name of the sub-module. Julia warns if conflicts arise. In that case you use the naming as in `import`.
 
 \#4 We export the `create` methods. It means that other modules and programs can use them directly unless it conflicts with similar names.
 
@@ -75,14 +77,17 @@ When users type a question mark followed by the function-name (`? create`) then 
 \#8 This line creates a Person with an empty Address array. Although the object Person is not mutable, we can still add elements to the array. For example `push!(donald.addresses, <Address object>`).
 
 ## Accounts.jl
+
+The main module `Accounts`.
+
 ```
 module Accounts
 
 #export EMAIL, WORK # Domain
 #export create # API
 
-include("Domain.jl"); using .Domain
-include("API.jl"); using .API
+include("Domain.jl"); using .Domain # load the module Domain
+include("API.jl"); using .API # load the module API
 
 end
 ```
@@ -90,14 +95,15 @@ end
 ## test_api.jl
 
 ```
-using Pkg; Pkg.activate(".")
+using Pkg; Pkg.activate(".") # make the current folder the working environment
 
-import Accounts: Domain, API
+import Accounts: Domain, API # import the modules Domain and API
 
-using .Domain, .API
+using .Domain, .API # load the modules Domain and API
 
-donald_email = create(EMAIL, "donald@duckcity.com")
-donald_work = create(WORK,
+donald_email = create(EMAIL, "donald@duckcity.com") # create an address object
+
+donald_work = create(WORK, # create another addresses object
   """
   Donalds Hardware Store
   attn. Donald Duck
@@ -107,18 +113,18 @@ donald_work = create(WORK,
   """
 )
 
-addresses = [donald_email, donald_work]
+addresses = [donald_email, donald_work] # create an array with addresses
 
-donald = create("Donald Duck", addresses)
+donald = create("Donald Duck", addresses) # create a person
 
-println(donald)
+println(donald) # print the data of the person to the console.
 ```
 
 ## runtests.jl
 
 ```
-using Accounts
-using Test
+using Accounts # load the module Accounts
+using Test # Test provides the macros @testset and @test
 
 import Accounts: Domain, API
 using .Domain, .API
@@ -126,17 +132,20 @@ using .Domain, .API
 @testset "Domain.jl" begin
     donald_email = Address(EMAIL, "donald@duckcity.com")
     donald = Person("Donald duck", [donald_email])
-    email_addresses = filter(x -> x.address_type == EMAIL, donald.addresses)
+    email_addresses = filter(x -> x.address_type == EMAIL, donald.addresses) #1
     @test email_addresses[1].address == "donald@duckcity.com"
 end
 
 @testset "API.jl" begin
     donald_email = Address(EMAIL, "donald@duckcity.com")
     donald = Person("Donald Duck", [donald_email])
-    email_addresses = filter(x -> x.address_type == EMAIL, donald.addresses)
+    email_addresses = filter(x -> x.address_type == EMAIL, donald.addresses) #1
     @test email_addresses[1].address == "donald@duckcity.com"
 end
 ```
+\#1 The function `filter` operates on a collection (`Array`) of `Address`'s and returns an new filtered collection. The first argument `x -> x.address_type == EMAIL` represents an anonymous function. `x` is a consecutive value from the `Array`. If the test `x.address_type == EMAIL` yields a `true` the function adds the `Address` to the new collection.
+
+Similar high order functions are `map`, `reduce`, and `zip`.
 
 ## Exercise 4.1 - Adding the Sub-module API.
 

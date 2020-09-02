@@ -1,8 +1,8 @@
 # 6. Accounts Package from a User Point of View
 
-When you use `using <module name>` in your code the it makes the exported elements immediately accessible in the current scope. You can display the elements by typing `Account.` followed by pressing twice on the Tab-button.
+With `using <module name>` in your code, you make the exported functions and types immediately accessible in the current scope. You can display the elements by typing `Account.` followed by pressing twice on the Tab-button.
 
-In this chapter you will define which elements will be exported.
+In this chapter, you define the functions and types that will be exported.
 
 ### Contents
 
@@ -12,12 +12,14 @@ Pages = ["chapter6.md"]
 
 ## Accounts.jl
 
+The modified main module with the exports enabled. The user can use the functions and types when he loads the `Accounts module`.
+
 ```
 module Accounts
 
-export EMAIL, WORK # Domain #1
-export create # API #2
-export add_to_file, read_from_file # Infrastructure #3
+export EMAIL, WORK # from Domain #1
+export create # from API #2
+export add_to_file, read_from_file # from Infrastructure #3
 
 include("Domain.jl"); using .Domain
 include("API.jl"); using .API
@@ -33,7 +35,7 @@ end
 
 ## Activity 6.1 - Export Elements
 
-In this activity you define which functions, enumerated values, and DataType are immediately available when a software programmer uses our module `Accounts`.
+In this activity you define which functions, and types are exported when a software programmer uses our module `Accounts`.
 
 #### Prerequisites
 - Ubuntu 20.04.
@@ -52,10 +54,10 @@ Step | Action | Comment |
 | 6 | Ctrl-D | Close Julia. |
 | 7 | Press: <Enter> | Start Julia REPL. |
 | 8 | julia> ] | Start the package manager. |
-| 9 | pkg> activate . | Open Accounts environment. |
-| 10 | Press: <BackSpace> |  |
-| 11 | julia> using Accounts | Lead Accounts module. |
-| 12 | julia> Accounts. <Tab><Tab> | Display exported elements. |
+| 9 | pkg> activate . | Open the Accounts environment. |
+| 10 | Press: <BackSpace> | Return to the REPL. |
+| 11 | julia> using Accounts | Load the Accounts module. |
+| 12 | julia> Accounts. <Tab><Tab> | Display the exported elements. Don't forget the dot (.) after Accounts.|
 
 ```
 julia> Accounts.
@@ -70,17 +72,25 @@ Step | Action | Comment |
 | 15 | Type: Define export elements Account.jl |  |
 | 16 | Click on: `Stage All` |  |
 | 17 | Click on: `Commit to master` |  |
-| 18 | Click on: `Push` |  |
+| 18 | Click on: `Push` | The Push button is located in the lower right corner. |
 | 19 | Verify on GitHub whether you see the exports in Accounts.jl |  |
 
 ## test_accounts.jl
 
+We use the package DataFrames in the example code. With DataFrames you can manipulate tabular data. See [DataFrames](https://en.wikibooks.org/wiki/Introducing_Julia/DataFrames) for more information.
+
+The code first starts with loading DataFrames in a try-catch block. When the statement `using DataFrames` throws an error then it starts the package manager and loads the package.
+
+The high order functions `map` and `filter` are used. [High order functions](https://sodocumentation.net/julia-lang/topic/6955/higher-order-functions) use functions as arguments and operates on collections. The functions are mostly anonymous is the form of `x -> <expression using x>` where `x` is a consecutive element of the collection.
+
 ```
 using Pkg; Pkg.activate(".")
 
+The code first start with loading DataFrames in a try-catch block. When `using DataFrames`
+
 using Accounts
 
-@info("With DataFrames you can manpulate data")
+@info("With DataFrames you can manipulate data")
 try
   using DataFrames
 catch e
@@ -121,7 +131,7 @@ df = read_from_file(FILE_ACCOUNTS) |> DataFrame
 @info("Show some data")
 println(df.name)
 
-@info("Print all rows")
+@info("Print all rows and two columns")
 println(df[:, [:created, :name]])
 
 @info "Add a column email"
@@ -130,7 +140,7 @@ println(df[:, [:created, :name, :email]])
 
 @info("Remove the file $FILE_ACCOUNTS")
 try
-  rm("$FILE_ACCOUNTS") # remove file
+  rm("$FILE_ACCOUNTS") # remove the file
   @warn("File $FILE_ACCOUNTS removed from disk")
 catch e
   @warn(e.msg)
@@ -211,6 +221,8 @@ environment at `~/.julia/dev/Accounts/Project.toml`
 
 ## runtest.jl
 
+Modiefied `runtests.jl` file.
+
 ```
 using Accounts
 using Test
@@ -236,7 +248,11 @@ In this exercise you run a test in the folder `TestAccounts` again with the modi
 2. Go to the package manager and run `test Accounts`.
 3. Got to the folder `TestAccounts`, start Atom/Juno and activate the `TestAccounts` environment. Run first `update Accounts` and next `test Accounts`. Run your test software.
 4. Update your GitHub repostitory.
-5. Go to the TestAccounts folder, start Atom/Juno and Julia and activate the next package manager commands, activate . , status, update Accounts, test Accounts:
+5. Go to the TestAccounts folder, start Atom/Juno and Julia and activate the next package manager commands:
+- activate .
+- status
+- update Accounts
+- test Accounts
 
 ```
 (@v1.5) pkg> activate .

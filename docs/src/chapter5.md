@@ -51,22 +51,24 @@ end
 
 ```
 
-\#1 The module name is Infrastructure.
+\#1 The name of the module is Infrastructure.
 
-\#2 The sub-module uses only the elements that are defined in the higher layers, Domain, API, Julia, and any loaded packages.
+\#2 The sub-module uses only the elements from the higher `onion` peels, Domain, API, Julia, and any loaded packages.
 
-\#3 The code instantiates the sub-modules Domain and API.
+\#3 The code loads the sub-modules Domain and API.
 
-\#4 Data stored on disk has to be serialized.
+\#4 You have to serialize data you want to store on disk.
 
 \#5 We export the methods `read_from_file` and `add_to_file`.
 
-\#6 `read_from_file`.
+\#6 Read the data from a text file and deserialize it.
 
-\#7 `add_to_file`.
+\#7 Serialize the data and write it to a text file.
 
 
 ## Accounts.jl
+
+In the main module should also load the sub-module Infrastructure.
 
 ```
 module Accounts
@@ -83,14 +85,17 @@ end
 ```
 
 ## test_infr.jl
+
+An example of how to use the code.
+
 ```
-using Pkg; Pkg.activate(".")
+using Pkg; Pkg.activate(".") # activate the Accounts environment from Julia
 
 import Accounts: Domain, API, Infrastructure
 
 using .Domain, .API, .Infrastructure
 
-const FILE_ACCOUNTS = "./test_accounts.txt"
+const FILE_ACCOUNTS = "./test_accounts.txt" # Julia gives a warning when the value is changed
 
 donald_email = create(EMAIL, "donald@duckcity.com")
 donald_work = create(WORK,
@@ -115,6 +120,9 @@ println(result)
 ```
 
 ## runtests.jl
+
+The tests are extended for the sub-module Infrastructure
+
 ```
 using Accounts
 using Test
@@ -151,7 +159,7 @@ end
 
 ```
 
-## Exercise 5.1 - Adding the Sub-module Infrastructure.
+## Exercise 5.1 - Adding the Sub-Module Infrastructure.
 
 - Create the file `Infrastructure.jl` and add the code of section [Infrastructure.jl](#Infrastructure.jl-1) to the file.
 - Add the code from section [runtests.jl](#runtests.jl-1) to the file runtests.jl.
@@ -170,6 +178,6 @@ Infrastructure.jl |    1      1
     Testing Accounts tests passed
 ```
 
-- Create the file `test_infr.jl` and copy the code from section `test_infr.jl` into it.
+- Create the file `test_infr.jl` and copy the code from section [test_infr.jl](l#test_infr.jl-1) into it.
 - Test the code.
 - Push the changes to your GitHub repository. Check the changes on GitHub.

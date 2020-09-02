@@ -10,6 +10,31 @@ The module AppliAR follows the same structure as we have discussed in the Accoun
 Pages = ["chapter8.md"]
 ```
 
+## PkgTemplate
+
+How I created the module `AppliAR`.
+
+```
+julia> using PkgTemplates # Load the PkgTemplates package
+
+julia> t = Template(; # The configuration used to generate the package
+              user="rbontekoe",
+              license="MIT",
+              authors=["Rob Bontekoe"],
+              julia_version=v"1.3",
+              ssh=true,
+              plugins=[
+                  TravisCI(),       # Continious Integration
+                  Codecov(),        # Improve your code review
+                  Coveralls(),      # Which parts aren’t covered by your test suite
+                  AppVeyor(),       # CI/CD service
+                  GitHubPages(),    # Documentation
+              ],
+       )
+
+julia> generate(t, "AppliAR") # Create the local package in ~/.julia/dev
+```
+
 ## The Application Folder Structure
 
 ```
@@ -35,13 +60,12 @@ Pages = ["chapter8.md"]
        📄 Infrastructure.jl
        📄 db.jl
        📄 doc.jl #3
-     📄 AppliAR.jl
-     📄 Report.jl
+     📄 AppliAR.jl #4
   ᵥ📁 test
-     📄 runtests.jl #4
+     📄 runtests.jl #5
    📄 bank.csv	 
    📄 LICENCE
-   📄 Project.toml  #5
+   📄 Project.toml  #6
    📄 README.md
 ```
 
@@ -51,9 +75,11 @@ Pages = ["chapter8.md"]
 
 \#3 Julia help documentation.
 
-\#4 Unit test file.
+\#4 Contains the AppliAR module code.
 
-\#5 Contains the dependencies. Julia adds dependencies automatically to the `Project.toml` file when you activate the local environment (`pkg> activate .`) and add a package (module). See Manifest.toml](https://julialang.github.io/Pkg.jl/v1/toml-files/):
+\#5 Unit test file.
+
+\#6 Contains the dependencies. Julia adds dependencies automatically to the `Project.toml` file when you activate the local environment (`pkg> activate .`) and add a package (module). See Manifest.toml](https://julialang.github.io/Pkg.jl/v1/toml-files/):
 "The manifest file is an absolute record of the state of the packages in the environment. It includes exact information about (direct and indirect) dependencies of the project, and given a Project.toml + Manifest.toml pair it is possible to instantiate the exact same package environment, which is very useful for reproducibility."
 
 ## The Model

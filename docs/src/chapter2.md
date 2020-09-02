@@ -49,7 +49,7 @@ In this activity, you will create a development environment.
 | 6 | Close Atom |  |
 | 7 | $ julia | Start Julia. |
 | 8 | julia> ] | Go to the package manager. |
-| 9 | pkg> add PkgTemplates | Install the PkgTemplates package. |
+| 9 | pkg> add PkgTemplates | Add the PkgTemplates package. |
 | 10 | pkg> BackSpace | Back to Julia REPL. |
 | 11 | julia> Ctrl-D | Exit Julia |
 
@@ -75,7 +75,7 @@ In this activity you will create the basic application file structure for the mo
 | :--- | :--- | :--- |
 | 1 | $ julia | Start Julia. |
 | 2 | julia> using PkgTemplates | Load PkgTemplates. |
-| 3 | julia> t = Template() | Create a default template. |
+| 3 | julia> t = Template() | Construct a default template. |
 
 ```Template:
   authors: ["Rob Bontekoe <rbontekoe@appligate.nl> and contributors"]
@@ -129,7 +129,7 @@ In this activity you will create the basic application file structure for the mo
 ```
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 4 | julia> t("Accounts") | Create the application environment Accounts. |
+| 4 | julia> t("Accounts") | Create the package environment `Accounts`. |
 ```
 [ Info: Running prehooks
 [ Info: Running hooks
@@ -145,7 +145,7 @@ No Changes to `~/.julia/dev/Accounts/Manifest.toml`
 | Step | Action | Comment |
 | :--- | :--- | :--- |
 | 5 | julia> Ctrl-D | Exit Julia. |
-| 6 | $ cd ~/.julia/dev/Accounts/ | Go to development folder. |
+| 6 | $ cd ~/.julia/dev/Accounts/ | Go to `Accounts` folder. |
 | 7 | $ atom .| Start Atom/Juno. |
 
 You will see the following file structure.
@@ -196,8 +196,8 @@ In this activity, you create a repository on GitHub. You can push changes in the
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 5 | Click on the **green** button `Create repository` | Button is located at the bottom side. |
-| 6 | Return to your computer and go to the folder `~/.julia/dev/Accounts` |  |
+| 5 | Click on the **green** button `Create repository` | The button is located at the bottom side. |
+| 6 | Go to the folder `~/.julia/dev/Accounts` |  |
 | 7 | $ git status | The response is: |
 
 ```
@@ -209,4 +209,6 @@ nothing to commit, working tree clean
 | :--- | :--- | :--- |
 | 8 | $ atom .| Start Atom/Juno. |
 | 9 | Click on the `Publish` button | You will find the button in the lower right corner. |
-| 10 | Check the update on GitHub | You should see the same file structure. Manifest.toml is missing. |
+| 10 | Check the update on GitHub | You should see the same file structure. Manifest.toml is missing¹. |
+
+¹ "The Manifest. toml is like a screenshot of your current environment that has all the information needed to replicate this environment elsewhere, e.g. the URL of unregistered packages, branch, commit, etc," see [What’s the use a Project.toml file and the use of a Manifest.toml in a Julia project?](https://discourse.julialang.org/t/whats-the-use-a-project-toml-file-and-the-the-use-of-a-manifest-toml-in-a-julia-project/22524). The file is mentioned in the file `.gitignore` and will not be pushed to GitHub. When you provide this file to another person then one can create the same environment as you have after activating the folder (`pkg> activate .`) representing the git clone of your package (`$ git clone https://github.com/rbontekoe/Accounts.jl.git`).

@@ -16,10 +16,10 @@ makedocs(
         ],
         "Section 2 -  The Accounts Receivable Module" => [
             "7 - The Design" => "chapter7.md",
-            "8 - The Sub-module Domain" => "chapter8.md",
-            "9 - The Sub-module API" => "chapter9.md",
-            "10 - The Sub-module Infrastructure" => "chapter10.md",
-            "11 - The Main-module AppliAR.jl" => "chapter11.md",
+            "8 - The Sub-Module Domain" => "chapter8.md",
+            "9 - The Sub-Module API" => "chapter9.md",
+            "10 - The Sub-Module Infrastructure" => "chapter10.md",
+            "11 - The Main-Module AppliAR.jl" => "chapter11.md",
         ],
         "Section 3 - Using containers" => [
             "12 - Creating SSH Enabled Containers" => "chapter12.md",
