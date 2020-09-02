@@ -29,9 +29,9 @@ end
 ```
 \#1 EMAIL and WORK are values we need in the create-function.
 
-\#2 The user needs create to create addresses and persons
+\#2 The user needs to create addresses and persons
 
-\#3 The function to store and retrieve persons.
+\#3 The function is used to store and retrieve persons.
 
 ## Activity 6.1 - Export Elements
 
@@ -46,7 +46,7 @@ In this activity you define which functions, and types are exported when a softw
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | $ cd ~/.julia/dev/Accounts | Go to the Acoounts project folder. |
+| 1 | $ cd ~/.julia/dev/Accounts | Go to the Accounts project folder. |
 | 2 | $ atom . | Start Atom/Juno. |
 | 3 | Open the file Accounts.jl |  |
 | 4 | Remove the hashtags | According to section [Accounts.jl](#Accounts.jl-1) |
@@ -72,7 +72,7 @@ Step | Action | Comment |
 | 15 | Type: Define export elements Account.jl |  |
 | 16 | Click on: `Stage All` |  |
 | 17 | Click on: `Commit to master` |  |
-| 18 | Click on: `Push` | The Push button is located in the lower right corner. |
+| 18 | Click on: `Push` | The Push-button is located in the lower right corner. |
 | 19 | Verify on GitHub whether you see the exports in Accounts.jl |  |
 
 ## test_accounts.jl
@@ -160,13 +160,13 @@ Step | Action | Comment |
 | :--- | :--- | :--- |
 | 1 | $ cd projects | Create the folder `projects` when it doesn't exist. |
 | 2 | $ mkdir TestAccounts |  |
-| 3 | # cd TestAccounts |  |
-| 4 | atom . |  |
-| 5 | Juno > Open REPL |  |
-| 6 | Press: Enter-button |  |
-| 7 | julia> ] |  |
-| 8 | pkg> activate . |  |
-| 9 | (TestAccounts) pkg> add https://github.com/<your account name>/Accounts.jl | Download the package. Use `rbontekoe` in case you doesn't have a GitHub repository of Accounts yourself. |
+| 3 | $ cd TestAccounts |  |
+| 4 | $ atom . | Start Atom/Juno. |
+| 5 | Juno > Open REPL | Go to menu and open Julia REPL. |
+| 6 | Press: <Enter> | Start Julia. |
+| 7 | julia> ] | Open package manager. |
+| 8 | pkg> activate . | Activate local environment. |
+| 9 | (TestAccounts) pkg> add https://github.com/<your account name>/Accounts.jl | Load the package. Use `rbontekoe` as an account name in case you don't have a GitHub repository of Accounts yourself. |
 | 10 | TestAccounts) pkg>test Accounts | Run the tests. |
 
 ```
@@ -181,7 +181,7 @@ Infrastructure.jl |    1      1
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
-| 11 | Press: BackSpace-button | Return to Julia. |
+| 11 | Press: <BackSpace> | Press the BackSpace button to return to Julia. |
 | 12 | File > New File | Create a new file, e.g. test_accounts.jl. |
 | 13 | Press: <Enter> | Create the file. |
 | 14 | Ctrl-S | Save the file. |
@@ -221,7 +221,7 @@ environment at `~/.julia/dev/Accounts/Project.toml`
 
 ## runtest.jl
 
-Modiefied `runtests.jl` file.
+The modified `runtests.jl` file.
 
 ```
 using Accounts
@@ -243,11 +243,11 @@ end
 
 ## Exercise 6.1 - Redefine runtests.jl
 
-In this exercise you run a test in the folder `TestAccounts` again with the modified Accounts module.
+In this exercise, you run a test in the folder `TestAccounts` again with the modified Accounts module.
 1. Return to the Accounts development environment and change the contents of `Accounts.jl` conform the section [runtest.jl](#runtest.jl-1).
 2. Go to the package manager and run `test Accounts`.
-3. Got to the folder `TestAccounts`, start Atom/Juno and activate the `TestAccounts` environment. Run first `update Accounts` and next `test Accounts`. Run your test software.
-4. Update your GitHub repostitory.
+3. Got to the folder `TestAccounts`, start Atom/Juno, and activate the `TestAccounts` environment. Run first `update Accounts` and next `test Accounts`. Run your test software.
+4. Update your GitHub repository.
 5. Go to the TestAccounts folder, start Atom/Juno and Julia and activate the next package manager commands:
 - activate .
 - status
