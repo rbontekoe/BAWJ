@@ -1,13 +1,12 @@
-# 10. The Sub-module Infrastructure
+# 10. The Sub-module API
 
 UNDER DEVELOPMENT!
 
-The Infrastructure consists of elements and functions that use the domain and API elements as outlined in chapter 7 [Methods of the Infrastructure Layer](../chapter7/index.html#Methods-of-the-Infrastructure-Layer-1).
+The API consists of functions that operate on the domain elements, for example:
 
-- Process an order to create unpaid invoices.
-- Process bank statements to create paid invoices.
-- Produce journal entries for the general ledger.
-- Retrieve unpaid and paid invoices.
+- Create an invoice from an order.
+- Create a paid invoice from an unpaid invoice.
+- Create a journal entry for the general ledger.
 
 ### Contents
 
@@ -15,157 +14,143 @@ The Infrastructure consists of elements and functions that use the domain and AP
 Pages = ["chapter10.md"]
 ```
 
-## Infrastructure.jl
+## API.jl
 
-A partial overview of the Infrastructure module. See [AppliAR.jl/src/infrastructure/Infrastructure.jl](https://github.com/rbontekoe/AppliAR.jl/blob/master/src/infrastructure/Infrastructure.jl) for a complete list.
+A code fragment the API sub-module to creating an unpaid invoice from an order. See [AppliAR.jl/src/api/API.jl](https://github.com/rbontekoe/AppliAR.jl/blob/master/src/api/API.jl) for the complete code of the API layer.
 
 ```
-module Infrastructure
+include("./spec.jl")
 
-include("./db.jl") #1
-include("./doc.jl") #2
+import ..AppliAR: Domain
+using .Domain #1
 
-using ..AppliAR #3
-
-using CSV #4
-
-import ..AppliAR: Domain, API #5
-using .Domain
-using .API
-
-import AppliSales: Order #6
-import AppliGeneralLedger: JournalEntry #7
 using Dates
 
-export process, read_bank_statements, retrieve_unpaid_invoices, retrieve_paid_invoices #8
+import AppliSales: Order # Order is not exported but is refered to in the next function #2
+import AppliGeneralLedger: create_journal_entry #3
+
+export create, conv2entry
+
+
+create(order::Order, invoice_id::String)::UnpaidInvoice = begin #4
+    meta = MetaInvoice(order.id, order.training.id)
+    header_invoice = Header(
+		    invoice_id, order.org.name, order.org.address, order.org.zip, order.org.city, order.org.country, order.order_ref, order.contact_name, order.contact_email)
+    body_invoice = OpentrainingItem(order.training.name, order.training.date, order.training.price, order.students)
+	return UnpaidInvoice(invoice_id, meta, header_invoice, body_invoice)
+end
 ```
-\#1 File with database functions. For now we serialize the objects and save them in a text file.
+\#1 The API layer can only use elements from the inner Domain layer.
 
-\#2 The Infrastructure Julia documentation.
+\#2 Order is defined in the package AppliSales.
 
-\#3 Instantiates of the main module
+\#3 We `borrow` the function from the AppliGeneralLedger package. The API function `conv2entry` uses it to create JournalEntry's for the package. Our module depends on AppliSales and AppliGeneralLedger and must be defined in Project.toml.
 
-\#4 We use this package ti read CSV-files.
+\#4 The function that returns an `UnpaidInvoice`.
 
-\#5 Instantiates of the sub-modules `API` and `Domain`. The sub-module `Infrastructure` has access to the exported API and Domain elements.
+## Case Study Part Two - Redefining BodyItem as a Concrete Datatype
 
-\#6 Reference to Order.
-
-\#7 Reference to `JournalEntry`.
-
-\#8 Functions that are directly accessible to others.
-
-
-## Method process
-
-In [The Procedure as an Activity Diagram](../chapter7/index.html#The-Procedure-as-an-Activity-Diagram-1) of chapter 7 we sketched the workflows. Here you can see the implementation of the workflow when an order is received.
-
-```
-process(orders::Array{Order, 1}; path=FILE_UNPAID_INVOICES) = begin
-    # get last invoice number
-    try
-        read_from_file(FILE_INVOICE_NBR)
-    catch e
-        add_to_file(FILE_INVOICE_NBR, [START_INVOICE_NBR])
-    end
-
-    invnbr = last(read_from_file(FILE_INVOICE_NBR))
-
-    # create invoices
-    invoices = [create(order, "A" * string(invnbr += 1)) for order in orders]
-
-    # save invoice number
-    add_to_file(FILE_INVOICE_NBR, [invnbr])
-
-    # archive invoices
-    add_to_file(path, invoices)
-
-    # create journal entries from invoices
-    return entries = [conv2entry(inv, AR, SALES) for inv in invoices]
-
-end # process orders
-```
-
-The function has a named argument `path` that is used to store the created invoices. The default file name is `test_invoicing.txt` and is used for testing purposes. For production purposes you have to specify a different name to prevent the file from being erased when you run the tests.
-
-## Case Study Part Three - Replace OpentrainingItem by InvoiceItem
-
-To keep it 'relatively simple' we replace `OpentrainingItem` by `InvoiceItem`.
-
-## Exercide 10.1 - Changes for using InvoiceItem
-
-The steps to be taken.
-1. In the sub-module Domain, we remove `OpenTrainingItem` and the field methods (name_training, 
-date, price_per_student, students, vat_perc).
-2. In the API sub-module we remove `create(order::Order, invoice_id::String)::UnpaidInvoice `.
-3. In the sub-module API, we change the code of two `conv2entry` methods.
-4. In the sub-module Infrastructure, we make all methods suitable for `InvoiceItem`.
-5. Test the changes.
-6. Change the test code in `runtests.jl`.
-
-#### Step 1 - Remove `OpenTrainingItem`
-- Go to the sub-module Domain and put `#=` and `=#` around `OpentrainingItem`.
-- Put a `#` before the methods (name_training, date, price_per_student, students, vat_perc) to retrieve the Opentraining fields.
-- Put a `#` before the the line that starts with `export OpentrainingItem`.
-
-#### Step 2 - Remove `create(order::Order, invoice_id::String)`
-- Put `#=` and `=#` around the method `create(order::Order, invoice_id::String)::UnpaidInvoice`.
-
-#### Step 3 - Change the code of `conv2entry`
-
-- Replace in both methods `conv2entry` the line `debit = price_per_student(b) * length(students(b))` by
+In [Case Study Part One](../chapter8/index.html#.1-Case-Study-Part-One-Redefining-BodyItem-as-a-Concrete-Datatype-1) we decided to keep `OpentrainingItem` and create another data type `InvoiceItem`.
 
 ```
-debit = unit_price(b) * qty(b)
+struct InvoiceItem <: BodyItem
+    _prod_code::String
+    _qty::Float64
+    _descr::Array{String, 1}
+    _unit_price::Float64
+    _vat_perc::Float64
+		# constructors
+	  InvoiceItem(code, qty, descr, unit_price) = new(code, qty, descr, unit_price, 0.21)
+	  InvoiceItem(code, qty, descr, unit_price, vat_perc) = new(code, qty, descr, unit_price, vat_perc)
+end
 ```
 
-- Replace in both methods `conv2entry` the line `descr = name_training(b))` by:
+## Advantage of API as Sub-Module.
+
+The statement `export create, conv2entry` works for me as an interface.
+
+The Infrastructure layer uses these methods.  Of course, I must maintain the current signatures. But I can change the code with no penalties.
+
+And, I can create new methods with the same names but with a different signature, when I have to add other types of invoice items to the body. To differentiate between the different types, I use an extra type parameter.
+
+In the next example it is the type `AppliSales.Training` but I can follow the same strategy for `AppliSales.Incompany` and `AppliSales.Book` when they exist.
 
 ```
-descr = code(b)
+create(type::AppliSales.Training, order::Order, invoice_id::String)::UnpaidInvoice = begin
+	meta = MetaInvoice(order.id, order.training.id)
+  header_invoice = Header(
+		  invoice_id, order.org.name, order.org.address, order.org.zip, order.org.city, order.org.country, order.order_ref, order.contact_name, order.contact_email)
+
+	# compose the description for the invoice
+	students = "Attendees: " * reduce((x, y) -> x * ", " * y, order.students)
+	description  = [order.training.name, "Date: " * string(Date(order.training.date)), students]
+
+	body_invoice = InvoiceItem(
+		order.training.name, # code
+		length(order.students), # quantity
+		description, # descr
+		order.training.price # unit_price
+	)
+
+	return UnpaidInvoice(invoice_id, meta, header_invoice, body_invoice)
+end
 ```
 
-#### Step 4 - Make all methods suitable for `InvoiceItem`
-
-- In sub-module Infrastructure, change the code of the first method process where the invoices are created by
+And, I should not forget to export `InvoiceItem` in the Domain module.
 
 ```
-# create invoices
-invoices = [(create(getfield(order, fieldnames(typeof(order))[3]), order, "A" * string(invnbr += 1))) for order in orders]
+export OpentrainingItem, name_training, date, price_per_student, students, vat_perc
+export InvoiceItem, code, descr, unit_price, qty, vat_perc
 ```
 
-#### Step 5 - Test the changes.
-- Create a file `test.jl` with the next code and test it line by line.
+If one were already using my package, I cannot delete OpentrainingItem. Of course, this is not the case but in reality, you have to take it into account.
+
+## Exercise 9.1 - Change the code according to case study one and two
+
+- Go to a folder, for example `projects`.
+- Clone AppliAR.jl.
 
 ```
-using Pkg; Pkg.activate(".")
+$ git clone https://github.com/rbontekoe/AppliAR.jl.git
+```
 
-using AppliAR
+- Enter the folder AppliAR.jl and start Atom/Juno.
+- Start the Julia REPL.
+- Activate the local environment and run the test.
+
+```
+pkg> activate .
+
+pkg> test AppliAR
+```
+
+- Close Atom/Juno.
+- Start a development branch. Creating a branch in git give you the possibility to experiment.
+
+```
+$ git branch dev
+
+$ git checkout dev
+
+$ git status
+```
+
+- Start Atom/Juno.
+- Make the changes according to [Case Study Part One](../chapter8/index.html#.1-Case-Study-Part-One-Redefining-BodyItem-as-a-Concrete-Datatype-1). Export InvoiceItem and functions in `Domain.jl`.
+- Change the data types of the field 'body' in `UnpaidInvoice` and `PaidInvoice` to the abstract type `BodyItem`.
+- Add the new create-function to the API according to [Advantages of API as Sub-Module](#Advantage-of-API-as-Sub-Module.-1).
+- Add `Training` to the import statement of AppliSales in API.jl and instantiate AppliSales.
+
+```
+import AppliSales: Order, Training
+
 using AppliSales
-
-import AppliAR: Domain, API
-using .Domain, .API
-
-orders = AppliSales.process()
-
-invnbr = 1000
-
-invoices = [(create(getfield(order, fieldnames(typeof(order))[3]), order, "A" * string(global invnbr += 1))) for order in orders]
-
-b = body(invoices[2])
-
-descr(b)
-
-AppliAR.process(orders)
-
-unpaid_invoices = retrieve_unpaid_invoices()
-
-stms =  read_bank_statements("./bank.csv")
-
-AppliAR.process(unpaid_invoices, stms)
-
 ```
 
-#### Step 6 - Change the test code in runtests.jl
+- Run the test again.
 
-Change the testcode in `runtests.jl`.
+```
+pkg> activate .
+
+(AppliAR) pkg> test AppliAR
+```

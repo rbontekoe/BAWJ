@@ -68,9 +68,9 @@ end
 
 ## Accounts.jl
 
-In the main module should also load the sub-module Infrastructure.
+The main module should also load the Infrastructure sub-module.
 
-```
+```julia
 module Accounts
 
 #export EMAIL, WORK # Domain
@@ -88,7 +88,7 @@ end
 
 An example of how to use the code.
 
-```
+```julia
 using Pkg; Pkg.activate(".") # activate the Accounts environment from Julia
 
 import Accounts: Domain, API, Infrastructure
@@ -123,7 +123,7 @@ println(result)
 
 The tests are extended for the sub-module Infrastructure
 
-```
+```julia
 using Accounts
 using Test
 
@@ -161,14 +161,26 @@ end
 
 ## Exercise 5.1 - Adding the Sub-Module Infrastructure.
 
+In this exercise, you perform the following tasks.
+
+Step 1 - You create the file `Infrastructure.jl` with the Infrastructure sub-module code and update `Accounts.jl`. Add `Serialization` as a  dependency of the module in `Project.toml`.
+
+Step 2 - You append the unit test code to the file `runtests.jl` and verify it.
+
+Step 3 - You see an example of the code on how to use it as a programmer.
+
+Step 4 - You update your GitHub repository.
+
+---
+
 - Create the file `Infrastructure.jl` and add the code of section [Infrastructure.jl](#Infrastructure.jl-1) to the file.
-- Add the code from section [runtests.jl](#runtests.jl-1) to the file runtests.jl.
 - Modify  `Accounts.jl` according to section [Accounts.jl](#Accounts.jl-1).
+- Add the `Serialization` package as dependency to `Project.toml`.
+- Add the code from section [runtests.jl](#runtests.jl-1) to the file runtests.jl.
 - Go to the package manager, activate Accounts (`activate .`).
-- Add the `Serialization` package to the dependencies.
 - Run the test (`test Accounts`). You should see:
 
-```
+```julia
 Test Summary: | Pass  Total
 Domain.jl     |    1      1
 Test Summary: | Pass  Total

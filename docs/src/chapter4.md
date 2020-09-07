@@ -80,7 +80,7 @@ When users type a question mark followed by the function-name (`? create`) then 
 
 The main module `Accounts`.
 
-```
+```julia
 module Accounts
 
 #export EMAIL, WORK # Domain
@@ -94,12 +94,12 @@ end
 
 ## test_api.jl
 
-```
+```julia
 using Pkg; Pkg.activate(".") # make the current folder the working environment
 
-import Accounts: Domain, API # import the modules Domain and API
+import Accounts: Domain, API # import the sub-modules Domain and API
 
-using .Domain, .API # load the modules Domain and API
+using .Domain, .API # load the sub-modules Domain and API
 
 donald_email = create(EMAIL, "donald@duckcity.com") # create an address object
 
@@ -122,7 +122,7 @@ println(donald) # print the data of the person to the console.
 
 ## runtests.jl
 
-```
+```julia
 using Accounts # load the module Accounts
 using Test # Test provides the macros @testset and @test
 
@@ -160,7 +160,7 @@ In this exercise you create the sub-module API. You can apply everything you've 
 - Create the file `test_api.jl` and paste the code of section [test_api.jl](#test_api.jl-1) into it. Test the code.
 - Go to the package manager, activate the Accounts module (`]activate .`) and run the tests (`test Accounts`). You should see:
 
-```
+```julia
 Test Summary: | Pass  Total
 Domain.jl     |    1      1
 Test Summary: | Pass  Total
@@ -170,7 +170,7 @@ API.jl        |    1      1
 
 - Return to the julia-prompt and type: `? create`. The help text of the function `create` is displayed.
 
-```
+```julia
 help?> create
 search: create searchsortedlast
 
@@ -191,7 +191,7 @@ search: create searchsortedlast
 - Push the changes to your GitHub repository. Check the changes on GitHub.
 - Go to the Accounts folder `cd ~/.julia/dev/Accounts` and and type `git log --oneline`. You sloud see:
 
-```
+```julia
 ~/.julia/dev/Accounts$ git log --oneline
 3b1af29 (HEAD -> master) Add API.jl sub-module
 c76901f (origin/master) Add Domain.jl sub-module

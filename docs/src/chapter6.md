@@ -14,7 +14,7 @@ Pages = ["chapter6.md"]
 
 The modified main module with the exports enabled. The user can use the functions and types when he loads the `Accounts module`.
 
-```
+```julia
 module Accounts
 
 export EMAIL, WORK # from Domain #1
@@ -31,7 +31,7 @@ end
 
 \#2 The user needs to create addresses and persons
 
-\#3 The function is used to store and retrieve persons.
+\#3 The functions are used to store and retrieve persons.
 
 ## Activity 6.1 - Export Elements
 
@@ -59,7 +59,7 @@ Step | Action | Comment |
 | 11 | julia> using Accounts | Load the Accounts module. |
 | 12 | julia> Accounts. <Tab><Tab> | Display the exported elements. Don't forget the dot (.) after Accounts.|
 
-```
+```julia
 julia> Accounts.
 API            Domain          EMAIL           Infrastructure  WORK            
 add_to_file     create        eval            include         read_from_file
@@ -83,7 +83,7 @@ The code first starts with loading DataFrames in a try-catch block. When the sta
 
 The high order functions `map` and `filter` are used. [High order functions](https://sodocumentation.net/julia-lang/topic/6955/higher-order-functions) use functions as arguments and operates on collections. The functions are mostly anonymous is the form of `x -> <expression using x>` where `x` is a consecutive element of the collection.
 
-```
+```julia
 using Pkg; Pkg.activate(".")
 
 The code first start with loading DataFrames in a try-catch block. When `using DataFrames`
@@ -169,7 +169,7 @@ Step | Action | Comment |
 | 9 | (TestAccounts) pkg> add https://github.com/<your account name>/Accounts.jl | Load the package. Use `rbontekoe` as an account name in case you don't have a GitHub repository of Accounts yourself. |
 | 10 | TestAccounts) pkg>test Accounts | Run the tests. |
 
-```
+```julia
 Test Summary: | Pass  Total
 Domain.jl     |    1      1
 Test Summary: | Pass  Total
@@ -190,7 +190,7 @@ Step | Action | Comment |
 
 The output looks like:
 
-```
+```julia
 environment at `~/.julia/dev/Accounts/Project.toml`
 [ Info: With DataFrames you can manpulate data
 [ Info: Save and retrieve the data
@@ -223,7 +223,7 @@ environment at `~/.julia/dev/Accounts/Project.toml`
 
 The modified `runtests.jl` file.
 
-```
+```julia
 using Accounts
 using Test
 
@@ -253,7 +253,7 @@ In this exercise, you run a test in the folder `TestAccounts` again with the mod
 - update Accounts
 - test Accounts
 
-```
+```julia
 (@v1.5) pkg> activate .
  Activating environment at `~/projects/TestAccounts/Project.toml`
 
@@ -282,7 +282,7 @@ Accounts.jl   |    1      1
 
 You might decide to change the version number of the module, for example to 0.2.0. You change the version number in the file `Project.toml`.
 
-```
+```julia
 name = "Accounts"
 uuid = "c01e8521-f333-4719-ae6f-8e8181cc4e4d"
 authors = ["Rob Bontekoe <rbontekoe@appligate.nl> and contributors"]

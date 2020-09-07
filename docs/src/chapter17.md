@@ -1,4 +1,4 @@
-# 16 - PosgreSQL
+# 17. Implementing AppliAR (Accounts Receivable) Package
 
 UNDER DEVELOPMENT!
 
@@ -8,57 +8,102 @@ UNDER DEVELOPMENT!
 Pages = ["chapter17.md"]
 ```
 
-urls
-- https://www.postgresql.org/download/linux/ubuntu/
-- https://linuxize.com/post/how-to-install-postgresql-on-ubuntu-18-04/
-- https://www.a2hosting.com/kb/developer-corner/postgresql/managing-postgresql-databases-and-users-from-the-command-line
+See also: [Developing Julia Packages](https://www.youtube.com/watch?v=QVmU29rCjaA)
 
-sudo apt install libpq5
+## Step 1 - Create a package
+1.  Create the local package AppliAR (Accounts Receivable)
+2.  Create the GitHub Repository AppliAR.jl
+3.  Push local repostitory to GitHub
 
-====
+---
 
-Naar https://www.postgresql.org/download
+##### Step 1.1 - Create the local package AppliAR (Accounts Receivable)
 
-kies Ubuntu
+Prerequisites
+- Ubuntu 18.04
+- Julia 1.3 installed
+- [Atom](https://atom.io/) installed
+- [GitHub](https://github.com/) account
+- [GitKraken](https://www.gitkraken.com/pricing) installed
+- [Travis CI](https://travis-ci.com/) account
 
-kies Bionic(18.04)
+|Step     | Action      | Comment |
+|:---------- | :---------- |:---------- |
+| 1 | $ julia | Start Julia. |
+| 2 | julia> ] | Select the Package REPL. |
+| 3 | pkg> add PkgTemplates | Install [PkgTemplates.jl](https://github.com/invenia/PkgTemplates.jl) |
+| 4 | pkg> BackSpace | Back to the Julia REPL. |
+| 5 | Paste the following code into the Julia REPL | |
 
-in bestand /etc/apt/sources.list.d/pgdg.list, zet:
+    julia> using PkgTemplates # Start the PkgTemplates package
 
-deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main
+    julia> t2 = Template(; # Create the template
+                  user="rbontekoe",
+                  license="MIT",
+                  authors=["Rob Bontekoe"],
+                  julia_version=v"1.3",
+                  ssh=true,
+                  plugins=[
+                      TravisCI(),       # Continious Integration
+                      Codecov(),        # Improve your code review
+                      Coveralls(),      # Which parts aren’t covered by your test suite
+                      AppVeyor(),       # CI/CD service
+                      GitHubPages(),    # Documentation
+                  ],
+       )
 
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+    julia> generate(t, "AppliAR") # Create the local package in ~/.julia/dev
 
-sudo apt-get update
 
-====
+|:---------- | :---------- |:---------- |
+|:---------- | :---------- |:---------- |
+| 1 | $ julia | Start Julia. |
+    julia> 1 + 2
+| 2 | Etc. | |
 
-$ sudo apt install postgresql postgresql-contrib
+##### Step 1.2 - Create the GitHub Repository AppliAR.jl
 
-$ sudo -u postgres psql -c "SELECT version();"
+|Step     | Action      | Comment |
+|:---------- | :---------- |:---------- |
+| 1 | https://github.com.<YOURNAME> | Go to your GitHub account. |
+| 2 | Click on the Tab `Repositories` | |
+| 3 | Click on the button `New` | |
+| 4 | type: AppliAR.jl | Type your package name ending with `.jl` in the `Repository name` field. |
+| 5 | Click on the button `Create repository` | |
 
-====
+##### Step 1.3 - Push local repostitory to GitHub
 
-$ sudo su - postgres
+|Step     | Action      | Comment |
+|:---------- | :---------- |:---------- |
 
-postgres@rob-Lenovo-Y520-15IKBN:~$ createuser --interactive --pwprompt
 
-postgres@rob-Lenovo-Y520-15IKBN:~$ createdb johndb
 
-postgres@rob-Lenovo-Y520-15IKBN:~$ psql
+## Step 2 - Implement the AppliAR
+1.  
+2.  
+3.  
 
-postgres=# grant all privileges on database johndb to john;
+## Step 3 - Creating the Domain items
+1.  
+2.  
+3.
 
-====
+### Step 4 - Creating the API functions
+1.  
+2.  
+3.  
 
-$ sudo service postgresql restart
+### Step 5 - Creating the API tests
+1.  
+2.  
+3.  
 
-====
+### Step 6 - Creating the Infrastructure functions
+1.  
+2.  
+3.  
 
-$ julia
-
-julia> using DataFrames
-
-julia> using LibPQ
-
-julia> conn = LibPQ.Connection("host=localhost dbname=johndb user=john password=xxxxxxx")
+### Step 7 - Creating the Infra tests
+1.  
+2.  
+3.

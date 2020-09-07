@@ -54,7 +54,7 @@ struct Person #7
   #constructors
   Person(name) = new(create_key(name), name, [])
   Person(name, addresses) = new(create_key(name), now(), name, addresses)
-end
+end # Person
 
 end
 
@@ -119,7 +119,7 @@ In this activity you:
 
 ## Modified Accounts.jl
 
-```
+```julia
 module Accounts
 
 include("Domain.jl"); using .Domain #1
@@ -147,7 +147,7 @@ In this activity you declare Domain as a sub-module of Accounts.
 
 You declare all dependencies of your module in the file `Project.toml` under the section `[deps]`. The `now()`-function belongs to `Dates` module. Dates is a Julia module and you load with `using Dates`.
 
-```
+```julia
 name = "Accounts"
 uuid = "a1b4bf14-7ec5-4e42-8992-fb1d0e08b0e4"
 authors = ["Rob Bontekoe <rbontekoe@appligate.nl> and contributors"]
@@ -188,7 +188,7 @@ You automatically add dependencies to the file `Project.toml` when you switch to
 | 6 | (Accounts) pkg> add Dates | Add the Dates module. |
 | 7 | (Accounts) pkg> st | Show your dependencies. You can abbreviate your commands. Use the arrow-up button to retrieve previous commands. |
 
-```
+```julia
 Project Accounts v0.1.0
 Status `~/.julia/dev/Accounts/Project.toml`
   [ade2ca70] Dates
@@ -201,7 +201,7 @@ Status `~/.julia/dev/Accounts/Project.toml`
 
 ## test_domain.jl
 
-```
+```julia
 using Pkg; Pkg.activate(".")
 
 import Accounts: Domain
@@ -250,7 +250,7 @@ Step | Action | Comment |
 
 It is even better to put you test code in the file `runtests.jl`. The folder `test` contains the file.
 
-```
+```julia
 using Accounts
 using Test
 
@@ -296,7 +296,7 @@ Step | Action | Comment |
 | 8 | (Accounts) Pkg> st | Check whether Dates is loaded. See [Activity 3.4 - Adding Dates as Dependency](#Activity-3.4-Adding-Dates-as-Dependency-1). |
 | 9 | (Accounts) Pkg> test Accounts | Run the test code. The result is: |
 
-```
+```julia
 Test Summary: | Pass  Total
 Domain.jl     |    1      1
     Testing Accounts tests passed
@@ -318,7 +318,7 @@ Step | Action | Comment |
 
 You see a list of changed (ocher) and new (green) files (Domain.jl and test_domain.jl) in the section `Staged Changes` of the pane.
 
-```
+```julia
 Project.toml
 src/Accounts.jl
 src/Domain.jl

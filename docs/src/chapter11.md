@@ -1,13 +1,13 @@
-# 11. The Main-module AppliAR.jl
+# 11. The Sub-module Infrastructure
 
 UNDER DEVELOPMENT!
 
-We have decided to replace `OpentrainingItem` by `InvoiceItem`:
+The Infrastructure consists of elements and functions that use the domain and API elements as outlined in chapter 7 [Methods of the Infrastructure Layer](../chapter7/index.html#Methods-of-the-Infrastructure-Layer-1).
 
-1. Change `training_id` to `prod_code` in MetaInvoice.
-2. Modify the main package `AppliAR.jl`.
-3. Test the changes.
-4. Push our changes to the Master branch.
+- Process an order to create unpaid invoices.
+- Process bank statements to create paid invoices.
+- Produce journal entries for the general ledger.
+- Retrieve unpaid and paid invoices.
 
 ### Contents
 
@@ -15,108 +15,157 @@ We have decided to replace `OpentrainingItem` by `InvoiceItem`:
 Pages = ["chapter11.md"]
 ```
 
+## Infrastructure.jl
 
-## Step 1 - Modify MetaInvoice
-
-- Modify `MetaInvoice` according to the next code:
-
-```
-struct MetaInvoice <: Structure
-  _order_id::String
-  _prod_code::String #1
-  _date::DateTime
-  _currency::String
-  _currency_ratio::Float64
-  # Constructors
-  #MetaInvoice(order_id, training_id) = new(order_id, training_id, now(), "€", 1.0)
-  #MetaInvoice(order_id, training_id, date, currency, currency_ratio) = new(order_id, training_id, now(), currency, currency_ratio)
-	MetaInvoice(order_id, prod_code) = new(order_id, prod_code, now(), "€", 1.0) #1
-  MetaInvoice(order_id, prod_code, date, currency, currency_ratio) = new(order_id, prod_code, now(), currency, currency_ratio) #1
-end # MetaInvoice
-```
-\#1 `_training_id` is changed to `_prod_code`.
-
-- Change `training_id(m::MetaInvoice)` to `prod_code(m::MetaInvoice)`
+A partial overview of the Infrastructure module. See [AppliAR.jl/src/infrastructure/Infrastructure.jl](https://github.com/rbontekoe/AppliAR.jl/blob/master/src/infrastructure/Infrastructure.jl) for a complete list.
 
 ```
-#training_id(m::MetaInvoice)::String = m._training_id
-prod_code(m::MetaInvoice)::String = m._prode_code
+module Infrastructure
+
+include("./db.jl") #1
+include("./doc.jl") #2
+
+using ..AppliAR #3
+
+using CSV #4
+
+import ..AppliAR: Domain, API #5
+using .Domain
+using .API
+
+import AppliSales: Order #6
+import AppliGeneralLedger: JournalEntry #7
+using Dates
+
+export process, read_bank_statements, retrieve_unpaid_invoices, retrieve_paid_invoices #8
+```
+\#1 File with database functions. For now we serialize the objects and save them in a text file.
+
+\#2 The Infrastructure Julia documentation.
+
+\#3 Instantiates of the main module
+
+\#4 We use this package ti read CSV-files.
+
+\#5 Instantiates of the sub-modules `API` and `Domain`. The sub-module `Infrastructure` has access to the exported API and Domain elements.
+
+\#6 Reference to Order.
+
+\#7 Reference to `JournalEntry`.
+
+\#8 Functions that are directly accessible to others.
+
+
+## Method process
+
+In [The Procedure as an Activity Diagram](../chapter7/index.html#The-Procedure-as-an-Activity-Diagram-1) of chapter 7 we sketched the workflows. Here you can see the implementation of the workflow when an order is received.
+
+```
+process(orders::Array{Order, 1}; path=FILE_UNPAID_INVOICES) = begin
+    # get last invoice number
+    try
+        read_from_file(FILE_INVOICE_NBR)
+    catch e
+        add_to_file(FILE_INVOICE_NBR, [START_INVOICE_NBR])
+    end
+
+    invnbr = last(read_from_file(FILE_INVOICE_NBR))
+
+    # create invoices
+    invoices = [create(order, "A" * string(invnbr += 1)) for order in orders]
+
+    # save invoice number
+    add_to_file(FILE_INVOICE_NBR, [invnbr])
+
+    # archive invoices
+    add_to_file(path, invoices)
+
+    # create journal entries from invoices
+    return entries = [conv2entry(inv, AR, SALES) for inv in invoices]
+
+end # process orders
 ```
 
-## Step 2 - Change AppliAR.jl
+The function has a named argument `path` that is used to store the created invoices. The default file name is `test_invoicing.txt` and is used for testing purposes. For production purposes you have to specify a different name to prevent the file from being erased when you run the tests.
 
-- Change `OpentrainingItem` to `InvoiceItem` in `AppliAR.jl`.
+## Case Study Part Three - Replace OpentrainingItem by InvoiceItem
+
+To keep it 'relatively simple' we replace `OpentrainingItem` by `InvoiceItem`.
+
+## Exercide 10.1 - Changes for using InvoiceItem
+
+The steps to be taken.
+1. In the sub-module Domain, we remove `OpenTrainingItem` and the field methods (name_training,
+date, price_per_student, students, vat_perc).
+2. In the API sub-module we remove `create(order::Order, invoice_id::String)::UnpaidInvoice `.
+3. In the sub-module API, we change the code of two `conv2entry` methods.
+4. In the sub-module Infrastructure, we make all methods suitable for `InvoiceItem`.
+5. Test the changes.
+6. Change the test code in `runtests.jl`.
+
+#### Step 1 - Remove `OpenTrainingItem`
+- Go to the sub-module Domain and put `#=` and `=#` around `OpentrainingItem`.
+- Put a `#` before the methods (name_training, date, price_per_student, students, vat_perc) to retrieve the Opentraining fields.
+- Put a `#` before the the line that starts with `export OpentrainingItem`.
+
+#### Step 2 - Remove `create(order::Order, invoice_id::String)`
+- Put `#=` and `=#` around the method `create(order::Order, invoice_id::String)::UnpaidInvoice`.
+
+#### Step 3 - Change the code of `conv2entry`
+
+- Replace in both methods `conv2entry` the line `debit = price_per_student(b) * length(students(b))` by
 
 ```
-module AppliAR
-
-import AppliSales: Order
-import AppliGeneralLedger: JournalEntry
-
-# main methods
-export process, retrieve_unpaid_invoices, retrieve_paid_invoices, read_bank_statements
-
-# methods to retrieve values from fields
-export UnpaidInvoice, PaidInvoice, meta, header, body, id
-export PaidInvoice, stm
-export BankStatement, date, descr, iban, amount
-export MetaInvoice, order_id, training_id, date, currency, currency_ratio
-export Header, invoice_nbr, name, address, postal_code, city, country, order_ref, name_contact, email_contact
-#export OpentrainingItem, name_training, date, price_per_student, students, vat_perc #1
-export InvoiceItem, code, descr, unit_price, qty, vat_perc #2
-
-# instantiate the sub-modules
-include("./domain/Domain.jl"); using .Domain
-include("./api/API.jl"); using .API
-include("./infrastructure/Infrastructure.jl"); using .Infrastructure
+debit = unit_price(b) * qty(b)
 ```
-\#1 Promote line to a comment.
 
-\#2 Replace `OpentrainingItem` by `InvoiceItem`.
+- Replace in both methods `conv2entry` the line `descr = name_training(b))` by:
 
-## Step 3- Test the Changes.
-- Create a file `test2.jl` with the next code and test it line by line.
+```
+descr = code(b)
+```
+
+#### Step 4 - Make all methods suitable for `InvoiceItem`
+
+- In sub-module Infrastructure, change the code of the first method process where the invoices are created by
+
+```
+# create invoices
+invoices = [(create(getfield(order, fieldnames(typeof(order))[3]), order, "A" * string(invnbr += 1))) for order in orders]
+```
+
+#### Step 5 - Test the changes.
+- Create a file `test.jl` with the next code and test it line by line.
 
 ```
 using Pkg; Pkg.activate(".")
 
 using AppliAR
-
 using AppliSales
+
+import AppliAR: Domain, API
+using .Domain, .API
 
 orders = AppliSales.process()
 
-entries1 = AppliAR.process(orders)
+invnbr = 1000
+
+invoices = [(create(getfield(order, fieldnames(typeof(order))[3]), order, "A" * string(global invnbr += 1))) for order in orders]
+
+b = body(invoices[2])
+
+descr(b)
+
+AppliAR.process(orders)
 
 unpaid_invoices = retrieve_unpaid_invoices()
 
 stms =  read_bank_statements("./bank.csv")
 
-entries2 = AppliAR.process(unpaid_invoices, stms)
+AppliAR.process(unpaid_invoices, stms)
 
 ```
 
-## Step 4 - Push your Changes to the Master Branch
+#### Step 6 - Change the test code in runtests.jl
 
-- When everything is working well merge your changes into the git master branch.
-
-```
-$ git git checkout master
-
-$ git merge dev
-
-$ git branch -d dev # remove the dev branch, be careful!!!
-```
-
-When you have made changes to the master branch in the meantime then start with rebasing the `dev` branch.
-
-```
-$ git checkout dev
-
-$ git rebase master
-```
-
-- run the tests again.
-
-!!! info
-    When you cooperate with others on a project you can create a [Pull Request (PR)](https://hackernoon.com/how-to-git-pr-from-the-command-line-a5b204a57ab1) with your motivation to merge your changes.
+Change the testcode in `runtests.jl`.

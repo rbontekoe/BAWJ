@@ -1,8 +1,6 @@
-# 8. The Sub-module Domain
+# 8 - The Design of AppliAR.jl
 
 UNDER DEVELOPMENT!
-
-The module AppliAR follows the same structure as we have discussed in the Account module. We go deeper into the main differences.
 
 ### Contents
 
@@ -10,241 +8,188 @@ The module AppliAR follows the same structure as we have discussed in the Accoun
 Pages = ["chapter8.md"]
 ```
 
-## PkgTemplate
+First, let's look at some terms and definitions. We'll convert the procedure `Invoicing` into an activity diagram. Using the Onion Architecture pattern, we define the `Domain` objects and the Julia `API`-functions. In the `Infrastructure` layer, we put the functions that interact with the outer world and the inner layers.
 
-How I created the module `AppliAR`.
+---
 
-```
-julia> using PkgTemplates # Load the PkgTemplates package
+## Terms and Definitions
 
-julia> t = Template(; # The configuration used to generate the package
-              user="rbontekoe",
-              license="MIT",
-              authors=["Rob Bontekoe"],
-              julia_version=v"1.3",
-              ssh=true,
-              plugins=[
-                  TravisCI(),       # Continious Integration
-                  Codecov(),        # Improve your code review
-                  Coveralls(),      # Which parts aren’t covered by your test suite
-                  AppVeyor(),       # CI/CD service
-                  GitHubPages(),    # Documentation
-              ],
-       )
+The points of attention are:
+- Procedure,
+- Domain-driven design,
+- Distributed processing, and
+- Style conventions.
 
-julia> generate(t, "AppliAR") # Create the local package in ~/.julia/dev
-```
+### Procedure
 
-## The Application Folder Structure
+A procedure is a description of work practice, a workflow. It describes a series of activities or actions in a particular order and interacts with people and machines. Actions make use of resources. Data, a service or a product, is the output of work.
 
-```
-ᵥ📁AppliAR
-   📁 docs #1
-     📁 src
-     📁 stable
-       📁 assets #1
-       📁 chapter1 #1
-       📁 chapter2 #1
-       📁 chapter3 #1
-       📁 chapter4 #1
-       📄 index.html #1
-       📄 search_index.js #1
-  ᵥ📁 src #2
-    ᵥ📁 api
-       📄 Api.jl
-       📄 spec.jl #3
-    ᵥ📁 domain
-       📄 Domain.jl
-       📄 spec.jl #3
-    ᵥ📁 infrastructure
-       📄 Infrastructure.jl
-       📄 db.jl
-       📄 doc.jl #3
-     📄 AppliAR.jl #4
-  ᵥ📁 test
-     📄 runtests.jl #5
-   📄 bank.csv	 
-   📄 LICENCE
-   📄 Project.toml  #6
-   📄 README.md
-```
+### Domain-Driven Design
 
-\#1 Folders and files that make up the documentation of [AppliAR.jl](https://www.appligate.nl/AppliAR.jl/stable/).
+Each process should be domain-specific. Subject matter experts and users of the domain speak the same language and use the same definitions and synonyms for concepts and objects. It leads to a Domain-driven design paradigm.
 
-\#2 The application files.
+The Onion Architecture lends itself perfectly to the domain-driven design pattern. It divides an application into four areas: core, domain, API, and infrastructure.
 
-\#3 Julia help documentation.
+The core consists out of the Julia language constructs and Julia modules. [Modules](https://docs.julialang.org/en/v1/manual/modules/index.html) are also called packages.
 
-\#4 Contains the AppliAR module code.
+The next layer, the domain, defines the domain entities and concepts. Between its elements, there must be coherence. You only use constructs from the `core.` `UnpaidInvoice` is an example.
 
-\#5 Unit test file.
+The next peel is the API. The API consists of Julia functions that operate on the domain elements, and are used to create programs. You only use constructs from the `core and the domain.`
 
-\#6 Contains the dependencies. Julia adds dependencies automatically to the `Project.toml` file when you activate the local environment (`pkg> activate .`) and add a package (module). See Manifest.toml](https://julialang.github.io/Pkg.jl/v1/toml-files/):
-"The manifest file is an absolute record of the state of the packages in the environment. It includes exact information about (direct and indirect) dependencies of the project, and given a Project.toml + Manifest.toml pair it is possible to instantiate the exact same package environment, which is very useful for reproducibility."
+`create_unpaidinvoice,` `create_paidinvoice,` `create_pdf` are examples.
 
-## The Model
+ The infrastructure layer is the ultimate peel. With its functions, it communicates with the external world. Adapters overcome mismatches between interfaces. When you write you the code, you use `elements from the inner layers.`
 
-The sub-modules `Domain.jl`, `API.jl` and `Infrastructure.jl` shape the model and are located in the sub-folders. It makes it easier to split and group things.
+### Distributed Processing
 
-The file Domain.jl is in the sub-folder domain. As well as the file spec.jl we use for:
-1. Specifying the abstract object hierarchy.
-2. Documenting the functions.
+Programs, written in Julia language, also can run on other processor cores. Even in Docker containers on remote machines. Julia uses the master-worker concept. It means that the master executes Julia's functions on workers.
 
-When Domain.jl is loaded, it also loads spec.jl.
+### Style Conventions
 
-## Specifying the Object Hierarchy
+The article [Blue: a Style Guide for Julia](https://github.com/invenia/BlueStyle) describes the style conventions.
 
-A data structure consists of abstract and concrete data types. The leaves are the concrete data types that we define in `Domain.jl`.
+---
 
-We have three branches, Invoice, Structure, and Payment.
+## A Procedure as a Starting Point
+In 1994 we were delivering Lotus Notes instructor-led training in the Netherlands. We became ISO-9001 certified one year later. ISO is short for the International Organization for Standardization. A part of ISO is the section procedures.
 
-The `Structure` branch determines the basic structure. It consists of a Header, a Body, and a Footer.
+A procedure describes a workflow of a business process. It specifies the activities to be carried out by people or machines and the resources that are required to produce a result.
 
-A `PaidInvoice` is an `UnpaidInvoice` plus payment details.
+An input triggers a process. Every action creates an output, most of the time, modified information or side-effects such as saving data.
+
+The example I use in the course is the procedure `Invoicing.`
+
+### The Course Example
+
+In 1998 we rewrote our procedures as a table. Every row represents an activity or action. Next to the events are the columns with the roles involved with the work. The original procedure:
+
+**Procedure**: Invoicing.
+
+**Roles**:
+OM = Office Manage, AOM = Assistant Office Manager.
+
+**Input**: List of orders.
+
+| Step| Action | AOM | OM | Output | Tool | Exception |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 1 | Create an invoice per order | R | A | Created and authorized invoices | Order file | |
+| 2 | Archive a copy of the invoice | R | | Archived copy | Accounts Receivable unpaid | |
+| 3 | Send the invoice to the customer | R | I | Invoice sent | |
+| 4 | Book the invoice | R | A | Booked invoice | General ledger |
+| 5 | Book the paid invoice | R | A | Paid invoice | Bank records, General ledger | |
+| 6 | Archive the paid invoice | R | I | Archived invoice | Accounts Receivable paid |
+| 7 | Check unpaid invoices | | R | List of unpaid invoices to contact customer | Note in CRM system |
+
+**RASCI**
+- R = Responsible, the entity who is responsible for the execution of the activity.
+- A = Approves, the entity who approves the result before going to the next step.
+- S = Supports, the members of the team.
+- C = Consults, an entity.
+- I = Informed, notify the entity about the result.
 
 
-We can then refer to the data-type `Invoice` when we want for example:
-- Get the invoice number.
-- Get the order number.
-- Saving and retrieving an invoice.
+Let's see how we can automate the procedure with Julia. We tackle it with a technique of Domain-Driven Design and the Onion architecture.
 
-However, if we want to view the payment data, we must explicitly refer to `PaidInvoice`.
+---
+
+## The Procedure as an Activity Diagram
+
+The activity diagram represents the workflow. The actions are Julia functions. You can add typed arguments and return values in Julia, noted by a double colon (::) followed by the name of the type. This defines the domain entities, e.g., `::Order, ::UnpaidInvoice`.
 
 ```
-                 _____________________ARDomain_______________
-                 ↓                       ↓                  ↓
-            Invoice             ___Structure____         Payment
-            ↓     ↓             ↓     ↓        ↓            ↓
- UnpaidInvoice  PaidInvoice   Meta  Header  BodyItem   BankStatement
-                                               ↓
-                                       OpentrainingItem
+⚉ process(::Array{Order)::Array{JournalEntry}
+    ↓
+    create(::Array{Order}::Array{UnpaidInvoice}
+    ↓
+    send_email(::Array{UnpaidInvoice}) # TODO
+    ↓
+    archive(::Array{UnpaidInvoice})
+    ↓
+    create(::Array{UnpaidInvoice}::Array{JournalEntry}
+    ↓
+    return ::Array{JournalEntry}
+    ↓
+    ◉
 
-spec.jl, abstract types:
-abstract type ARDomain end
-abstract type Invoice <: ARDomain end
-abstract type Structure <: ARDomain end
-abstract type BodyItem <: Structure end
-abstract type Payment <: ARDomain end
+⚉ process(::Array{UnpaidInvoice}, ::Array{BankStatement})::Array{JournalEntry}
+    ↓
+    filter(::Array{UnpaidInvoice}, ::Array{Bankstatement})::Array{PaidInvoice}
+    ↓
+    archive(::Array{PaidInvoice})
+    ↓
+    create(::Array{PaidInvoice})::Array{JournalEntry}
+    ↓
+    return ::Array{JournalEntry}
+    ↓
+    ◉
+
+⚉ report(::Array{UnpaidInvoice}, days::Int) # TODO
+    ↓
+    filter(::Array{UnpaidInvoice, ::Int}::Array{UnpaidInvoiceDue}
+    ↓
+    return ::Array{UnpaidInvoiceDue}
+    ↓
+    ◉
 ```
 
-## Domain.jl
+## The Design
 
-Let's have a look at the `UnpaidInvoice`.
+From the activity diagram we get:
 
-```
-struct UnpaidInvoice <: Invoice
-    _id::String
-    _meta::MetaInvoice
-    _header::Header
-    _body::OpentrainingItem
-end # UnpaidInvoice
-```
+### Domain Elements
 
+The domain objects (types) are:
 
-## Reading Object Fields
+Domain Types:
+- UnpaidInvoice;
+- PaidInvoice;
+- BankStatement.
 
-We have defined functions to read the fields of an object. E.g. `id(i::Invoice)` returns the id of an unpaid invoice as well as of a paid invoice.
+External Types:
+- AppliSales.Order¹;
+- AppliGeneralLedger.JournalEntry².
 
-The advantage of defining functions to read fields are:
-- You can change the field name of an object without affecting your program.
-- Change the data type of a field, but you let the function still returns the original datatype.
-- More or less hiding the field names. However, when the user uses the function `fieldnames` he can discover the names.
+General packages:
+- Dates³;
+- DataFrames³
 
-```
-julia> using AppliAR
+¹ Defined in the package [AppliSales](https://github.com/rbontekoe/AppliSales.jl).
 
-julia> fieldnames(UnpaidInvoice)
-(:_id, :_meta, :_header, :_body)
-```
+² Defined in the package [AppliGeneralLedger](https://www.appligate.nl/AppliGeneralLedger.jl/).
 
-To make my programs robust I prefer to work with immutable data types. When I want to change the value of a field of an object then I have to recreate the object. So basically I only need to read the value from a field.
+³ Dates is a sub-module of Julia. A package for manipulating data is [DataFrames](https://en.wikibooks.org/wiki/Introducing_Julia/DataFrames). The DataFrame data structure is comparable to a spreadsheet.
 
-```
-# Fields Invoice
-meta(i::Invoice)::MetaInvoice = i._meta
-header(i::Invoice)::Header = i._header
-body(i::Invoice)::BodyItem = i._body
-id(i::Invoice)::String = i._id
+### API
 
-# Field of an PaidInvoice containing the bank statement
-stm(i::PaidInvoice) = i._stm
-```
+The API contains the methods (functions) of the module. The methods use only elements from the core or domain. An overview of we need:
 
-You see that I refer to the abstract data type `Invoice` for retrieving the field values of `UnpaidInvoice` or `PaidInvoice`. Except, when I need the payment data I refer explicitly to `PaidInvoce`.
+- create(::Array{Order,1})::Array{UnpaidInvoice, 1}
+- create(::Array{UnpaidInvoice, 1}, ::Array{BankStatement, 1})::Array{PaidInvoice,1)
+- conv2entry(inv::Array{UnpaidInvoice, 1}, from::Int, to::Int)::Array{JournalEntry, 1}
+- conv2entry(inv::Array{PaidInvoice, 1}, from::Int, to::Int)::Array{JournalEntry, 1}
 
-## 8.1 Case Study Part One - Redefining BodyItem as a Concrete Datatype
+In Julia, you can use the same function name as long as the `signature` is different, so other types and, or the number of arguments. One calls it [`multiple dispatch`](https://en.wikipedia.org/wiki/Multiple_dispatch).
 
-Our boss wants our module to be able to print invoices with more than one item, e.g. books and in-company training. He also believes that `Structure` must resemble a hard copy invoice and that any additional information should be retrieved from the metadata. Promoting `BodyItem` to a leave of the tree could cause problems if we have already stored invoices. It is easier to add another leave, `InvoiceItem`.
+An `Order`, consists of the data objects `Training, and Company` plus additional data about `contact`, and `student`. Order is defined in `domain.jl` of the support-package [AppliSales](https://github.com/rbontekoe/AppliSales.jl/blob/master/src/domain/domain.jl).
 
-```
- ____Structure____
- ↓       ↓       ↓
-Meta   Header   BodyItem
-                 ↓    ↓
-   OpentrainingItem  InvoiceItem
-```
+Also, we have already created a support-package [AppliGeneralLedger](https://github.com/rbontekoe/AppliGeneralLedger.jl) to make it easier to test AppliAR.jl. JournalEntry is defined in [domain.jl](https://github.com/rbontekoe/AppliGeneralLedger.jl/blob/master/src/domain/domain.jl).
 
-Example of the body of a hard copy invoice:
+### Methods of the Infrastructure Layer
 
-| Item| Qty| Description | Price | VAT | Total |
-| :--- | ---: | :--- | ---: | ---: | ---: |
-| LS | 2 | Learn Smiling | 1,000.00 | 0.21 | 2,420,00 |
-|  |  | Date 2020/9/30 |  |  |  |
-|  |  | Attendees: Mickey Mouse, Mini Mouse |  |  |  |
-|  |  |  |  |  |  |
-| BAWJ | 1 | Sylabus | 15,00 | 0.21 | 18.15 |
-|  |  |  |  |  |  |
-| Total |  |  |  |  |2,438,25 |
+Database, private methods:
+- add\_to\_file(file::String, data::Array{Any, 1}
+- read\_from\_file(file::String)::Array{Any, 1}
 
-We have to add `InvoiceItem`.
+External accessible methods:
+- read\_bank\_statements(path::String)::Array{BankStatement,1}
+- process(::Array{Order)::Array{JounalEntry, 1}
+- process(::UnpaidInvoice, ::BankStatement)::Array{JounalEntry, 1}
+- retrieve\_unpaid\_invoices()::Array{UnpaidInvoice, 1}
+- retrieve\_paid\_invoice()::Array{PaidInvoice, 1}
 
-```
-struct InvoiceItem <: BodyItem
-	_prod_code::String
- 	_qty::Float64
- 	_descr::Array{String, 1}
- 	_unit_price::Float64
- 	_vat_perc::Float64
- 	# constructors
-	InvoiceItem(code, qty, descr, unit_price) = new(code, qty, descr, unit_price, 0.21)
-	InvoiceItem(code, qty, descr, unit_price, vat_perc) = new(code, qty, descr, unit_price, vat_perc)
-end
+## ToDo
 
-code(b::InvoiceItem) = b._prod_code
-descr(b::InvoiceItem) = b._descr
-unit_price(b::InvoiceItem) = b._unit_price
-qty(b::InvoiceItem) = b._qty
-vat_perc(b::InvoiceItem) = b._vat_perc
-
-# Example of creating an InvoiceItem
-
-julia> using Pkg; Pkg.activate(".")
-
-julia> using AppliSales
-
-julia> using Dates
-
-julia> import AppliAR: Domain
-
-julia> using .Domain
-
-julia> order = AppliSales.process()[2]
-AppliSales.Order("11183030955785246264", AppliSales.Organization("12468650793473591401", "Duck City Chronicals", "1185 Seven Seas Dr", "FL 32830", "Lake Buena Vista", "USA"), AppliSales.Training("LS", DateTime("2019-08-30T00:00:00"), 2, "Learn Smiling", 1000.0), "DD-001", "Mickey Mouse", "mickey@duckcity.com", ["Mini Mouse", "Goofy"])
-
-julia> students = "Attendees: " * reduce((x, y) -> x * ", " * y, order.students)
-"Attendees: Mini Mouse, Goofy"
-
-julia> description  = [order.training.name, "Date: " * string(Date(order.training.date)), students]
-3-element Array{String,1}:
- "Learn Smiling"
- "Date: 2019-08-30"
- "Attendees: Mini Mouse, Goofy"
-
-julia> body_invoice = InvoiceItem(
-               order.training.name, # prod_code
-               length(order.students), # qty
-               description, # descr
-               order.training.price, # unit_price
-       )
-InvoiceItem("Learn Smiling", 2.0, ["Learn Smiling", "Date: 2019-08-30", "Attendees: Mini Mouse, Goofy"], 1000.0, 0.21)
-```
+- I am thinking of Literate.jl as a package to make PDFs.
+- How to attach a PDF to an email?
+- How to send an email?
+- [SMTPClient.jl](https://github.com/aviks/SMTPClient.jl)

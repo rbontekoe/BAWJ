@@ -1,4 +1,4 @@
-# 13. Running the Containers
+# 14. Run the Application in Containers
 
 UNDER DEVELOPMENT!
 
@@ -8,75 +8,89 @@ UNDER DEVELOPMENT!
 Pages = ["chapter14.md"]
 ```
 
-In chapter 13, we combine what we have learned in chapter 6, `Testing the application` and chapter 12 `Creating SSH enabled Containers.` We use the the packages `AppliSales, AppliInvoicing, and AppliGeneralLedger`. In the container `test_sshd` we use `AppliSales, and AppliInvoicing,` and in `test_sshd2` we use `AppliGeneralLedger.` We will discover that the general ledger data will be stored in a file on `test_sshd2.`
+In lesson 9, Creating SSH enabled Containers, we created two containers: `test_sshd` and `test_sshd2`. In this chapter, we learn how to run a function in a remote container `test_sshd2`. Before we use the model we created in earlier lessons, you will test the containers with the package `RbO.jl`.
 
 ##### Activity 1:
 
-We start with cloning the code from `AppliMaster` on GitHub.
+You start the two Docker containers, `test_sshd,` and `test_sshd2`. We need to know their Docker IP-addresses. With the command `ssh rob@<ip-address>`, we enter the `test_sshd` container. Within this container, we generate a process id bound to the IP-address of `test_ssh2`.
 
-##### Activity 2:
 
-Create the application.
+We create the file `main.jl`, which contains the base code for container-container communication.
 
-## Activity 1: Cloning the code
+##### Activities 2a and 2b:
+
+Next, we use the example code to create a subscriber based on a name. We prefer to do the test with AppliGate's module `RbO.jl`. In chapter 12, you will use your modules.
+
+##### Activity 3:
+
+You learn to write a function that can run remotely, and that saves a subscriber in an SQLite database on the container `test_sshd2`.
+
+---
+
+## Activity 1: Start the Julia 1.3.0 containers
 
 Prerequisites:
 - Docker is installed on your computer.
 - You have the two containers `test_sshd` and `test_sshd2` created in chapter 9, [Create the Container](../chapter10/index.html#Activity-2-Create-the-Container-1).
 - Both containers are SSH enabled.
-- You have a Internet connection to download the all the modules we need.
+- You have a Internet connection to download the RbO.jl module.
 
 Steps:
 1. Start both containers and check their Docker internal IP-address.
-2. Use SSH to connect from test_sshd to test_sshd2 and install our modules in both containers.
-3. Create the program.
+2. Use SSH to connect from test_sshd to test_sshd2 and install RbO.jl in both containers.
 
-###### Step 1.1 \- Start both containers
+---
+
+###### Step 1 \- Start both containers and check their Docker internal IP-address
 
 | Step | Action | Comment |
 | :--- | :--- | :---
 | 1 | $ docker start test\_sshd |
 | 2 | $ docker start test\_sshd2 |
 | 3 | $ docker inspect \-f "{{ .NetworkSettings.IPAddress }}" test_sshd | e.g. 172.17.0.2 |
-| 4 | $ docker inspect \-f "{{ .NetworkSettings.IPAddress }}" test_sshd2 | e.g. 172.17.0.3 |
+| 3 | $ docker inspect \-f "{{ .NetworkSettings.IPAddress }}" test_sshd2 | e.g. 172.17.0.3 |
 
-###### Step 1.2 \- Use SSH to connect from test\_sshd to test\_sshd2 and install the out modules
+---
+
+###### Step 2 \- Use SSH to connect from test\_sshd to test\_sshd2 and install RbO.jl
+
+Install RbO in both containers, [Example of adding the module](https://www.appligate.nl/RbO.jl/module_a/#Example-of-adding-the-module-1)
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
 | 1 | $ ssh rob@172.17.0.2 | Enter the container test_sshd. |
-| 2| $ julia | Start Julia. |
-| 3 | julia> ] | Go to the package manager. |
-| 4 | pkg> add https://github.com/rbontekoe/AppliSales.jl | Install AppliSales.jl. |
-| 5 | pkg> add https://github.com/rbontekoe/AppliInvoicing.jl | Install AppliInvoicing.jl. |
-| 6 | pkg> add https://github.com/rbontekoe/AppliGeneralLedger.jl | Install AppliGeneralLedger.jl. |
-| 7 | Ctrl-C | Return to REPL prompt. |
-| 8 | Ctrl-D | Leave Julia. |
-| 9 | $ ssh rob@172.17.0.3 | Enter the container test_sshd2. |
-| 10 | Repeat step 5, 6, and 7 | All our packages are available in test_sshd2. |
-| 11 | Leave the container test_sshd2. | |
+| 2 | $ ssh rob@172.17.0.3 | Enter the container test_sshd3. |
+| 3 | $ julia | Start Julia. |
+| 4 | julia> ] | Go to the package manager. |
+| 5 | pkg> add https://github.com/rbontekoe/RbO.jl | Install RbO.jl. |
+| 6 | Ctrl-C | Return to REPL prompt. |
+| 7 | Ctrl-D | Leave Julia. |
+| 8 | Ctrl-D | Leave the container test_sshd2. |
 
-###### Step 1.3 - Clone AppliMaster
+!!! note
+    If your container is running on a remote machine, you have to use the ip-address of the remote machine and the exported port of the container to connect to.
 
-| Step | Action | Comment |
-| :--- | :--- | :--- |
-| 1 | $ git clone https://github.com/rbontekoe/Master.jl.git | A folder AppliMaster.jl will be created. |
-| 2 | $ ls | |
-| 3 | Ctrl-D | Leave the container. |
+    $ docker start test\_sshd # start the container test\_sshd
 
-## Activity 2: Create the application
+    $ docker port test\_sshd # display the port, e.g. 22/tcp -> 0.0.0.0:32768
+
+    $ ssh 192.168.xxx.xxx -p 32768 # connect to the container on remote machine
+
+---
+
+## Activity 2a: Start the two containers and create main.jl
 
 Prerequisites:
 - Docker is installed on your computer.
 - You have the two containers test_sshd and test_sshd2 created in `Chapter 9, Create the Container`.
 - Both containers are SSH-enabled.
 - Julia is installed in the directory `julia` on the containers.
-- The AppliSales, AppliInvoicing, and AppliGeneralLedger packages are installed in both containers.
+- The RbO.jl package is installed in both containers.
 
 Steps
 1. Start the container `test_sshd` and create main.jl with nano.
-2. Run the application.
 
+---
 
 ###### 1. Start the container test\_sshd and test\_sshd2
 
@@ -90,108 +104,129 @@ Steps
 | 6 | $ ssh rob@172.17.0.2 | Use the ip-address step 2. |
 | 7 | $ julia | Start Julia, and continue at step 8 of [Activity 2: Test the code](#Test-the-code-1) |
 
+---
+
 ## Example test code
 
-| Step | Action | Comment |
-| :--- | :--- | :--- |
-| 1 | Create a file app_functions.jl | In test_sshd. |
-| 2 | Put the code from [AppliMaster.jl](https://github.com/rbontekoe/AppliMaster.jl) in the file | |
-| 3 | Start julia |  |
-| 4 | Run the next (initialization) code first| |
-
-```
+```julia
 julia> using Distributed
 
-julia> p = addprocs([("rob@172.17.0.3", 1)]; exeflags=`--project=$(Base.active_project())`)
-1-element Array{Int64,1}:
- 2
+julia> d = Dict([]) # empty directory for pids, used by the calling container
+Dict{Any,Any} with 0 entries
 
-julia> p = p[1] #container used for invoicing
+julia> addprocs([("rob@172.17.0.3", 1)])
 
-julia> q = p[1] # container used for general ledger
+julia> d["test_sshd2"] = last(workers())
 
-julia> @everywhere using AppliSales
+julia> @everywhere using RbO
 
-julia> @everywhere using AppliInvoicing
+julia> @everywhere f1(x) = createSubscriber(x)
 
-julia> @everywhere using AppliGeneralLedger
+julia> s1 = remotecall_fetch(f1, d["test_sshd2"], "Daisy")
 
-julia> include("./app_functions.jl");
-
-julia> rx = dispatcher()
-[ Info: task_0 is waiting for data
-[ Info: task_1 is waiting for data
-[ Info: task_2 is waiting for data
-[ Info: task_3 is waiting for data
-Channel{Any}(sz_max:32,sz_curr:0)
 ```
+
+---
+
+## Activity 2b: Test the code
+
+Prerequisites:
+- Actitvity 1
+
+---
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 5 | Run the next codel |  |
+| 8 | Copy all the [Test code example](#Test-code-example-1) code to the clipboard, including the julia prompt and the response | |
+| 9 | Return to the container | |
+| 10 | Ctrl-Shfi-V | Paste the text on the clipboard in the Julia REPL. |
 
+The result should look like the next example:
+
+```julia
+julia> s1 = remotecall_fetch(f1, d["test_sshd2"], "Daisy")
+Subscriber("884704875723870469", "Daisy", "", MEAN_CALCULATOR)
 ```
-julia> put!(rx, "START"); # start the application
+
+---
+
+## Activity 3: Run a function in the remote container
+
+Create and save a subscriber in the container test_sshd2. Then display all saved subscribers from a table.
+
+Prerequisites:
+- Activity 1
+- Activity 2
+- The package SQLite.jl is installed in both containers.
 
 
-julia> stms = AppliInvoicing.read_bank_statements(PATH_CSV); # retrieve data
+Steps:
 
-julia> put!(rx, stms); # processing the uppaid invoices
-```
+1. Install SQLite.jl
+2. Try the example code
+3. Use the RbO.jl documentation
 
-When run the code again, you will experience that it is very fast. Best is to delete first the data stores:
+---
+
+###### 1. Install SQLite.jl
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 6 | ;ssh rob@172.17.0.3 | Go to test_ssh2. |
-| 7 | ;rm invoicing.sqlite journal.txt ledger.txt | Delete the stores. |
-| 8 | Ctrl-D | Leave the container. | |
-| 9 | Run the previous code again |  |
+| 1 | Enter test_sshd and start Julia |  |
+| 2 | Go to the package manager |  |
+| 3 | pkg > add SQLite | |
 
-###### The result (statementrs removed)
+---
+
+###### 2. Try the example code
+
+Try the code below.
+
+```julia
+
+using Distributed
+
+d = Dict([])
+
+addprocs([("rob@172.17.0.3", 1)])
+
+d["test_sshd2"] = last(workers())
+
+@everywhere using RbO
+
+# define a new function to create a new subscriber and save it in a database
+@everywhere f2(x) = begin
+  	s = createSubscriber(x) # create a subscriber
+	db = connect("./rbo.sqlite") # connect to database
+	create(db, "subscribers", [s]) # save subscriber in database
+end
+
+remotecall_fetch(f2, 2, "Mickey")
+
+# define a new function for displaying all subscribers
+@everywhere f3(x) = begin
+   db = connect("./rbo.sqlite") # connect to database
+   gather(db, x) # list all items in table x
+end
+
+# Get list of subscrobers
+remotecall_fetch(f3, 2, "subscribers")
+
+# Remove process
+rmprocs(d["test_sshd2"])
+
+# Remove key from dictionary
+delete!(d, "test_sshd2")
 
 ```
-[ Info: Dispatcher received String
-[ Info: task_0 received String
-[ Info: task_0 will start the process remotely
 
-[ Info: task_0 will put 3 the orders on rx channel
-[ Info: task_0 is waiting for data
+---
 
-[ Info: Dispatcher received Array{AppliSales.Order,1}
-[ Info: Task 1 will put 3 orders on rx channel
-[ Info: task_1 is waiting for data
+###### 3. Use the RbO.jl documentation
 
-[ Info: Dispatcher received Array{AppliGeneralLedger.JournalEntry,1}
-[ Info: task_2: Processing journal entries
-[ Info: task_2 is waiting for data
-
-[ Info: Dispatcher received Array{AppliInvoicing.BankStatement,1}
-[ Info: Task_3: Processing unpaid invoices
-[ Info: Retrieved 3 unpaid invoices
-[ Info: task_3 is waiting for data
-
-[ Info: Dispatcher received Array{AppliGeneralLedger.JournalEntry,1}
-[ Info: task_2: Processing journal entries
-[ Info: task_2 is waiting for data
-```
-
-###### Unkown data will not be routed!
+Use the documentation to do the next steps.
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 10 | Run the code in step 5 again |  |
-
-```
-test = "Test unkown type";
-
-put!(rx, test); # unkown type error
-```
-###### Result
-
-```
-[ Info: Dispatcher received String
-
-┌ Warning: No task found for type String
-└ @ Main ~
-```
+| 1 | Use the command `connect` to create a link to the on-disk database rbo.sqlite | |
+| 2 | Use the command 'gather' to retieve data from the SQL table `subscribers` | |
