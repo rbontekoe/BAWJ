@@ -16,7 +16,7 @@ Pages = ["chapter4.md"]
 
 ## API.jl
 
-```julia
+````julia
 module API #1
 
 import ..Accounts: Domain #2
@@ -33,11 +33,11 @@ export create #4
 Create an Address or a Person object.
 
 # Example
-`````
+```
 julia> address_email = create(EMAIL, "donald@duckcity.com")
 
 julia> donald = create("Donald Duck", [address_email])
-`````
+```
 """
 function create end #5
 
@@ -48,7 +48,7 @@ create(name::String, addresses::Array{Address,1})::Person = Person(name, address
 create(name::String)::Person = Person(name) #8
 
 end
-```
+````
 \#1 The module name is `API`.
 
 \#2 The `API` sub-module uses only the functions and types that are defined in the sub-module Domain, Julia, and any loaded packages. `..Accounts` refers to the main-module of `API`. `import ..Accounts: Domain` give us a reference to the sub-module `Domain`, we can load in the next statement.
@@ -64,11 +64,6 @@ Now, we can call them without mentioning the name of the sub-module. Julia warns
 The methods must be indented and their signatures must be different. A signature is determined by the number of arguments and their data-types.
 
 When users type a question mark followed by the function-name (`? create`) then Julia displays the text and the example. Run the example code by pasting it into the REPL, including the `julia>`-prompts.
-
-!!! warning
-    The five (5) back-tics surrounding the example code have to be replaced by three (3) back-tics.
-
-    I had to use five back-tics to avoid conflicts in the mark-down language.
 
 \#6 The method `create` when we want to create an `Address`. `(address_type::AddressType, address::String)` is its signature.  `Address(address_type, address)` is the constructor of the data-type Address that we have defined in Domain.jl.
 
