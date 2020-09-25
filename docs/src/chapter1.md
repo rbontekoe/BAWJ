@@ -10,15 +10,14 @@ The application architecture is based on the **actor model**. The article [The a
 
 ```
                            StmActor
-                              |
-                              | BankStatement(s)
-                              ↓       
-       SalesActor -------> ARActor -------> GLActor
-                  Order(s)    ↑    Entry(s)    ↑
-                              ↓                ↓
+                              │
+                              │ BankStatement(s)
+                              ˅       
+       SalesActor ───────> ARActor ───────> GLActor
+                  Order(s)    ⇵    Entry(s)    ⇵
                             Store            Store
 ```
-Fig 1. The application architecture.
+*Fig 1.1 The application architecture.*
 
 - The SalesActor uses the AppliSales package to send the orders to the ARActor.
 - The StmActor reads a CSV file with bank statements and sends them to the ARActor.

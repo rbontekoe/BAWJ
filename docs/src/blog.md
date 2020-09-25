@@ -2,6 +2,12 @@
 
 ## 2020
 
+### 09/09/2020 - Solved the Triple Back Ticks Problem
+
+If you want to display (triple back ticks)[https://meta.stackexchange.com/questions/82718/how-do-i-escape-a-backtick-within-in-line-code-in-markdown] in a text block enclose it between four back ticks. I updated chapter 4.
+
+I aecided to extend section 1 with a chapter about Documenter.jl the reason I searched again for a solution of the back ticks.
+
 ### 08/20/2020
 
 Finished section 1 `Experimenting with Modules`. Reviewed chapters one till six. I did the activities and exercises. Looks good.
