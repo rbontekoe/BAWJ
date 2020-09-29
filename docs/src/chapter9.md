@@ -1,4 +1,4 @@
-# 9. The Sub-module Domain
+# 9. The Sub-Module Domain
 
 UNDER DEVELOPMENT!
 
@@ -172,7 +172,7 @@ stm(i::PaidInvoice) = i._stm
 
 You see that I refer to the abstract data type `Invoice` for retrieving the field values of `UnpaidInvoice` or `PaidInvoice`. Except, when I need the payment data I refer explicitly to `PaidInvoce`.
 
-## 8.1 Case Study Part One - Redefining BodyItem as a Concrete Datatype
+## 9.1 Case Study Part One: Redefining BodyItem as a Concrete Datatype
 
 Our boss wants our module to be able to print invoices with more than one item, e.g. books and in-company training. He also believes that `Structure` must resemble a hard copy invoice and that any additional information should be retrieved from the metadata. Promoting `BodyItem` to a leave of the tree could cause problems if we have already stored invoices. It is easier to add another leave, `InvoiceItem`.
 

@@ -33,10 +33,25 @@ export create #4
 Create an Address or a Person object.
 
 # Example
-```
-julia> address_email = create(EMAIL, "donald@duckcity.com")
+```julia
+julia> using Accounts
 
-julia> donald = create("Donald Duck", [address_email])
+julia> address_email = create(EMAIL, "donald@duckcity.com");
+
+julia> donald = create("Donald Duck", [address_email]);
+
+julia> donald.id
+"14456927583164318539"
+
+julia> donald.created
+2020-09-28T10:56:29.997
+
+julia> donald.name
+"Donald Duck"
+
+julia> donald.addresses
+1-element Array{Accounts.Domain.Address,1}:
+ Accounts.Domain.Address("7763679977726623090", Dates.DateTime("2020-09-28T10:56:29.461"), EMAIL, "donald@duckcity.com")
 ```
 """
 function create end #5
@@ -142,7 +157,7 @@ end
 
 Similar high order functions are `map`, `reduce`, and `zip`.
 
-## Exercise 4.1 - Adding the Sub-module API.
+## Exercise 4.1: Adding the Sub-module API.
 
 #### Prerequisites
 - Previous activities.

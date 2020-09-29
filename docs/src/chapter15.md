@@ -10,19 +10,19 @@ Pages = ["chapter15.md"]
 
 In chapter 13, we combine what we have learned in chapter 6, `Testing the application` and chapter 12 `Creating SSH enabled Containers.` We use the the packages `AppliSales, AppliInvoicing, and AppliGeneralLedger`. In the container `test_sshd` we use `AppliSales, and AppliInvoicing,` and in `test_sshd2` we use `AppliGeneralLedger.` We will discover that the general ledger data will be stored in a file on `test_sshd2.`
 
-##### Activity 1:
+##### Activity 15.1:
 
 We start with cloning the code from `AppliMaster` on GitHub.
 
-##### Activity 2:
+##### Activity 15.22:
 
 Create the application.
 
-## Activity 1: Cloning the code
+## Activity 15.1: Cloning the code
 
-Prerequisites:
+##### Prerequisites:
 - Docker is installed on your computer.
-- You have the two containers `test_sshd` and `test_sshd2` created in chapter 9, [Create the Container](../chapter10/index.html#Activity-2-Create-the-Container-1).
+- You have the two containers `test_sshd` and `test_sshd2` created in chapter 13, [Create the Container](../chapter13/index.html#Activity-2-Create-the-Container).
 - Both containers are SSH enabled.
 - You have a Internet connection to download the all the modules we need.
 
@@ -64,7 +64,7 @@ Steps:
 | 2 | $ ls | |
 | 3 | Ctrl-D | Leave the container. |
 
-## Activity 2: Create the application
+## Activity 15.2: Create the application
 
 Prerequisites:
 - Docker is installed on your computer.

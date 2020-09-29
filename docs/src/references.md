@@ -15,7 +15,6 @@
 - [Blue: a Style Guide for Julia](https://github.com/invenia/BlueStyle)
 - [Performance Tips](https://docs.julialang.org/en/v1/manual/performance-tips/index.html)
 - [Julia Tutorial](https://www.sas.upenn.edu/~jesusfv/Chapter_HPC_8_Julia.pdf)
-- [JuliaCon 2020 | Building Microservices and Applications in Julia](JuliaCon 2020 | Building Microservices and Applications in Julia)
 
 ## Julia Debugging
 - [A Julia interpreter and debugger](https://julialang.org/blog/2019/03/debuggers/)

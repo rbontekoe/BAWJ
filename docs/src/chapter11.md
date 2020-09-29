@@ -1,4 +1,4 @@
-# 11. The Sub-module Infrastructure
+# 11. The Sub-Module Infrastructure
 
 UNDER DEVELOPMENT!
 
@@ -56,9 +56,9 @@ export process, read_bank_statements, retrieve_unpaid_invoices, retrieve_paid_in
 \#8 Functions that are directly accessible to others.
 
 
-## Method process
+## process(orders)
 
-In [The Procedure as an Activity Diagram](../chapter7/index.html#The-Procedure-as-an-Activity-Diagram-1) of chapter 7 we sketched the workflows. Here you can see the implementation of the workflow when an order is received.
+In [The Procedure as an Activity Diagram](../chapter8/index.html#The-Procedure-as-an-Activity-Diagram) of chapter 8 we sketched the workflows. Here you can see the implementation of the workflow when an order is received.
 
 ```
 process(orders::Array{Order, 1}; path=FILE_UNPAID_INVOICES) = begin
@@ -88,11 +88,11 @@ end # process orders
 
 The function has a named argument `path` that is used to store the created invoices. The default file name is `test_invoicing.txt` and is used for testing purposes. For production purposes you have to specify a different name to prevent the file from being erased when you run the tests.
 
-## Case Study Part Three - Replace OpentrainingItem by InvoiceItem
+## Case Study Part Three: Replace OpentrainingItem by InvoiceItem
 
 To keep it 'relatively simple' we replace `OpentrainingItem` by `InvoiceItem`.
 
-## Exercide 10.1 - Changes for using InvoiceItem
+## Exercise 11.1: Changes for using InvoiceItem
 
 The steps to be taken.
 1. In the sub-module Domain, we remove `OpenTrainingItem` and the field methods (name_training,

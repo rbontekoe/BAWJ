@@ -31,7 +31,7 @@ You learn to write a function that can run remotely, and that saves a subscriber
 
 Prerequisites:
 - Docker is installed on your computer.
-- You have the two containers `test_sshd` and `test_sshd2` created in chapter 9, [Create the Container](../chapter10/index.html#Activity-2-Create-the-Container-1).
+- You have the two containers `test_sshd` and `test_sshd2` created in chapter 13, [Create the Container](../chapter13/index.html#Activity-2-Create-the-Container).
 - Both containers are SSH enabled.
 - You have a Internet connection to download the RbO.jl module.
 
@@ -82,7 +82,7 @@ Install RbO in both containers, [Example of adding the module](https://www.appli
 
 Prerequisites:
 - Docker is installed on your computer.
-- You have the two containers test_sshd and test_sshd2 created in `Chapter 9, Create the Container`.
+- You have the two containers test_sshd and test_sshd2 created in chapter 13, `Create the Container`.
 - Both containers are SSH-enabled.
 - Julia is installed in the directory `julia` on the containers.
 - The RbO.jl package is installed in both containers.

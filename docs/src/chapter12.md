@@ -1,4 +1,4 @@
-# 12. The Main-module AppliAR.jl
+# 12. The Main-Module AppliAR.jl
 
 UNDER DEVELOPMENT!
 

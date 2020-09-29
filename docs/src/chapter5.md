@@ -159,7 +159,7 @@ end
 
 ```
 
-## Exercise 5.1 - Adding the Sub-Module Infrastructure.
+## Exercise 5.1: Adding the Sub-Module Infrastructure
 
 In this exercise, you perform the following tasks.
 
@@ -190,6 +190,6 @@ Infrastructure.jl |    1      1
     Testing Accounts tests passed
 ```
 
-- Create the file `test_infr.jl` and copy the code from section [test_infr.jl](l#test_infr.jl-1) into it.
+- Create the file `test_infr.jl` and copy the code from section [test_infr.jl](#test_infr.jl-1) into it.
 - Test the code.
 - Push the changes to your GitHub repository. Check the changes on GitHub.

@@ -33,7 +33,7 @@ end
 
 \#3 The functions are used to store and retrieve persons.
 
-## Activity 6.1 - Export Elements
+## Activity 6.1: Export Elements
 
 In this activity you define which functions, and types are exported when a software programmer uses our module `Accounts`.
 
@@ -42,7 +42,7 @@ In this activity you define which functions, and types are exported when a softw
 - Julia 1.5 installed.
 - Atom/Juno installed.
 - Git installed.
-- The finished exercise [Exercise 5.1 - Adding the sub-module Infrastructure](../chapter5/index.html#Exercise-5.1-Adding-the-Sub-module-Infrastructure.-1)
+- The finished [Exercise 5.1 - Adding the sub-module Infrastructure](../chapter5/index.html#Exercise-5.1:-Adding-the-Sub-Module-Infrastructure)
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -85,8 +85,6 @@ The high order functions `map` and `filter` are used. [High order functions](htt
 
 ```julia
 using Pkg; Pkg.activate(".")
-
-The code first start with loading DataFrames in a try-catch block. When `using DataFrames`
 
 using Accounts
 
@@ -147,7 +145,7 @@ catch e
 end
 ```
 
-## Activity 6.2 - Test the Module
+## Activity 6.2: Test the Module
 
 #### Requisites
 - Ubuntu 20.04.
@@ -241,7 +239,7 @@ const FILE_ACCOUNTS = "./test_accounts.txt"
 end
 ```
 
-## Exercise 6.1 - Redefine runtests.jl
+## Exercise 6.1: Redefine runtests.jl
 
 In this exercise, you run a test in the folder `TestAccounts` again with the modified Accounts module.
 1. Return to the Accounts development environment and change the contents of `Accounts.jl` conform the section [runtest.jl](#runtest.jl-1).

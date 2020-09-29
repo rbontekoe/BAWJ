@@ -13,11 +13,11 @@ Pages = ["chapter2.md"]
 To get experience with Julia and modules, we start with building an application where we can register and retrieve persons. The module name is `Accounts.`
 
 The activities are
-- Activity 2.1 - Setup the Development Environment.
-- Activity 2.2 - Create the Accounts module.
-- Activity 2.3 - Create a Repository on GitHub.
+- Activity 2.1: Setup the Development Environment.
+- Activity 2.2: Create the Accounts module.
+- Activity 2.3: Create a Repository on GitHub.
 
-We use the `Onion Architecture` to define a model that consists of the layers Domain, API, and Infrastructure. The layers are declared as sub-modules. See also [Domain-driven Design](../chapter7/index.html#Domain-driven-design-1) in section 2 `Accounts Receivable` of chapter 7 `The design`.
+We use the `Onion Architecture` to define a model that consists of the layers Domain, API, and Infrastructure. The layers are declared as sub-modules. See also [Domain-driven Design](../chapter8/index.html#Domain-Driven-Design) in section 2 `Accounts Receivable` of chapter 7 `The design`.
 
 #### The Domain layer
 The domain has the objects Person, Address, and AddressType.
@@ -28,7 +28,7 @@ The API has the function `create`. It can be used for creating persons and addre
 #### The Infrastructure layer
 Infrastructure has the functions `save` and `retrieve` to save and retrieve persons.
 
-## Activity 3.1 - Setup the Development Environment
+## Activity 2.1: Setup the Development Environment
 
 In this activity, you will create a development environment.
 - Install Julia.
@@ -42,10 +42,10 @@ In this activity, you will create a development environment.
 | Step | Action | Comment |
 | :--- | :--- | :--- |
 | 1 | Ctrl+Alt-T | Open a terminal window. |
-| 2 | [Install Julia](../appendix/index.html#Install-Julia-1) | Follow the Installation instructions. |
-| 3 | [Install Git](../appendix/index.html#Install-Git-1) |  |
-| 4 | [Install Atom](../appendix/index.html#Install-Atom-1) |  |
-| 5 | [Install Juno](../appendix/index.html#Install-Juno-1) |  |
+| 2 | [Install Julia](../appendix/index.html#Install-Julia) | Follow the Installation instructions. |
+| 3 | [Install Git](../appendix/index.html#Install-Git) |  |
+| 4 | [Install Atom](../appendix/index.html#Install-)Atom) |  |
+| 5 | [Install Juno](../appendix/index.html#Install-Juno) |  |
 | 6 | Close Atom |  |
 | 7 | $ julia | Start Julia. |
 | 8 | julia> ] | Go to the package manager. |
@@ -55,7 +55,7 @@ In this activity, you will create a development environment.
 
 Explore the file structure.
 
-## Activity 3.2 - Create the Accounts Module.
+## Activity 2.2: Create the Accounts Module.
 
 In this activity you will create the basic application file structure for the module `Accounts` using PkgTemplates:
 - Create a template.
@@ -64,7 +64,7 @@ In this activity you will create the basic application file structure for the mo
 - Start Atom/Juno.
 
 #### Prerequisites
-- Activity 3.1:
+- Activity 2.1.
 - Ubuntu 20.04.
 - Julia 1.5 installed.
 - Atom/Juno installed.
@@ -174,7 +174,7 @@ You will see the following file structure.
 
 \#3 Contains the module version and its dependencies.
 
-## Activity 3.3 - Create a Repository on GitHub
+## Activity 2.3: Create a Repository on GitHub
 
 In this activity, you create a repository on GitHub. You can push changes in the design of the module to GitHub. Later on, you will learn how others can use the module.
 

@@ -1,4 +1,4 @@
-# 10. The Sub-module API
+# 10. The Sub-Module API
 
 UNDER DEVELOPMENT!
 
@@ -50,7 +50,7 @@ end
 
 ## Case Study Part Two - Redefining BodyItem as a Concrete Datatype
 
-In [Case Study Part One](../chapter8/index.html#.1-Case-Study-Part-One-Redefining-BodyItem-as-a-Concrete-Datatype-1) we decided to keep `OpentrainingItem` and create another data type `InvoiceItem`.
+In [Case Study Part One](../chapter9/index.html#.1-Case-Study-Part-One:-Redefining-BodyItem-as-a-Concrete-Datatype) we decided to keep `OpentrainingItem` and create another data type `InvoiceItem`.
 
 ```
 struct InvoiceItem <: BodyItem
@@ -105,7 +105,7 @@ export InvoiceItem, code, descr, unit_price, qty, vat_perc
 
 If one were already using my package, I cannot delete OpentrainingItem. Of course, this is not the case but in reality, you have to take it into account.
 
-## Exercise 9.1 - Change the code according to case study one and two
+## Exercise 10.1: Change the code according to case study one and two
 
 - Go to a folder, for example `projects`.
 - Clone AppliAR.jl.
@@ -136,7 +136,7 @@ $ git status
 ```
 
 - Start Atom/Juno.
-- Make the changes according to [Case Study Part One](../chapter8/index.html#.1-Case-Study-Part-One-Redefining-BodyItem-as-a-Concrete-Datatype-1). Export InvoiceItem and functions in `Domain.jl`.
+- Make the changes according to [Case Study Part One](../chapter9/index.html#.1-Case-Study-Part-One:-Redefining-BodyItem-as-a-Concrete-Datatype). Export InvoiceItem and functions in `Domain.jl`.
 - Change the data types of the field 'body' in `UnpaidInvoice` and `PaidInvoice` to the abstract type `BodyItem`.
 - Add the new create-function to the API according to [Advantages of API as Sub-Module](#Advantage-of-API-as-Sub-Module.-1).
 - Add `Training` to the import statement of AppliSales in API.jl and instantiate AppliSales.
