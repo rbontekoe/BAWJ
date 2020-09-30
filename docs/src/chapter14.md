@@ -10,24 +10,23 @@ Pages = ["chapter14.md"]
 
 In lesson 9, Creating SSH enabled Containers, we created two containers: `test_sshd` and `test_sshd2`. In this chapter, we learn how to run a function in a remote container `test_sshd2`. Before we use the model we created in earlier lessons, you will test the containers with the package `RbO.jl`.
 
-##### Activity 1:
+##### Activity 14.1: Start the Containers
 
-You start the two Docker containers, `test_sshd,` and `test_sshd2`. We need to know their Docker IP-addresses. With the command `ssh rob@<ip-address>`, we enter the `test_sshd` container. Within this container, we generate a process id bound to the IP-address of `test_ssh2`.
-
+To start the two Docker containers, `test_sshd,` and `test_sshd2`, we need to know their Docker IP-addresses. With the command `ssh rob@<ip-address>`, we enter the `test_sshd` container. Within this container, we generate a process id bound to the IP-address of `test_ssh2`.
 
 We create the file `main.jl`, which contains the base code for container-container communication.
 
-##### Activities 2a and 2b:
+##### Activities 14.2a and 14.2b: Test the containers (Use Accounts.jl instead of Rbo.jl!!!!!!)
 
 Next, we use the example code to create a subscriber based on a name. We prefer to do the test with AppliGate's module `RbO.jl`. In chapter 12, you will use your modules.
 
-##### Activity 3:
+##### Activity 14.3: Write a Function that Runs Remote
 
 You learn to write a function that can run remotely, and that saves a subscriber in an SQLite database on the container `test_sshd2`.
 
 ---
 
-## Activity 1: Start the Julia 1.3.0 containers
+## Activity 14.1: Start the Containers
 
 Prerequisites:
 - Docker is installed on your computer.
@@ -37,11 +36,11 @@ Prerequisites:
 
 Steps:
 1. Start both containers and check their Docker internal IP-address.
-2. Use SSH to connect from test_sshd to test_sshd2 and install RbO.jl in both containers.
+2. Use SSH to connect from test_sshd to test_sshd2 and install Accounts.jl in both containers.
 
 ---
 
-###### Step 1 \- Start both containers and check their Docker internal IP-address
+###### Step 1: Start both containers and check their Docker internal IP-address
 
 | Step | Action | Comment |
 | :--- | :--- | :---
@@ -52,7 +51,7 @@ Steps:
 
 ---
 
-###### Step 2 \- Use SSH to connect from test\_sshd to test\_sshd2 and install RbO.jl
+###### Step 2: Use SSH to Connect from test\_sshd o test\_sshd2 and install Accounts.jl
 
 Install RbO in both containers, [Example of adding the module](https://www.appligate.nl/RbO.jl/module_a/#Example-of-adding-the-module-1)
 
@@ -78,7 +77,7 @@ Install RbO in both containers, [Example of adding the module](https://www.appli
 
 ---
 
-## Activity 2a: Start the two containers and create main.jl
+## Activity 2a: Start the Two Containers and Create main.jl
 
 Prerequisites:
 - Docker is installed on your computer.
@@ -92,7 +91,7 @@ Steps
 
 ---
 
-###### 1. Start the container test\_sshd and test\_sshd2
+##### 1. Start the container test\_sshd and test\_sshd2
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -128,7 +127,7 @@ julia> s1 = remotecall_fetch(f1, d["test_sshd2"], "Daisy")
 
 ---
 
-## Activity 2b: Test the code
+## Activity 2b: Test the Code
 
 Prerequisites:
 - Actitvity 1
@@ -137,9 +136,9 @@ Prerequisites:
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 8 | Copy all the [Test code example](#Test-code-example-1) code to the clipboard, including the julia prompt and the response | |
-| 9 | Return to the container | |
-| 10 | Ctrl-Shfi-V | Paste the text on the clipboard in the Julia REPL. |
+| 1 | Copy all the [Test code example](#Test-code-example-1) code to the clipboard, including the julia prompt and the response | |
+| 2 | Return to the container | |
+| 3 | Ctrl-Shfi-V | Paste the text on the clipboard in the Julia REPL. |
 
 The result should look like the next example:
 
@@ -150,25 +149,22 @@ Subscriber("884704875723870469", "Daisy", "", MEAN_CALCULATOR)
 
 ---
 
-## Activity 3: Run a function in the remote container
+## Activity 14.3: Run a function in the remote container
 
 Create and save a subscriber in the container test_sshd2. Then display all saved subscribers from a table.
 
 Prerequisites:
-- Activity 1
-- Activity 2
-- The package SQLite.jl is installed in both containers.
-
+- Activity 14.1
+- Activity 14.2
 
 Steps:
-
-1. Install SQLite.jl
+1. Install SQLite.jl (?!)
 2. Try the example code
-3. Use the RbO.jl documentation
+3. Use the Accounts.jl documentation
 
 ---
 
-###### 1. Install SQLite.jl
+##### Step 1: Install SQLite.jl
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -178,7 +174,7 @@ Steps:
 
 ---
 
-###### 2. Try the example code
+##### Step 2: Try the example code
 
 Try the code below.
 
@@ -222,7 +218,7 @@ delete!(d, "test_sshd2")
 
 ---
 
-###### 3. Use the RbO.jl documentation
+###### Step 3. Use the Accounts.jl documentation
 
 Use the documentation to do the next steps.
 

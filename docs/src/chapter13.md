@@ -19,7 +19,7 @@ In the next chapter, we will show you how to create containers on a Raspberry Pi
 See also the Pact book Julia 1.0 Programming: [Installing Julia from binaries](https://subscription.packtpub.com/book/application_development/9781788998369/1/ch01lvl1sec12/installing-julia-from-binaries)
 
 
-## Activity 1 \- Create local SSH keys
+## Activity 13.1: Create local SSH keys
 
 Prerequisites:
 - Your system has Ubuntu 18.04 that runs on an Intel x86 processor.
@@ -30,7 +30,7 @@ Steps:
 1. Check previous created keys.
 2. Create local SSH keys.
 
-### 1. Check previous created keys
+##### Step 1: Check previous created keys
 
 | Step | Action | Comment
 | :--- | :--- | :--- |
@@ -54,7 +54,7 @@ total 16
 
 You have created the keys before, no further action is required. The file id_rsa.pub contains your public key. Later on, we will create a copy of it in the SSH enabled container.
 
-### 2. Create local SSH keys on your computer
+##### Step 2: Create local SSH keys on your computer
 
 | Step | Action | Comment
 | :--- | :--- | :--- |
@@ -71,7 +71,7 @@ See [SSH Connection Refused (Causes & Solutions)](https://likegeeks.com/ssh-conn
 | 6 | $ chmod 700 ~/.ssh | Change right the folder .ssh |
 | 7 | $ chmod 600 ~/.ssh/authorized_keys | Change right of the file authorized_keys |
 
-## Activity 2 \- Create the Container
+## Activity 13.2: Create the Container
 
 Prerequisites:
 - Your system has Ubuntu 18.04 that runs on an Intel x86 processor.
@@ -101,7 +101,7 @@ EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 ```
 
-### 1. Create a Dockerfile in the folder test_ssh
+##### Step 1: Create a Dockerfile in the folder test_ssh
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -114,7 +114,7 @@ Step | Action | Comment |
 | 8 | Ctrl-O <Enter>| Save the file.|
 | 9 | Ctrl-X | Exit nano. |
 
-### 2. Create a Docker image eg\_sshd and the container test\_sshd
+##### Step 2: Create a Docker image eg\_sshd and the container test\_sshd
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -123,14 +123,12 @@ Step | Action | Comment |
 | 3 | $ docker exec -it test_sshd bash | Enter the container |
 | 4 | Ctrl-D | Leave the container. |
 
-### 3. Create a user `rob`, who has administrator rights
+##### Step 3: Create a user `rob`, who has administrator rights
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
 | 1 | $ docker exec -it test_sshd bash | Enter the container |
-| 2 | # adduser rob |  || :--- | :--- | :--- |
-
-##### Response
+| 2 | # adduser rob | You get the next response: |
 
 ```
 Adding user `rob' ...
@@ -154,8 +152,6 @@ Is the information correct? [Y/n] Y
 !!! note
     You are asked to give the user rob a password. The password you will use in the future for the SSH connection to the container, so write it down. You need it the first time when you want to enable passwordless communication. From Ubuntu 18.04 on, you don't know the roots' password anymore. That is the reason we had to create a user with administrator rights for SSH connections.
 
-##### Next steps
-
 | Step | Action | Comment |
 | :--- | :--- | :--- |
 | 3 | # usermod -aG sudo rob | Give user administrator rights. |
@@ -165,7 +161,7 @@ Is the information correct? [Y/n] Y
 | 5 | Ctrl-D | Back as root user. |
 | 6 | Ctrl-D | Leave the container. |
 
-##### Important?
+##### Important steps?
 
 | Step | Action | Comment
 | :--- | :--- | :--- |
@@ -173,7 +169,7 @@ Is the information correct? [Y/n] Y
 | 7 | $ chmod 600 ~/.ssh/authorized_keys | Change right of the file authorized_keys |
 
 
-## Activity 3 - Install Julia
+## Activity 13.3: Install Julia
 
 Prerequisites:
 - Your system has Ubuntu 18.04 running on the Intel x86 processor.
@@ -185,7 +181,7 @@ Activity:
 2. Install Julia and test the installation.
 3. Create a symbolic link to start Julia from everywhere.
 
-### 1. Download the Julia binary and copy it to the container
+##### Step 1: Download the Julia binary and copy it to the container
 
 | Step | Action | Comment
 | :--- | :--- | :--- |
@@ -193,30 +189,23 @@ Activity:
 | 2 | $ docker ps -a | Check whether container test_ssh exists. |
 | 2 | $ docker start test_sshd | Start the container. |
 | 3 | $ docker cp julia\-1.3.0\-linux\-x86\_64.tar.gz test\_sshd:/home/rob | Copy the downloaded file to the container. |
-| 4 | $ docker exec -it test_sshd bash | Enter the conatiner. |
-
-##### Next steps
-
-| Step | Action | Comment
-| :--- | :--- | :--- |
+| 4 | $ docker exec -it test_sshd bash | Enter the container. |
 | 5 | $ su rob | Switch to user rob. |
 | 6 | $ cd ~ | Go to home directory. |
 | 7 | $ ls | You see the file julia\-1.3.0\-linux\-x86\_64.tar.gz |
 
-### 2. Install Julia and test the installation
+##### Step 2: Install Julia and test the installation
 
 | Step | Action | Comment
 | :--- | :--- | :--- |
-| 5 | $ mkdir julia | Create folder julia. OS asks for yur password. |
-| 6 | $ mv julia-1.3.0-linux-x86_64.tar.gz julia | Move file to folder. |
-| 7 | $ cd julia | Enter folder |
-| 8 | $ tar -zxvf julia-1.3.0-linux-x86_64.tar.gz | Extract the file. |
-| 9 | $ ls | List the content of the folder. |
-| | julia-1.3.0  julia-1.3.0-linux-x86_64.tar.gz | |
-| 10 | $ cd julia-1.3.0/bin/ | We will test Julia. |
-| 11 | $ sudo ./julia | Start Julia. |
-
-##### Response
+| 1 | $ mkdir julia | Create folder julia. OS asks for yur password. |
+| 2 | $ mv julia-1.3.0-linux-x86_64.tar.gz julia | Move file to folder. |
+| 3 | $ cd julia | Enter folder |
+| 4 | $ tar -zxvf julia-1.3.0-linux-x86_64.tar.gz | Extract the file. |
+| 5 | $ ls | List the content of the folder. |
+| 6 | julia-1.3.0  julia-1.3.0-linux-x86_64.tar.gz | |
+| 7 | $ cd julia-1.3.0/bin/ | We will test Julia. |
+| 8 | $ sudo ./julia | Start Julia. You get the next response: |
 
 ```               _
    _       _ _(_)_     |  Documentation: https://docs.julialang.org
@@ -230,16 +219,16 @@ Activity:
 julia>
 ```
 
-### 3. Create a symbolic link to start Julia from anywhere
+### Step 3: Create a symbolic link to start Julia from anywhere
 
 | Step | Action | Comment
 | :--- | :--- | :--- |
-| 12 | Ctrl-D | Leave Julia. |
-| 13 | cd ~ | To home directory. |
-| 14 | $ sudo ln -s /home/rob/julia/julia-1.3.0/bin/julia /usr/local/bin/julia | Create link. |
-| 15 | $ julia | Start Julia. |
+| 1| Ctrl-D | Leave Julia. |
+| 2 | cd ~ | To home directory. |
+| 3 | $ sudo ln -s /home/rob/julia/julia-1.3.0/bin/julia /usr/local/bin/julia | Create link. |
+| 4 | $ julia | Start Julia. |
 
-## Activity 4 \- Test the container.
+## Activity 13.4: Test the container.
 
 Prerequisites:
 - You have an SSH enabled container.
@@ -249,7 +238,7 @@ Steps:
 1. Copy your public key to the container.
 2. Test the SSH connection with the container.
 
-### 1. Copy your public key to the container
+##### Step 1: Copy your public key to the container
 
 | Step | Action | Comment
 | :--- | :--- | :--- |
@@ -288,13 +277,11 @@ and check to make sure that only the key(s) you wanted were added
 !!! info
     Your keys are stored in the folder /etc/ssh/.
 
-### 2. Test the SSH connection with the container.
+##### Step 2: Test the SSH connection with the container.
 
 | Step | Action | Comment
 | :--- | :--- | :--- |
-| 1| ssh rob@localhost -p 32768 | |
-
-##### Response
+| 1| ssh rob@localhost -p 32768 | You get the next response: |
 
 ```
 Welcome to Ubuntu 18.04.3 LTS (GNU/Linux 5.0.0-37-generic x86_64)
@@ -332,7 +319,7 @@ rob@13304c03391d:~$
     ssh rob@172.17.0.2
     ```
 
-## Exercise
+## Exercise 13.1: Create a Second Container
 
 Create a second container **test_sshd2**:
 - You don't have to create the keys again!
@@ -340,4 +327,4 @@ Create a second container **test_sshd2**:
 - Check the port number of test_sshd2.
 - Name of the administrative user can be kept the same: rob.
 
-We will use both containers in chapter 11.
+We will use both containers in chapter 14.

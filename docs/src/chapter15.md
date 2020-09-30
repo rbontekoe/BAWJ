@@ -14,7 +14,7 @@ In chapter 13, we combine what we have learned in chapter 6, `Testing the applic
 
 We start with cloning the code from `AppliMaster` on GitHub.
 
-##### Activity 15.22:
+##### Activity 15.2:
 
 Create the application.
 
@@ -78,7 +78,7 @@ Steps
 2. Run the application.
 
 
-###### 1. Start the container test\_sshd and test\_sshd2
+##### Step 1: Start the container test\_sshd and test\_sshd2
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -148,7 +148,7 @@ When run the code again, you will experience that it is very fast. Best is to de
 | 8 | Ctrl-D | Leave the container. | |
 | 9 | Run the previous code again |  |
 
-###### The result (statementrs removed)
+##### The result (statementrs removed)
 
 ```
 [ Info: Dispatcher received String
