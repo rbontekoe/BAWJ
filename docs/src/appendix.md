@@ -1,14 +1,16 @@
-# Appendix
+# Installation Instructions
 
 ## Introduction
 
-I have a Lenovo Legion Y520 Windows 10 laptop with Ubuntu 20.04 installed on a Samsung portable SSD T5 disk. I start my machine from this disk.
+I have a Lenovo Legion Y520 Windows 10 laptop with Ubuntu 20.04 installed on a [Samsung portable SSD T5](#Install-Ubuntu-on-Samsung-T5-and-Lemovo-Legion-Y520-with-Windows-10) disk. I start my machine from this disk.
 
-All installation instructions in this course are based on Ubuntu.
+All installation instructions in this course are based on Ubuntu 20.04.
 
 ## Install Julia
 
-Prerequisites
+Julia is a language that is fast, dynamic, easy to use, and open source.
+
+##### Prerequisites
 - Your computer OS is Ubuntu 20.04 64 bit.
 
 | Step        | Action      | Comment |
@@ -22,13 +24,16 @@ Prerequisites
 | 6 | $ sudo ln -s /home/rob/julia-1.5.0-rc2-linux-x86_64.tar.gz /usr/local/bin/julia | Create a symbolic link. |
 | 7 | $ julia | Start Julia. |
 | 8 | Ctrl-D | Close Julia. |
+||
 
 !!! info
     You can remove a symbolic link with: `rm julia`.
 
 ## Install Git
 
-Prerequisites
+Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency.
+
+##### Prerequisites
 - Your computer OS is Ubuntu 20.04 64 bit.
 - You preferably have a [GitHub account](https://github.com/).
 
@@ -39,10 +44,13 @@ Step        | Action      | Comment |
 | 3 | git config --global user.name "<your first and last name>" | E.g. "Rob Bontekoe" |
 | 4 | git config --global github.user "<yout git hub name>" | E.g. "rbontekoe" |
 | 5 | cat .gitconfig | Show your git data. |
+||
 
 ## Install Atom
 
-Prerequisites
+Atom is a free and open-source text and source code editor.
+
+##### Prerequisites
 - Your computer OS is Ubuntu 20.04 64 bit.
 - You have installed Julia.
 - You have installed Git.
@@ -55,10 +63,13 @@ Step        | Action      | Comment |
 | 2 | select `Download .deb` | |
 | 4 | cd ~/Downloads/ |  |
 | 5 | sudo apt install ./atom-amd64.deb |  |
+||
 
 ## Install Juno
 
-Prerequisites
+Juno is a development plugin for the Julia language.
+
+##### Prerequisites
 - Your computer OS is Ubuntu 20.04 64 bit.
 - You have installed Julia.
 - You have installed Git
@@ -83,10 +94,13 @@ Step        | Action      | Comment |
 | 15 | Type: `println("Hello world!")` |  |
 | 16 | Shift-Enter | `Hello world!` will be shown in the file after the statement. |
 | 17 | Ctrl-S | The file can be saved. |
+||
 
 ## Install IJulia
 
-Prerequisites
+IJulia is a browser back-end for the Jupyter interactive notebook environment.
+
+##### Prerequisites
 - Julia 1.0+ has been installed.
 
 |Step        | Action      | Comment |
@@ -97,7 +111,8 @@ Prerequisites
 | 4 | BackSpace | Back to the julia prompt. |
 | 5 | using IJulia | Load package. |
 | 6 | notebook(detached=true, dir=".") | Start IJulia. |
-
+||
+```
 Only the first time you get the next question:
 
 install Jupyter via Conda, y/n? [y]:
@@ -105,17 +120,22 @@ install Jupyter via Conda, y/n? [y]:
 Type: y <Enter>
 
 Your browser window opens.
-
+```
 |Step        | Action      | Comment |
 |:---------- | :---------- |:---------- |    
 | 7 | Select: New > Julia 1.5.0-rc2 | Create a new Julia notebook. |
 | 8 | Type: 1 + 2 | Enter a formula in a cell. |
 | 9 | Shift-Enter | Execute formula. The result 3 will be shown. |
+||
 
 ## Install Docker
 
-Prerequisites
-- Your computer OS is Ubuntu 18.04 or higher.
+Docker is an open container platform for developing, shipping, and running applications.
+
+##### Prerequisites
+- Your computer OS is Ubuntu 20.04 or higher.
+
+See also: [How To Install Docker On Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
 
 |Step        | Action      | Comment |
 |:---------- | :---------- |:---------- |
@@ -125,22 +145,113 @@ Prerequisites
 | 4 | sudo systemctl start docker |  |
 | 5 | sudo systemctl enable docker |  |
 | 6 | sudo docker version | Check Docker Version |
+||
 
-See also: [How To Install Docker On Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
+## Install NVidia Driver
 
-## Important Docker commands
-| Action      | Comment |
+See: [How to install the NVIDIA drivers on Ubuntu 20.04 Focal Fossa Linux](https://linuxconfig.org/how-to-install-the-nvidia-drivers-on-ubuntu-20-04-focal-fossa-linux)
+
+|Step        | Action      | Comment |
+|:---------- | :---------- |:---------- |
+| 1 | $ ubuntu-drivers devices | Check drivers |
+||
+```
+== /sys/devices/pci0000:00/0000:00:01.0/0000:01:00.0 ==
+modalias : pci:v000010DEd00001C8Dsv000017AAsd000039D1bc03sc02i00
+vendor   : NVIDIA Corporation
+model    : GP107M [GeForce GTX 1050 Mobile]
+driver   : nvidia-driver-390 - distro non-free
+driver   : nvidia-driver-450-server - distro non-free
+driver   : nvidia-driver-435 - distro non-free
+driver   : nvidia-driver-418-server - distro non-free
+driver   : nvidia-driver-440-server - distro non-free
+driver   : nvidia-driver-450 - distro non-free recommended
+driver   : xserver-xorg-video-nouveau - distro free builtin
+```
+Step        | Action      | Comment |
+|:---------- | :---------- |:---------- |
+| 2 | $ sudo ubuntu-drivers autoinstall | Install recommended driver. |
+| 3 | $ sudo reboot |  |
+||
+
+## Install CUDA for Docker Containers
+
+See: [NIVIDIA User guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/user-guide.html)
+
+##### Prerequisites
+- You have [Docker installed](#Install-Docker)
+- Julia version 1.5.0+
+
+|Step        | Action      | Comment |
+|:---------- | :---------- |:---------- |
+| 1 | Run the following code below: | Enable GPU support for Docker. |
+||
+```
+sudo mkdir -p /etc/systemd/system/docker.service.d
+sudo tee /etc/systemd/system/docker.service.d/override.conf <<EOF
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd --host=fd:// --add-runtime=nvidia=/usr/bin/nvidia-container-runtime
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+|Step        | Action      | Comment |
+|:---------- | :---------- |:---------- |
+| 2 | sudo docker start test_sshd | Start the container. |
+| 2 | ssh rob@172.17.0.2 | Enter the container. |
+| 3 | julia | Start Julia. |
+| 4 | using Pkg | Start package manager |
+| 5 | Pkg.add(["BenchmarkTools", "CUDA", "Flux"])) | Load CUDA, etc. |
+| 6 | <Backspace> | Return to Jullia. |
+| 7 | using CUDA; has_cuda() | Test whether CUDA is enabled. |
+||
+
+TODO: It didn't work for me. Troubleshoot!
+- https://github.com/JuliaGPU/docker
+
+## Important Docker Commands
+| Command     | Comment |
 |:----------  |:---------- |
 | sudo docker images | Display all Docker Images. |
 | sudo docker ps | Display all running containers. |
 | sudo docker ps - a | Display all containers. |
-| sudo docker start <name or id> | E.g `docker start julia`. |
-| sudo docker exec -it <name or id> <command> | E.g `docker exec -it julia bash`. |
-| sudo docker exec -it <name or id> <command> | E.g `docker exec -it julia julia`. |
+| sudo docker start <name or id> | E.g `docker start test_sshd`. |
+| sudo docker exec -it <name or id> <command> | E.g `docker exec -it test_sshd bash`. |
+| sudo docker exec -it <name or id> <command> | E.g `docker exec -it test_sshd julia`. |
 | Ctrl-D | Exit the container |
-| sudo docker stop <name or id> | E.g `docker stop julia`. |
+| sudo docker stop <name or id> | E.g `docker stop test_sshd`. |
 | sudo docker rm -f <name or id> | Delete a container. |
-| sudo docker rmi <image id> | Delete a image. |
+| sudo docker rmi <image id> | Delete an image. |
+||
+
+## Install Ubuntu on Samsung T5 and Lemovo Legion Y520 with Windows 10
+
+The steps I have done.
+
+|Step        | Action/Response | Comment |
+|:---------- | :---------- |:---------- |
+| 1 | Download ISO-image from Ubuntu 18.04. website |  |
+| 2 | Copy with Rufus to [USB-stick](https://github.com/kfechter/LegionY530Ubuntu/blob/master/Sections/CreateBootDrive.md) |  |
+| 3 | Start machine and press F2 | Change the Bios Lenovo |
+||
+```
+Under Boot tab:
+Fast Boot disabled
+Under Security tab:
+Secureboot disabled
+See:
+https://github.com/kfechter/LegionY530Ubuntu/blob/master/Sections/InstallUbuntu.md
+```
+
+|Step        | Action/Response | Comment |
+|:---------- | :---------- |:---------- |
+| 4 | Start Y520 with Windows 10 and press F12 |  |
+| 5 | Choose Ubuntu | Restart via USB. |
+| 6 | After restart choose for install Ubuntu on 500GB portable disk |  |
+| 7 | sudo apt update |  |
+| 8 | sudo do-release-upgrade -d | [Upgrade to Ubuntu 20.04](https://ubuntu.com/blog/how-to-upgrade-from-ubuntu-18-04-lts-to-20-04-lts-today). |
+||
 
 ---
 
@@ -148,7 +259,7 @@ See also: [How To Install Docker On Ubuntu](https://docs.docker.com/engine/insta
 
 ## Dockerfile
 
-Prerequisites
+##### Prerequisites
 - Your computer OS is Ubuntu 20.04.
 - You have installed Dockerversion version 0.18.0 or higher.
 
@@ -185,7 +296,7 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
 
 ## Install IJulia
 
-Prerequisites
+##### Prerequisites
 - Your computer OS is Ubuntu 20.04.
 - You have installed Dockerversion version 0.18.0 or higher.
 
@@ -227,30 +338,3 @@ Prerequisites
 | 5 | Ctrl-Shift-C | Copy the token to the clipboard. |
 | 6 | Store the key somewhere, so you can email it to your students. |
 | 7 | $ Ctrl-D | Exit Docker client. |
-
-
-## Install Ubuntu on Samsung T5 and Lemovo Legion Y520 with Windows 10
-
-The steps I have done.
-
-|Step        | Action/Response | Comment |
-|:---------- | :---------- |:---------- |
-| 1 | Download ISO-image from Ubuntu 18.04. website |  |
-| 2 | Copy with Rufus to [USB-stick](https://github.com/kfechter/LegionY530Ubuntu/blob/master/Sections/CreateBootDrive.md) |  |
-| 3 | Start machine and press F2 | Change the Bios Lenovo |
-```
-Under Boot tab:
-Fast Boot disabled
-Under Security tab:
-Secureboot disabled
-See:
-https://github.com/kfechter/LegionY530Ubuntu/blob/master/Sections/InstallUbuntu.md
-```
-
-|Step        | Action/Response | Comment |
-|:---------- | :---------- |:---------- |
-| 4 | Start Y520 with Windows 10 and press F12 |  |
-| 5 | Choose Ubuntu | Restart via USB. |
-| 6 | After restart choose for install Ubuntu on 500GB portable disk |  |
-| 7 | sudo apt update |  |
-| 8 | sudo do-release-upgrade -d | [Upgrade to Ubuntu 20.04](https://ubuntu.com/blog/how-to-upgrade-from-ubuntu-18-04-lts-to-20-04-lts-today). |
