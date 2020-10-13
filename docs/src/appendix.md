@@ -96,6 +96,18 @@ Step        | Action      | Comment |
 | 17 | Ctrl-S | The file can be saved. |
 ||
 
+
+## Install Julia for VSCode
+
+sudo apt install ./code_1.50.0-1602051089_amd64.deb
+
+https://code.visualstudio.com/docs/editor/github
+https://code.visualstudio.com/download
+https://github.com/julia-vscode/julia-vscode
+https://code.visualstudio.com/docs/editor/command-line
+https://www.youtube.com/watch?v=IdhnP00Y1Ks
+https://www.julia-vscode.org/docs/dev/release-notes/v0_16/#Inline-evaluation-1
+
 ## Install IJulia
 
 IJulia is a browser back-end for the Jupyter interactive notebook environment.

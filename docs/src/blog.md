@@ -2,6 +2,12 @@
 
 ## 2020
 
+### 10/13/2020 - VSCode for Julia
+
+The Juno team joined the `VSCode for Julia` team. Juno.jl will be now in maintenance mode only. More: [VSCode for Julia](https://www.youtube.com/watch?v=rQ7D1lXt3GM&t=50s).
+
+One feature I particularly loved was the debugger. I have decided to adapt the course to VSCode for Julia.
+
 ### 09/09/2020 - Solved the Triple Back Ticks Problem
 
 If you want to display (triple back ticks)[https://meta.stackexchange.com/questions/82718/how-do-i-escape-a-backtick-within-in-line-code-in-markdown] in a text block enclose it between four back ticks. I updated chapter 4.
