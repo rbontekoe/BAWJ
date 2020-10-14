@@ -110,9 +110,9 @@ Juno will not be further expanded with new features. It looks like VSCode is goi
 - You have installed Git.
 
 In this activity, you will:
-1. Install VSCode.
-2. Install the Julia Extension.
-3. Optional, Show Inline Results.
+1. [Install VSCode](#Step-1:-Install-VSCode.).
+2. [Install the Julia Extension](#Step-2:-Install-the-Julia-Extension.).
+3. [Optional, Show Inline Results](#Step-3-(optional):-Show-Inline-Results.).
 
 ---
 
