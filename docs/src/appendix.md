@@ -111,10 +111,12 @@ Juno will not be further expanded with new features. It looks like VSCode is goi
 
 In this activity, you will:
 1. Install VSCode.
-2. Install the Julia extension.
-3. Optional, Show inline results.
+2. Install the Julia Extension.
+3. Optional, Show Inline Results.
 
-##### Step 1: Install VSCode
+---
+
+##### Step 1: Install VSCode.
 
 The installation of VSCode runs most smoothly if you install Julia and Git first.
 
@@ -122,15 +124,15 @@ Step        | Action      | Comment |
 | :---------- | :---------- | :---------- |
 | 1 | Go to the [VSCode site](https://code.visualstudio.com/) |  |
 | 2 | Click on: Download | Select the Download button. |
-| 3 | Select .deb: 64 bit | Click on the 64 bit button.  |
+| 3 | Right of .deb, select: 64 bit | Click on the 64 bit button.  |
 | 4 | Select: Save | Select the Download folder and click on Save. |
 | 5 | Go to your Download folder |  |
-| 6 | Type: sudo apt install <downloaded .deb file> | E.g. sudo apt install ./code_1.50.0-1602051089_amd64.deb. VSCode will be installed. |
+| 6 | Type: sudo apt install ./<downloaded .deb file> | E.g. sudo apt install ./code_1.50.0-1602051089_amd64.deb. VSCode will be installed. |
 | 7 | cd ~ | Go to your home folder. |
 | 8 | Type: code . | VSCode is started. |
 ||
 
-##### Step 2: Install the Julia extension.
+##### Step 2: Install the Julia Extension.
 
 You won't be able to work with Julia until you install the plugin.
 
@@ -141,18 +143,19 @@ Step        | Action      | Comment |
 | 3 | Click on: Install | Install the Julia extension. |
 | 4 | Clear the field `Search Extensions in Marketplace` | Erease julia.
 
-##### Step 3 (optional): Show inline results.
+##### Step 3 (optional): Show Inline Results.
 
 One of the great things about Juno is that you could see the result of a statement on the same line when you executed the code in a file step by step using Shift-<Enter>. This feature is now also available in the Julia extension. However, you step by step through your code in VSCode with Alt-<Enter>.
 
 Step        | Action      | Comment |
 | :---------- | :---------- | :---------- |
-| 1 | Ctrl+Shit-X | Open the Extensions pane. You can also hover over the most left icon column to find the option. |
-| 2 | Click on the: sprocket symbol | Opens the menu. |
-| 3 | Select: Extension Settings |  |
-| 4 | Click in the adjacent pane on the tab: user | The tab users is the default selected tab! |
-| 5 | Search for the option: julia > Execution: ResultType |  |
-| 6 | Choose: inline
+| 1 | Ctrl+Shift-X | Open the Extensions pane. You can also hover over the most left icon column to find the option. |
+| 2 | Type: julia | Type `julia` in the `Search Extensions in Marketplace` field when the extension is not visible. |
+| 3 | Click on the: Sprocket symbol | The `Install` button has been replaced by the sprocket symbol. It opens the menu of the julia extension. |
+| 4 | Select: Extension Settings |  |
+| 5 | Click in the adjacent pane on the tab: User | The tab User is the default selected tab! |
+| 6 | Search for the option: julia > Execution: ResultType |  |
+| 7 | Choose: inline | The default is REPL, which meanns that the results are printed in the terminal. |
 ||
 
 https://code.visualstudio.com/docs/editor/github
