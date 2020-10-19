@@ -2,6 +2,12 @@
 
 ## 2020
 
+### 10/19/2020 - Add Currying and Piping Example to Accounts.jl
+
+I was wondering how I could realize `piping` in Julia. It turns out that you have to use `currying` to do that.  On the page [Implementing Currying](https://riptutorial.com/julia-lang/example/20261/implementing-currying), I found an example. You can find my implementation on [Example 2: Currying and Piping](https://www.appligate.nl/Accounts.jl/stable/example/#Example-2:-Currying-and-Piping.).
+
+Yesterday, I discovered that VSCode runs on a Chromebook with an ARM processor (I have an Acer R13). Atom does not support ARM. However, I am not impressed by the performance, but it works.  Especially the `languageserver.jl` has problems getting started.
+
 ### 10/13/2020 - VSCode for Julia
 
 The Juno team joined the `VSCode for Julia` team. Juno.jl will be now in maintenance mode only. More: [VSCode for Julia](https://www.youtube.com/watch?v=rQ7D1lXt3GM&t=50s).
