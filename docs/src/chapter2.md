@@ -32,8 +32,8 @@ Infrastructure has the functions `save` and `retrieve` to save and retrieve pers
 
 In this activity, you will create a development environment.
 - Install Julia.
-- Install Atom.
-- Install Juno.
+- Instal Git.
+- Install VSCode.
 - Add the Julia package PkgTemplates.
 
 #### Prerequisites
@@ -44,16 +44,13 @@ In this activity, you will create a development environment.
 | 1 | Ctrl+Alt-T | Open a terminal window. |
 | 2 | [Install Julia](../appendix/index.html#Install-Julia) | Follow the Installation instructions. |
 | 3 | [Install Git](../appendix/index.html#Install-Git) |  |
-| 4 | [Install Atom](../appendix/index.html#Install-)Atom) |  |
-| 5 | [Install Juno](../appendix/index.html#Install-Juno) |  |
-| 6 | Close Atom |  |
+| 4 | [Install VSCode](../appendix/index.html#Install-Julia-for-VSCode) |  |
+| 6 | Close VSCode |  |
 | 7 | $ julia | Start Julia. |
 | 8 | julia> ] | Go to the package manager. |
 | 9 | pkg> add PkgTemplates | Add the PkgTemplates package. |
-| 10 | pkg> BackSpace | Back to Julia REPL. |
+| 10 | pkg> <BackSpace> | Back to Julia REPL. |
 | 11 | julia> Ctrl-D | Exit Julia |
-
-Explore the file structure.
 
 ## Activity 2.2: Create the Accounts Module.
 
@@ -66,9 +63,9 @@ In this activity you will create the basic application file structure for the mo
 #### Prerequisites
 - Activity 2.1.
 - Ubuntu 20.04.
-- Julia 1.5 installed.
-- Atom/Juno installed.
-- Git installed.
+- Julia 1.5+ installed.
+- VSCode 1.50+ installed.
+- Git 2.25.1+ installed.
 - Julia [PkgTemplates](https://github.com/invenia/PkgTemplates.jl) package installed.
 
 | Step | Action | Comment |
@@ -146,7 +143,8 @@ No Changes to `~/.julia/dev/Accounts/Manifest.toml`
 | :--- | :--- | :--- |
 | 5 | julia> Ctrl-D | Exit Julia. |
 | 6 | $ cd ~/.julia/dev/Accounts/ | Go to `Accounts` folder. |
-| 7 | $ atom .| Start Atom/Juno. |
+| 7 | $ code .| Start VSCode. |
+| 8 | Close the Welcome page |  |
 
 You will see the following file structure.
 
@@ -180,12 +178,29 @@ In this activity, you create a repository on GitHub. You can push changes in the
 
 #### Prerequisites
 - Ubuntu 20.04.
-- Julia 1.5 installed.
-- Atom/Juno installed.
+- Julia 1.5+ installed.
+- VSCode 1.50+ installed.
 - Git installed.
+- A GitHub account.
+- [Activity 2.2: Create the Accounts Module.](#Activity-2.2:-Create-the-Accounts-Module.)
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
+| 1 | Ctrl+Shift-P | Show All Commands. |
+| 2 | Select: Publish to GitHub |  |
+| 3 | Extend the name Accounts with: .jl | DON'T FORGET this step!!! | 
+| 4 | Select: Publish to GitHub public repository |  |
+| 5 | Ctrl+Shift-G | Open Source Control panel.  |
+| 6 | Hover over `Changes` and click on the `+` sign | Stage all changes. |
+| 7 | Type: Initial state | Above `Stages Changes` line in field Messages(Ctrl+Enter to commit... ). | 
+| 8 | Ctrl+Enter | Commit the changes. |
+| 9 | Select: Save All & Commit |  |
+| 10 |  
+| 6 | Click on: `...` | Open Views and More Actions menu. |
+
+
+
+
 | 1 | Go to [GitHub](https://github.com/) | Create an account if you don't have one. What is [GitHub](https://en.wikipedia.org/wiki/GitHub)? |
 | 2 | Click on the green button `New` | Maybe you have first to click on the tab `Repositories`. |
 | 3 | Give the repository the name: `Accounts.jl` | **The extention `.jl` is mandatory**. |

@@ -27,7 +27,7 @@ makedocs(
             "14 - Run the Application in Containers" => "chapter14.md",
             "15 - Running the Containers" => "chapter15.md",
         ],
-        "Section 4 - Miscelanious" => [
+        "Section 4 - Miscellaneous" => [
             "16 - Logging" => "chapter16.md",
             "17 - Implementing AppliAR (Accounts Receivable) Package" => "chapter17.md",
             "18 - PosgreSQL" => "chapter18.md",

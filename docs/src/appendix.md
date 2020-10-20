@@ -15,19 +15,23 @@ Julia is a language that is fast, dynamic, easy to use, and open source.
 
 | Step        | Action      | Comment |
 | :---------- | :---------- | :---------- |
-| 1 | [Download Julia](https://julialang.org/downloads/) | Click on the link and find the row `Generic Linux Binaries for x86`. Click on `64-bit`. Download the file eg. julia-1.5.0-rc2-linux-x86_64.tar.gz |
+| 1 | [Download Julia](https://julialang.org/downloads/) | Click on the link and find the row `Generic Linux Binaries for x86`. Click on `64-bit`. Download the file eg. julia-1.5.2-linux-x86_64.tar.gz |
 | 2 | Ctrl+Alt-T | Open a terminal window. |
 | 2 | $ mkdir julia | Create a folder |
 | 3 | $ cd julia | Enter folder |
-| 4 | $ mv ~/Downloads/julia-1.5.0-rc2-linux-x86_64.tar.gz .| Move the downloaded file to folder `julia`. |
-| 5 | $ tar -zxvf jjulia-1.5.0-rc2-linux-x86_64.tar.gz | Extract the file. |
-| 6 | $ sudo ln -s /home/rob/julia-1.5.0-rc2-linux-x86_64.tar.gz /usr/local/bin/julia | Create a symbolic link. |
-| 7 | $ julia | Start Julia. |
-| 8 | Ctrl-D | Close Julia. |
+| 4 | $ mv ~/Downloads/julia-1.5.2-linux-x86_64.tar.gz .| Move the downloaded file to folder `julia`. |
+| 5 | $ tar -zxvf julia-1.5.2-linux-x86_64.tar.gz | Extract the file. |
+| 6 | $ cd julia/julia/julia-1.5.2/bin/ |  |
+| 7 | $ ./julia | Start Julia. |
+| 8 | julia> Ctrl-D | Close Julia. |
+| 9 | cd ../.. |  |
+| 10 | $ sudo ln -s /home/rob/julia/julia-1.5.2/bin/julia /usr/local/bin/julia | Create a symbolic link. |
+| 11 | $ julia | Start Julia. |
+| 12 | Ctrl-D | Close Julia. |
 ||
 
 !!! info
-    You can remove a symbolic link with: `rm julia`.
+    You can remove the symbolic link with: `sudo rm /usr/local/bin/julia`.
 
 ## Install Git
 
@@ -138,7 +142,7 @@ You won't be able to work with Julia until you install the plugin.
 
 Step        | Action      | Comment |
 | :---------- | :---------- | :---------- |
-| 1 | Ctrl+Shit-X | Open the Extensions pane. You can also hover over the most left icon column to find the option. |
+| 1 | Ctrl+Shift-X | Open the Extensions pane. You can also hover over the most left icon column to find the option. |
 | 2 | At the top of the pane, in the field `Search Extensions in Marketplace` type: julia | Find the Julia extension: Jul1a, Julia Language Support. |
 | 3 | Click on: Install | Install the Julia extension. |
 | 4 | Clear the field `Search Extensions in Marketplace` | Erease julia.
@@ -158,12 +162,13 @@ Step        | Action      | Comment |
 | 7 | Choose: inline | The default is REPL, which meanns that the results are printed in the terminal. |
 ||
 
-https://code.visualstudio.com/docs/editor/github
-https://code.visualstudio.com/download
-https://github.com/julia-vscode/julia-vscode
-https://code.visualstudio.com/docs/editor/command-line
-https://www.youtube.com/watch?v=IdhnP00Y1Ks
-https://www.julia-vscode.org/docs/dev/release-notes/v0_16/#Inline-evaluation-1
+Links:
+- [Working with GitHub in VS Code](https://code.visualstudio.com/docs/editor/github)
+- [Download Visual Studio Code](https://code.visualstudio.com/download)
+- [julia-vscode](https://github.com/julia-vscode/julia-vscode)
+- [Command Line Interface (CLI)](https://code.visualstudio.com/docs/editor/command-line)
+- [JuliaCon 2020 | Using VS Code for Julia development | David Anthoff](https://www.youtube.com/watch?v=IdhnP00Y1Ks)
+- [Julia VS Code extension v0.16 release](https://www.julia-vscode.org/docs/dev/release-notes/v0_16/#Inline-evaluation-1)
 
 ## Install IJulia
 
