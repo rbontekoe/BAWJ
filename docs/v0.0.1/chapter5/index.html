@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>5 - Create and Test Infrastructure.jl · BAWJ</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../"><img src="../assets/logo.png" alt="BAWJ logo"/></a><div class="docs-package-name"><span class="docs-autofit">BAWJ</span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Business Applications with Julia</a></li><li><a class="tocitem" href="../blog/">Blog</a></li><li><a class="tocitem" href="../chapter1/">1 - The Application</a></li><li><span class="tocitem">Section 1 - Experimenting with Modules</span><ul><li><a class="tocitem" href="../chapter2/">2 - Setup the Development Environment</a></li><li><a class="tocitem" href="../chapter3/">3 - Create and Test Domain.jl</a></li><li><a class="tocitem" href="../chapter4/">4 - Create and Test API.jl</a></li><li class="is-active"><a class="tocitem" href>5 - Create and Test Infrastructure.jl</a><ul class="internal"><li><a class="tocitem" href="#Infrastructure.jl"><span>Infrastructure.jl</span></a></li><li><a class="tocitem" href="#Accounts.jl"><span>Accounts.jl</span></a></li><li><a class="tocitem" href="#test_infr.jl"><span>test_infr.jl</span></a></li><li><a class="tocitem" href="#runtests.jl"><span>runtests.jl</span></a></li><li><a class="tocitem" href="#Exercise-5.1:-Adding-the-Sub-Module-Infrastructure"><span>Exercise 5.1: Adding the Sub-Module Infrastructure</span></a></li></ul></li><li><a class="tocitem" href="../chapter6/">6 - The Accounts Package from a User Point of View</a></li><li><a class="tocitem" href="../chapter7/">7 - Documenting your module</a></li></ul></li><li><span class="tocitem">Section 2 -  The Accounts Receivable Module</span><ul><li><a class="tocitem" href="../chapter8/">8 - The Design</a></li><li><a class="tocitem" href="../chapter9/">9 - The Sub-Module Domain</a></li><li><a class="tocitem" href="../chapter10/">10 - The Sub-Module API</a></li><li><a class="tocitem" href="../chapter11/">11 - The Sub-Module Infrastructure</a></li><li><a class="tocitem" href="../chapter12/">12 - The Main-Module AppliAR.jl</a></li></ul></li><li><span class="tocitem">Section 3 - Using containers</span><ul><li><a class="tocitem" href="../chapter13/">13 - Creating SSH Enabled Containers</a></li><li><a class="tocitem" href="../chapter14/">14 - Run the Application in Containers</a></li><li><a class="tocitem" href="../chapter15/">15 - Running the Containers</a></li></ul></li><li><span class="tocitem">Section 4 - Miscelanious</span><ul><li><a class="tocitem" href="../chapter16/">16 - Logging</a></li><li><a class="tocitem" href="../chapter17/">17 - Implementing AppliAR (Accounts Receivable) Package</a></li><li><a class="tocitem" href="../chapter18/">18 - PosgreSQL</a></li></ul></li><li><a class="tocitem" href="../appendix/">Installation Instruction</a></li><li><a class="tocitem" href="../notebook/">IJulia Notebook</a></li><li><a class="tocitem" href="../overview/">Overview Julia</a></li><li><a class="tocitem" href="../references/">References</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Section 1 - Experimenting with Modules</a></li><li class="is-active"><a href>5 - Create and Test Infrastructure.jl</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>5 - Create and Test Infrastructure.jl</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/rbontekoe/BAWJ/blob/master/docs/src/chapter5.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id=".-Create-and-Test-Infrastructure.jl"><a class="docs-heading-anchor" href="#.-Create-and-Test-Infrastructure.jl">5. Create and Test Infrastructure.jl</a><a id=".-Create-and-Test-Infrastructure.jl-1"></a><a class="docs-heading-anchor-permalink" href="#.-Create-and-Test-Infrastructure.jl" title="Permalink"></a></h1><p>The Infrastructure has functions that refer to the outer world and can use elements from the Domain and API layers. For example:</p><ul><li>converting JSON data to Julia objects or visa versa.</li><li>storing Julia&#39;s objects.</li><li>retrieving objects.</li><li>Event Sourcing, registering events, and replaying a history of events.</li><li>CQRS (Command Query Responsibility Segregation), separating events from queries.</li></ul><p>In this chapter, you learn to store and retrieve data-types.</p><h3 id="Contents"><a class="docs-heading-anchor" href="#Contents">Contents</a><a id="Contents-1"></a><a class="docs-heading-anchor-permalink" href="#Contents" title="Permalink"></a></h3><ul><li><a href="#.-Create-and-Test-Infrastructure.jl">5. Create and Test Infrastructure.jl</a></li><ul><li><a href="#Infrastructure.jl">Infrastructure.jl</a></li><li><a href="#Accounts.jl">Accounts.jl</a></li><li><a href="#test_infr.jl">test_infr.jl</a></li><li><a href="#runtests.jl">runtests.jl</a></li><li><a href="#Exercise-5.1:-Adding-the-Sub-Module-Infrastructure">Exercise 5.1: Adding the Sub-Module Infrastructure</a></li></ul></ul><h2 id="Infrastructure.jl"><a class="docs-heading-anchor" href="#Infrastructure.jl">Infrastructure.jl</a><a id="Infrastructure.jl-1"></a><a class="docs-heading-anchor-permalink" href="#Infrastructure.jl" title="Permalink"></a></h2><pre><code class="language-julia">module Infrastructure #1
+
+import ..Accounts: Domain, API #2
+
+using .Domain, .API #3
+
+using Serialization #4
+
+export add_to_file, read_from_file #5
+
+function add_to_file(file::String, data::Array{T, 1} where T &lt;: Any) #6
+    io = open(file, &quot;a+&quot;)
+    [serialize(io, r) for r in data]
+    close(io)
+end
+
+function read_from_file(file::String) #7
+    io = open(file, &quot;r&quot;)
+
+    r = []
+    while !eof(io)
+        push!(r, deserialize(io))
+    end
+
+    close(io)
+
+    return r
+end
+
+end
+</code></pre><p>#1 The name of the module is Infrastructure.</p><p>#2 The sub-module uses only the elements from the higher <code>onion</code> peels, Domain, API, Julia, and any loaded packages.</p><p>#3 The code loads the sub-modules Domain and API.</p><p>#4 You have to serialize data you want to store on disk.</p><p>#5 We export the methods <code>read_from_file</code> and <code>add_to_file</code>.</p><p>#6 Read the data from a text file and deserialize it.</p><p>#7 Serialize the data and write it to a text file.</p><h2 id="Accounts.jl"><a class="docs-heading-anchor" href="#Accounts.jl">Accounts.jl</a><a id="Accounts.jl-1"></a><a class="docs-heading-anchor-permalink" href="#Accounts.jl" title="Permalink"></a></h2><p>The main module should also load the Infrastructure sub-module.</p><pre><code class="language-julia">module Accounts
+
+#export EMAIL, WORK # Domain
+#export create # API
+#export add_to_file, read_from_file # Infrastructure
+
+include(&quot;Domain.jl&quot;); using .Domain
+include(&quot;API.jl&quot;); using .API
+include(&quot;Infrastructure.jl&quot;); using .Infrastructure
+
+end</code></pre><h2 id="test_infr.jl"><a class="docs-heading-anchor" href="#test_infr.jl">test_infr.jl</a><a id="test_infr.jl-1"></a><a class="docs-heading-anchor-permalink" href="#test_infr.jl" title="Permalink"></a></h2><p>An example of how to use the code.</p><pre><code class="language-julia">using Pkg; Pkg.activate(&quot;.&quot;) # activate the Accounts environment from Julia
+
+import Accounts: Domain, API, Infrastructure
+
+using .Domain, .API, .Infrastructure
+
+const FILE_ACCOUNTS = &quot;./test_accounts.txt&quot; # Julia gives a warning when the value is changed
+
+donald_email = create(EMAIL, &quot;donald@duckcity.com&quot;)
+donald_work = create(WORK,
+  &quot;&quot;&quot;
+  Donalds Hardware Store
+  attn. Donald Duck
+  1190 Seven Seas Dr
+  FL 32830 Lake Buena Vista
+  USA
+  &quot;&quot;&quot;
+)
+
+addresses = [donald_email, donald_work]
+
+donald = create(&quot;Donald Duck&quot;, addresses)
+
+add_to_file(FILE_ACCOUNTS, [donald])
+
+result = read_from_file(FILE_ACCOUNTS)
+
+println(result)</code></pre><h2 id="runtests.jl"><a class="docs-heading-anchor" href="#runtests.jl">runtests.jl</a><a id="runtests.jl-1"></a><a class="docs-heading-anchor-permalink" href="#runtests.jl" title="Permalink"></a></h2><p>The tests are extended for the sub-module Infrastructure</p><pre><code class="language-julia">using Accounts
+using Test
+
+const FILE_ACCOUNTS = &quot;./test_accounts.txt&quot;
+
+import Accounts: Domain, API, Infrastructure
+using .Domain, .API, .Infrastructure
+
+@testset &quot;Domain.jl&quot; begin
+    donald_email = Address(EMAIL, &quot;donald@duckcity.com&quot;)
+    donald = Person(&quot;Donald duck&quot;, [donald_email])
+    email_addresses = filter(x -&gt; x.address_type == EMAIL, donald.addresses)
+    @test email_addresses[1].address == &quot;donald@duckcity.com&quot;
+end
+
+@testset &quot;API.jl&quot; begin
+    donald_email = Address(EMAIL, &quot;donald@duckcity.com&quot;)
+    donald = Person(&quot;Donald Duck&quot;, [donald_email])
+    email_addresses = filter(x -&gt; x.address_type == EMAIL, donald.addresses)
+    @test email_addresses[1].address == &quot;donald@duckcity.com&quot;
+end
+
+@testset &quot;Infrastructure.jl&quot; begin
+    donald_email = create(EMAIL, &quot;donald@duckcity.com&quot;)
+    donald = create(&quot;Donald Duck&quot;, [donald_email])
+    add_to_file(FILE_ACCOUNTS, [donald])
+    result = read_from_file(FILE_ACCOUNTS)
+    first_person = result[1]
+    @test first_person.addresses[1].address == &quot;donald@duckcity.com&quot;
+    cmd = `rm $FILE_ACCOUNTS`
+    run(cmd)
+end
+</code></pre><h2 id="Exercise-5.1:-Adding-the-Sub-Module-Infrastructure"><a class="docs-heading-anchor" href="#Exercise-5.1:-Adding-the-Sub-Module-Infrastructure">Exercise 5.1: Adding the Sub-Module Infrastructure</a><a id="Exercise-5.1:-Adding-the-Sub-Module-Infrastructure-1"></a><a class="docs-heading-anchor-permalink" href="#Exercise-5.1:-Adding-the-Sub-Module-Infrastructure" title="Permalink"></a></h2><p>In this exercise, you perform the following tasks.</p><p>Step 1 - You create the file <code>Infrastructure.jl</code> with the Infrastructure sub-module code and update <code>Accounts.jl</code>. Add <code>Serialization</code> as a  dependency of the module in <code>Project.toml</code>.</p><p>Step 2 - You append the unit test code to the file <code>runtests.jl</code> and verify it.</p><p>Step 3 - You see an example of the code on how to use it as a programmer.</p><p>Step 4 - You update your GitHub repository.</p><hr/><ul><li>Create the file <code>Infrastructure.jl</code> and add the code of section <a href="#Infrastructure.jl-1">Infrastructure.jl</a> to the file.</li><li>Modify  <code>Accounts.jl</code> according to section <a href="#Accounts.jl-1">Accounts.jl</a>.</li><li>Add the <code>Serialization</code> package as dependency to <code>Project.toml</code>.</li><li>Add the code from section <a href="#runtests.jl-1">runtests.jl</a> to the file runtests.jl.</li><li>Go to the package manager, activate Accounts (<code>activate .</code>).</li><li>Run the test (<code>test Accounts</code>). You should see:</li></ul><pre><code class="language-julia">Test Summary: | Pass  Total
+Domain.jl     |    1      1
+Test Summary: | Pass  Total
+API.jl        |    1      1
+Test Summary:     | Pass  Total
+Infrastructure.jl |    1      1
+    Testing Accounts tests passed</code></pre><ul><li>Create the file <code>test_infr.jl</code> and copy the code from section <a href="#test_infr.jl-1">test_infr.jl</a> into it.</li><li>Test the code.</li><li>Push the changes to your GitHub repository. Check the changes on GitHub.</li></ul></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../chapter4/">« 4 - Create and Test API.jl</a><a class="docs-footer-nextpage" href="../chapter6/">6 - The Accounts Package from a User Point of View »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 2 October 2020 17:06">Friday 2 October 2020</span>. Using Julia version 1.5.0-rc2.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

@@ -54,11 +54,9 @@ In this activity, you will create a development environment.
 
 ## Activity 2.2: Create the Accounts Module.
 
-In this activity you will create the basic application file structure for the module `Accounts` using PkgTemplates:
-- Create a template.
-- Create the module Accounts.
-- Go to the development directory `~/.julia/dev/Accounts/`.
-- Start Atom/Juno.
+Many developers use PkgTempates to create Julia packages. You can upload packages to GitHub. Others can use them in their Julia projects. 
+
+You can also register your packages on GitHub in [Julia Hub](https://juliahub.com/ui/Packages). For example, AppliSales and AppliGeneralLedger are registered packages that you use in the course.
 
 #### Prerequisites
 - Activity 2.1.
@@ -67,6 +65,16 @@ In this activity you will create the basic application file structure for the mo
 - VSCode 1.50+ installed.
 - Git 2.25.1+ installed.
 - Julia [PkgTemplates](https://github.com/invenia/PkgTemplates.jl) package installed.
+
+In this activity you will:
+1. Use the Julia package PkgTemplates to create our initial package Accounts.
+2. Start VSCode.
+
+---
+
+##### Step 1: Use the Julia package PkgTemplates to create our initial package Accounts.
+
+Invenia created the package [PkgTemplates](https://github.com/invenia/PkgTemplates.jl). It assists you to create new Julia packages in an easy, repeatable, and customizable way.
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -142,25 +150,33 @@ No Changes to `~/.julia/dev/Accounts/Manifest.toml`
 | Step | Action | Comment |
 | :--- | :--- | :--- |
 | 5 | julia> Ctrl-D | Exit Julia. |
-| 6 | $ cd ~/.julia/dev/Accounts/ | Go to `Accounts` folder. |
-| 7 | $ code .| Start VSCode. |
-| 8 | Close the Welcome page |  |
+||
+
+##### Step 2: Start VSCode.
+
+A development platform like VSCode makes working with Julia easy. It replaces Atom with the extension Juno.
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 1 | $ cd ~/.julia/dev/Accounts/ | Go to `Accounts` folder. |
+| 2 | $ code .| Start VSCode. By typing a dot you will only open the files int the current folder. |
+| 3 | Close the Welcome page |  |
+||
 
 You will see the following file structure.
 
 ```
-ᵥ📁 Accounts
-   📁 .git
-   📁 .github
-  ᵥ📁 src
-     📄 Accounts.jl #1
-  ᵥ📁 test
-     📄 runtests.jl #2
-   📄 .gitignore
-   📄 LICENCE
-   📄 Manifest.toml
-   📄 Project.toml #3
-   📄 README.md
+v Accounts
+   > .github/workflows
+  v src
+    - Accounts.jl #1
+  v test
+    - runtests.jl #2
+  - .gitignore
+  - LICENCE
+  - Manifest.toml #4
+  - Project.toml #3
+  - README.md
 ```
 \#1 File with the name of the module where you define among other things:
 - sub-modules,
@@ -172,58 +188,55 @@ You will see the following file structure.
 
 \#3 Contains the module version and its dependencies.
 
+\#4 "The Manifest. toml is like a screenshot of your current environment that has all the information needed to replicate this environment elsewhere, e.g. the URL of unregistered packages, branch, commit, etc," see [What’s the use a Project.toml file and the use of a Manifest.toml in a Julia project?](https://discourse.julialang.org/t/whats-the-use-a-project-toml-file-and-the-the-use-of-a-manifest-toml-in-a-julia-project/22524). The file is mentioned in the file `.gitignore` and will not be pushed to GitHub. When you provide this file to another person then one can create the same environment as you have after activating the folder (`pkg> activate .`) representing the git clone of your package (`$ git clone https://github.com/rbontekoe/Accounts.jl.git`).
+
 ## Activity 2.3: Create a Repository on GitHub
 
 In this activity, you create a repository on GitHub. You can push changes in the design of the module to GitHub. Later on, you will learn how others can use the module.
+
+In this step, you will add the extension .jl to the package name Accounts. This way, others can use it by adding it to their application with the command: `add https://github.com/<your username>Accounts.jl`.
 
 #### Prerequisites
 - Ubuntu 20.04.
 - Julia 1.5+ installed.
 - VSCode 1.50+ installed.
 - Git installed.
-- A GitHub account.
+- You have a GitHub account.
 - [Activity 2.2: Create the Accounts Module.](#Activity-2.2:-Create-the-Accounts-Module.)
+
+In this activity you will:
+1. [Create a repository on GitHub.](#Step-1:-Create-a-repository-on-GitHub.)
+2. [Push our local repostitory to GitHub.](#Step-2:-Push-our-local-repostitory-to-GitHub.)
+
+---
+
+##### Step 1: Create a repository on GitHub.
+
+"GitHub is a free code hosting platform for version control and collaboration." It is used by millions of developers worldwide. VSCode facilitates working with GitHub.
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
 | 1 | Ctrl+Shift-P | Show All Commands. |
-| 2 | Select: Publish to GitHub |  |
+| 2 | Select: Publish to GitHub | Create a GitHub repository. |
 | 3 | Extend the name Accounts with: .jl | DON'T FORGET this step!!! | 
 | 4 | Select: Publish to GitHub public repository |  |
-| 5 | Ctrl+Shift-G | Open Source Control panel.  |
-| 6 | Hover over `Changes` and click on the `+` sign | Stage all changes. |
-| 7 | Type: Initial state | Above `Stages Changes` line in field Messages(Ctrl+Enter to commit... ). | 
-| 8 | Ctrl+Enter | Commit the changes. |
-| 9 | Select: Save All & Commit |  |
-| 10 |  
-| 6 | Click on: `...` | Open Views and More Actions menu. |
+||
 
+##### Step 2: Push our local repostitory to GitHub.
 
-
-
-| 1 | Go to [GitHub](https://github.com/) | Create an account if you don't have one. What is [GitHub](https://en.wikipedia.org/wiki/GitHub)? |
-| 2 | Click on the green button `New` | Maybe you have first to click on the tab `Repositories`. |
-| 3 | Give the repository the name: `Accounts.jl` | **The extention `.jl` is mandatory**. |
-| 4 | Give the repository a description | E.g. A module for the BAWJ course with which you can experiment. |
-
-!!! warning
-    Don't change the default settings!
+However, the repository created in the previous step is empty. In this step, we 'push' our local data to Github.
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 5 | Click on the **green** button `Create repository` | The button is located at the bottom side. |
-| 6 | Go to the folder `~/.julia/dev/Accounts` |  |
-| 7 | $ git status | The response is: |
-
+| 1 | Ctrl+Shift-G | Open Source Control pane.  |
+| 2 | Click on: ∙∙∙ | Open Views and More Actions menu. It is located in the upper right corner of the pane. | 
+| 3 | Select: Push | You get the next message: |
+||
 ```
-On branch master
-nothing to commit, working tree clean
+The branch 'master' has no upstream branch. Would you like to publish this branch?
 ```
-
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 8 | $ atom .| Start Atom/Juno. |
-| 9 | Click on the `Publish` button | You will find the button in the lower right corner. |
-| 10 | Check the update on GitHub | You should see the same file structure. Manifest.toml is missing¹. |
-
-¹ "The Manifest. toml is like a screenshot of your current environment that has all the information needed to replicate this environment elsewhere, e.g. the URL of unregistered packages, branch, commit, etc," see [What’s the use a Project.toml file and the use of a Manifest.toml in a Julia project?](https://discourse.julialang.org/t/whats-the-use-a-project-toml-file-and-the-the-use-of-a-manifest-toml-in-a-julia-project/22524). The file is mentioned in the file `.gitignore` and will not be pushed to GitHub. When you provide this file to another person then one can create the same environment as you have after activating the folder (`pkg> activate .`) representing the git clone of your package (`$ git clone https://github.com/rbontekoe/Accounts.jl.git`).
+| 4 | Select: OK | GitHub is updated with the new repository. |
+| 5 | Go to Accounts.jl on GitHub | All files have the comment 'Files generated by PkgTemplates'. |
+||

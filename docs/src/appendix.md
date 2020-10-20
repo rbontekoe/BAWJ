@@ -39,7 +39,7 @@ Git is a free and open source distributed version control system designed to han
 
 ##### Prerequisites
 - Your computer OS is Ubuntu 20.04 64 bit.
-- You preferably have a [GitHub account](https://github.com/).
+- You have a [GitHub account](https://github.com/).
 
 Step        | Action      | Comment |
 | :---------- | :---------- | :---------- |
@@ -48,60 +48,6 @@ Step        | Action      | Comment |
 | 3 | git config --global user.name "<your first and last name>" | E.g. "Rob Bontekoe" |
 | 4 | git config --global github.user "<yout git hub name>" | E.g. "rbontekoe" |
 | 5 | cat .gitconfig | Show your git data. |
-||
-
-## Install Atom
-
-Atom is a free and open-source text and source code editor.
-
-See also [Install Julia for VSCode](#Install-Julia-for-VSCode).
-
-##### Prerequisites
-- Your computer OS is Ubuntu 20.04 64 bit.
-- You have installed Julia.
-- You have installed Git.
-
-See also: http://docs.junolab.org/stable/man/installation/
-
-Step        | Action      | Comment |
-| :---------- | :---------- | :---------- |
-| 1 | goto https://atom.io/ | |
-| 2 | select `Download .deb` | |
-| 4 | cd ~/Downloads/ |  |
-| 5 | sudo apt install ./atom-amd64.deb |  |
-||
-
-## Install Juno
-
-Juno is a development plugin for the Julia language.
-
-See also [Install Julia for VSCode](#Install-Julia-for-VSCode).
-
-##### Prerequisites
-- Your computer OS is Ubuntu 20.04 64 bit.
-- You have installed Julia.
-- You have installed Git
-- You have installed Atom.
-
-Step        | Action      | Comment |
-| :---------- | :---------- | :---------- |
-| 1 | mkdir projects |  |
-| 2 | cd projects |  |
-| 3 | atom <Enter> | Start Atom. |  |
-| 4 | Ctrl-, | Open settings. |
-| 5 | Select: `Packages` |  |
-| 6 | Type: `uber-juno` | In field under Installed packages. |
-| 7 | Click on the button: `install` | Juno will be installed, can take a while. |
-| 8 | Close Atom |  |
-| 9 | atom . | Start atom again with current directory as default. |
-| 10 | Select from menu: Juno | Juno menu opens. |
-| 11 | Select: Open REPL | Julia will be started. |
-| 12 | 1 + 2 <Enter> | Result of addition will be shown in the REPL. |
-| 13 | Select from menu: `File` |  |
-| 14 | Select: `New file` |  |
-| 15 | Type: `println("Hello world!")` |  |
-| 16 | Shift-Enter | `Hello world!` will be shown in the file after the statement. |
-| 17 | Ctrl-S | The file can be saved. |
 ||
 
 ## Install Julia for VSCode
