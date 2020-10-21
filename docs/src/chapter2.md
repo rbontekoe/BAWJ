@@ -12,23 +12,23 @@ Pages = ["chapter2.md"]
 
 To get experience with Julia and modules, we start with building an application where we can register and retrieve persons. The module name is `Accounts.`
 
-The activities are
-- Activity 2.1: Setup the Development Environment.
-- Activity 2.2: Create the Accounts module.
-- Activity 2.3: Create a Repository on GitHub.
-
 We use the `Onion Architecture` to define a model that consists of the layers Domain, API, and Infrastructure. The layers are declared as sub-modules. See also [Domain-driven Design](../chapter8/index.html#Domain-Driven-Design) in section 2 `Accounts Receivable` of chapter 7 `The design`.
 
-#### The Domain layer
+#### The Domain Layer.
 The domain has the objects Person, Address, and AddressType.
 
-#### The API layer
+#### The API Layer.
 The API has the function `create`. It can be used for creating persons and addresses.
 
-#### The Infrastructure layer
+#### The Infrastructure Layer.
 Infrastructure has the functions `save` and `retrieve` to save and retrieve persons.
 
 ## Activity 2.1: Setup the Development Environment
+
+You work with VSCode as IDE. Before installing it, you need first to install Julia and Git.
+
+#### Prerequisites
+- Ubuntu 20.04.
 
 In this activity, you will create a development environment.
 - Install Julia.
@@ -36,8 +36,7 @@ In this activity, you will create a development environment.
 - Install VSCode.
 - Add the Julia package PkgTemplates.
 
-#### Prerequisites
-- Ubuntu 20.04.
+---
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
