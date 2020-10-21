@@ -277,7 +277,7 @@ donald = Person("Donald Duck", addresses)
 
 email_address = filter(x -> x.address_type == EMAIL, donald.addresses)
 
-println(email_address[1].address)
+@info email_address[1].address
 ```
 
 | Step | Action | Comment |
@@ -361,12 +361,25 @@ It is time to push our changes to the GitHub repository. VSCode supports Git.
 ##### Prerequisites
 - [The previous activity 3.6](#Activity-3.6:-runtests.jl).
 
+In this activity you will:
+- Open the Git-pane.
+- Add a message.
+- Stage your changes.
+- Commit your changes.
+- Push your changes to GitHub repository Accounts.jl.
+
+---
+
 Step | Action | Comment |
 | :--- | :--- | :--- |
 | 1 | Shift+Ctrl-G | Open the Git-pane when it is not visible. |
-| 2 | Place your cursor in the field `Commit message` |  |
+| 2 | Place your cursor in the field `Messages` |  |
 | 3 | Type: Add Domain.jl sub-module |  |
-| 4 | Stage the changed files | Click on `Stage All` in the upper right corner of the Git-pane. |
+| 4 | In the line Changes, click on symbol: + | Stage all your changes. |
+| 5 | At the top of the pane, click on: ✓ | Click on the checkmark ✓ (Commit) at the top. |
+| 6 | Click on: ∙∙∙ | Open Views and More Actions menu. It is located in the upper right corner of the pane. |
+| 7 | Select: Push | Push your changes to GitHub. |
+
 
 You see a list of changed (ocher) and new (green) files (Domain.jl and test_domain.jl) in the section `Staged Changes` of the pane.
 
