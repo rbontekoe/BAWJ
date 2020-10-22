@@ -52,7 +52,7 @@ struct Person #7
   name::String
   addresses::Array{Address, 1}
   #constructors
-  Person(name) = new(create_key(name), name, [])
+  Person(name) = new(create_key(name), now(), name, [])
   Person(name, addresses) = new(create_key(name), now(), name, addresses)
 end # Person
 
@@ -79,18 +79,18 @@ end
 One of the parts of the Onion architecture is the Domain, materialized in the file Domain.jl. The Domain only communicates with Julia or Julia modules or packages.
 
 ##### Prerequisites (activities of chapter 2)
-- Activity 2.1: Setup the Development Environment.
-- Activity 2.2: Create the Accounts module.
-- Activity 2.3: Create a Repository on GitHub.
+1. [Activity 2.1: Setup the Development Environment](../chapter2/index.html#Activity-2.1:-Setup-the-Development-Environment).
+2. [Activity 2.2: Create the Accounts module](../chapter2/index.html#Activity-2.2:-Create-the-Accounts-Module.).
+3. [Activity 2.3: Create a Repository on GitHub](../chapter2/index.html#Activity-2.3:-Create-a-Repository-on-GitHub).
 
-In this activity you: will:
+In this activity you will:
 - Create the file Domain.jl.
 
 ---
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | Go to the `~/.julia/dev/Accounts` folder|  |
+| 1 | cd ~/.julia/dev/Accounts | Go to the .julia/dev/Accounts folder|  |
 | 2 | $ code .  | Start VSCode. |
 | 3 | Right click on: src |  |
 | 4 | Select: `New file` |  |
@@ -128,24 +128,15 @@ In this activity you will:
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | Select the code from the section [Domain.jl-Domain-objects](#Domain.jl-Domain-Objects-1) |  |
-| 2 | Ctrl-C | Copy the code to the clipboard. |
-| 3 | Paste the code in the file Domain.jl |  |
-| 4 | Ctrl-S | Save the file. |
+| 1 | $ cd ~/.julia/dev/Accounts |  |
+| 2 | $ code . | Open VSCode. |
+| 3 | Select the code from the section [Domain.jl-Domain-objects](#Domain.jl-Domain-Objects-1) |  |
+| 4 | Ctrl-C | Copy the code to the clipboard. |
+| 5 | Paste the code in the file Domain.jl |  |
+| 6 | Ctrl-S | Save the file. |
+| 7 | Close VSCode | Or continue with Activity 3.3 step 3. |
 ||
 
-
-## Modified Accounts.jl
-
-```julia
-module Accounts
-
-include("Domain.jl"); using .Domain #1
-
-end
-```
-\#1 the function `include` loads the code of the specified file. `using .Domain` activates the module.
-The dot refers to a sub-module of Accounts. The `;` separates the two Julia statements.
 
 ## Activity 3.3: Update Accounts.jl
 
@@ -161,10 +152,28 @@ In this activity you will:
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | Open file:  `Accounts.jl` |  |
-| 2 | Delete all lines |  |
-| 3 | Copy the code [Modified Accounts.jl](#Modified-Accounts.jl-1) into the file |  |
-| 4 | Ctrl-S | Save the file. |
+| 1 | $ cd ~/.julia/dev/Accounts |  |
+| 2 | $ code . | Open VSCode. |
+| 3 | Open file:  `Accounts.jl` |  |
+| 4 | Delete all lines |  |
+| 5 | Replace the code into the file with the fo;;owimg code: |  |
+||
+
+```julia
+module Accounts
+
+include("Domain.jl"); using .Domain #1
+
+end
+```
+
+\#1 the function `include` loads the code of the specified file. `using .Domain` activates the module.
+The dot refers to a sub-module of Accounts. The `;` separates the two Julia statements.
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 6 | Ctrl-S | Save the file. |
+| 7 | Close VSCode | Or continue with Activity 3.4 step 3. |
 ||
 
 
@@ -193,7 +202,7 @@ test = ["Test"]
 
 ## Activity 3.4: Adding Dates as Dependency
 
-You define dependencies on other packages in the file Project.toml. If you are in your local area and you add a package, Julia will do it for you. If the file Project.toml does not exist, Julia will create it for you.
+You define dependencies on other packages in the file Project.toml. If you have activated the Accounts environment (Pkg.activate(".") then when you add a package, Julia will update Project.toml for you. If the file Project.toml does not exist, Julia will create it.
 
 ##### Prerequisites
 - [The previous activity 3.3](#Activity-3.3:-Update-Accounts.jl)
@@ -207,7 +216,7 @@ In this activity you will:
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | Close: VSCode |
+| 1 | $ cd ~/.julia/dev/Accounts |  |
 | 2 | $ code . | Start VSCode. |
 | 1 | Crt+Shift-P | Show All Commands. |
 | 2 | Select: `Julia: start REPL`  | Open REPL. |
@@ -227,18 +236,19 @@ Status `~/.julia/dev/Accounts/Project.toml`
 | Step | Action | Comment |
 | :--- | :--- | :--- |
 | 6 | Press: <BackSpace> | Return to the Julia prompt. |
+| 7 | Close VSCode | Or continue with Activity 3.5 step 3. |
 ||
 
 ## Activity 3.5: Testing your Code
 
-Most of the time, you put the test code in a file.
+One way to test your model is to put the test code in a file and execute the code line by line.
 
 ##### Prerequisites
 - [The previous activity 3.4](#Activity-3.4:-Adding-Dates-as-Dependency).
 - [Step 3 (optional): Show Inline Results.](../appendix/index.html#Step-3-(optional):-Show-Inline-Results.) during the installation of VSCode.
 
 In this acticity you will:
-- Create the file test_domain.jl.
+- Create the file `test_domain.jl`.
 - Save the file.
 - Execute the code line by line.
 
@@ -246,14 +256,16 @@ In this acticity you will:
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | Right click on: src |  |
-| 2 | Select: `New file` |  |
-| 3 | Type: test_domain.jl |  |
-| 4 | Press: <Enter>  | Create the file. |
-| 5 | Copy the following example code into the file: | See: [test_domain.jl](#test_domain.jl-1) |
+| 1 | $ cd ~/.julia/dev/Accounts |  |
+| 2 | $ code . | Start VSCode. |
+| 3 | Right click on: src |  |
+| 4 | Select: `New file` |  |
+| 5 | Type: test_domain.jl |  |
+| 6 | Press: <Enter>  | Create the file. |
+| 7 | Copy the following example code into the file: | |
 ||
 
-```
+```julia
 using Pkg; Pkg.activate(".")
 
 import Accounts: Domain
@@ -282,14 +294,15 @@ email_address = filter(x -> x.address_type == EMAIL, donald.addresses)
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 6 | Ctrl-S | Save the file. |
-| 7 | Select the first line |  |
-| 8 | Alt-Enter | The line will execute. |
-| 9 | Repeat until the last line. |  |
+| 8 | Ctrl-S | Save the file. |
+| 9 | Select the first line |  |
+| 10 | Alt-Enter | The line will execute. |
+| 11 | Repeat until the last line. |  |
+| 12 | Close VSCode | Or continue with Activity 3.6 step 3.  |
 ||
 
 !!! info
-    When you hover over the result (to the right of the blue sparator) you can see the result.
+    When you hover over the result (to the right of the blue separator), you will see it in a popup.
 
     Hovering over any variable will show its value.
 
@@ -299,7 +312,7 @@ email_address = filter(x -> x.address_type == EMAIL, donald.addresses)
 It is even better to put you test code in the file `runtests.jl`. The folder `test` contains the file.
 
 ##### Prerequisites
-- The previous activity 3.5
+- [The previous activity 3.5](#Activity-3.5:-Testing-your-Code)
 
 In this activity you will:
 - Add unit test code to the file `runtests.jl`.
@@ -309,8 +322,9 @@ In this activity you will:
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | $ atom . | Start Atom/Juno. |
-| 2 | Select the folder: `test` | 
+| 1 | $ cd ~/.julia/dev/Accounts |  |
+| 2 | $ code. | Start VSCode. |
+| 3 | Select the folder: `test` | 
 ||
 
 ```
@@ -322,8 +336,8 @@ v Accounts
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
-| 3 | Open the file: runtests.jl. | |
-| 4 | Copy and paste the following code in runtests.jl | See: [runtests.jl](#runtests.jl-1) |
+| 4 | Open the file: runtests.jl. | |
+| 5 | Copy and paste the following code in runtests.jl | See: [runtests.jl](#runtests.jl-1) |
 
 ```
 using Accounts
@@ -343,16 +357,20 @@ end
 Step | Action | Comment |
 | :--- | :--- | :--- |
 | 5 | Ctrl-S | Save the file. |
-| 6 | julia> ] | Activate the package manager. |
-| 7 | pkg> activate . | Activate the Accounts environment. |
-| 8 | (Accounts) Pkg> st | Check whether Dates is loaded. See [Activity 3.4 - Adding Dates as Dependency](#Activity-3.4-Adding-Dates-as-Dependency-1). |
-| 9 | (Accounts) Pkg> test Accounts | Run the test code. The result is: |
+| 7 | julia> ] | Activate the package manager. |
+| 8 | pkg> activate . | Activate the Accounts environment. |
+| 9 | (Accounts) Pkg> st | Check whether Dates is loaded. See [Activity 3.4 - Adding Dates as Dependency](#Activity-3.4-Adding-Dates-as-Dependency-1). |
+| 10 | (Accounts) Pkg> test Accounts | Run the test code. The result is: |
 
 ```julia
 Test Summary: | Pass  Total
 Domain.jl     |    1      1
     Testing Accounts tests passed
 ```
+
+Step | Action | Comment |
+| :--- | :--- | :--- |
+| 11 | Close VSCode | Or continue with Activity 3.7 step 3. |
 
 ## Activity 3.7: Update your GitHub Repository
 
@@ -396,3 +414,34 @@ Step | Action | Comment |
 | 5 | Click on: Commit to master |  |
 | 6 | Click on the `Push` button | The Push-button is located at the lower right corner. |
 | 7 | Go to GitHub and check whether your changes are visible |  |
+| 8 | Close VSCode |  |
+
+## Summary
+
+We apply the Onion Architecture to build our model that consists of the layers Domain, API, and Infrastructure.  We define them as Julia sub-modules. We can modify the implementation of a module without dramatic consequences for other program code.
+
+A module is a block of code between the keywords `module <name module>` and `end`. The module name starts with a capital letter. Also, the name of the file begins with an uppercase letter.
+
+We start with the Domain. The code consists of self-defined data structures, local functions, and enumerations of values, which you want to allow in the module.
+
+The Domain only communicates with Julia and packages.
+
+An example of a data structure in the course is the type `Address`. Here we mention the fields names with their data type. The constructors determine how we can create the data type.
+
+We also defined the fields id and created. The hash function determines the unique value of the id based on the combination of address and time. It plays a role in CQRS and Event Sourcing. [CQRS](https://martinfowler.com/bliki/CQRS.html) stands for Command Query Responsibility Segregation.
+
+We could use the field created for data analysis in the future.
+
+Unit code is placed in the file runtests.jl in the folder test.
+
+Dependency on other modules or packages is in the file Project.toml.
+
+##### Shortcuts for VSCode
+
+Step | Action | Command |
+| :--- | :--- | :--- |
+| Ctrl+Shift-P | Show All Commands. |
+| Ctrl+Shift-G | Open Git Control Source. |
+| Ctrl+Shift-E | Open Explorer. |
+
+You can also activate the commands from the icon bar in the most left column.
