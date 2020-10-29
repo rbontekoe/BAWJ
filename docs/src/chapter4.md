@@ -103,7 +103,9 @@ end
 ## test_api.jl
 
 ```julia
-using Pkg; Pkg.activate(".") # make the current folder the working environment
+using Pkg
+
+Pkg.activate(".") # make the current folder the working environment
 
 import Accounts: Domain, API # import the sub-modules Domain and API
 
@@ -162,7 +164,7 @@ Similar high order functions are `map`, `reduce`, and `zip`.
 
 In this exercise you create the sub-module API. You can apply everything you've learned so far.
 
-- Create the file `API.jl` and add the code of section [API.jl](#API.jl-1) to the file. Change the five back-tics into three back-tics. Remove the comments.
+- Create the file `API.jl` and add the code of section [API.jl](#API.jl-1) to the file. Remove the comments.
 - Copy the code of section [runtests.jl](#runtests.jl-1) to the file runtests.jl.
 - Modify  `Accounts.jl` according to section [Accounts.jl](#Accounts.jl-1).
 - Create the file `test_api.jl` and paste the code of section [test_api.jl](#test_api.jl-1) into it. Test the code.

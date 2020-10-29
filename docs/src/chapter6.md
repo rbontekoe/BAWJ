@@ -1,8 +1,8 @@
 # 6. Accounts Package from a User Point of View
 
-With `using <module name>` in your code, you make the exported functions and types immediately accessible in the current scope. You can display the elements by typing `Account.` followed by pressing twice on the Tab-button.
+With `using <module name>` in your code, you make the exported functions and types immediately accessible in the current scope. You can display the elements by typing `Account` followed by pressing twice on the Tab-button.
 
-In this chapter, you define the functions and types that will be exported.
+In this chapter, you define the functions and types that you want to export.
 
 ### Contents
 
@@ -39,41 +39,60 @@ In this activity you define which functions, and types are exported when a softw
 
 #### Prerequisites
 - Ubuntu 20.04.
-- Julia 1.5 installed.
-- Atom/Juno installed.
+- Julia 1.5+ installed.
+- VSCode installed.
 - Git installed.
 - The finished [Exercise 5.1 - Adding the sub-module Infrastructure](../chapter5/index.html#Exercise-5.1:-Adding-the-Sub-Module-Infrastructure)
+
+In this activity you will:
+1. [Modify Accounts.jl](#Step-1:-Modify-Accounts.jl.).
+2. [Display the Exported Elements](#Step-2:-Display-the-Exported-Elements.).
+3. [Update the GitHub Repository](#Step-3:-Update-the-GitHub-Repository.).
+
+---
+
+##### Step 1: Modify Accounts.jl.
+
+The code contains already the export element, but the lines precede with hashtags. You remove the hash tags.
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
 | 1 | $ cd ~/.julia/dev/Accounts | Go to the Accounts project folder. |
-| 2 | $ atom . | Start Atom/Juno. |
+| 2 | $ code . | Start Atom/Juno. |
 | 3 | Open the file Accounts.jl |  |
 | 4 | Remove the hashtags | According to section [Accounts.jl](#Accounts.jl-1) |
 | 5 | Ctrl-S | Save the file. |
-| 6 | Ctrl-D | Close Julia. |
-| 7 | Press: <Enter> | Start Julia REPL. |
-| 8 | julia> ] | Start the package manager. |
-| 9 | pkg> activate . | Open the Accounts environment. |
-| 10 | Press: <BackSpace> | Return to the REPL. |
-| 11 | julia> using Accounts | Load the Accounts module. |
-| 12 | julia> Accounts. <Tab><Tab> | Display the exported elements. Don't forget the dot (.) after Accounts.|
+
+##### Step 2: Display the Exported Elements.
+
+| 1 | Ctrl+Shift-P | Show All Commands. |
+| 2 | Select: Julia: start REPL | Start Julia REPL. The code will be recompiled. |
+| 3 | julia> ] | Start the package manager. |
+| 4 | pkg> activate . | Open the Accounts environment. |
+| 5 | Press: <BackSpace> | Return to the REPL. |
+| 6 | julia> using Accounts | Load the Accounts module. |
+| 7 | julia> Accounts. <Tab><Tab> | Display the exported elements. DON'T FORGET the dot (.) after Accounts. |
 
 ```julia
-julia> Accounts.
-API            Domain          EMAIL           Infrastructure  WORK            
-add_to_file     create        eval            include         read_from_file
+julia> Accounts4.
+
+API            EMAIL           WORK            create          include
+Domain         Infrastructure  add_to_file     eval            read_from_file
 ```
+
+##### Step 3: Update the GitHub Repository.
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
-| 13 | Shift+Ctrl-9 | Open Git panel when closed. |
-| 14 | Put the cursor in the field `Commit message` |  |
-| 15 | Type: Define export elements Account.jl |  |
-| 16 | Click on: `Stage All` |  |
-| 17 | Click on: `Commit to master` |  |
-| 18 | Click on: `Push` | The Push-button is located in the lower right corner. |
-| 19 | Verify on GitHub whether you see the exports in Accounts.jl |  |
+| 1 | Shift+Ctrl-G| Open Git panel when closed. |
+| 2 | Put the cursor in the field `Message (Ctrl+Enter to commit on `'Master'` |  |
+| 3 | Type: Define export elements Account.jl |  |
+| 4 | On the line Changes, select: + | Stage All Changes. |
+| 5 | Click on: `Stage All` |  |
+| 6 | At the top of the pane, click on: ✓ | Click on the checkmark ✓ (Commit) at the top. |
+| 7 | Click on: ∙∙∙  | Open Views and More Actions menu. It is located in the upper right corner of the pane.  |
+| 8 | Select: Push | Push your changes to GitHub. |
+| 9 | Verify on GitHub whether you see the uncommented exports in Accounts.jl |  |
 
 ## test_accounts.jl
 
@@ -84,7 +103,9 @@ The code first starts with loading DataFrames in a try-catch block. When the sta
 The high order functions `map` and `filter` are used. [High order functions](https://sodocumentation.net/julia-lang/topic/6955/higher-order-functions) use functions as arguments and operates on collections. The functions are mostly anonymous is the form of `x -> <expression using x>` where `x` is a consecutive element of the collection.
 
 ```julia
-using Pkg; Pkg.activate(".")
+using Pkg
+
+Pkg.activate(".")
 
 using Accounts
 
@@ -145,27 +166,39 @@ catch e
 end
 ```
 
-## Activity 6.2: Test the Module
+## Activity 6.2: Test the Module as User
+
+Users add Julia packages they need for their application. It can also be Julia packages on GitHub that are not registered like our Accounts.jl module. You need the url of the package.
 
 #### Requisites
 - Ubuntu 20.04.
-- Julia 1.5 installed.
-- Atom/Juno installed.
+- Julia 1.5+ installed.
+- VSCode installed.
 - Git installed.
-- GitHub repository of Accounts is available.
+- GitHub repository of Accounts is available on GitHub.
+
+In this activity you will:
+1. Add and Test the Module Accounts.jl from GitHub.
+2. Create a program that uses Accounts.jl.
+
+---
+
+##### Step 1: Add and Test the Module Accounts.jl from GitHub.
+
+You can add package on GitHub. The package name must and on `.jl`. The add command of the package manager accepts a url as argument.
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
 | 1 | $ cd projects | Create the folder `projects` when it doesn't exist. |
 | 2 | $ mkdir TestAccounts |  |
 | 3 | $ cd TestAccounts |  |
-| 4 | $ atom . | Start Atom/Juno. |
-| 5 | Juno > Open REPL | Go to menu and open Julia REPL. |
-| 6 | Press: <Enter> | Start Julia. |
+| 4 | $ code . | Start CVSCode. |
+| 5 | Ctrl+Shift-P | Show All Commands. |
+| 6 | Select: Julia: start REPL | Start Julia REPL. The code will be compiled. |
 | 7 | julia> ] | Open package manager. |
 | 8 | pkg> activate . | Activate local environment. |
 | 9 | (TestAccounts) pkg> add https://github.com/<your account name>/Accounts.jl | Load the package. Use `rbontekoe` as an account name in case you don't have a GitHub repository of Accounts yourself. |
-| 10 | TestAccounts) pkg>test Accounts | Run the tests. |
+| 10 | (TestAccounts) pkg>test Accounts | Run the tests. |
 
 ```julia
 Test Summary: | Pass  Total
@@ -177,14 +210,25 @@ Infrastructure.jl |    1      1
     Testing Accounts tests passed
 ```
 
+If you use `rbontekoe` as account name you get another message, because in [exercise 6.1](#Exercise-6.1:-Redefine-runtests.jl) you will change the test code:
+
+```julia
+Test Summary: | Pass  Total
+Accounts.jl   |    1      1
+    Testing Accounts tests passed 
+```
+
+##### Step 2: Create a program that uses Accounts.jl.
+
 Step | Action | Comment |
 | :--- | :--- | :--- |
-| 11 | Press: <BackSpace> | Press the BackSpace button to return to Julia. |
-| 12 | File > New File | Create a new file, e.g. test_accounts.jl. |
-| 13 | Press: <Enter> | Create the file. |
-| 14 | Ctrl-S | Save the file. |
-| 15 | Paste the code under the section [test_ accounts.jl](#test_accounts.jl-1) in the file |  |
-| 16 | Use repeatably `Shift-Enter` to execute the lines | Run the code line by line. |
+| 1 | Press: <BackSpace> | Press the BackSpace button to return to Julia. |
+| 2 | File > New File |  |
+| 3 | Ctrl-S | Save the file and give it the name, e.g. test_accounts.jl. |
+| 4 | Press: <Enter> | Create the file. |
+| 5 | Paste the code under the section [test_ accounts.jl](#test_accounts.jl-1) in the file |  |
+| 6 | Ctrl-S | Save the file. |
+| 7 | Use repeatably `Alt-Enter` to execute the lines | Run the code line by line. |
 
 The output looks like:
 
@@ -245,7 +289,7 @@ In this exercise, you run a test in the folder `TestAccounts` again with the mod
 1. Return to the Accounts development environment and change the contents of `Accounts.jl` conform the section [runtest.jl](#runtest.jl-1).
 2. Go to the package manager and run `test Accounts`.
 3. Push the changes to your GitHub repository.
-4. Go to the TestAccounts folder, start Atom/Juno and Julia and activate the next package manager commands:
+4. Go to the TestAccounts folder, start VSCode and Julia and activate the next package manager commands:
 - activate .
 - status
 - update Accounts
@@ -291,3 +335,7 @@ The version number consists of three parts, where the notation `x.y.z` has the f
 - x = main version number, 0-~.
 - y = feature number, 1-~. Increase this number if the change contains new features with or without bug fixes.
 - z = hotfix number, 0-~. Increase this number if the change only contains bug fixes.
+
+## Summary
+
+When you use an unregistered Julia package from GitHub, you can add it with the package manager. The add command needs the URL as an argument without the `.git` extension.

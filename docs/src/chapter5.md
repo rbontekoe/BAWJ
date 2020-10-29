@@ -193,3 +193,9 @@ Infrastructure.jl |    1      1
 - Create the file `test_infr.jl` and copy the code from section [test_infr.jl](#test_infr.jl-1) into it.
 - Test the code.
 - Push the changes to your GitHub repository. Check the changes on GitHub.
+
+## Summary
+
+The outer shell of the Onion Architecture is the Infrastructure. It communicates with the inner peels. You use it for data storage, for example.
+
+To be able to store our custom data types and retrieve them afterward, you need to serialize the objects. You use the package `Serialization` for this purpose. 
