@@ -178,8 +178,8 @@ Users add Julia packages they need for their application. It can also be Julia p
 - GitHub repository of Accounts is available on GitHub.
 
 In this activity you will:
-1. Add and Test the Module Accounts.jl from GitHub.
-2. Create a program that uses Accounts.jl.
+1. [Add and Test the Module Accounts.jl from GitHub](#Step-1:-Add-and-Test-the-Module-Accounts.jl-from-GitHub.).
+2. [Create a program that uses Accounts.jl](#Step-2:-Create-a-program-that-uses-Accounts.jl.).
 
 ---
 
