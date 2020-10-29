@@ -153,7 +153,7 @@ No Changes to `~/.julia/dev/Accounts/Manifest.toml`
 
 ##### Step 2: Start VSCode.
 
-A development platform like VSCode makes working with Julia easy. It replaces Atom with the extension Juno.
+A development platform like VSCode makes working with Julia easy. It replaces Atom with the extension [Juno](https://www.youtube.com/watch?v=rQ7D1lXt3GM).
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -243,6 +243,6 @@ The branch 'master' has no upstream branch. Would you like to publish this branc
 
 ## Summary
 
-TODO
+In the course activities, we assume that you use Visual Studio Code, VSCode, as IDE (Integrated Development Environment). Before installing VSCode, it's best to download and install Julia and Git first.
 
-https://code.visualstudio.com/docs/introvideos/basics
+See also, [Getting started with Visual Studio Code](https://code.visualstudio.com/docs/introvideos/basics).
