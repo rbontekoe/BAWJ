@@ -20,14 +20,14 @@ You can set up a website by creating a repository with the name `<your username>
 Pages = ["chapter7.md"]
 ```
 
-## Activity 7.1 - Initialize the File Infrastructure for the Documentation
+## Activity 7.1 - Initialize the File Structure for the Documentation
 
 Before you write the documentation you have to set up the file structure.
 
 #### Prerequisites
 - Ubuntu 20.04.
-- Julia 1.5 installed.
-- Atom/Juno installed.
+- Julia 1.5+ installed.
+- VSCode installed.
 - Git installed.
 - The finished [Exercise 5.1: Adding the sub-module Infrastructure](../chapter5/index.html#Exercise-5.1:-Adding-the-Sub-Module-Infrastructure).
 - A GitHub website. See [GitHub pages](https://pages.github.com/) for more information.
@@ -48,8 +48,10 @@ Step | Action | Comment |
 | 1 | $ cd ~/.julia/dev/Accounts | Or make a clone of Accounts with `git clone https://github.com/rbontekoe/Accounts.jl.git`. |
 | 2 | $ git branch docs | Create a new branch. |
 | 3 | $ git checkout docs | Make the docs branch active. |
-| 4 | $ atom . | Start Atom/Juno. |
-| 5 | Juno > Open REPL | Start Julia. |
+| 4 | $ code . | Start VSCode. |
+| 5 | Ctrl+Shift-P | Show All Commands. |
+| 6 | Select: Julia: start REPL | Start Julia REPL. The code will be recompiled. |
+||
 
 ##### Step 2: Add the Documenter and DocumenterTools Packages.
 
@@ -61,6 +63,7 @@ Step | Action | Comment |
 | 2 | pkg> add Documenter | Add the Documenter.jl package. It is installed in the general repository, so we can use it always. |
 | 3 | pkg> add DocumenterTools | Add the tool to generate the basic [file structure](https://juliadocs.github.io/Documenter.jl/stable/) |
 | 4 | Press: <BackSpace> | Return to Julia. |
+||
 
 ##### Step 3: Create the File Structure.
 
@@ -71,6 +74,7 @@ Step | Action | Comment |
 | 1 | julia> using Documenter | Load the Documenter package. |
 | 2 | julia> using DocumenterTools | Load the DocumenterTools package. |
 | 3 | julia> DocumenterTools.generate(name="Accounts") | Create the basic file structure. |
+||
 
 ```
 ᵥ📁 Accounts
@@ -83,7 +87,7 @@ Step | Action | Comment |
 ```
 \#1 DocumenterTools creates a sub-folder doc.
 
-\#2 `src` is one of the two sub-folders within `docs`. The other one is `build` that will create when you run `make.jl`.
+\#2 `src` is one of the two sub-folders within `docs`. The other one is `build` that will be created when you run `make.jl`.
 
 \#3 `index.md` is the markdown file for the home-page of the documentation.
 
@@ -111,6 +115,7 @@ Step | Action | Comment |
 | :--- | :--- | :--- |
 | 1 | Open index.md | Under the folder `docs/src` |
 | 2 | Type on line 3: `Documentation of Accounts.jl` |  |
+||
 
 ##### Step 2: Create the file api.md.
 Step | Action | Comment |
@@ -121,6 +126,7 @@ Step | Action | Comment |
 | 4 | Type: api.md |  |
 | 5 | Save the file: <Enter> | Press the Enter-button to create the file. |
 | 6 | Paste the following code into the file: |  |
+||
 
 ````
 # 1. API
@@ -134,7 +140,7 @@ create
 Step | Action | Comment |
 | :--- | :--- | :--- |
 | 7 | Save the file: Ctrl-S |  |
-
+||
 
 ## make.jl
 
@@ -179,6 +185,7 @@ Step | Action | Comment |
 [ 1 | Open the file `make.jl`|  |
 | 2 | Replace the code in the code from section [make.jl](#make.jl) |  |
 | 3 | Ctrl-S | Save the file.  |
+||
 
 ##### Step 2: Run the Code in the File make.jl.
 
@@ -193,6 +200,7 @@ Step | Action | Comment |
 | 5 | <BackSpace> | Return to Julia. |
 | 6 | Right-click on: `make.jl` |  |
 | 7 | Select: Juno > Run All | Run the Julia code in the file. You can also click on the triangle in the icon pane left. The following messages appears in the REPL pane:|
+||
 
 ```
 [ Info: SetupBuildDirectory: setting up build directory.
@@ -217,6 +225,7 @@ Step | Action | Comment |
 | 1 | Open your browser |  |
 | 2 | Ctrl-O | Browser command to open a HTML-file. |
 | 3 | Select: Home > .julia > dev > Accounts > docs > build > index.html | Open index.html. |
+||
 
 ##### Step 4: Copy the HTML-Code to the Folders stable and dev.
 
@@ -227,6 +236,7 @@ Step | Action | Comment |
 | 1 | Go to the terminal where you started Atom | `~/.jula/dec/Accounts`|
 | 2 | Go to the docs folder |  |
 | 3 | Execute the following commands: |  |
+||
 
 ```
 mkdir dev
@@ -243,6 +253,7 @@ Step | Action | Comment |
 | 4 | Go to your browser |  |
 | 5 | Ctrl-O |  |
 | 6 | Select: Home > .julia > dev > Accounts > docs > dev > index.html |  |
+||
 
 ## Exercise 7.1: Show the Documentation on the Web.
 
@@ -337,3 +348,5 @@ read_from_file
 
 - Run `make.jl`.
 - Inspect the result in your browser.
+
+## Summary

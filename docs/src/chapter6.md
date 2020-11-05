@@ -1,6 +1,6 @@
-# 6. Accounts Package from a User Point of View
+# 6. The Accounts Package from a User Point of View
 
-With `using <module name>` in your code, you make the exported functions and types immediately accessible in the current scope. You can display the elements by typing `Account` followed by pressing twice on the Tab-button.
+With `using <module name>` in your code, you make the exported functions and types immediately accessible in the current scope. You can display the elements by typing `Account.` followed by pressing twice on the Tab-button.
 
 In this chapter, you define the functions and types that you want to export.
 
@@ -35,7 +35,7 @@ end
 
 ## Activity 6.1: Export Elements
 
-In this activity you define which functions, and types are exported when a software programmer uses our module `Accounts`.
+In this activity, you define which functions, and types are exported when a software programmer uses our module `Accounts`.
 
 #### Prerequisites
 - Ubuntu 20.04.
@@ -53,18 +53,23 @@ In this activity you will:
 
 ##### Step 1: Modify Accounts.jl.
 
-The code contains already the export element, but the lines precede with hashtags. You remove the hash tags.
+The code contains already the export element, but the lines precede with hashtags. You remove the hashtags.
 
-Step | Action | Comment |
+| Step | Action | Comment |
 | :--- | :--- | :--- |
 | 1 | $ cd ~/.julia/dev/Accounts | Go to the Accounts project folder. |
 | 2 | $ code . | Start Atom/Juno. |
 | 3 | Open the file Accounts.jl |  |
 | 4 | Remove the hashtags | According to section [Accounts.jl](#Accounts.jl-1) |
 | 5 | Ctrl-S | Save the file. |
+||
 
 ##### Step 2: Display the Exported Elements.
 
+The Julia REPL supports code completion using the Tab. With a double Tab, it shows all values you can choose. It works differently in VSCode; use Ctrl-Space and Tab to achieve the same.
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
 | 1 | Ctrl+Shift-P | Show All Commands. |
 | 2 | Select: Julia: start REPL | Start Julia REPL. The code will be recompiled. |
 | 3 | julia> ] | Start the package manager. |
@@ -72,15 +77,34 @@ Step | Action | Comment |
 | 5 | Press: <BackSpace> | Return to the REPL. |
 | 6 | julia> using Accounts | Load the Accounts module. |
 | 7 | julia> Accounts. <Tab><Tab> | Display the exported elements. DON'T FORGET the dot (.) after Accounts. |
+||
 
 ```julia
-julia> Accounts4.
+julia> Accounts.
 
 API            EMAIL           WORK            create          include
 Domain         Infrastructure  add_to_file     eval            read_from_file
 ```
 
+Try the following:
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 8 | julia> Accounts.Domain. <Tab><Tab> | Show the exported values of the sub-domain Domain. |
+| 9 | julia> fieldnames(Account.Domain.Person) <Enter> | Show the fields of the object Person. |
+| 10 | julia> Accounts.Domain.AddressType <Enter> | Show the enumarated values of AddressType. |
+||
+
+```
+julia> Accounts.Domain.AddressType
+Enum Accounts4.Domain.AddressType:
+EMAIL = 0
+WORK = 1
+```
+
 ##### Step 3: Update the GitHub Repository.
+
+You have done this before.
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -93,6 +117,7 @@ Step | Action | Comment |
 | 7 | Click on: ∙∙∙  | Open Views and More Actions menu. It is located in the upper right corner of the pane.  |
 | 8 | Select: Push | Push your changes to GitHub. |
 | 9 | Verify on GitHub whether you see the uncommented exports in Accounts.jl |  |
+||
 
 ## test_accounts.jl
 
@@ -100,7 +125,7 @@ We use the package DataFrames in the example code. With DataFrames you can manip
 
 The code first starts with loading DataFrames in a try-catch block. When the statement `using DataFrames` throws an error then it starts the package manager and loads the package.
 
-The high order functions `map` and `filter` are used. [High order functions](https://sodocumentation.net/julia-lang/topic/6955/higher-order-functions) use functions as arguments and operates on collections. The functions are mostly anonymous is the form of `x -> <expression using x>` where `x` is a consecutive element of the collection.
+The high order functions `map` and `filter` are used. [High order functions](https://sodocumentation.net/julia-lang/topic/6955/higher-order-functions) use functions as arguments and operates on collections. The functions are mostly anonymous in the form of `x -> <expression using x>` where `x` is a consecutive element of the collection.
 
 ```julia
 using Pkg
@@ -168,7 +193,7 @@ end
 
 ## Activity 6.2: Test the Module as User
 
-Users add Julia packages they need for their application. It can also be Julia packages on GitHub that are not registered like our Accounts.jl module. You need the url of the package.
+Users add Julia packages they need for their application. It can also be Julia packages on GitHub that are not registered like our Accounts.jl module. You need the URL of the package.
 
 #### Requisites
 - Ubuntu 20.04.
@@ -185,7 +210,7 @@ In this activity you will:
 
 ##### Step 1: Add and Test the Module Accounts.jl from GitHub.
 
-You can add package on GitHub. The package name must and on `.jl`. The add command of the package manager accepts a url as argument.
+You can add a package from GitHub. The package name must end on `.jl`. The add command of the package manager accepts a URL as an argument.
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -199,6 +224,7 @@ Step | Action | Comment |
 | 8 | pkg> activate . | Activate local environment. |
 | 9 | (TestAccounts) pkg> add https://github.com/<your account name>/Accounts.jl | Load the package. Use `rbontekoe` as an account name in case you don't have a GitHub repository of Accounts yourself. |
 | 10 | (TestAccounts) pkg>test Accounts | Run the tests. |
+||
 
 ```julia
 Test Summary: | Pass  Total
@@ -229,12 +255,13 @@ Step | Action | Comment |
 | 5 | Paste the code under the section [test_ accounts.jl](#test_accounts.jl-1) in the file |  |
 | 6 | Ctrl-S | Save the file. |
 | 7 | Use repeatably `Alt-Enter` to execute the lines | Run the code line by line. |
+||
 
 The output looks like:
 
 ```julia
 environment at `~/.julia/dev/Accounts/Project.toml`
-[ Info: With DataFrames you can manpulate data
+[ Info: With DataFrames you can manipulate data
 [ Info: Save and retrieve the data
 [ Info: Add Donald and Mickey to a file
 [ Info: Read the data from the file and pass it to a DataFrame
@@ -289,7 +316,7 @@ In this exercise, you run a test in the folder `TestAccounts` again with the mod
 1. Return to the Accounts development environment and change the contents of `Accounts.jl` conform the section [runtest.jl](#runtest.jl-1).
 2. Go to the package manager and run `test Accounts`.
 3. Push the changes to your GitHub repository.
-4. Go to the TestAccounts folder, start VSCode and Julia and activate the next package manager commands:
+4. Go to the TestAccounts folder, start VSCode and the Julia REPL, and activate the next package manager commands:
 - activate .
 - status
 - update Accounts
