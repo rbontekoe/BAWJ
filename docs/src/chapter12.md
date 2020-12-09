@@ -1,6 +1,6 @@
 # 12. The Main-Module AppliAR.jl
 
-UNDER DEVELOPMENT!
+!!! warning "UNDER DEVELOPMENT"
 
 We have decided to replace `OpentrainingItem` by `InvoiceItem`:
 

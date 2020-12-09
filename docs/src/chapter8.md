@@ -1,6 +1,6 @@
 # 8 - The Design of AppliAR.jl
 
-UNDER DEVELOPMENT!
+!!! warning "UNDER DEVELOPMENT"
 
 ### Contents
 

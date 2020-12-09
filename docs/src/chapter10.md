@@ -1,6 +1,6 @@
 # 10. The Sub-Module API
 
-UNDER DEVELOPMENT!
+!!! warning "UNDER DEVELOPMENT"
 
 The API consists of functions that operate on the domain elements, for example:
 

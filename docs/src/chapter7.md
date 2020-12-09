@@ -1,7 +1,5 @@
 # 7. Documenting your Module
 
-UNDER DEVELOPMENT!
-
 To display the documentation of your project to the public, you have several options, amongst others:
 - Use the README.md file.
 - Create the documentation with the Julia package `Documenter.jl`.
@@ -10,7 +8,7 @@ You write the documentation in [markdown language](https://en.wikipedia.org/wiki
 
 The Julia package Documenter.jl creates HTML-pages based on the Julia [Markdown language](https://docs.julialang.org/en/v1/stdlib/Markdown/). See also the Documenter.jl [Style Guide](https://juliadocs.github.io/Documenter.jl/stable/contributing/#Style-Guide) for guidelines.
 
-If you have a GitHub website, then the documentation becomes visible when you push the data to GitHub. An example is a documentation for the [AppliGeneralLedger](https://www.appligate.nl/AppliGeneralLedger.jl/) package we use in this course.
+If you have a GitHub website, then the documentation becomes visible when you push the data to GitHub. An example is documentation for the [AppliGeneralLedger](https://www.appligate.nl/AppliGeneralLedger.jl/) package we use in this course.
 
 You can set up a website by creating a repository with the name `<your username>.gitub.io` and enable it for `GitHub Pages` and push your pages written in markdown language to GitHub.
 
@@ -113,19 +111,19 @@ In this activity you will:
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | Open index.md | Under the folder `docs/src` |
+| 1 | Open index.md | Under the folder `docs/src` |  |
 | 2 | Type on line 3: `Documentation of Accounts.jl` |  |
+| 3 | Save the file: Ctrl-S |  |
 ||
 
 ##### Step 2: Create the file api.md.
 Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | Save the file: Ctrl-S |  |
-| 2 | Select: `src` |  |
-| 3 | Right click and select: `New File` |  |
-| 4 | Type: api.md |  |
-| 5 | Save the file: <Enter> | Press the Enter-button to create the file. |
-| 6 | Paste the following code into the file: |  |
+| 1 | Select: `src` |  |
+| 2 | Right click and select: `New File` |  |
+| 3 | Type: api.md |  |
+| 4 | Save the file: <Enter> | Press the Enter-button to create the file. |
+| 5 | Paste the following code into the file: |  |
 ||
 
 ````
@@ -180,9 +178,11 @@ In this activity you will:
 
 ##### Step 1: Modify the File make.jl.
 
+In `make.jl`, you define, among others, the structure of the pages for the [sidebar](https://juliadocs.github.io/Documenter.jl/stable/man/guide/#Pages-in-the-Sidebar).  Otherwise, Documenter.jl displays the pages in alphabetic order of the `.md` files.
+
 Step | Action | Comment |
 | :--- | :--- | :--- |
-[ 1 | Open the file `make.jl`|  |
+| 1 | Open the file `make.jl`|  |
 | 2 | Replace the code in the code from section [make.jl](#make.jl) |  |
 | 3 | Ctrl-S | Save the file.  |
 ||
@@ -193,13 +193,14 @@ It is time to create the HTML-files.
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | Ctrl-D | Close Julia in REPL panel. |
-| 2 | $ atom . | Start Atom/Juno. |
-| 3 | ] | Activate package manager. |
-| 4 | Pkg> activate . | Activate current folder. |
-| 5 | <BackSpace> | Return to Julia. |
-| 6 | Right-click on: `make.jl` |  |
-| 7 | Select: Juno > Run All | Run the Julia code in the file. You can also click on the triangle in the icon pane left. The following messages appears in the REPL pane:|
+| 1 | Close VSCode |  |
+| 2 | $ code . | Start VSCode |
+| 3 | Click in the REPL panel |  | 
+| 4 | julia> ] | Activate the package manager. |
+| 5 | Pkg> activate . | Activate current folder. |
+| 6 | <BackSpace> | Return to Julia. |
+| 7 | In the Explorer panel, right-click on: `make.jl` |  |
+| 8 | Select: `Julia: Execute File` | The following messages appear in the REPL pane:|
 ||
 
 ```
@@ -213,12 +214,9 @@ Step | Action | Comment |
 [ Info: HTMLWriter: rendering HTML pages.
 ```
 
-"""info
-
-
 ##### Step 3: Display the Generated Documentation in the Browser.
 
-The code in make.jl creates HTML folders and files in `docs/build`. You can look at the result in your browser.
+The code in `make.jl` creates HTML folders and files in `docs/build`. You can look at the result in your browser.
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -229,11 +227,11 @@ Step | Action | Comment |
 
 ##### Step 4: Copy the HTML-Code to the Folders stable and dev.
 
-Often you see the documentation split into `stable` and `dev`. As long as you are working on new features, you want to show it only to people who are interested in it. And that is the documentation you put into the `dev-folder`. When you merge the git branch into the main branch, then you copy it to the `stable-folder`.
+Often you see the documentation split into `stable` and `dev`. As long as you are working on new features, you want to show it only to people who are interested in it. And that is why the documentation you put into the `dev-folder`. When you merge the dev into the main branch, then you copy it into the `stable-folder`.
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | Go to the terminal where you started Atom | `~/.jula/dec/Accounts`|
+| 1 | Go to the terminal where you started VSCode | `~/.jula/dec/Accounts`|
 | 2 | Go to the docs folder |  |
 | 3 | Execute the following commands: |  |
 ||
@@ -243,7 +241,11 @@ mkdir dev
 
 mkdir stable
 
-cd ../dev
+cd dev
+
+cp -r ../build/* .
+
+cd ../stable
 
 cp -r ../build/* .
 ```
@@ -275,7 +277,7 @@ Steps:
 Introduction
 
 ### Prerequisites
-- Exercide 7.1
+- Exercise 7.1
 
 Steps:
 - Paste the following Docstring just above the method `add_to_file` in `Infrastructure.jl`.
@@ -350,3 +352,7 @@ read_from_file
 - Inspect the result in your browser.
 
 ## Summary
+
+You can create documentation for your application by using [Documenter.jl](https://juliadocs.github.io/Documenter.jl/stable/). The documentation is written in markdown language. The file `make.j l, which is created by DocumenterTools.jl translates the markdown language to HTML-code.
+
+Upload the code to your GitHub account, enable GitHub Pages for your project and your documentation will be displayed on your GitHub website <username>.github.io. 

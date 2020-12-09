@@ -2,7 +2,7 @@
 
 ## The Application Architecture
 
-Before we will look at the module AppliAR.jl we begin with building the module `Accounts` in chapter 2 to gain some experience.
+Before we look at the module AppliAR.jl we begin with building the module `Accounts` in chapter 2 to gain some experience.
 
 AR is short for Accounts Receivable. We test the module with two supporting packages: AppliSales.jl and AppliGeneralLedger.jl.
 

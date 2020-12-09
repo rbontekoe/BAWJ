@@ -1,6 +1,6 @@
 # 16. Logging
 
-UNDER DEVELOPMENT!
+!!! warning "UNDER DEVELOPMENT"
 
 ### Contents
 

@@ -1,6 +1,6 @@
 # 9. The Sub-Module Domain
 
-UNDER DEVELOPMENT!
+!!! warning "UNDER DEVELOPMENT"
 
 The module AppliAR follows the same structure as we have discussed in the Account module. We go deeper into the main differences.
 
@@ -79,7 +79,7 @@ julia> generate(t, "AppliAR") # Create the local package in ~/.julia/dev
 
 \#5 Unit test file.
 
-\#6 Contains the dependencies. Julia adds dependencies automatically to the `Project.toml` file when you activate the local environment (`pkg> activate .`) and add a package (module). See Manifest.toml](https://julialang.github.io/Pkg.jl/v1/toml-files/):
+\#6 Contains the dependencies. Julia adds dependencies automatically to the `Project.toml` file when you activate the local environment (`pkg> activate .`) and add a package (module). See [Manifest.toml](https://julialang.github.io/Pkg.jl/v1/toml-files/):
 "The manifest file is an absolute record of the state of the packages in the environment. It includes exact information about (direct and indirect) dependencies of the project, and given a Project.toml + Manifest.toml pair it is possible to instantiate the exact same package environment, which is very useful for reproducibility."
 
 ## The Model

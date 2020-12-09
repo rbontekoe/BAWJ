@@ -2,6 +2,16 @@
 
 ## 2020
 
+### 12/09/2020
+
+In section 1, I added chapter 7 about creating documentation for the module [Accounts.jl](https://www.appligate.nl/Accounts.jl/stable/).
+
+Lately, I have been busy with [Genie.jl](https://github.com/GenieFramework/Genie.jl). Genie is a web framework that I want to use as a user interface for the AppliAR.jl, the accounts receivable module.
+
+The next article I read this day, [pupils learn more effectively through stories than activities](https://www.bathecho.co.uk/news/education/research-pupils-learn-stories-activities-92789/), got me thinking.
+
+The BAWJ course is strongly based on activities. I chose to do this to be able to look back on how I did something. But how do I apply storytelling with abstract (in contrast to human-based) examples for this course? That is what I am going to look into.
+
 ### 10/19/2020 - Add Currying and Piping Example to Accounts.jl
 
 I was wondering how I could realize `piping` in Julia. It turns out that you have to use `currying` to do that.  On the page [Implementing Currying](https://riptutorial.com/julia-lang/example/20261/implementing-currying), I found an example. You can find my implementation on [Example 2: Currying and Piping](https://www.appligate.nl/Accounts.jl/stable/example/#Example-2:-Currying-and-Piping.).
@@ -20,17 +30,17 @@ If you want to display (triple back ticks)[https://meta.stackexchange.com/questi
 
 I aecided to extend section 1 with a chapter about Documenter.jl the reason I searched again for a solution of the back ticks.
 
-### 08/20/2020
+### 08/20/2020 - Finished Section 1
 
 Finished section 1 `Experimenting with Modules`. Reviewed chapters one till six. I did the activities and exercises. Looks good.
 
 The next step is section 2 `The Accounts Receivable Module`.
 
-### 08/11/2020
+### 08/11/2020 - Added an Easier Example
 
 Today, I 'finished' the Accounts.jl module. I am happy that I switched to an easier example of the activities and exercise.
 
-### 08/03/2020
+### 08/03/2020 - Installed Samsung Portable SSD T5
 
 Received my Samsung Portable SSD T5 and installed Ubuntu 20.04 on it. It is very fast.
 

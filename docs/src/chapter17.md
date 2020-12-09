@@ -1,6 +1,6 @@
 # 17. Implementing AppliAR (Accounts Receivable) Package
 
-UNDER DEVELOPMENT!
+!!! warning "UNDER DEVELOPMENT"
 
 ### Contents
 
