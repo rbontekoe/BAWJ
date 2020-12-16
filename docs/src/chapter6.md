@@ -53,7 +53,7 @@ In this activity you will:
 
 ##### Step 1: Modify Accounts.jl.
 
-The code contains already the export element, but the lines precede with hashtags. You remove the hashtags.
+The code contains already the export element, but some lines precede with hashtags. You remove the hashtags.
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |

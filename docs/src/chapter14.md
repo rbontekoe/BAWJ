@@ -2,13 +2,15 @@
 
 !!! warning "UNDER DEVELOPMENT"
 
+In a separated chapter you will learn how to implement Genie.jl as a framework for web application.
+
 ### Contents
 
 ```@contents
 Pages = ["chapter14.md"]
 ```
 
-In lesson 9, Creating SSH enabled Containers, we created two containers: `test_sshd` and `test_sshd2`. In this chapter, we learn how to run a function in a remote container `test_sshd2`. Before we use the model we created in earlier lessons, you will test the containers with the package `RbO.jl`.
+In lesson 13, Creating SSH enabled Containers, we created two containers: `test_sshd` and `test_sshd2`. In this chapter, we learn how to run a function in a remote container `test_sshd2`.
 
 ##### Activity 14.1: Start the Containers
 

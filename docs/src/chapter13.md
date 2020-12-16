@@ -1,40 +1,43 @@
 # 13. Creating SSH Enabled Containers
 
-!!! warning "UNDER DEVELOPMENT"
+In this chapter, you will learn how to communicate with Julia between different Docker containers. One uses SSH for this. The condition is that you can set up the connection without using a password by using SSH keys.
 
-### Contents
+The article [Dockerize an SSH service](https://docs.docker.com/engine/examples/running_ssh_service/) uses Ubuntu 16.04 as the base image. However, Julia 1.0 and higher needs Ubuntu 18.04, so we have changed the Dockerfile. This version of Ubuntu also requires that you create a user with administrator rights when you use SSH to connect.
+
+You create a Docker container using a Docker image. You need a Docker installation file to create an image. By default, the file is called `Dockerfile`.
+
+Once you have started the container, you make it suitable for a passwordless SSH connection.
+
+Finally, you install the software needed for the application, including Julia.
+
+See also the Pact book Julia 1.0 Programming: [Installing Julia from binaries](https://subscription.packtpub.com/book/application_development/9781788998369/1/ch01lvl1sec12/installing-julia-from-binaries)
+
+##### Contents
 
 ```@contents
 Pages = ["chapter13.md"]
 ```
 
-The article [Dockerize an SSH service](https://docs.docker.com/engine/examples/running_ssh_service/) uses Ubuntu 16.04 as the base image. However, Julia 1.0 and higher needs Ubuntu 18.04, so we have changed the Dockerfile. This version of Ubuntu also requires that you create a user with administrator rights when you use SSH to connect.
-
-You also learn to install Julia in the container.
-
-To make use of passwordless connections between containers, you also learn to create SSH keys.
-
-In the next chapter, we will show you how to create containers on a Raspberry Pi 3B. I have another project running where I communicate with a Raspberry Pi to transfer images to my laptop.
-
-See also the Pact book Julia 1.0 Programming: [Installing Julia from binaries](https://subscription.packtpub.com/book/application_development/9781788998369/1/ch01lvl1sec12/installing-julia-from-binaries)
-
-
 ## Activity 13.1: Create local SSH keys
 
-Prerequisites:
+You need SSH keys for passwordless Julia communication between Docker containers.
+
+##### Prerequisites
 - Your system has Ubuntu 20.04 that runs on an Intel x86 processor.
 - You have started your computer.
-- You haven't created the keys before.
+- You haven't created the SSH keys before.
 
-Steps:
-1. Check previous created keys.
-2. Create local SSH keys.
+In this activity you will: 
+1. [Check previously created keys](#Step-1:-Check-previous-created-keys).
+2. [Create local SSH keys](#Step-2:-Create-local-SSH-keys-on-your-computer).
 
 ##### Step 1: Check previous created keys
 
+The folder `.shh` contains your keys if you have them created before.
+
 | Step | Action | Comment
 | :--- | :--- | :--- |
-| 1 | $ ls -l .ssh | |
+| 1 | $ ls -l ~/.ssh | |
 
 **Response**
 
@@ -56,6 +59,8 @@ You have created the keys before, no further action is required. The file id_rsa
 
 ##### Step 2: Create local SSH keys on your computer
 
+The `openssh-client` software is needed to create the keys.
+
 | Step | Action | Comment
 | :--- | :--- | :--- |
 | 1 | $ sudo apt-get update |  |
@@ -73,15 +78,17 @@ See [SSH Connection Refused (Causes & Solutions)](https://likegeeks.com/ssh-conn
 
 ## Activity 13.2: Create the Container
 
-Prerequisites:
+When you want to create a container you need an image. An image is created from a `Dockerfile.`
+
+##### Prerequisites:
 - Your system has Ubuntu 20.04 that runs on an Intel x86 processor.
 - You have started your computer.
-- You have installed Docker (See appendix).
+- You have installed [Docker](../appendix/index.html#Install-Docker).
 
-Steps:
-1. Create a Dockerfile in the folder test_sshd.
-2. Create a Docker image eg\_ssdh and the container test\_sshd.
-3. Create a user `rob`, who has administrator rights.
+In this activity you will:
+1. [Create a Dockerfile in the folder test\_sshd](#Step-1:-Create-a-Dockerfile-in-the-folder-test_ssh).
+2. [Create a Docker image eg\_ssdh and the container test\_sshd](#Step-2:-Create-a-Docker-image-eg_sshd-and-the-container-test_sshd).
+3. [Create a user `rob`, who has administrator rights](#Step-3:-Create-a-user-rob,-who-has-administrator-rights).
 
 ## The Dockerfile
 ```
@@ -91,7 +98,7 @@ RUN apt-get update && apt-get install -y openssh-server
 RUN mkdir /var/run/sshd
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-# SSH login fix. Otherwise user is kicked off after login
+# SSH login fix. Otherwise, the user is kicked off after login
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 
 ENV NOTVISIBLE "in users profile"
@@ -102,6 +109,8 @@ CMD ["/usr/sbin/sshd", "-D"]
 ```
 
 ##### Step 1: Create a Dockerfile in the folder test_ssh
+
+You create the file `Dockerfile` in the folder e.g. test_ssh.
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -115,6 +124,8 @@ Step | Action | Comment |
 | 9 | Ctrl-X | Exit nano. |
 
 ##### Step 2: Create a Docker image eg\_sshd and the container test\_sshd
+
+You need an image before you can create a Docker container.
 
 Step | Action | Comment |
 | :--- | :--- | :--- |
@@ -131,13 +142,13 @@ Step | Action | Comment |
     3. Log out and log back in so that your group membership is re-evaluated. ...
     4. Verify that you can run docker commands without sudo 
 
-
 ##### Step 3: Create a user `rob`, who has administrator rights
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | $ sudo docker exec -it test_sshd bash | Enter the container |
-| 2 | # adduser rob | You get the next response: |
+| 1 | Implement the instructions of the info box above | Run docker commands without sudo. |
+| 2 | $ docker exec -it test_sshd bash | Enter the container |
+| 3 | # adduser rob | You get the next response: |
 
 ```
 Adding user `rob' ...
@@ -150,11 +161,11 @@ Retype new UNIX password:
 passwd: password updated successfully
 Changing the user information for rob
 Enter the new value, or press ENTER for the default
-	Full Name []: Rob Bontekoe
-	Room Number []:
-	Work Phone []:
-	Home Phone []:
-	Other []:
+    Full Name []: Rob Bontekoe
+    Room Number []:
+    Work Phone []:
+    Home Phone []:
+    Other []:
 Is the information correct? [Y/n] Y
 ```
 
@@ -166,45 +177,54 @@ Is the information correct? [Y/n] Y
 | 3 | # usermod -aG sudo rob | Give user administrator rights. |
 | 4 | # apt-get update |  |
 | 4 | # apt-get install sudo | You act as root when you precede your commands with `sudo.` It is not installed yet in this minimized container. |
-| 5 | # su rob | Switch to the user rob |  |
-| | To run a command as administrator (user "root"), use "sudo <command>". \nSee "man sudo_root" for details. | |
-| 5 | Ctrl-D | Back as root user. |
-| 6 | Ctrl-D | Leave the container. |
+| 5 | # su rob | Switch from user root to the user rob: | 
 
-##### Important steps?
+```
+To run a command as administrator (user "root"), use "sudo <command>". \nSee "man sudo_root" for details.
+```
 
-| Step | Action | Comment
+| Step | Action | Comment |
 | :--- | :--- | :--- |
-| 6 | $ chmod 700 ~/.ssh | Change right the folder .ssh |
-| 7 | $ chmod 600 ~/.ssh/authorized_keys | Change right of the file authorized_keys |
-
+| 6 | Ctrl-D | Back as user root. |
+| 7 | Ctrl-D | Leave the container. |
 
 ## Activity 13.3: Install Julia
 
-Prerequisites:
+Installing Julia is done in the same way as you did before.
+
+##### Prerequisites:
 - Your system has Ubuntu 20.04 running on the Intel x86 processor.
 - The container test\_sshd exists.
 - The container has the user `rob`, who has administrators (sudo) rights.
 
-Activity:
-1. Download the Julia binary and copy it to the container.
-2. Install Julia and test the installation.
-3. Create a symbolic link to start Julia from everywhere.
+In this activity you will:
+1. [Download the Julia binary and copy it to the container](#Step-1:-Download-the-Julia-binary-and-copy-it-to-the-container).
+2. [Install Julia and test the installation](#Step-2:-Install-Julia-and-test-the-installation).
+3. [Create a symbolic link to start Julia from everywhere](#Step-3:-Create-a-symbolic-link-to-start-Julia-from-anywhere).
 
 ##### Step 1: Download the Julia binary and copy it to the container
+
+With the command `docker cp` you can copy files to a container.
 
 | Step | Action | Comment
 | :--- | :--- | :--- |
 | 1 | [Download Julia](https://julialang.org/downloads/) | eg. julia\-1.5.3\-linux\-x86\_64.tar.gz |
-| 2 | $ sudo docker ps -a | Check whether container test_ssh exists. |
-| 2 | $ sudo docker start test_sshd | Start the container. |
-| 3 | $ sudo docker cp ~/Downloads/julia\-1.5.3\-linux\-x86\_64.tar.gz test\_sshd:/home/rob | Copy the downloaded file to the container. |
-| 4 | $ sudo docker exec -it test_sshd bash | Enter the container. |
-| 5 | $ sudo su rob | Switch to user rob. |
-| 6 | $ cd ~ | Go to home directory. |
-| 7 | $ ls | You see the file julia\-1.5.3\-linux\-x86\_64.tar.gz |
+| 2 | $ docker ps -a | Check whether container test_ssh exists. |
+| 2 | $ docker start test_sshd | Start the container. |
+| 3 | $ docker cp ~/Downloads/julia\-1.5.3\-linux\-x86\_64.tar.gz test\_sshd:/home/rob | Copy the downloaded file to the container. |
+| 4 | $ docker exec -it test_sshd bash | Enter the container. |
+| 5 | $ su rob | Switch to user rob. |
+| 6 | $ cd ~ | Go to home directory of the user. |
+| 7 | $ ls -ll | You see the following files: |
+
+```
+total 102796
+-rw-rw-r-- 1 rob rob 105260711 Nov 17 10:17 julia-1.5.3-linux-x86_64.tar.gz
+```
 
 ##### Step 2: Install Julia and test the installation
+
+Unpack the `.tar.gz` file and test if Julia starts.
 
 | Step | Action | Comment
 | :--- | :--- | :--- |
@@ -212,7 +232,16 @@ Activity:
 | 2 | $ sudo mv julia-1.5.3-linux-x86_64.tar.gz julia | Move file to folder. |
 | 3 | $ cd julia | Enter folder |
 | 4 | $ sudo tar -zxvf julia-1.5.3-linux-x86_64.tar.gz | Extract the file. |
-| 5 | $ ls | List the content of the folder. ``\\``julia-1.5.3 julia-1.5.3-linux-x86_64.tar.gz |
+| 5 | $ ls -ll | List the content of the folder: |
+
+```
+total 102804
+drwxr-xr-x 8 1337 1337      4096 Nov  9 18:56 julia-1.5.3
+-rw-rw-r-- 1 rob  rob  105260711 Nov 17 10:17 julia-1.5.3-linux-x86_64.tar.gz
+```
+
+| Step | Action | Comment
+| :--- | :--- | :--- |
 | 6 | $ cd julia-1.5.3/bin/ | We will test Julia. |
 | 7 | $ ./julia | Start Julia. You get the next response: |
 
@@ -230,9 +259,11 @@ julia>
 
 ### Step 3: Create a symbolic link to start Julia from anywhere
 
+It is easier if you can start Julia from any folder.
+
 | Step | Action | Comment
 | :--- | :--- | :--- |
-| 1| Ctrl-D | Leave Julia. |
+| 1 | Ctrl-D | Leave Julia. |
 | 2 | cd ~ | To home directory. |
 | 3 | $ sudo ln -s /home/rob/julia/julia-1.5.3/bin/julia /usr/local/bin/julia | Create link. |
 | 4 | $ julia | Start Julia. |
@@ -241,28 +272,23 @@ julia>
 
 ## Activity 13.4: Test the container.
 
-Prerequisites:
+##### Prerequisites:
 - You have an SSH enabled container.
 - You have created the SSH authorized_keys [See](#Activity-1-Create-local-SSH-keys-1).
 
-Steps:
-1. Copy your public key to the container.
-2. Test the SSH connection with the container.
+In this activity you will:
+1. [Copy your public key to the container](#Step-1:-Copy-your-public-key-to-the-container).
+2. [Test the SSH connection with the container](#Step-2:-Test-the-SSH-connection-with-the-container).
 
 ##### Step 1: Copy your public key to the container
 
-
-Kan weg!!! 
-| 3 | $ sudo docker port test_sshd 22 | Find the port number:\\
-0.0.0.0:2222 | 
-| 4 | ssh-copy-id rob@localhost -p 2222 | Copy file to container | 
-| 5 |ssh−copy−idrob@localhost−p2222∣Copyfiletocontainer∣∣5∣ ssh rob@localhost -p 32768 | Connect to the container. |
+You copy the public key you created in [activity 13.1](#Activity-13.1:-Create-local-SSH-keys) to the container for passwordless authentication.
 
 | Step | Action | Comment
 | :--- | :--- | :--- |
-| 1 | $ sudo docker ps | Check whether the container is already running. |
-| 2 | $ sudo docker start test_sshd | Start the container if not running. |
-| 3 | $ sudo docker inspect test_sshd \| grep "IPAddress" | Find internal IP address of the container:``\\``172.17.0.2 |
+| 1 | $ docker ps | Check whether the container is already running. |
+| 2 | $ docker start test_sshd | Start the container if not running. |
+| 3 | $ docker inspect test_sshd \| grep "IPAddress" | Find internal IP address of the container:``\\``172.17.0.2 |
 | 4 | $ ssh-copy-id rob@172.17.0.2 | Copy id to container for passwordless login. If you get an error message follow the instructions to remove keys ``\\``ssh-keygen -f "/home/rob/.ssh/known_hosts" -R "172.17.0.2"| and repeat the command. |
 
 You get the next message:
@@ -273,14 +299,16 @@ ECDSA key fingerprint is SHA256:0qEmNoH8hb1OC73Hcecf4iY44vKAnLYOc6jNsdkkM2U.
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
 ```
 
-Type `yes` and enter your passowrd.
+Type `yes` and enter your password.
 
 
 ##### Step 2: Test the SSH connection with the container.
 
+Test if it works fine.
+
 | Step | Action | Comment
 | :--- | :--- | :--- |
-| 1| $ ssh rob@172.17.0.2 | You get the next response: |
+| 1 | $ ssh rob@172.17.0.2 | You get the next response: |
 
 ```
 Welcome to Ubuntu 20.04.1 LTS (GNU/Linux 5.4.0-53-generic x86_64)
@@ -297,10 +325,12 @@ To restore this content, you can run the 'unminimize' command.
 
 ## Exercise 13.1: Create a Second Container
 
+You will create a second Docker container that we will use for the AppliAR module.
+
 Create a second container **test_sshd2**:
 - You don't have to create the keys again!
 - Use the same image eg_sshd.
-- Check the port number of test_sshd2.
-- Name of the administrative user can be kept the same: rob.
+- Start at `Activity 13.2: Create the Container - step 2-2`. Use an different port number for ssh (2223): docker run -d -p 2223:22 --name test\_sshd2 eg_sshd
+- The name of the administrative user can be kept the same: rob.
 
 We will use both containers in chapter 14.
