@@ -1,5 +1,16 @@
 # Blog
 
+## 2021
+
+### 01/07/2021 - Uploaded gateway_image to hub.docker.com
+
+1. Create the image from the container: `docker commit gateway`.
+2. Tag the image: `docker tag gateway_image rbontekoe/gateway_image:0.0.1`
+3. Login to docker hub: `docker login docker.io`
+4. Push the image: `docker push rbontekoe/gateway_image:0.0.1`
+
+See: [gateway_image](https://hub.docker.com/r/rbontekoe/gateway_image)
+
 ## 2020
 
 ### 12/09/2020
@@ -26,9 +37,9 @@ One feature I particularly loved was the debugger. I have decided to adapt the c
 
 ### 09/09/2020 - Solved the Triple Back Ticks Problem
 
-If you want to display (triple back ticks)[https://meta.stackexchange.com/questions/82718/how-do-i-escape-a-backtick-within-in-line-code-in-markdown] in a text block enclose it between four back ticks. I updated chapter 4.
+If you want to display [triple back ticks](https://meta.stackexchange.com/questions/82718/how-do-i-escape-a-backtick-within-in-line-code-in-markdown) in a text block enclose it between four back ticks. I updated chapter 4.
 
-I aecided to extend section 1 with a chapter about Documenter.jl the reason I searched again for a solution of the back ticks.
+I decided to extend section 1 with a chapter about Documenter.jl the reason I searched again for a solution of the back ticks.
 
 ### 08/20/2020 - Finished Section 1
 

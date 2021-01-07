@@ -1,8 +1,10 @@
-# 14. Run the Application in Containers
+# 14. Run the Application in a Notebook
 
 !!! warning "UNDER DEVELOPMENT"
 
-In a separated chapter you will learn how to implement Genie.jl as a framework for web application.
+Assuming you created the containers test_sshd and test_sshd2 in chapter 13 you are going to set up the application with a Jupyter notebook. For this you use the package `IJulia.jl` with which you can use Julia code in your notebook.
+
+You will implementing the example code [Example from the course BAWJ](https://www.appligate.nl/AppliAR.jl/stable/chapter4/#Example-from-the-course-BAWJ).
 
 ### Contents
 
@@ -10,221 +12,269 @@ In a separated chapter you will learn how to implement Genie.jl as a framework f
 Pages = ["chapter14.md"]
 ```
 
-In lesson 13, Creating SSH enabled Containers, we created two containers: `test_sshd` and `test_sshd2`. In this chapter, we learn how to run a function in a remote container `test_sshd2`.
-
-##### Activity 14.1: Start the Containers
-
-To start the two Docker containers, `test_sshd,` and `test_sshd2`, we need to know their Docker IP-addresses. With the command `ssh rob@<ip-address>`, we enter the `test_sshd` container. Within this container, we generate a process id bound to the IP-address of `test_ssh2`.
-
-We create the file `main.jl`, which contains the base code for container-container communication.
-
-##### Activities 14.2a and 14.2b: Test the containers (Use Accounts.jl instead of Rbo.jl!!!!!!)
-
-Next, we use the example code to create a subscriber based on a name. We prefer to do the test with AppliGate's module `RbO.jl`. In chapter 12, you will use your modules.
-
-##### Activity 14.3: Write a Function that Runs Remote
-
-You learn to write a function that can run remotely, and that saves a subscriber in an SQLite database on the container `test_sshd2`.
-
----
-
-## Activity 14.1: Start the Containers
-
-Prerequisites:
-- Docker is installed on your computer.
-- You have the two containers `test_sshd` and `test_sshd2` created in chapter 13, [Create the Container](../chapter13/index.html#Activity-2-Create-the-Container).
-- Both containers are SSH enabled.
-- You have a Internet connection to download the RbO.jl module.
-
-Steps:
-1. Start both containers and check their Docker internal IP-address.
-2. Use SSH to connect from test_sshd to test_sshd2 and install Accounts.jl in both containers.
-
----
-
-###### Step 1: Start both containers and check their Docker internal IP-address
-
-| Step | Action | Comment |
-| :--- | :--- | :---
-| 1 | $ docker start test\_sshd |
-| 2 | $ docker start test\_sshd2 |
-| 3 | $ docker inspect \-f "{{ .NetworkSettings.IPAddress }}" test_sshd | e.g. 172.17.0.2 |
-| 3 | $ docker inspect \-f "{{ .NetworkSettings.IPAddress }}" test_sshd2 | e.g. 172.17.0.3 |
-
----
-
-###### Step 2: Use SSH to Connect from test\_sshd o test\_sshd2 and install Accounts.jl
-
-Install RbO in both containers, [Example of adding the module](https://www.appligate.nl/RbO.jl/module_a/#Example-of-adding-the-module-1)
-
-| Step | Action | Comment |
-| :--- | :--- | :--- |
-| 1 | $ ssh rob@172.17.0.2 | Enter the container test_sshd. |
-| 2 | $ ssh rob@172.17.0.3 | Enter the container test_sshd3. |
-| 3 | $ julia | Start Julia. |
-| 4 | julia> ] | Go to the package manager. |
-| 5 | pkg> add https://github.com/rbontekoe/RbO.jl | Install RbO.jl. |
-| 6 | Ctrl-C | Return to REPL prompt. |
-| 7 | Ctrl-D | Leave Julia. |
-| 8 | Ctrl-D | Leave the container test_sshd2. |
-
-!!! note
-    If your container is running on a remote machine, you have to use the ip-address of the remote machine and the exported port of the container to connect to.
-
-    $ docker start test\_sshd # start the container test\_sshd
-
-    $ docker port test\_sshd # display the port, e.g. 22/tcp -> 0.0.0.0:32768
-
-    $ ssh 192.168.xxx.xxx -p 32768 # connect to the container on remote machine
-
----
-
-## Activity 2a: Start the Two Containers and Create main.jl
-
-Prerequisites:
-- Docker is installed on your computer.
-- You have the two containers test_sshd and test_sshd2 created in chapter 13, `Create the Container`.
-- Both containers are SSH-enabled.
-- Julia is installed in the directory `julia` on the containers.
-- The RbO.jl package is installed in both containers.
-
-Steps
-1. Start the container `test_sshd` and create main.jl with nano.
-
----
-
-##### 1. Start the container test\_sshd and test\_sshd2
-
-| Step | Action | Comment |
-| :--- | :--- | :--- |
-| 1 | $ docker start test_sshd | Start the first container. |
-| 2 | $ docker inspect -f "{{ .NetworkSettings.IPAddress }}" test_sshd | Displays docker address, eg, 172.17.0.2. |
-| 3 | Take a note of the ip-address of test_sshd| |
-| 4 | $ docker start test_sshd2 | Start the second container. |
-| 5 | Take a note of the ip-address of test_sshd2 | |
-| 6 | $ ssh rob@172.17.0.2 | Use the ip-address step 2. |
-| 7 | $ julia | Start Julia, and continue at step 8 of [Activity 2: Test the code](#Test-the-code-1) |
-
----
-
-## Example test code
-
-```julia
-julia> using Distributed
-
-julia> d = Dict([]) # empty directory for pids, used by the calling container
-Dict{Any,Any} with 0 entries
-
-julia> addprocs([("rob@172.17.0.3", 1)])
-
-julia> d["test_sshd2"] = last(workers())
-
-julia> @everywhere using RbO
-
-julia> @everywhere f1(x) = createSubscriber(x)
-
-julia> s1 = remotecall_fetch(f1, d["test_sshd2"], "Daisy")
+## test\_with\_actors.jl
 
 ```
+using Pkg
+Pkg.activate(".")
+Pkg.precompile()
 
----
+using Rocket
 
-## Activity 2b: Test the Code
+@info("Start docker containers")
+cmd = `docker start test_sshd`
+run(cmd)
 
-Prerequisites:
-- Actitvity 1
+cmd = `docker start test_sshd2`
+run(cmd)
 
----
+cmd = `docker ps`
+run(cmd)
 
-| Step | Action | Comment |
-| :--- | :--- | :--- |
-| 1 | Copy all the [Test code example](#Test-code-example-1) code to the clipboard, including the julia prompt and the response | |
-| 2 | Return to the container | |
-| 3 | Ctrl-Shfi-V | Paste the text on the clipboard in the Julia REPL. |
+sleep(5)
 
-The result should look like the next example:
-
-```julia
-julia> s1 = remotecall_fetch(f1, d["test_sshd2"], "Daisy")
-Subscriber("884704875723870469", "Daisy", "", MEAN_CALCULATOR)
-```
-
----
-
-## Activity 14.3: Run a function in the remote container
-
-Create and save a subscriber in the container test_sshd2. Then display all saved subscribers from a table.
-
-Prerequisites:
-- Activity 14.1
-- Activity 14.2
-
-Steps:
-1. Install SQLite.jl (?!)
-2. Try the example code
-3. Use the Accounts.jl documentation
-
----
-
-##### Step 1: Install SQLite.jl
-
-| Step | Action | Comment |
-| :--- | :--- | :--- |
-| 1 | Enter test_sshd and start Julia |  |
-| 2 | Go to the package manager |  |
-| 3 | pkg > add SQLite | |
-
----
-
-##### Step 2: Try the example code
-
-Try the code below.
-
-```julia
-
+@info("Enable distrbuted computing")
 using Distributed
 
-d = Dict([])
+@info("Connect to containers")
+addprocs([("rob@172.17.0.2", 1)]; exeflags=`--project=$(Base.active_project())`, tunnel=true, dir="/home/rob")
+addprocs([("rob@172.17.0.3", 1)]; exeflags=`--project=$(Base.active_project())`, tunnel=true, dir="/home/rob")
 
-addprocs([("rob@172.17.0.3", 1)])
+@info("Assign process ids to the containers")
+gl_pid = procs()[2] # general ledger
+ar_pid = procs()[3] # accounts receivable (orders/bankstatements)
 
-d["test_sshd2"] = last(workers())
+@info("Activate the packages")
+@everywhere begin
+    using AppliSales
+    using AppliGeneralLedger
+    using AppliAR
+    using Query
+end;
 
-@everywhere using RbO
+@info("Load actors")
+include("./actors.jl")
 
-# define a new function to create a new subscriber and save it in a database
-@everywhere f2(x) = begin
-  	s = createSubscriber(x) # create a subscriber
-	db = connect("./rbo.sqlite") # connect to database
-	create(db, "subscribers", [s]) # save subscriber in database
-end
+@info("Activate actors")
+sales_actor = SalesActor()
+ar_actor = ARActor(ar_pid)
+gl_actor = GLActor(gl_pid)
+stm_actor = StmActor()
 
-remotecall_fetch(f2, 2, "Mickey")
+@info("Start the application")
+subscribe!(from(["START"]), sales_actor)
 
-# define a new function for displaying all subscribers
-@everywhere f3(x) = begin
-   db = connect("./rbo.sqlite") # connect to database
-   gather(db, x) # list all items in table x
-end
+@info("Process payments")
+subscribe!(from(["READ_STMS"]), stm_actor)
 
-# Get list of subscrobers
-remotecall_fetch(f3, 2, "subscribers")
+@info("Display the result")
+using DataFrames
 
-# Remove process
-rmprocs(d["test_sshd2"])
+# print aging report
+r1 = @fetchfrom ar_pid report()
+result = DataFrame(r1)
+println("\nUnpaid invoices\n===============")
+@show(result)
 
-# Remove key from dictionary
-delete!(d, "test_sshd2")
+# print general ledger accounts 1300, 8000, 1150, and 4000
+r2 = @fetchfrom gl_pid AppliGeneralLedger.read_from_file("./test_ledger.txt")
+df = DataFrame(r2)
+#println("\nGeneral Ledger mutations\n========================")
+#@show(df)
 
+df2 = r2 |> @filter(_.accountid == 1300) |> DataFrame
+balance_1300 = sum(df2.debit - df2.credit)
+
+df2 = df |> @filter(_.accountid == 8000) |> DataFrame
+balance_8000 = sum(df2.credit - df2.debit)
+
+df2 = df |> @filter(_.accountid == 1150) |> DataFrame
+balance_1150 = sum(df2.debit - df2.credit)
+
+df2 = df |> @filter(_.accountid == 4000) |> DataFrame
+balance_4000 = sum(df2.credit - df2.debit)
+
+println("")
+println("Balance Accounts Receivable is $balance_1300. $(balance_1300 == 1210 ? "Is correct." : "Should be 1210.")")
+println("Sales is $balance_8000. $(balance_8000 == 4000 ? "Is correct." : "Should be 4000.")")
+println("Balance bank is $balance_1150. $(balance_1150 == 3630 ? "Is correct." : "Should be 3630.0.")")
+println("Balance VAT is $balance_4000. $(balance_4000 == 840 ? "Is correct." : "Should be 840.0.")")
 ```
 
----
+## actors.jl
 
-###### Step 3. Use the Accounts.jl documentation
+```
+# actors.jl
 
-Use the documentation to do the next steps.
+using Rocket
+
+struct StmActor <: Actor{String} end
+Rocket.on_next!(actor::StmActor, data::String) = begin
+    if data == "READ_STMS"
+        stms = AppliAR.read_bank_statements("./bank.csv")
+        @show(stms)
+        subscribe!(from(stms), ar_actor)
+    end
+end
+Rocket.on_complete!(actor::StmActor) = @info("StmActor completed!")
+Rocket.on_error!(actor::StmActor, err) = @info(error(err))
+
+struct SalesActor <: Actor{String} end
+Rocket.on_next!(actor::SalesActor, data::String) = begin
+    if data == "START"
+        #ar_actor = ARActor()
+        orders = @fetch AppliSales.process()
+        subscribe!(from(orders), ar_actor)
+    end
+end
+Rocket.on_complete!(actor::SalesActor) = @info("SalesActor completed!")
+Rocket.on_error!(actor::SalesActor, err) = @info(error(err))
+
+struct ARActor <: Actor{Any}
+    ar_pid::Int64
+    ARActor(ar_pid) = new(ar_pid)
+end
+Rocket.on_next!(actor::ARActor, data::AppliSales.Order) = begin
+        d = @fetchfrom actor.ar_pid AppliAR.process([data])
+        subscribe!(from(d), gl_actor)
+end
+Rocket.on_next!(actor::ARActor, data::AppliAR.BankStatement) = begin
+        unpaid_inv = @fetchfrom actor.ar_pid retrieve_unpaid_invoices()
+        entries = @fetchfrom actor.ar_pid AppliAR.process(unpaid_inv, [data])
+        subscribe!(from(entries), gl_actor)
+end
+Rocket.on_complete!(actor::ARActor) = begin
+    @info("ARActor Completed!")
+end
+Rocket.on_error!(actor::ARActor, err) = @info(error(err))
+
+struct GLActor <: Actor{Any}
+    gl_pid::Int64
+    GLActor(gl_pid) = new(gl_pid)
+end
+Rocket.on_next!(actor::GLActor, data::Any) = begin
+    if data isa AppliGeneralLedger.JournalEntry
+        result = @fetchfrom actor.gl_pid AppliGeneralLedger.process([data])
+    end
+end
+Rocket.on_complete!(actor::GLActor) = @info("GLActor completed!")
+Rocket.on_error!(actor::GLActor, err) = @info(error(err))
+```
+
+## bank.csv
+
+```
+Date,Descr,IBan,Amount
+"2020-01-15", "Duck City Chronicals Invoice A1002", "NL93INGB", 2420
+"2020-01-15", "Donalds Hardware Store Bill A1003", "NL39INGB", 1210
+```
+
+## Activity 14.1:
+
+We start with adding all the necessary packages.
+
+##### Prerequisites
+- Ubuntu 20.04.
+- Julia 1.5+ installed.
+- VSCode 1.50+ installed.
+
+In this activity you will:
+1. Create a Folder and Add all the Packages.
+2. Create the Files Actors.jl, main.jl, and bank.csv.
+3. Test the application
+
+##### Step 1: Create a folder for the application
 
 | Step | Action | Comment |
 | :--- | :--- | :--- |
-| 1 | Use the command `connect` to create a link to the on-disk database rbo.sqlite | |
-| 2 | Use the command 'gather' to retieve data from the SQL table `subscribers` | |
+| 1 | $ mkdir example | Create the folder example. |
+| 2 | $ cd example | Enter the folder |
+| 3 | $ julia | Start Julia. |
+| 4 | julia> ] | Activate the pakage manager. |
+| 5 | pkg> activate . | Create a local environment. |
+| 6 | pkg> add IJulia | Add the package IJUlia. |
+| 7 | pkg> add AppliSales AppliGeneralLedger DataFrames Query Rocket | Add the supporting packages. |
+| 8 | pkg> add https://github.com/rbontekoe/AppliAR.jl | Add the package AppliAR. Later on you can use your own package. |
+| 9 | pkg> <BackSpace> | Back to Julia. | 
+| 10 | julia> Ctrl-D | Exit julia. |
+||
+
+##### Step 2: Create the files actors.jl, test_with_actors.jl, and bank.csv
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 1 | Create the files [test\_with\_actors.jl](), [actors.jl](), and [bank.csv]() | See code above. |
+||
+
+##### Step 3: Test the application
+| 4 | $ julia | Start Julia. |
+| 5 | julia> include("test\_with\_actors") | Run the code: |
+||
+
+```
+julia> include("test_with_actors.jl")
+[ Info: Load Rocket
+[ Info: Enable distrbuted computing
+[ Info: Connect to containers
+[ Info: Assign process ids to the containers
+[ Info: Activate the packages
+[ Info: Load the actors
+[ Info: Activate the actors
+[ Info: Start the application
+[ Info: GLActor completed!
+[ Info: GLActor completed!
+[ Info: GLActor completed!
+[ Info: ARActor Completed!
+[ Info: SalesActor completed!
+[ Info: Process payments
+stms = BankStatement[BankStatement(Dates.Date("2020-01-15"), "Duck City Chronicals Invoice A1002", "NL93INGB", 2420.0), BankStatement(Dates.Date("2020-01-15"), "Donalds Hardware Store Bill A1003", "NL39INGB", 1210.0)]
+[ Info: GLActor completed!
+[ Info: GLActor completed!
+[ Info: ARActor Completed!
+[ Info: StmActor completed!
+[ Info: Display the result
+
+Unpaid invoices
+===============
+result = 1×5 DataFrame
+│ Row │ id_inv │ csm                     │ inv_date           │ amount  │ days   │
+│     │ String │ String                  │ Dates.Date         │ Float64 │ Dates… │
+├─────┼────────┼─────────────────────────┼────────────────────┼─────────┼────────┤
+│ 1   │ A1001  │ Scrooge Investment Bank │ Date("2020-12-18") │ 1210.0  │ Day(0) │
+
+Balance Accounts Receivable is 1210.0. Is correct.
+Sales is 4000.0. Is correct.
+Balance bank is 3630.0. Is correct.
+Balance VAT is 840.0. Is correct.
+```
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 1 | Run the following code to delete the files: |
+||
+
+```
+julia> # open shell in container
+julia> cmd = `ssh rob@172.17.0.2`
+julia> @info("after run(cmd) is activated: goto console, press Enter, and rm test* files. Leave the container with Ctrl-D")
+julia> run(cmd)
+
+julia> # open shell in container
+julia> cmd = `ssh rob@172.17.0.3`
+julia> @info("after run(cmd) is activated: goto console, press Enter, and rm test* invoicenbr.txt. Leave the container with Ctrl-D")
+julia> run(cmd)
+julia> @info("Ctrl-L to clean the consule. Close julia with Ctrl-D.")
+```
+
+## Activity 14.2: Run the code from a notebook
+
+| Step | Action | Comment |
+| :--- | :--- | :--- |
+| 1 | ] | Activate the package manager. |
+| 2 | pkg> add IJulia | Follow the next instructions if you haven't added [IJulia](../appendix/index.html#Install-IJulia). | |
+| 3 | pkg> <Backspace> | Back to Julia. |
+| 4 | julia> using IJulia | Load IJulia. |
+| 5 | julia> notebook(dir=".", detached=true) | Start the browser and the current directory as notebook folder. |
+| 6 | Create a new Julia Notebook |  |
+| 7 | Fill and execute the cells according the next [example](https://github.com/rbontekoe/AppliAR.jl/blob/master/ar.ipynb) |  |
+||

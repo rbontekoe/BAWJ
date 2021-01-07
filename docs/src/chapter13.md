@@ -257,7 +257,7 @@ drwxr-xr-x 8 1337 1337      4096 Nov  9 18:56 julia-1.5.3
 julia>
 ```
 
-### Step 3: Create a symbolic link to start Julia from anywhere
+##### Step 3: Create a symbolic link to start Julia from anywhere
 
 It is easier if you can start Julia from any folder.
 

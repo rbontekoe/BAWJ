@@ -24,8 +24,8 @@ makedocs(
         ],
         "Section 3 - Using containers" => [
             "13 - Creating SSH Enabled Containers" => "chapter13.md",
-            "14 - Run the Application in Containers" => "chapter14.md",
-            "15 - Running the Containers" => "chapter15.md",
+            "14 - Run the Application in a Notebook" => "chapter14.md",
+            "15 - Using a Web Framework as Interface" => "chapter15.md",
         ],
         "Section 4 - Miscellaneous" => [
             "16 - Logging" => "chapter16.md",
