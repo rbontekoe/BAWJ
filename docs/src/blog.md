@@ -1,5 +1,16 @@
 # Blog
 
+## 2021
+
+### 01/07/2021 - Uploaded gateway_image to hub.docker.com
+
+1. Create the image from the container: `docker commit gateway`.
+2. Tag the image: `docker tag gateway_image rbontekoe/gateway_image:0.0.1`
+3. Login to docker hub: `docker login docker.io`
+4. Push the image: `docker push rbontekoe/gateway_image:0.0.1`
+
+See: [gateway_image](https://hub.docker.com/r/rbontekoe/gateway_image)
+
 ## 2020
 
 ### 12/09/2020
