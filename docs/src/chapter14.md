@@ -1,8 +1,17 @@
-# 14. Run the Application in Containers
+# 14. Run the Application from a Notebook
 
 !!! warning "UNDER DEVELOPMENT"
 
-In a separated chapter you will learn how to implement Genie.jl as a framework for web application.
+[Jupiter.org](https://jupyter.org/):
+`The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning, and much more.`
+
+Julia supports Jupiter Notebooks. A notebook combined explaining text with code makes it ideal as a teaching tool. It also allows you to experiment with the code.
+
+Assuming you created the containers test_sshd and test_sshd2 in chapter 13, we created two notebooks to test them.
+- ar.ipynb
+- website.ipynb
+
+The notebooks are part of the GitHub project [TestAppliAR](https://github.com/rbontekoe/TestAppliAR.git). You need to add the package `IJulia.jl` to run the notebooks.
 
 ### Contents
 
@@ -10,221 +19,113 @@ In a separated chapter you will learn how to implement Genie.jl as a framework f
 Pages = ["chapter14.md"]
 ```
 
-In lesson 13, Creating SSH enabled Containers, we created two containers: `test_sshd` and `test_sshd2`. In this chapter, we learn how to run a function in a remote container `test_sshd2`.
+## Activity 14.1: Using a Julia Notebook
 
-##### Activity 14.1: Start the Containers
+##### Prerequisites
+- A processor unit preferable of at least three cores.
+- Ubuntu 20.04.
+- Julia 1.5.
+- Git installed.
+- Docker installed.
+- The two docker containers test_sshd and test_sshd2 were created according to the course [BAWJ, chapter 13](https://www.appligate.nl/BAWJ/stable/chapter13/).
 
-To start the two Docker containers, `test_sshd,` and `test_sshd2`, we need to know their Docker IP-addresses. With the command `ssh rob@<ip-address>`, we enter the `test_sshd` container. Within this container, we generate a process id bound to the IP-address of `test_ssh2`.
+In this activity, you will:
+1. Add the IJulia package.
+2. Prepare the containers.
+3. Clone the GitHub project TestAppliAR.
+4. Create the data files.
 
-We create the file `main.jl`, which contains the base code for container-container communication.
+##### Step 1: Add the IJulia package
 
-##### Activities 14.2a and 14.2b: Test the containers (Use Accounts.jl instead of Rbo.jl!!!!!!)
-
-Next, we use the example code to create a subscriber based on a name. We prefer to do the test with AppliGate's module `RbO.jl`. In chapter 12, you will use your modules.
-
-##### Activity 14.3: Write a Function that Runs Remote
-
-You learn to write a function that can run remotely, and that saves a subscriber in an SQLite database on the container `test_sshd2`.
-
----
-
-## Activity 14.1: Start the Containers
-
-Prerequisites:
-- Docker is installed on your computer.
-- You have the two containers `test_sshd` and `test_sshd2` created in chapter 13, [Create the Container](../chapter13/index.html#Activity-2-Create-the-Container).
-- Both containers are SSH enabled.
-- You have a Internet connection to download the RbO.jl module.
-
-Steps:
-1. Start both containers and check their Docker internal IP-address.
-2. Use SSH to connect from test_sshd to test_sshd2 and install Accounts.jl in both containers.
-
----
-
-###### Step 1: Start both containers and check their Docker internal IP-address
-
-| Step | Action | Comment |
-| :--- | :--- | :---
-| 1 | $ docker start test\_sshd |
-| 2 | $ docker start test\_sshd2 |
-| 3 | $ docker inspect \-f "{{ .NetworkSettings.IPAddress }}" test_sshd | e.g. 172.17.0.2 |
-| 3 | $ docker inspect \-f "{{ .NetworkSettings.IPAddress }}" test_sshd2 | e.g. 172.17.0.3 |
-
----
-
-###### Step 2: Use SSH to Connect from test\_sshd o test\_sshd2 and install Accounts.jl
-
-Install RbO in both containers, [Example of adding the module](https://www.appligate.nl/RbO.jl/module_a/#Example-of-adding-the-module-1)
-
-| Step | Action | Comment |
+| Step | Action | Comment
 | :--- | :--- | :--- |
-| 1 | $ ssh rob@172.17.0.2 | Enter the container test_sshd. |
-| 2 | $ ssh rob@172.17.0.3 | Enter the container test_sshd3. |
-| 3 | $ julia | Start Julia. |
-| 4 | julia> ] | Go to the package manager. |
-| 5 | pkg> add https://github.com/rbontekoe/RbO.jl | Install RbO.jl. |
-| 6 | Ctrl-C | Return to REPL prompt. |
-| 7 | Ctrl-D | Leave Julia. |
-| 8 | Ctrl-D | Leave the container test_sshd2. |
+| 1 | $ Add IJulia](../appendix/#Install-IJulia) | Follow the instruction in the link. |
 
-!!! note
-    If your container is running on a remote machine, you have to use the ip-address of the remote machine and the exported port of the container to connect to.
 
-    $ docker start test\_sshd # start the container test\_sshd
+##### Step 2: Prepare the containers
 
-    $ docker port test\_sshd # display the port, e.g. 22/tcp -> 0.0.0.0:32768
+You will add the Julia packages AppliSales, AppliGenralLedger, AppliAR, and Query to the containers.
 
-    $ ssh 192.168.xxx.xxx -p 32768 # connect to the container on remote machine
-
----
-
-## Activity 2a: Start the Two Containers and Create main.jl
-
-Prerequisites:
-- Docker is installed on your computer.
-- You have the two containers test_sshd and test_sshd2 created in chapter 13, `Create the Container`.
-- Both containers are SSH-enabled.
-- Julia is installed in the directory `julia` on the containers.
-- The RbO.jl package is installed in both containers.
-
-Steps
-1. Start the container `test_sshd` and create main.jl with nano.
-
----
-
-##### 1. Start the container test\_sshd and test\_sshd2
-
-| Step | Action | Comment |
+| Step | Action | Comment
 | :--- | :--- | :--- |
-| 1 | $ docker start test_sshd | Start the first container. |
-| 2 | $ docker inspect -f "{{ .NetworkSettings.IPAddress }}" test_sshd | Displays docker address, eg, 172.17.0.2. |
-| 3 | Take a note of the ip-address of test_sshd| |
-| 4 | $ docker start test_sshd2 | Start the second container. |
-| 5 | Take a note of the ip-address of test_sshd2 | |
-| 6 | $ ssh rob@172.17.0.2 | Use the ip-address step 2. |
-| 7 | $ julia | Start Julia, and continue at step 8 of [Activity 2: Test the code](#Test-the-code-1) |
+| 1 | $ docker start test_sshd | Start the container test_sshd. |
+| 2 | $ ssh rob@172.17.0.2 | Enter the container. |
+| 3 | $ julia | Start Julia.
+| 4 | julia> ] | Activate the Package Manager. |
+| 5 | pkg> add AppliSales, AppliGenralLedger, Query | Add the packages |
+| 6 | pkg> add https://github.com/rbontekoe/AppliAR.jl | Add AppliAR. |
+| 7 | pkg> instantiate | Download the dependencies. |
+| 8 | pkg> Ctrl-D | Exit Julia. |
+| 9 | $ Ctrl-D | exit the container. |
+| 10 | $ docker start test_sshd2 |  |
+| 11 | $ ssh rob@172.17.0.3 | Enter the container test_sshd2. |
+| 12 | Repeat steps 3 untill 9 |  |
 
----
+##### Step 3: Clone the GitHub project TestAppliAR
 
-## Example test code
+You will clone the project TestAppliAR from GitHub, download the dependencies, and precompile the Julia code.
 
-```julia
-julia> using Distributed
-
-julia> d = Dict([]) # empty directory for pids, used by the calling container
-Dict{Any,Any} with 0 entries
-
-julia> addprocs([("rob@172.17.0.3", 1)])
-
-julia> d["test_sshd2"] = last(workers())
-
-julia> @everywhere using RbO
-
-julia> @everywhere f1(x) = createSubscriber(x)
-
-julia> s1 = remotecall_fetch(f1, d["test_sshd2"], "Daisy")
-
-```
-
----
-
-## Activity 2b: Test the Code
-
-Prerequisites:
-- Actitvity 1
-
----
-
-| Step | Action | Comment |
+| Step | Action | Comment
 | :--- | :--- | :--- |
-| 1 | Copy all the [Test code example](#Test-code-example-1) code to the clipboard, including the julia prompt and the response | |
-| 2 | Return to the container | |
-| 3 | Ctrl-Shfi-V | Paste the text on the clipboard in the Julia REPL. |
+| 1 | $ mkdir testar | Create a folder `testar` where you can store the cloned project. |
+| 2 | $ cd testar |  |
+| 3 | $ git clone https://github.com/rbontekoe/TestAppliAR.git | Clone the project. |
+| 4 | $ cd TestAppliAR | Enter the folder TestAppliAR. |
+| 5 | julia> ] | Activate the Package Manager. |
+| 6 | pkg> add IJulia | [Add IJUlia](../appendix/#Install-IJulia). |
+| 7 | pkg> activate . | Activate the current environment. |
+| 8 | pkg> instantiate | Download dependecies. |
+| 9 | pkg> precompile | Precompiling project... |
+| 10 | pkg> <BackSpace> | Back to Julia. |
 
-The result should look like the next example:
+##### Step 4: Create the data files
 
-```julia
-julia> s1 = remotecall_fetch(f1, d["test_sshd2"], "Daisy")
-Subscriber("884704875723870469", "Daisy", "", MEAN_CALCULATOR)
-```
+You will use the notebook ar.ipynb to create the data files.
 
----
+In test_sshd:
+- test.txt
+- test.txt
 
-## Activity 14.3: Run a function in the remote container
+In test_sshd2
+- test.txt
+- test.txt
+- invoice_nbr.txt
 
-Create and save a subscriber in the container test_sshd2. Then display all saved subscribers from a table.
-
-Prerequisites:
-- Activity 14.1
-- Activity 14.2
-
-Steps:
-1. Install SQLite.jl (?!)
-2. Try the example code
-3. Use the Accounts.jl documentation
-
----
-
-##### Step 1: Install SQLite.jl
-
-| Step | Action | Comment |
+| Step | Action | Comment
 | :--- | :--- | :--- |
-| 1 | Enter test_sshd and start Julia |  |
-| 2 | Go to the package manager |  |
-| 3 | pkg > add SQLite | |
+| 1 | julia> using IJulia | Load IJulia. |
+| 2 | julia> notebook(dir=".", detached=true) | Opens the start folder in the browser. |
+| 3 | Double click on: ar.ipynb | Open the notebook. |
+| 4 | Put the cursor in the first cell and press: Shift-Enter | Execute the code in the first cell. |
+| 5 | Shift-Enter | Execute the code in the second cell. |
+| 6 | Repeat executing the cells until the last cell | |
 
----
+## Notebook commands
 
-##### Step 2: Try the example code
+Working with a Notebook is rather intuitive. Here are some commands you will often use.
 
-Try the code below.
+|Command       | Comment |
+|:---------- | :---------- |
+| Shift-Enter | Execute code and create a new cell below. |
+| Ctrl-Enter | Execute code and stay in the cell |
+| Tab | Code completion, e.g. printl-Tab => println. |
+| Double Tab | List with options, e.g. print-Tab displays `print, println, and printstyled` |
+| \sqrt-tab | Special characters, in this case `√`. |
+| Esc-A | Create an empty cell above the current cell. |
+| Esc-B | Create an empty cell below the current cell. |
+| Esc-M | Change to a markdown cell. |
+| Esc-Y | Change to code cell. |
 
-```julia
+Click on the keyboard icon to see more options.
 
-using Distributed
+## Exercise 14.1: Run a  Website
 
-d = Dict([])
+The second example is a notebook `website.ipynb` that starts a website where users can find information about unpaid invoices and the general ledger. The requirement is that the data files exist.
 
-addprocs([("rob@172.17.0.3", 1)])
+## Summary
 
-d["test_sshd2"] = last(workers())
+Julia supports Jupyter Notebooks, for which you use the package `IJulia`. In Notebooks, you can give textual explanations to the code.  This makes it a suitable tool for course material. Especially since you can add cells afterward and experiment with your code.
 
-@everywhere using RbO
+For sending information, we use the actor model. Actors process independently and communicate with each other via messages. It makes it easy to set up a workflow.
 
-# define a new function to create a new subscriber and save it in a database
-@everywhere f2(x) = begin
-  	s = createSubscriber(x) # create a subscriber
-	db = connect("./rbo.sqlite") # connect to database
-	create(db, "subscribers", [s]) # save subscriber in database
-end
-
-remotecall_fetch(f2, 2, "Mickey")
-
-# define a new function for displaying all subscribers
-@everywhere f3(x) = begin
-   db = connect("./rbo.sqlite") # connect to database
-   gather(db, x) # list all items in table x
-end
-
-# Get list of subscrobers
-remotecall_fetch(f3, 2, "subscribers")
-
-# Remove process
-rmprocs(d["test_sshd2"])
-
-# Remove key from dictionary
-delete!(d, "test_sshd2")
-
-```
-
----
-
-###### Step 3. Use the Accounts.jl documentation
-
-Use the documentation to do the next steps.
-
-| Step | Action | Comment |
-| :--- | :--- | :--- |
-| 1 | Use the command `connect` to create a link to the on-disk database rbo.sqlite | |
-| 2 | Use the command 'gather' to retieve data from the SQL table `subscribers` | |
+In the second notebook `website.ipynb` we show how to create a website. You can also use the code in a Docker container, which we will show in the next chapter.

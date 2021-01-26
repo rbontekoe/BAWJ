@@ -1,6 +1,19 @@
-# 15. Running the Containers
+# 15. Running the Website from a Container
 
 !!! warning "UNDER DEVELOPMENT"
+
+In this chapter, you will learn how to set up an application consisting of a gateway that lets tasks run in the Docker containers you created in the previous chapter. In chapter 15, we will extend the functionality with a web interface, for which we will use the Julia package `Bukdu.jl`. This choice is not entirely voluntary. Originally we thought to use Genie.jl as Julia Web Framework, but we discovered that `Distributed Computing` was a problem.
+
+```
+                web
+                 ⇵
+              gateway
+         ________⇵________
+         ⇵               ⇵
+     test_sshd2      test_sshd
+     (GeneralLedger)  AppliAR
+```
+*Fig 1: The three containers that make up the application* 
 
 ### Contents
 
@@ -8,190 +21,145 @@
 Pages = ["chapter15.md"]
 ```
 
-In chapter 13, we combine what we have learned in chapter 6, `Testing the application` and chapter 12 `Creating SSH enabled Containers.` We use the the packages `AppliSales, AppliInvoicing, and AppliGeneralLedger`. In the container `test_sshd` we use `AppliSales, and AppliInvoicing,` and in `test_sshd2` we use `AppliGeneralLedger.` We will discover that the general ledger data will be stored in a file on `test_sshd2.`
+## Activity 15.1: Create the Gateway Container
 
-##### Activity 15.1:
+The Gateway container runs the software where actors perform different tasks on the other Docker containers. For communication between the different containers with Julia, the condition is that they have passwordless SSH connections.
 
-We start with cloning the code from `AppliMaster` on GitHub.
+With the `Rocket.jl` package you can set up an infrastructure based on actors. You can communicate with actors utilizing messages.
 
-##### Activity 15.2:
+##### Prerequisites
+- Your system has Ubuntu 20.04 that runs on an Intel x86 processor.
+- You have installed [Docker](../appendix/index.html#Install-Docker).
+- You have performed the activities and exercise of [chapter 13](../chapter13/index.html).
+- The Docker image eg\_sshd exists.
 
-Create the application.
+In this activity you will:
+1. [Create the `gateway` container](#Step-1:-Create-the-gateway-container).
+2. SSH enable the container.
+3. Install Julia.
+4. Add the packages AppliSales, AppliAR, AppliGeneralLedger, Rocket, DataFrames, and Query.
+5. SSH enable the container.
+6. Create SSH keys for the container.
+7. Add the files test_with_actors.jl and actors.jl
 
-## Activity 15.1: Cloning the code
+##### Step 1: Create the `gateway` container
+
+You create the container gateway from the image eg\_sshd.
+
+Step | Action | Comment |
+| :--- | :--- | :--- |
+| 1 | $ docker run \-d \-p 2224:22 -p 8004:8000 \-\-name gateway eg\_sshd | Create a container gateway. |
+| 2 | $ docker exec -it gateway bash | Enter the container |
+| 3 | # adduser rob | |
+| 4 | # apt-get update | Download package information |
+| 5 | # apt-get install sudo | You act as root when you precede your commands with `sudo.` It is not installed yet in this minimized container. |
+| 6 | # usermod -aG sudo rob | Give user administrator rights. |
+| 7 | Ctrl-D | Leave the container. |
+||
+
+##### Step 2: SSH enable the container
+
+You copy the public key you created in [activity 13.1](#Activity-13.1:-Create-local-SSH-keys) to the container for passwordless authentication.
+
+| Step | Action | Comment
+| :--- | :--- | :--- |
+| 1 | $ docker stop test\_sshd test\_sshd2 gateway | Stop the containers. |
+| 2 | $ docker start test\_sshd test\_sshd2 gateway | Start the containers. |
+| 3 | $ docker ps | Check whether the containers are running. |
+| 4 | $ docker inspect gateway \| grep "IPAddress" | Find internal IP address of the container:``\\``172.17.0.4 |
+| 5 | $ ssh-copy-id rob@172.17.0.4 | Copy id to container for passwordless login. |
+||
+
+You get the next message:
+
+```
+The authenticity of host '172.17.0.4 (172.17.0.4)' can't be established.
+ECDSA key fingerprint is SHA256:0qEmNoH8hb1OC73Hcecf4iY44vKAnLYOc6jNsdkkM2U.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+```
+
+Type `yes` and enter your password.
+
+##### Step 3: Install Julia
+
+| Step | Action | Comment
+| :--- | :--- | :--- |
+| 1 | $ docker start test\_sshd test\_sshd2 gateway | Ensure all containers are running. |
+| 2 | $ docker cp ~/Downloads/julia\-1.5.3\-linux\-x86\_64.tar.gz gateway:/home/rob | Copy the downloaded file to the container. |
+| 3 | $ docker exec -it gateway bash | Enter the container. |
+| 4 | # su rob | Switch to user rob. |
+| 5 | $ cd ~ | Go to home directory of the user. |
+| 6 | $ sudo mkdir julia | Create folder julia. OS asks for yur password. |
+| 7 | $ sudo mv julia-1.5.3-linux-x86_64.tar.gz julia | Move file to folder. |
+| 8 | $ cd julia | Enter the folder |
+| 9 | $ sudo tar -zxvf julia-1.5.3-linux-x86_64.tar.gz | Extract the file. |
+| 10 | $ cd julia-1.5.3/bin/ | We will test Julia. |
+| 11 | $ ./julia | Start Julia. You get the next response: |
+| 12 | julia> Ctrl-D | Leave Julia. |
+| 13 | cd ~ | To home directory. |
+| 14 | $ sudo ln -s /home/rob/julia/julia-1.5.3/bin/julia /usr/local/bin/julia | Create link. |
+| 15 | $ julia | Start Julia. |
+| 16 | julia> Ctrl-D | Leave Julia. |
+| 17 | $ Ctrl-D | Return to root. |
+| 18 | # Ctrl-D | Leave container. |
+||
+
+## Activity 15.2: Restart the Containers and Enable SSH for the Container `gateway`
 
 ##### Prerequisites:
-- Docker is installed on your computer.
-- You have the two containers `test_sshd` and `test_sshd2` created in chapter 13, [Create the Container](../chapter13/index.html#Activity-2-Create-the-Container).
-- Both containers are SSH enabled.
-- You have a Internet connection to download the all the modules we need.
+- [Activity 15.1](#Activity-14.1:-Create-the-Gateway-Container).
+- You have the three containers `test_sshd`,`test_sshd2`, and `gateway`.  You created `test_sshd`, and `test_sshd2`in chapter 13, [Create the Container](../chapter13/index.html#Activity-2-Create-the-Container).
+- [Run Docker commands without sudo](../chapter13/index.html#Step-2:-Create-a-Docker-image-eg_sshd-and-the-container-test_sshd).
 
-Steps:
-1. Start both containers and check their Docker internal IP-address.
-2. Use SSH to connect from test_sshd to test_sshd2 and install our modules in both containers.
-3. Create the program.
+In this activity you will:
+1. [Start the containers and check their Docker internal IP-address](#Step-1:-Start-the-containers-and-check-their-Docker-internal-IP-address).
+2. [Use SSH to Connect from gateway to test\_sshd and test\_sshd 2 and install the packages](#Step-2:-Use-SSH-to-Connect-from-gateway-to-test_sshd-and-test_sshd-2-and-install-the-packages).
 
-###### Step 1.1 \- Start both containers
+---
 
-| Step | Action | Comment |
-| :--- | :--- | :---
-| 1 | $ docker start test\_sshd |
-| 2 | $ docker start test\_sshd2 |
-| 3 | $ docker inspect \-f "{{ .NetworkSettings.IPAddress }}" test_sshd | e.g. 172.17.0.2 |
-| 4 | $ docker inspect \-f "{{ .NetworkSettings.IPAddress }}" test_sshd2 | e.g. 172.17.0.3 |
+###### Step 1: Start the containers and check their Docker internal IP-address
 
-###### Step 1.2 \- Use SSH to connect from test\_sshd to test\_sshd2 and install the out modules
-
-| Step | Action | Comment |
+| Step | Action | Comment
 | :--- | :--- | :--- |
-| 1 | $ ssh rob@172.17.0.2 | Enter the container test_sshd. |
-| 2| $ julia | Start Julia. |
-| 3 | julia> ] | Go to the package manager. |
-| 4 | pkg> add https://github.com/rbontekoe/AppliSales.jl | Install AppliSales.jl. |
-| 5 | pkg> add https://github.com/rbontekoe/AppliInvoicing.jl | Install AppliInvoicing.jl. |
-| 6 | pkg> add https://github.com/rbontekoe/AppliGeneralLedger.jl | Install AppliGeneralLedger.jl. |
-| 7 | Ctrl-C | Return to REPL prompt. |
-| 8 | Ctrl-D | Leave Julia. |
-| 9 | $ ssh rob@172.17.0.3 | Enter the container test_sshd2. |
-| 10 | Repeat step 5, 6, and 7 | All our packages are available in test_sshd2. |
-| 11 | Leave the container test_sshd2. | |
+| 2 | $ docker restart test\_sshd test\_sshd2 gateway | Start the containers. |
+| 3 | $ docker ps | Check whether the containers are running. |
+| 4 | $ docker inspect \-f "{{ .NetworkSettings.IPAddress }}" test_sshd | e.g. 172.17.0.2 |
+| 5 | $ docker inspect \-f "{{ .NetworkSettings.IPAddress }}" test_sshd2 | e.g. 172.17.0.3 |
+| 6 | $ docker inspect \-f "{{ .NetworkSettings.IPAddress }}" gateway | e.g. 172.17.0.4 |
+||
 
-###### Step 1.3 - Clone AppliMaster
+###### Step 2: Use SSH to Connect from gateway to test\_sshd and test\_sshd 2 and install the packages
 
-| Step | Action | Comment |
+| Step | Action | Comment
 | :--- | :--- | :--- |
-| 1 | $ git clone https://github.com/rbontekoe/Master.jl.git | A folder AppliMaster.jl will be created. |
-| 2 | $ ls | |
-| 3 | Ctrl-D | Leave the container. |
-
-## Activity 15.2: Create the application
-
-Prerequisites:
-- Docker is installed on your computer.
-- You have the two containers test_sshd and test_sshd2 created in `Chapter 9, Create the Container`.
-- Both containers are SSH-enabled.
-- Julia is installed in the directory `julia` on the containers.
-- The AppliSales, AppliInvoicing, and AppliGeneralLedger packages are installed in both containers.
-
-Steps
-1. Start the container `test_sshd` and create main.jl with nano.
-2. Run the application.
-
-
-##### Step 1: Start the container test\_sshd and test\_sshd2
-
-| Step | Action | Comment |
-| :--- | :--- | :--- |
-| 1 | $ docker start test_sshd | Start the first container. |
-| 2 | $ docker inspect -f "{{ .NetworkSettings.IPAddress }}" test_sshd | Displays docker address, eg, 172.17.0.2. |
-| 3 | Take a note of the ip-address of test_sshd| |
-| 4 | $ docker start test_sshd2 | Start the second container. |
-| 5 | Take a note of the ip-address of test_sshd2 | |
-| 6 | $ ssh rob@172.17.0.2 | Use the ip-address step 2. |
-| 7 | $ julia | Start Julia, and continue at step 8 of [Activity 2: Test the code](#Test-the-code-1) |
-
-## Example test code
-
-| Step | Action | Comment |
-| :--- | :--- | :--- |
-| 1 | Create a file app_functions.jl | In test_sshd. |
-| 2 | Put the code from [AppliMaster.jl](https://github.com/rbontekoe/AppliMaster.jl) in the file | |
-| 3 | Start julia |  |
-| 4 | Run the next (initialization) code first| |
-
-```
-julia> using Distributed
-
-julia> p = addprocs([("rob@172.17.0.3", 1)]; exeflags=`--project=$(Base.active_project())`)
-1-element Array{Int64,1}:
- 2
-
-julia> p = p[1] #container used for invoicing
-
-julia> q = p[1] # container used for general ledger
-
-julia> @everywhere using AppliSales
-
-julia> @everywhere using AppliInvoicing
-
-julia> @everywhere using AppliGeneralLedger
-
-julia> include("./app_functions.jl");
-
-julia> rx = dispatcher()
-[ Info: task_0 is waiting for data
-[ Info: task_1 is waiting for data
-[ Info: task_2 is waiting for data
-[ Info: task_3 is waiting for data
-Channel{Any}(sz_max:32,sz_curr:0)
-```
-
-| Step | Action | Comment |
-| :--- | :--- | :--- |
-| 5 | Run the next codel |  |
-
-```
-julia> put!(rx, "START"); # start the application
-
-
-julia> stms = AppliInvoicing.read_bank_statements(PATH_CSV); # retrieve data
-
-julia> put!(rx, stms); # processing the uppaid invoices
-```
-
-When run the code again, you will experience that it is very fast. Best is to delete first the data stores:
-
-| Step | Action | Comment |
-| :--- | :--- | :--- |
-| 6 | ;ssh rob@172.17.0.3 | Go to test_ssh2. |
-| 7 | ;rm invoicing.sqlite journal.txt ledger.txt | Delete the stores. |
-| 8 | Ctrl-D | Leave the container. | |
-| 9 | Run the previous code again |  |
-
-##### The result (statementrs removed)
-
-```
-[ Info: Dispatcher received String
-[ Info: task_0 received String
-[ Info: task_0 will start the process remotely
-
-[ Info: task_0 will put 3 the orders on rx channel
-[ Info: task_0 is waiting for data
-
-[ Info: Dispatcher received Array{AppliSales.Order,1}
-[ Info: Task 1 will put 3 orders on rx channel
-[ Info: task_1 is waiting for data
-
-[ Info: Dispatcher received Array{AppliGeneralLedger.JournalEntry,1}
-[ Info: task_2: Processing journal entries
-[ Info: task_2 is waiting for data
-
-[ Info: Dispatcher received Array{AppliInvoicing.BankStatement,1}
-[ Info: Task_3: Processing unpaid invoices
-[ Info: Retrieved 3 unpaid invoices
-[ Info: task_3 is waiting for data
-
-[ Info: Dispatcher received Array{AppliGeneralLedger.JournalEntry,1}
-[ Info: task_2: Processing journal entries
-[ Info: task_2 is waiting for data
-```
-
-###### Unkown data will not be routed!
-
-| Step | Action | Comment |
-| :--- | :--- | :--- |
-| 10 | Run the code in step 5 again |  |
-
-```
-test = "Test unkown type";
-
-put!(rx, test); # unkown type error
-```
-###### Result
-
-```
-[ Info: Dispatcher received String
-
-┌ Warning: No task found for type String
-└ @ Main ~
-```
+| 1 | $ ssh rob@172.17.0.4 |  |
+| 2 | $ sudo apt-get update |  |
+| 3 | $ sudo apt-get install openssh-client | Install ssh client in container. |
+| 4 | $ ssh-keygen -t rsa -b 4096 -C "your_email@domain.com" | Generate the key. |
+| 8 | $ ssh-copy-id rob@172.17.0.2 | Copy id to container test\_sshd for passwordless login. |
+| 9 | $ ssh-copy-id rob@172.17.0.3 | Copy id to container test\_sshd2 for passwordless login. |
+| 10 | $ ssh rob@172.17.0.2 | Check paswordless login. |
+| 11 | $ Ctrl-D | Leave container. |
+| 12 | $ ssh rob@172.17.0.3 | Check paswordless login. |
+| 13 | $ Ctrl-D | Leave container. |
+| 14 | $ julia | Start Julia in the container gateway. |
+| 15 | julia> ] | Activate the package manager. |
+| 16 | pkg> add AppliSales AppliGeneralLedger Rocket DataFrames Query | Add the packages. |
+| 17 | pkg> add https://github.com/rbontekoe/AppliAR.jl
+| 18 | pkg> precompile | Precompile all the project dependencies. |
+| 19 | pkg> instantiate | Downloads all the dependencies for the project. |
+| 20 | pkg> <Backspace> | Leave package manager. |
+| 21 | julia> Ctrl-D | Leave Julia. |
+| 22 | $ ssh rob@172.17.0.2 | Enter the container test_sshd. |
+| 23 | $ julia | Start Julia in the container. |
+| 24 | julia> ] | Activate the package manager. |
+| 25 | pkg> add AppliSales AppliGeneralLedger AppliAR DataFrames Query | Add the packages. |
+| 26 | pkg> add https://github.com/rbontekoe/AppliAR.jl
+| 27 | pkg> precompile | Precompile all the project dependencies. |
+| 28 | pkg> instantiate | Downloads all the dependencies for the project. |
+| 29 | pkg> <Backspace> | Leave package manager. |
+| 30 | julia> Ctrl-D | Leave Julia. |
+| 31 | $ Ctrl-D | Leave the container test\_ssh. |
+| 32 | $ ssh rob@172.17.0.3 | Enter the container test_sshd2. |
+| 33 | Repeat the steps 22 untill 31 for the container test\_sshd2 (172.17.0.3) |  | 
+||

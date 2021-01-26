@@ -257,7 +257,7 @@ drwxr-xr-x 8 1337 1337      4096 Nov  9 18:56 julia-1.5.3
 julia>
 ```
 
-### Step 3: Create a symbolic link to start Julia from anywhere
+##### Step 3: Create a symbolic link to start Julia from anywhere
 
 It is easier if you can start Julia from any folder.
 
@@ -276,7 +276,7 @@ It is easier if you can start Julia from any folder.
 - You have an SSH enabled container.
 - You have created the SSH authorized_keys [See](#Activity-1-Create-local-SSH-keys-1).
 
-In this activity you will:
+In this activity, you will:
 1. [Copy your public key to the container](#Step-1:-Copy-your-public-key-to-the-container).
 2. [Test the SSH connection with the container](#Step-2:-Test-the-SSH-connection-with-the-container).
 
@@ -334,3 +334,8 @@ Create a second container **test_sshd2**:
 - The name of the administrative user can be kept the same: rob.
 
 We will use both containers in chapter 14.
+
+
+## Summary
+
+How do you build an application? Commonly, you run your code in a container. The philosophy we use is that each Julia module is a separate application. 
