@@ -21,10 +21,10 @@ The application architecture is based on the **actor model**. The article [The a
 
 - The SalesActor uses the AppliSales package to send the orders to the ARActor.
 - The StmActor reads a CSV file with bank statements and sends them to the ARActor.
-- The ARActor (Accounts Receivable) uses the AppliAR.jl module to process orders and bank statements and sends journal entries to the GLActor.
+- The ARActor (Accounts Receivable) uses the AppliAR.jl package to process orders and bank statements and sends journal entries to the GLActor.
 - GLActor uses the AppliGeneralLedger package and turns journal entries into general ledger statements.
 
-I use the word package for an official registered Julia [module](https://docs.julialang.org/en/v1/base/base/#module).
+'A package is a project with a name , uuid and version entry in the Project. toml file, and a src/PackageName. jl file that defines the [module](https://docs.julialang.org/en/v1/base/base/#module) PackageName'.
 
 A module is Julia code with a clearly defined boundary. We use the [onion architecture](https://www.thinktocode.com/2018/08/16/onion-architecture/) to achieve it. The peels Domain, API, and Infrastructure are defined as sub-modules.
 
