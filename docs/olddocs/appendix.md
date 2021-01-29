@@ -15,17 +15,17 @@ Julia is a language that is fast, dynamic, easy to use, and open source.
 
 | Step        | Action      | Comment |
 | :---------- | :---------- | :---------- |
-| 1 | [Download Julia](https://julialang.org/downloads/) | Click on the link and find the row `Generic Linux Binaries for x86`. Click on `64-bit`. Download the file eg. julia-1.5.2-linux-x86_64.tar.gz |
+| 1 | [Download Julia](https://julialang.org/downloads/) | Click on the link and find the row `Generic Linux Binaries for x86`. Click on `64-bit`. Download the file eg. julia-1.5.3-linux-x86_64.tar.gz |
 | 2 | Ctrl+Alt-T | Open a terminal window. |
 | 2 | $ mkdir julia | Create a folder |
 | 3 | $ cd julia | Enter folder |
-| 4 | $ mv ~/Downloads/julia-1.5.2-linux-x86_64.tar.gz .| Move the downloaded file to folder `julia`. |
-| 5 | $ tar -zxvf julia-1.5.2-linux-x86_64.tar.gz | Extract the file. |
-| 6 | $ cd julia/julia/julia-1.5.2/bin/ |  |
+| 4 | $ mv ~/Downloads/julia-1.5.3-linux-x86_64.tar.gz .| Move the downloaded file to folder `julia`. |
+| 5 | $ tar -zxvf julia-1.5.3-linux-x86_64.tar.gz | Extract the file. |
+| 6 | $ cd julia/julia/julia-1.5.3/bin/ |  |
 | 7 | $ ./julia | Start Julia. |
 | 8 | julia> Ctrl-D | Close Julia. |
 | 9 | cd ../.. |  |
-| 10 | $ sudo ln -s /home/rob/julia/julia-1.5.2/bin/julia /usr/local/bin/julia | Create a symbolic link. |
+| 10 | $ sudo ln -s /home/rob/julia/julia-1.5.3/bin/julia /usr/local/bin/julia | Create a symbolic link. |
 | 11 | $ julia | Start Julia. |
 | 12 | Ctrl-D | Close Julia. |
 ||
