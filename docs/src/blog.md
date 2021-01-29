@@ -2,14 +2,13 @@
 
 ## 2021
 
-### 01/07/2021 - Uploaded gateway_image to hub.docker.com
+### 01/29/2021 - Completed the course until chapter 15
 
-1. Create the image from the container: `docker commit gateway`.
-2. Tag the image: `docker tag gateway_image rbontekoe/gateway_image:0.0.1`
-3. Login to docker hub: `docker login docker.io`
-4. Push the image: `docker push rbontekoe/gateway_image:0.0.1`
+I'm done with the course now that I've also finished Chapter 15. Will go through all the activities and exercises one more time.
 
-See: [gateway_image](https://hub.docker.com/r/rbontekoe/gateway_image)
+I also decided to use notebooks. The convenience is that the student can also experiment. In chapter 14, there are two, `ar.ipynb` to create the data files, and in `website.ipynb`, the student will learn how to use Bukdu as a web framework. Clone [`TestAppliAR`](http://www.appligate.nl/BAWJ/stable/chapter14/) and get started right away. The prerequisite is that the two Docker containers test_sshd and test_sshd2 have already been created.
+
+In Chapter 15, the student will create a new container `gateway` in which one sets up the website.
 
 ## 2020
 

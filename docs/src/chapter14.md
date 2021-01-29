@@ -39,7 +39,7 @@ In this activity, you will:
 
 | Step | Action | Comment
 | :--- | :--- | :--- |
-| 1 | $ Add IJulia](../appendix/#Install-IJulia) | Follow the instruction in the link. |
+| 1 | $ Add [IJulia](../appendix/#Install-IJulia) | Follow the instruction in the link. |
 
 
 ##### Step 2: Prepare the containers
