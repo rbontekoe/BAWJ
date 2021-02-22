@@ -2,6 +2,39 @@
 
 ## 2021
 
+### 02/22/2021 -  Install Ubuntu Server with WiFi
+
+Last week I installed Ubuntu server 20.04 on an old laptop. Unfortunately, the installation did not ask for a wifi connection. It had to be done manually. I found the next link: [How to Enable Wi-Fi on Ubuntu Server 20.04 without a Wired Ethernet Connection](https://medium.com/@yping88/how-to-enable-wi-fi-on-ubuntu-server-20-04-without-a-wired-ethernet-connection-42e0b71ca198). 
+
+I copied the next files to a USB stick:
+- http://mirrors.kernel.org/ubuntu/pool/main/w/wpa/wpasupplicant_2.9-1ubuntu4_amd64.deb
+- http://mirrors.kernel.org/ubuntu/pool/main/libn/libnl3/libnl-route-3-200_3.4.0-1_amd64.deb
+- http://mirrors.kernel.org/ubuntu/pool/main/p/pcsc-lite/libpcsclite1_1.8.26-3_amd64.deb
+
+After installing the WPA Supplicant Package files, I modified the `/etc/netplan/00-installer-config.yaml` configurarion file with a fixed ip-address `192.168.1.36` as follows:
+
+```
+# This is the network config written by 'subiquity'
+network:
+  ethernets: {}
+  wifis:
+    wlp12s0:
+      dhcp4: no
+      dhcp6: no
+      optional: true
+      addresses: [192.168.1.36/24]
+      gateway4: ip-gateway
+      nameservers:
+        addresses: [1.1.1.1, 8.8.8.8]
+      access-points:
+        "network_ssid_name":
+          password: "**********"
+  version: 2
+  renderer: networkd
+```
+
+Then I activated the wifi connection with `sudo netplan apply` and rebooted the server.
+
 ### 01/29/2021 - Completed the course until chapter 15
 
 I'm done with the course now that I've also finished Chapter 15. Will go through all the activities and exercises one more time.
