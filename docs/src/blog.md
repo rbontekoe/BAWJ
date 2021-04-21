@@ -2,6 +2,14 @@
 
 ## 2021
 
+### 04/21/2021 - Configuring the Jenkins-Slave Container
+
+I wanted to automatically update my projects and decided do the Udemy course [Learn DevOps: CI/CD with Jenkins using Pipelines and Docker](https://www.udemy.com/course/learn-devops-ci-cd-with-jenkins-using-pipelines-and-docker/) by Eduward Viaene. 
+
+The beauty of the course is that all Jenkins software runs in Docker containers. I had some problems with configuring the Jenkins-slave container on a second system. I documented the steps in chapter 19 [Configuring the Jenkins-Slave Container](../chapter19/index.html#.-Configuring-Jenkins-Slave).
+
+The chapter is still under development!
+
 ### 02/22/2021 -  Install Ubuntu Server with WiFi
 
 Last week I installed Ubuntu server 20.04 on an old laptop. Unfortunately, the installation did not ask for a wifi connection. It had to be done manually. I found the next link: [How to Enable Wi-Fi on Ubuntu Server 20.04 without a Wired Ethernet Connection](https://medium.com/@yping88/how-to-enable-wi-fi-on-ubuntu-server-20-04-without-a-wired-ethernet-connection-42e0b71ca198). 

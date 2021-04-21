@@ -31,6 +31,7 @@ makedocs(
             "16 - Logging" => "chapter16.md",
             "17 - Implementing AppliAR (Accounts Receivable) Package" => "chapter17.md",
             "18 - PosgreSQL" => "chapter18.md",
+            "19 - Jenkins-slave" => "chapter19.md"
         ],
         "Installation Instruction" => "appendix.md",
         "IJulia Notebook" => "notebook.md",
