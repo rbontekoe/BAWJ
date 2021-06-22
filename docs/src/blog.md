@@ -2,6 +2,10 @@
 
 ## 2021
 
+### 06/22/2021 - MicroK8s
+
+I have been working with MicroK8s for a while now. MicroK8s means containers that communicate with each other and are managed by Kubernetes. The convenience of Kubernetes is that you can deploy, update and delete your application with the same YAML file. This is the reason why I am going to redesign the course.
+
 ### 04/21/2021 - Configuring the Jenkins-Slave Container
 
 I wanted to automatically update my projects and decided do the Udemy course [Learn DevOps: CI/CD with Jenkins using Pipelines and Docker](https://www.udemy.com/course/learn-devops-ci-cd-with-jenkins-using-pipelines-and-docker/) by Eduward Viaene. 
