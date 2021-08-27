@@ -2,6 +2,12 @@
 
 ## 2021
 
+### 08/27/2021 - MicroK8s example
+
+The MicroK8s-based application is ready, see [https://github.com/rbontekoe/ar](https://github.com/rbontekoe/ar). Clone the repository and follow the instruction at the beginning of the Julia notebook client.ipynb. Julia notebook can be installed with "add IJulia".
+
+I have decided to handle the communication with ip sockets, something that is easy to build with Julia.
+
 ### 06/22/2021 - MicroK8s
 
 I have been working with MicroK8s for a while now. MicroK8s means containers that communicate with each other and are managed by Kubernetes. The convenience of Kubernetes is that you can deploy, update and delete your application with the same YAML file. This is the reason why I am going to redesign the course.
