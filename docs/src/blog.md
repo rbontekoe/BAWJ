@@ -1,5 +1,13 @@
 # Blog
 
+## 2022
+
+### 02/06/2022 - Redesigning the course
+
+I'm starting over with setting up the course, using Kubernetes as a starting point. By now I have the necessary experience with it. I have also practiced using Istio as a service mesh. Meanwhile, there is also Cilium, which is also a service mesh and works with eBPF technology. I have yet to figure out how to use that.
+
+The first chapters, setting up the modules, remain the same. In the pods, I now use TCP/IP sockets for communication. In the notebook [workflow.ipynb](https://github.com/rbontekoe/ar/blob/master/workflow.ipynb) you can see how it works.
+
 ## 2021
 
 ### 08/27/2021 - MicroK8s example
